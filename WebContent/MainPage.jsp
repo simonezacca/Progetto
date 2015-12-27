@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<% out.println("Hello Pippo"); %>
+<form action="indexservlet" method="post">
+<input type="text" name="username">
+<input type="text" name="password">
+<input type="submit" value="Invia" name="invia">
+</form>
 </body>
 </html>
