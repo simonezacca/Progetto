@@ -1,14 +1,17 @@
 package com.ndovado.dominio.prenotazioni;
 
+import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+
 /**
  * Implementare i metodi equals() and hasCode()
  */
-public class LineaPrenotazione {
+public class LineaPrenotazione implements IIdentificabile {
 
 	/**
 	 * Default constructor
 	 */
-	public LineaPrenotazione() {
+	@SuppressWarnings("unused")
+	private LineaPrenotazione() {
 	}
 	
 	public LineaPrenotazione(Prenotazione prenotazione) {
@@ -22,6 +25,10 @@ public class LineaPrenotazione {
 	 */
 	private Prenotazione prenotazioneCorrente;
 
+	/**
+	 * 
+	 */
+	private Long id;
 	/**
 	 * 
 	 */
@@ -55,6 +62,21 @@ public class LineaPrenotazione {
 	 */
 	public IPrenotabile getOggettoPrenotato() {
 		return this.oggettoPrenotato;
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+	
+	protected void setId(Long id) {
+		this.id = id;
+	}
+	
+	protected void setPrenotazione(Prenotazione p) {
+		if (p!=null) {
+			this.prenotazioneCorrente = p;
+		}
 	}
 
 }

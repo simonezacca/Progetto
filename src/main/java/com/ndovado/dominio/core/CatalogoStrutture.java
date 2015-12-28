@@ -13,6 +13,7 @@ public class CatalogoStrutture {
 	 * Default constructor
 	 */
 	protected CatalogoStrutture() {
+		elencoStrutture = new HashSet<Struttura>();
 	}
 
 	/**
@@ -23,7 +24,7 @@ public class CatalogoStrutture {
 	/**
 	 * 
 	 */
-	private Set<Struttura> elencoStrutture;
+	private static Set<Struttura> elencoStrutture;
 
 	/**
 	 * @return
@@ -71,7 +72,20 @@ public class CatalogoStrutture {
 	 * @return
 	 */
 	public static Struttura creaNuovaStruttura() {
-		return new Struttura();
+		Struttura s = new Struttura();
+		// aggiungo s all'elenco delle strutture esistenti
+		elencoStrutture.add(s);
+		return s;
+	}
+	
+	public static void removeStruttura(Struttura s) {
+		if (elencoStrutture.contains(s)) {
+			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
+			s.getLuogo().removeStruttura(s);
+			s.getProprietario().rimuoviGestioneStruttura(s);
+			// infine elimino la struttura dal catalogo
+			elencoStrutture.remove(s);
+		}
 	}
 
 }

@@ -11,6 +11,7 @@ public class Gestore extends ARuolo {
 	 * Default constructor
 	 */
 	public Gestore() {
+		struttureGestite = new HashSet<Struttura>();
 	}
 
 	/**

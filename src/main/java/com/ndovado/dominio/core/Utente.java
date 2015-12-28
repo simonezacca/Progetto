@@ -12,61 +12,64 @@ import com.ndovado.tecservices.persistenza.base.IIdentificabile;
 import com.ndovado.tecservices.persistenza.converter.RuoloConverter;
 
 /**
- * Classe di dominio Utente
+ * Modella l'entità di dominio Utente
  */
 @Entity
 @Table(name = "utente")
 public class Utente implements IIdentificabile {
 
+	/**
+	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * 
+	 * Nome dell'utente
 	 */
 	@Column(name = "nome")
 	private String nome;
 
 	/**
-	 * 
+	 * Cognome dell'utente
 	 */
 	@Column(name = "cognome")
 	private String cognome;
 
 	/**
-	 * 
+	 * Email dell'utente utilizzata come username per il login al sistema
 	 */
 	@Column(name = "mail")
 	private String mail;
 
 	/**
-	 * 
+	 * Password dell'utente
 	 */
 	@Column(name = "password")
 	private String password;
 
 	/**
-	 * 
+	 * Riferimento ad un'instanza di tipo <code>ARuolo</code> per indicare il ruolo dell'utente nel sistema
 	 */
 	@Column
 	@Convert(converter = RuoloConverter.class)
 	private ARuolo ruolo = ARuolo.getRuoloLocatario();
 
 	/**
-	 * Default constructor
+	 * Costrutto di default
 	 */
 	public Utente() {
 	}
 	/**
-	 * 
-	 * @param aCognome
-	 * @param aNome
+	 * Costruttore paramentrico
+	 * @param aCognome il cognome del nuovo utente
+	 * @param aNome il nome del nuovo utente
 	 */
 	public Utente(String aCognome, String aNome) {
 		if (aCognome!=null && aNome!=null) {
@@ -75,14 +78,14 @@ public class Utente implements IIdentificabile {
 		}
 	}
 	/**
-	 * @return
+	 * @return il nome dell'utente
 	 */
 	public String getNome() {
 		return this.nome;
 	}
 
 	/**
-	 * @param aNome
+	 * @param aNome il nuovo nome da assegnare all'utente
 	 */
 	public void setNome(String aNome) {
 		if (aNome!=null) {
@@ -91,14 +94,14 @@ public class Utente implements IIdentificabile {
 	}
 
 	/**
-	 * @return
+	 * @return il cognome dell'utente
 	 */
 	public String getCognome() {
 		return this.cognome;
 	}
 
 	/**
-	 * @param aCognome
+	 * @param aCognome il nuovo cognome da assegnare all'utente
 	 */
 	public void setCognome(String aCognome) {
 		if (aCognome!=null) {
@@ -107,14 +110,14 @@ public class Utente implements IIdentificabile {
 	}
 
 	/**
-	 * @return
+	 * @return l'indirizzo mail assegnato all'utente
 	 */
 	public String getMail() {
 		return this.mail;
 	}
 
 	/**
-	 * @param aMail
+	 * @param aMail nuovo indirizzo mail da assegnare all'utente
 	 */
 	public void setMail(String aMail) {
 		if (aMail!=null) {
@@ -123,14 +126,14 @@ public class Utente implements IIdentificabile {
 	}
 
 	/**
-	 * @return
+	 * @return la password dell'utente
 	 */
 	public String getPassword() {
 		return this.password;
 	}
 
 	/**
-	 * @param aPassword
+	 * @param aPassword la nuova password da assegnare all'utente
 	 */
 	public void setPassword(String aPassword) {
 		if (aPassword!=null) {
@@ -139,21 +142,24 @@ public class Utente implements IIdentificabile {
 	}
 
 	/**
-	 * @return
+	 * @return il ruolo assegnato all'utente, se il ruolo non è inizializzato ritorna il ruolo <code>Locatario</code>
 	 */
 	public ARuolo getRuolo() {
 		return this.ruolo;
 	}
 
 	/**
-	 * @param aRuolo
+	 * @param aRuolo il nuovo ruolo da assegnare all'utente
 	 */
 	public void setRuolo(ARuolo aRuolo) {
 		if (aRuolo!=null) {
 			this.ruolo = aRuolo;
 		}
 	}
-	
+	/**
+	 * @return una rappresentazione testuale dell'utente nel formato
+	 * Utente [nome,cognome,mail,ruolo]
+	 */
 	@Override
 	public String toString() {
 		return "Utente [nome=" + nome + ", cognome=" + cognome + ", mail=" + mail + ", Ruolo=" + ruolo.toString()+" ]";
@@ -202,5 +208,8 @@ public class Utente implements IIdentificabile {
 		return true;
 	}
 
+	protected void setId(Long idUtente) {
+		this.id = idUtente;
+	}
 
 }

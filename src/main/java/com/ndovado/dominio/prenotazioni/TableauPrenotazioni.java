@@ -13,13 +13,16 @@ public class TableauPrenotazioni {
 	/**
 	 * Default constructor
 	 */
-	public TableauPrenotazioni() {
+	public TableauPrenotazioni(Struttura s) {
+		elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
+		// collego la struttura s al tablea prenotazioni appena istanziato
+		this.struttura = s;
 	}
 
 	/**
 	 * 
 	 */
-	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
+	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni;
 
 	/**
 	 * 

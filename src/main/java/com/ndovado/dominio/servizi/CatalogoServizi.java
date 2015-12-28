@@ -11,6 +11,7 @@ public class CatalogoServizi {
 	 * Default constructor
 	 */
 	protected CatalogoServizi() {
+		serviziDisponibili = new HashSet<Servizio>();
 	}
 
 	/**
@@ -21,7 +22,7 @@ public class CatalogoServizi {
 	/**
 	 * 
 	 */
-	public Set<Servizio> serviziDisponibili;
+	private Set<Servizio> serviziDisponibili;
 
 	/**
 	 * @return
@@ -37,8 +38,12 @@ public class CatalogoServizi {
 	 * @param idServizio 
 	 * @return
 	 */
-	public Servizio getServizio(Integer idServizio) {
-		// TODO implement here
+	public Servizio getServizio(Long idServizio) {
+		for (Servizio servizio : serviziDisponibili) {
+			if (servizio.getId() == idServizio) {
+				return servizio;
+			}
+		}
 		return null;
 	}
 

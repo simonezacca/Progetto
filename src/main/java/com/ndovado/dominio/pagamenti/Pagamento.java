@@ -12,18 +12,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;
+import com.ndovado.tecservices.persistenza.base.IIdentificabile;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
 @Entity
 @Table(name = "pagamento")
-public class Pagamento {
+public class Pagamento implements IIdentificabile {
 
 	/**
 	 * Default constructor
 	 */
-	public Pagamento() {
+	@SuppressWarnings("unused")
+	private Pagamento() {
 	}
 	/**
 	 * 
@@ -41,7 +43,7 @@ public class Pagamento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer idPagamento;
+	private Long idPagamento;
 
 	/**
 	 * 
@@ -95,13 +97,13 @@ public class Pagamento {
 	/**
 	 * @return the idPagamento
 	 */
-	public Integer getIdPagamento() {
+	public Long getId() {
 		return idPagamento;
 	}
 	/**
 	 * @param idPagamento the idPagamento to set
 	 */
-	public void setIdPagamento(Integer idPagamento) {
+	protected void setId(Long idPagamento) {
 		this.idPagamento = idPagamento;
 	}
 	/**

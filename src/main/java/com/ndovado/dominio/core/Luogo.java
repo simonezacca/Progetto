@@ -23,6 +23,7 @@ public class Luogo implements IIdentificabile {
 	 * Default constructor
 	 */
 	public Luogo() {
+		struttureInLuogo = new ArrayList<Struttura>();
 	}
 
 	/**
@@ -31,7 +32,7 @@ public class Luogo implements IIdentificabile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer idLuogo;
+	private Long idLuogo;
 
 	/**
 	 * 
@@ -93,14 +94,14 @@ public class Luogo implements IIdentificabile {
 	/**
 	 * @return the idLuogo
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return idLuogo;
 	}
 
 	/**
 	 * @param idLuogo the idLuogo to set
 	 */
-	public void setIdLuogo(Integer idLuogo) {
+	protected void setId(Long idLuogo) {
 		this.idLuogo = idLuogo;
 	}
 
@@ -150,6 +151,16 @@ public class Luogo implements IIdentificabile {
 	@Override
 	public String toString() {
 		return "Luogo [idLuogo=" + idLuogo + ", nomeComune=" + nomeComune + ", CAP=" + CAP + "]";
+	}
+	
+	public void addStruttura(Struttura s) {
+		this.getStruttureInLuogo().add(s);
+	}
+	
+	public void removeStruttura(Struttura s) {
+		if (struttureInLuogo.contains(s)) {
+			struttureInLuogo.remove(s);
+		}
 	}
 
 }

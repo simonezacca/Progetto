@@ -1,9 +1,11 @@
 package com.ndovado.dominio.servizi;
 
+import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+
 /**
  * Implementare i metodi equals() and hasCode()
  */
-public class Servizio {
+public class Servizio implements IIdentificabile {
 
 	/**
 	 * Default constructor
@@ -14,21 +16,21 @@ public class Servizio {
 	/**
 	 * @return the idServizio
 	 */
-	public Integer getIdServizio() {
+	public Long getId() {
 		return idServizio;
 	}
 
 	/**
 	 * @param idServizio the idServizio to set
 	 */
-	public void setIdServizio(Integer idServizio) {
+	protected void setId(Long idServizio) {
 		this.idServizio = idServizio;
 	}
 
 	/**
 	 * 
 	 */
-	private Integer idServizio;
+	private Long idServizio;
 
 	/**
 	 * 

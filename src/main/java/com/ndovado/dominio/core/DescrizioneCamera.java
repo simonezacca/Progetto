@@ -41,7 +41,7 @@ public class DescrizioneCamera implements IIdentificabile{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer idDescrizioneCamera;
+	private Long idDescrizioneCamera;
 
 	/**
 	 * 
@@ -164,14 +164,14 @@ public class DescrizioneCamera implements IIdentificabile{
 	/**
 	 * @return the idCamera
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return idDescrizioneCamera;
 	}
 
 	/**
 	 * @param idCamera the idCamera to set
 	 */
-	public void setId(Integer idCamera) {
+	protected void setId(Long idCamera) {
 		this.idDescrizioneCamera = idCamera;
 	}
 	/**

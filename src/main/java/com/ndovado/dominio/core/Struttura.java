@@ -18,65 +18,69 @@ import com.ndovado.dominio.servizi.Servizio;
 import com.ndovado.tecservices.persistenza.base.IIdentificabile;
 
 /**
- * Implementare i metodi equals() and hasCode()
+ * Modella l'entità di dominio Struttura
  */
 @Entity
 @Table(name = "utente")
 public class Struttura implements IIdentificabile {
 
 	/**
-	 * Default constructor
+	 * Costruttore di default
 	 */
 	public Struttura() {
+		camereInserite = new HashSet<Camera>();
+		serviziOfferti = new HashSet<Servizio>();
+		
+		tableau = new TableauPrenotazioni(this);
 	}
 
 	/**
-	 * 
+	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer idStruttura;
+	private Long idStruttura;
 
 	/**
-	 * 
+	 * Il nome della struttura
 	 */
 	@Column(name = "nome")
 	private String nomeStruttura;
 
 	/**
-	 * 
+	 * Riferimento ad un'istanza di tipo <code>Gestore</code>, utente gestore della struttura
 	 */
 	@ManyToOne
 	private Gestore proprietario;
 
 	/**
-	 * 
+	 * Insieme dei servizi offerti dalla struttura
 	 */
 	@OneToMany
 	private Set<Servizio> serviziOfferti;
 
 	/**
-	 * 
+	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
 	 */
 	@Transient
 	private TableauPrenotazioni tableau;
 
 	/**
-	 * 
+	 * Insieme delle camera collegate alla struttura
 	 */
 	@OneToMany
 	private Set<Camera> camereInserite;
 
 	/**
-	 * 
+	 * Luogo nel quale è situata la struttura
 	 */
 	@ManyToOne
     @JoinColumn(name="luogo_id")
 	private Luogo luogoStruttura;
 
 	/**
-	 * @return
+	 * @return una nuova camera
 	 */
 	public static Camera creaNuovaCamera() {
 		// TODO implement here
@@ -84,18 +88,21 @@ public class Struttura implements IIdentificabile {
 	}
 
 	/**
-	 * @return
+	 * @return il gestore della struttura
 	 */
 	public Gestore getProprietario() {
 		return this.proprietario;
 	}
 
-	/**
-	 * @param aGestore
+	/**Imposta il gestore della struttura
+	 * @param aGestore il gestore da assegnare alla struttura
 	 */
 	public void setProprietario(Gestore aGestore) {
 		if (aGestore!=null) {
+			// imposto il proprietario corrente
 			this.proprietario = aGestore;
+			// aggiungo la struttura corrente all'elenco delle struttura gestite da aGestore
+			aGestore.gestisciStruttura(this);
 		}
 	}
 
@@ -107,12 +114,26 @@ public class Struttura implements IIdentificabile {
 	}
 
 	/**
-	 * @param aIdCamera 
-	 * @return
+	 * Ritorna un'istanza di tipo camera
+	 * @param aIdCamera  l'identificativo numerico della camera
+	 * @return la camera con l'identificativo corrispondente
 	 */
 	public Camera getCamera(Integer aIdCamera) {
 		for (Camera c : camereInserite) {
 			if (c.getId().equals(aIdCamera)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @param aCamera
+	 * @return
+	 */
+	public Camera getCamera(Camera aCamera) {
+		for (Camera c : camereInserite) {
+			if (c.equals(aCamera)) {
 				return c;
 			}
 		}
@@ -139,7 +160,11 @@ public class Struttura implements IIdentificabile {
 	 */
 	public void setLuogo(Luogo aLuogo) {
 		if (aLuogo!=null) {
+			// imposto il comune per la struttura corrente
 			this.luogoStruttura=aLuogo;
+			// aggiungo la struttura corrente all'elenco delle strutture 
+			// inserite nel luogo
+			aLuogo.addStruttura(this);
 		}
 	}
 
@@ -147,14 +172,18 @@ public class Struttura implements IIdentificabile {
 	 * @param aListServizi
 	 */
 	public void addServiziBase(Set<Servizio> aListServizi) {
-		// TODO implement here
+		if (aListServizi!=null) {
+			this.serviziOfferti.addAll(aListServizi);
+		}
 	}
 
 	/**
-	 * @param aServizi
+	 * @param aListServizi
 	 */
-	public void addServiziAggiuntivi(Set<Servizio> aServizi) {
-		// TODO implement here
+	public void addServiziAggiuntivi(Set<Servizio> aListServizi) {
+		if (aListServizi!=null) {
+			this.serviziOfferti.addAll(aListServizi);
+		}
 	}
 
 	/**
@@ -195,14 +224,14 @@ public class Struttura implements IIdentificabile {
 	/**
 	 * @return the idStruttura
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return idStruttura;
 	}
 
 	/**
 	 * @param idStruttura the idStruttura to set
 	 */
-	public void setIdStruttura(Integer idStruttura) {
+	protected void setId(Long idStruttura) {
 		this.idStruttura = idStruttura;
 	}
 
@@ -221,4 +250,19 @@ public class Struttura implements IIdentificabile {
 			this.nomeStruttura = nomeStruttura;	
 		}
 	}
+	
+	public void addCamera(Camera c) {
+		if (c!=null) {
+			// aggiungo la camera c all'elenco delle camere associate alla struttura
+			this.getCamere().add(c);
+			// imposto la struttura corrente come struttura associeta alla camera aggiunta
+			c.setStruttura(this);
+		}
+	}
+	
+	public void removeCamera(Camera c) {
+		if (this.camereInserite.contains(c)) {
+			this.camereInserite.remove(c);
+		}
+	} 
 }

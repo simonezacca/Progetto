@@ -7,22 +7,32 @@ import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
 import com.ndovado.dominio.servizi.Servizio;
+import com.ndovado.tecservices.persistenza.base.IIdentificabile;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
-public class Prenotazione implements Comparable<Prenotazione> {
+public class Prenotazione implements Comparable<Prenotazione>, IIdentificabile {
 
+	@SuppressWarnings("unused")
+	private Prenotazione() {}
+	
 	/**
 	 * Default constructor
 	 */
-	public Prenotazione() {
+	public Prenotazione(Locatario l) {
+		if (l!=null) {
+			this.locatario = l;
+			l.addPrenotazione(this);
+		}
+		pagamentiAssociati = new HashSet<Pagamento>();
+		lineePrenotazione = new HashSet<LineaPrenotazione>();
 	}
 
 	/**
 	 * 
 	 */
-	private Integer idPrenotazione;
+	private Long idPrenotazione;
 
 	/**
 	 * 
@@ -79,7 +89,7 @@ public class Prenotazione implements Comparable<Prenotazione> {
 	 */
 	public void addCamera(Camera aCamera) {
 		if (aCamera!=null) {
-			LineaPrenotazione l = new LineaPrenotazione();
+			LineaPrenotazione l = new LineaPrenotazione(this);
 			l.addOggettoPrenotato((IPrenotabile) aCamera);
 			lineePrenotazione.add(l);
 		}
@@ -90,17 +100,28 @@ public class Prenotazione implements Comparable<Prenotazione> {
 	 */
 	public void addServizio(Servizio aServizio) {
 		if (aServizio!=null) {
-			LineaPrenotazione l = new LineaPrenotazione();
+			LineaPrenotazione l = new LineaPrenotazione(this);
 			l.addOggettoPrenotato((IPrenotabile) aServizio);
 			lineePrenotazione.add(l);
+		}
+	}
+	
+	protected void addLineaPrenotazione(LineaPrenotazione l) {
+		if (l!=null) {
+			lineePrenotazione.add(l);
+			l.setPrenotazione(this);
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public void creaPagamento() {
-		// TODO implement here
+	public Pagamento creaPagamento() {
+		// instanzio un nuovo pagamento e lo associo alla prenotazione corrente
+		Pagamento p = new Pagamento(this);
+		// aggiungo il pagamento istanziato all'insieme dei pagamenti associati alla prenotazione corrente
+		this.pagamentiAssociati.add(p);
+		return p;
 	}
 	
 
@@ -277,6 +298,15 @@ public class Prenotazione implements Comparable<Prenotazione> {
 			return -1;
 		}
 		else return 1;
+	}
+
+	@Override
+	public Long getId() {
+		return this.idPrenotazione;
+	}
+	
+	protected void setId(Long idPrenotazione) {
+		this.idPrenotazione = idPrenotazione;
 	}
 
 }

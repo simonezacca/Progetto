@@ -13,16 +13,23 @@ public class Locatario extends ARuolo {
 	 * Default constructor
 	 */
 	public Locatario() {
+		prenotazioni = new HashSet<Prenotazione>();
 	}
+	
+	private Set<Prenotazione> prenotazioni;
 
 	/**
 	 * @return
 	 */
 	public Set<Prenotazione> getPrenotazioniEffettuate() {
-		// TODO implement here
-		return null;
+		return prenotazioni;
 	}
 
+	public void addPrenotazione(Prenotazione p) {
+		if (p!=null) {
+			this.prenotazioni.add(p);
+		}
+	}
 	@Override
 	public String toString() {
 		return "Locatario";

@@ -2,6 +2,7 @@ package com.ndovado.tecservices.persistenza.base;
 
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +14,7 @@ public class ServizioPersistenzaBase<T extends IIdentificabile>{
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 
 	private static SessionFactory buildSessionFactory() {
-//		BasicConfigurator.configure();
+		BasicConfigurator.configure();
 		try {
 			SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 			return sessionFactory;
@@ -27,7 +28,7 @@ public class ServizioPersistenzaBase<T extends IIdentificabile>{
 		return sessionFactory;
 	}
 	
-	public static <T> Integer create(final T o){
+	public static <T> Long create(final T o){
 		Session session = getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(o);
@@ -38,7 +39,7 @@ public class ServizioPersistenzaBase<T extends IIdentificabile>{
     }
 
 
-    public static <T> void delete(final Class<T> type, Integer id){
+    public static <T> void delete(final Class<T> type, Long id){
     	Session session = getSessionFactory().openSession();
 		session.beginTransaction();
 		T u = (T) get(type,id);
@@ -48,7 +49,7 @@ public class ServizioPersistenzaBase<T extends IIdentificabile>{
 		System.out.println("Successfully deleted " + u.toString());
     }
 
-    public static <T> T get(final Class<T> type, final Integer id){
+    public static <T> T get(final Class<T> type, final Long id){
     	Session session = getSessionFactory().openSession();
     	session.beginTransaction();
 		T c = (T) session.get(type, id);

@@ -14,18 +14,21 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
+import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+
 
 /**
  * Modella l'entità di dominio Camera
  */
 @Entity
 @Table(name = "descrizionecamera")
-public class Camera implements IPrenotabile {
+public class Camera implements IIdentificabile, IPrenotabile {
 
 	/**
 	 * Costruttore di default
 	 */
 	public Camera() {
+		descrizioniCamera = new ArrayList<DescrizioneCamera>();
 	}
 
 	/**
@@ -41,7 +44,7 @@ public class Camera implements IPrenotabile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer idCamera;
+	private Long idCamera;
 
 	/**
 	 * Nome della camera
@@ -72,10 +75,13 @@ public class Camera implements IPrenotabile {
 	/**
 	 * @return l'identificativo della camera utilizzato per il mapping ORM
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return this.idCamera;
 	}
 
+	protected void setId(Long idCamera) {
+		this.idCamera = idCamera;
+	}
 	/**
 	 * @return il nome della camera
 	 */
@@ -167,7 +173,10 @@ public class Camera implements IPrenotabile {
 	 */
 	public void addDescrizioneCamera(DescrizioneCamera aDescrizioneCamera) {
 		if (aDescrizioneCamera!=null) {
+			// aggiungo la descrizione camera all'elenco delle descrizioni della camera
 			this.descrizioniCamera.add(aDescrizioneCamera);
+			// collego la descrizione camera alla camera corrente
+			aDescrizioneCamera.setCameraAssociata(this);
 		}
 	}
 
@@ -190,5 +199,20 @@ public class Camera implements IPrenotabile {
 	 */
 	public Struttura getStruttura() {
 		return this.struttura;
+	}
+	
+	public void setStruttura(Struttura s) {
+		if (s!=null) {
+			// imposto la struttura s come struttura della camera
+			this.struttura = s;
+			// aggiungo la camera corrente all'elenco delle camere collegate alla struttura s
+			s.addCamera(this);
+		}
+	}
+	
+	public void removeDescrizioneCamera(DescrizioneCamera dc) {
+		if (this.descrizioniCamera.contains(dc)) {
+			this.descrizioniCamera.remove(dc);
+		}
 	}
 }
