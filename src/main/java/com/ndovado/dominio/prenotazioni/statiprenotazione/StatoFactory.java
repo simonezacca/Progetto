@@ -1,6 +1,4 @@
-package com.ndovado.dominio.prenotazioni;
-
-import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
+package com.ndovado.dominio.prenotazioni.statiprenotazione;
 
 /**
  * 

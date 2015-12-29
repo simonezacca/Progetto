@@ -20,65 +20,6 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 @Table(name = "descrizionecamera")
 public class DescrizioneCamera implements IPersistente {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cameraAssociata == null) ? 0 : cameraAssociata.hashCode());
-		result = prime * result + ((dataFineAffitto == null) ? 0 : dataFineAffitto.hashCode());
-		result = prime * result + ((dataInizioAffitto == null) ? 0 : dataInizioAffitto.hashCode());
-		result = prime * result + ((descrizioneCamera == null) ? 0 : descrizioneCamera.hashCode());
-		result = prime * result + ((idDescrizioneCamera == null) ? 0 : idDescrizioneCamera.hashCode());
-		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
-		result = prime * result + ((prezzoCamera == null) ? 0 : prezzoCamera.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof DescrizioneCamera))
-			return false;
-		DescrizioneCamera other = (DescrizioneCamera) obj;
-		if (cameraAssociata == null) {
-			if (other.cameraAssociata != null)
-				return false;
-		} else if (!cameraAssociata.equals(other.cameraAssociata))
-			return false;
-		if (dataFineAffitto == null) {
-			if (other.dataFineAffitto != null)
-				return false;
-		} else if (!dataFineAffitto.equals(other.dataFineAffitto))
-			return false;
-		if (dataInizioAffitto == null) {
-			if (other.dataInizioAffitto != null)
-				return false;
-		} else if (!dataInizioAffitto.equals(other.dataInizioAffitto))
-			return false;
-		if (descrizioneCamera == null) {
-			if (other.descrizioneCamera != null)
-				return false;
-		} else if (!descrizioneCamera.equals(other.descrizioneCamera))
-			return false;
-		if (idDescrizioneCamera == null) {
-			if (other.idDescrizioneCamera != null)
-				return false;
-		} else if (!idDescrizioneCamera.equals(other.idDescrizioneCamera))
-			return false;
-		if (pax == null) {
-			if (other.pax != null)
-				return false;
-		} else if (!pax.equals(other.pax))
-			return false;
-		if (prezzoCamera == null) {
-			if (other.prezzoCamera != null)
-				return false;
-		} else if (!prezzoCamera.equals(other.prezzoCamera))
-			return false;
-		return true;
-	}
 	/**
 	 * Default constructor
 	 */
@@ -136,13 +77,14 @@ public class DescrizioneCamera implements IPersistente {
 	 * 
 	 */
 	@ManyToOne
-    @JoinColumn(name="camera_id")
+    @JoinColumn(name="camera_id", nullable=false)
 	private Camera cameraAssociata;
 
 
 	/**
 	 * @return
 	 */
+	
 	public String getDescrizioneCamera() {
 		return this.descrizioneCamera;
 	}
@@ -246,6 +188,65 @@ public class DescrizioneCamera implements IPersistente {
 		if(cameraAssociata!=null) {
 			this.cameraAssociata = cameraAssociata;
 		}
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cameraAssociata == null) ? 0 : cameraAssociata.hashCode());
+		result = prime * result + ((dataFineAffitto == null) ? 0 : dataFineAffitto.hashCode());
+		result = prime * result + ((dataInizioAffitto == null) ? 0 : dataInizioAffitto.hashCode());
+		result = prime * result + ((descrizioneCamera == null) ? 0 : descrizioneCamera.hashCode());
+		result = prime * result + ((idDescrizioneCamera == null) ? 0 : idDescrizioneCamera.hashCode());
+		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
+		result = prime * result + ((prezzoCamera == null) ? 0 : prezzoCamera.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof DescrizioneCamera))
+			return false;
+		DescrizioneCamera other = (DescrizioneCamera) obj;
+		if (cameraAssociata == null) {
+			if (other.cameraAssociata != null)
+				return false;
+		} else if (!cameraAssociata.equals(other.cameraAssociata))
+			return false;
+		if (dataFineAffitto == null) {
+			if (other.dataFineAffitto != null)
+				return false;
+		} else if (!dataFineAffitto.equals(other.dataFineAffitto))
+			return false;
+		if (dataInizioAffitto == null) {
+			if (other.dataInizioAffitto != null)
+				return false;
+		} else if (!dataInizioAffitto.equals(other.dataInizioAffitto))
+			return false;
+		if (descrizioneCamera == null) {
+			if (other.descrizioneCamera != null)
+				return false;
+		} else if (!descrizioneCamera.equals(other.descrizioneCamera))
+			return false;
+		if (idDescrizioneCamera == null) {
+			if (other.idDescrizioneCamera != null)
+				return false;
+		} else if (!idDescrizioneCamera.equals(other.idDescrizioneCamera))
+			return false;
+		if (pax == null) {
+			if (other.pax != null)
+				return false;
+		} else if (!pax.equals(other.pax))
+			return false;
+		if (prezzoCamera == null) {
+			if (other.prezzoCamera != null)
+				return false;
+		} else if (!prezzoCamera.equals(other.prezzoCamera))
+			return false;
+		return true;
 	}
 
 }

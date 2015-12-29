@@ -24,68 +24,6 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 @Table(name = "descrizionecamera")
 public class Camera implements IPersistente, IPrenotabile {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
-		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
-		result = prime * result + ((idCamera == null) ? 0 : idCamera.hashCode());
-		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
-		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
-		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Camera))
-			return false;
-		Camera other = (Camera) obj;
-		if (descrizioneCorrente == null) {
-			if (other.descrizioneCorrente != null)
-				return false;
-		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
-			return false;
-		if (descrizioniCamera == null) {
-			if (other.descrizioniCamera != null)
-				return false;
-		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
-			return false;
-		if (idCamera == null) {
-			if (other.idCamera != null)
-				return false;
-		} else if (!idCamera.equals(other.idCamera))
-			return false;
-		if (nomeCamera == null) {
-			if (other.nomeCamera != null)
-				return false;
-		} else if (!nomeCamera.equals(other.nomeCamera))
-			return false;
-		if (qtyCamera == null) {
-			if (other.qtyCamera != null)
-				return false;
-		} else if (!qtyCamera.equals(other.qtyCamera))
-			return false;
-		if (struttura == null) {
-			if (other.struttura != null)
-				return false;
-		} else if (!struttura.equals(other.struttura))
-			return false;
-		return true;
-	}
-
-	/**
-	 * Costruttore di default
-	 */
-	public Camera() {
-		descrizioniCamera = new ArrayList<DescrizioneCamera>();
-	}
-
 	/**
 	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
 	 */
@@ -126,6 +64,13 @@ public class Camera implements IPersistente, IPrenotabile {
 	 */
 	@OneToMany(mappedBy="cameraAssociata")
 	private List<DescrizioneCamera> descrizioniCamera;
+
+	/**
+	 * Costruttore di default
+	 */
+	public Camera() {
+		descrizioniCamera = new ArrayList<DescrizioneCamera>();
+	}
 
 	/**
 	 * @return l'identificativo della camera utilizzato per il mapping ORM
@@ -269,5 +214,60 @@ public class Camera implements IPersistente, IPrenotabile {
 		if (this.descrizioniCamera.contains(dc)) {
 			this.descrizioniCamera.remove(dc);
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
+		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
+		result = prime * result + ((idCamera == null) ? 0 : idCamera.hashCode());
+		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
+		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Camera))
+			return false;
+		Camera other = (Camera) obj;
+		if (descrizioneCorrente == null) {
+			if (other.descrizioneCorrente != null)
+				return false;
+		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
+			return false;
+		if (descrizioniCamera == null) {
+			if (other.descrizioniCamera != null)
+				return false;
+		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
+			return false;
+		if (idCamera == null) {
+			if (other.idCamera != null)
+				return false;
+		} else if (!idCamera.equals(other.idCamera))
+			return false;
+		if (nomeCamera == null) {
+			if (other.nomeCamera != null)
+				return false;
+		} else if (!nomeCamera.equals(other.nomeCamera))
+			return false;
+		if (qtyCamera == null) {
+			if (other.qtyCamera != null)
+				return false;
+		} else if (!qtyCamera.equals(other.qtyCamera))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} else if (!struttura.equals(other.struttura))
+			return false;
+		return true;
 	}
 }
