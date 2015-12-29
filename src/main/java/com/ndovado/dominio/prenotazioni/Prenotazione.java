@@ -6,13 +6,13 @@ import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
-import com.ndovado.dominio.servizi.Servizio;
-import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
-public class Prenotazione implements Comparable<Prenotazione>, IIdentificabile {
+public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 
 	@SuppressWarnings("unused")
 	private Prenotazione() {}
@@ -98,7 +98,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IIdentificabile {
 	/**
 	 * @param aServizio
 	 */
-	public void addServizio(Servizio aServizio) {
+	public void addServizio(ServizioComune aServizio) {
 		if (aServizio!=null) {
 			LineaPrenotazione l = new LineaPrenotazione(this);
 			l.addOggettoPrenotato((IPrenotabile) aServizio);

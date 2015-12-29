@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-public class ServizioPersistenzaBase<T extends IIdentificabile>{
+public class ServizioPersistenzaBase<T extends IPersistente>{
 
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -35,7 +35,7 @@ public class ServizioPersistenzaBase<T extends IIdentificabile>{
 		session.getTransaction().commit();
 		session.close();
 		System.out.println("Oggetto creato " + o.toString());
-		return ((IIdentificabile) o).getId();
+		return ((IPersistente) o).getId();
     }
 
 

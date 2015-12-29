@@ -10,23 +10,16 @@ public class ServizioAggiuntivo extends ATipologiaServizio implements IPrenotabi
 	/**
 	 * Default constructor
 	 */
-	public ServizioAggiuntivo() {
+	public ServizioAggiuntivo(ServizioComune sc) {
+		this.servizio = sc;
 	}
 
-	/**
-	 * @return
-	 */
-	public Float getPrezzo() {
-		// TODO implement here
-		return null;
-	}
-
-	/**
-	 * @return
-	 */
 	public String getNomeOggettoPrenotabile() {
-		// TODO implement here
-		return "";
+		return this.servizio.getNomeServizio();
+	}
+	
+	public void setPrezzo(Float prezzo) {
+		this.prezzo = prezzo;
 	}
 
 }

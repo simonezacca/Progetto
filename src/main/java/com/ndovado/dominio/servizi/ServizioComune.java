@@ -1,16 +1,16 @@
 package com.ndovado.dominio.servizi;
 
-import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
-public class Servizio implements IIdentificabile {
+public class ServizioComune implements IPersistente {
 
 	/**
 	 * Default constructor
 	 */
-	public Servizio() {
+	public ServizioComune() {
 	}
 
 	/**
@@ -38,16 +38,6 @@ public class Servizio implements IIdentificabile {
 	protected String nomeServizio;
 
 	/**
-	 * 
-	 */
-	protected Float prezzoServizio = new Float(0);
-
-	/**
-	 * 
-	 */
-	public ATipologiaServizio tipologiaServizio;
-
-	/**
 	 * @return
 	 */
 	public String getNomeServizio() {
@@ -60,22 +50,6 @@ public class Servizio implements IIdentificabile {
 	public void setNomeServizio(String aNomeServizio) {
 		if (aNomeServizio!=null) {
 			this.nomeServizio = aNomeServizio;
-		}
-	}
-
-	/**
-	 * @return
-	 */
-	public Float getPrezzoServizio() {
-		return this.prezzoServizio;
-	}
-
-	/**
-	 * @param aPrezzoServizio
-	 */
-	public void setPrezzoServizio(Float aPrezzoServizio) {
-		if(aPrezzoServizio!=null && aPrezzoServizio>=0) {
-			this.prezzoServizio = aPrezzoServizio;
 		}
 	}
 

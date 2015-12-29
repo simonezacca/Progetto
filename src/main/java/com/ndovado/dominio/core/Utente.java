@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
 import com.ndovado.tecservices.persistenza.converter.RuoloConverter;
 
 /**
@@ -16,7 +16,7 @@ import com.ndovado.tecservices.persistenza.converter.RuoloConverter;
  */
 @Entity
 @Table(name = "utente")
-public class Utente implements IIdentificabile {
+public class Utente implements IPersistente {
 
 	/**
 	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM

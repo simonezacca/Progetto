@@ -10,14 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
 @Entity
 @Table(name = "luogo")
-public class Luogo implements IIdentificabile {
+public class Luogo implements IPersistente {
 
 	/**
 	 * Default constructor

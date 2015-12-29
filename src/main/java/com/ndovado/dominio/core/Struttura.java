@@ -14,22 +14,23 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
-import com.ndovado.dominio.servizi.Servizio;
-import com.ndovado.tecservices.persistenza.base.IIdentificabile;
+import com.ndovado.dominio.servizi.DettagliServizioOfferto;
+import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
  * Modella l'entità di dominio Struttura
  */
 @Entity
 @Table(name = "utente")
-public class Struttura implements IIdentificabile {
+public class Struttura implements IPersistente {
 
 	/**
 	 * Costruttore di default
 	 */
 	public Struttura() {
 		camereInserite = new HashSet<Camera>();
-		serviziOfferti = new HashSet<Servizio>();
+		serviziOfferti = new HashSet<DettagliServizioOfferto>();
 		
 		tableau = new TableauPrenotazioni(this);
 	}
@@ -58,7 +59,7 @@ public class Struttura implements IIdentificabile {
 	 * Insieme dei servizi offerti dalla struttura
 	 */
 	@OneToMany
-	private Set<Servizio> serviziOfferti;
+	private Set<DettagliServizioOfferto> serviziOfferti;
 
 	/**
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
@@ -169,20 +170,22 @@ public class Struttura implements IIdentificabile {
 	}
 
 	/**
-	 * @param aListServizi
+	 * @param servizio
 	 */
-	public void addServiziBase(Set<Servizio> aListServizi) {
-		if (aListServizi!=null) {
-			this.serviziOfferti.addAll(aListServizi);
+	public void addServizioBase(ServizioComune servizio) {
+		if (servizio!=null) {
+			DettagliServizioOfferto dso = new DettagliServizioOfferto(this, servizio);
+			this.serviziOfferti.add(dso);
 		}
 	}
-
+	
 	/**
-	 * @param aListServizi
+	 * @param servizio
 	 */
-	public void addServiziAggiuntivi(Set<Servizio> aListServizi) {
-		if (aListServizi!=null) {
-			this.serviziOfferti.addAll(aListServizi);
+	public void addServizioAggiuntivo(ServizioComune servizio, Float prezzo) {
+		if (servizio!=null && prezzo >= 0) {
+			DettagliServizioOfferto dso = new DettagliServizioOfferto(this, servizio, prezzo);
+			this.serviziOfferti.add(dso);
 		}
 	}
 
@@ -203,7 +206,7 @@ public class Struttura implements IIdentificabile {
 	/**
 	 * @return
 	 */
-	public Set<Servizio> getServiziOfferti() {
+	public Set<DettagliServizioOfferto> getServiziOfferti() {
 		return serviziOfferti;
 	}
 
@@ -264,5 +267,66 @@ public class Struttura implements IIdentificabile {
 		if (this.camereInserite.contains(c)) {
 			this.camereInserite.remove(c);
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((camereInserite == null) ? 0 : camereInserite.hashCode());
+		result = prime * result + ((idStruttura == null) ? 0 : idStruttura.hashCode());
+		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
+		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
+		result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
+		result = prime * result + ((serviziOfferti == null) ? 0 : serviziOfferti.hashCode());
+		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Struttura))
+			return false;
+		Struttura other = (Struttura) obj;
+		if (camereInserite == null) {
+			if (other.camereInserite != null)
+				return false;
+		} else if (!camereInserite.equals(other.camereInserite))
+			return false;
+		if (idStruttura == null) {
+			if (other.idStruttura != null)
+				return false;
+		} else if (!idStruttura.equals(other.idStruttura))
+			return false;
+		if (luogoStruttura == null) {
+			if (other.luogoStruttura != null)
+				return false;
+		} else if (!luogoStruttura.equals(other.luogoStruttura))
+			return false;
+		if (nomeStruttura == null) {
+			if (other.nomeStruttura != null)
+				return false;
+		} else if (!nomeStruttura.equals(other.nomeStruttura))
+			return false;
+		if (proprietario == null) {
+			if (other.proprietario != null)
+				return false;
+		} else if (!proprietario.equals(other.proprietario))
+			return false;
+		if (serviziOfferti == null) {
+			if (other.serviziOfferti != null)
+				return false;
+		} else if (!serviziOfferti.equals(other.serviziOfferti))
+			return false;
+		if (tableau == null) {
+			if (other.tableau != null)
+				return false;
+		} else if (!tableau.equals(other.tableau))
+			return false;
+		return true;
 	} 
 }

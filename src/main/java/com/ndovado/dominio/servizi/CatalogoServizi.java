@@ -11,7 +11,7 @@ public class CatalogoServizi {
 	 * Default constructor
 	 */
 	protected CatalogoServizi() {
-		serviziDisponibili = new HashSet<Servizio>();
+		serviziDisponibili = new HashSet<ServizioComune>();
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class CatalogoServizi {
 	/**
 	 * 
 	 */
-	private Set<Servizio> serviziDisponibili;
+	private Set<ServizioComune> serviziDisponibili;
 
 	/**
 	 * @return
@@ -38,8 +38,8 @@ public class CatalogoServizi {
 	 * @param idServizio 
 	 * @return
 	 */
-	public Servizio getServizio(Long idServizio) {
-		for (Servizio servizio : serviziDisponibili) {
+	public ServizioComune getServizio(Long idServizio) {
+		for (ServizioComune servizio : serviziDisponibili) {
 			if (servizio.getId() == idServizio) {
 				return servizio;
 			}
@@ -51,7 +51,7 @@ public class CatalogoServizi {
 	 * @param nomeServizio 
 	 * @return
 	 */
-	public Set<Servizio> cercaServizioPerNome(String nomeServizio) {
+	public Set<ServizioComune> cercaServizioPerNome(String nomeServizio) {
 		// TODO implement here
 		return null;
 	}
@@ -59,7 +59,7 @@ public class CatalogoServizi {
 	/**
 	 * @return
 	 */
-	public static Servizio creaNuovoServizio() {
+	public static ServizioComune creaNuovoServizio() {
 		// TODO implement here
 		return null;
 	}
