@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -79,7 +80,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private AStatoPrenotazione statoPrenotazione;
 
 	/**

@@ -2,6 +2,8 @@ package com.ndovado.dominio.core;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import java.util.*;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +40,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	/**
 	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
 	 */
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private DescrizioneCamera descrizioneCorrente;
 
@@ -71,8 +73,11 @@ public class Camera implements IPersistente, IPrenotabile {
 	/**
 	 * Costruttore di default
 	 */
-	public Camera() {
+	public Camera(Struttura s) {
 		descrizioniCamera = new ArrayList<DescrizioneCamera>();
+		this.struttura = s;
+		// aggiungo l'istanza corrente alla lista delle camere disponibili
+		s.addCamera(this);
 	}
 
 	/**

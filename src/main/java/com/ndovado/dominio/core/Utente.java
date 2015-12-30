@@ -4,6 +4,7 @@ package com.ndovado.dominio.core;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -37,33 +38,31 @@ public class Utente implements IPersistente {
 	/**
 	 * Nome dell'utente
 	 */
-
+	@Column(name="nome", nullable=false)
 	private String nome;
 
 	/**
 	 * Cognome dell'utente
 	 */
-
+	@Column(name="cognome", nullable=false)
 	private String cognome;
 
 	/**
 	 * Email dell'utente utilizzata come username per il login al sistema
 	 */
-
+	@Column(name="mail",nullable=false)
 	private String mail;
 
 	/**
 	 * Password dell'utente
 	 */
-
+	@Column(name="password",nullable=true)
 	private String password;
 
 	/**
 	 * Riferimento ad un'instanza di tipo <code>ARuolo</code> per indicare il ruolo dell'utente nel sistema
 	 */
-	//@Column
-	//@Convert(converter = RuoloConverter.class)
-	//@OneToMany(mappedBy="utente")
+
 	@OneToOne(cascade=CascadeType.ALL)
 	private ARuolo ruolo = ARuolo.getRuoloLocatario();
 

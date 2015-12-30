@@ -2,6 +2,7 @@ package com.ndovado.dominio.servizi;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class DettaglioServizio {
 	private String note;
 	
 	
-	@OneToOne(mappedBy="servizio")
+	@OneToOne(mappedBy="servizio", cascade=CascadeType.ALL)
 	private ATipologiaServizio tipologia;
 	
 	protected DettaglioServizio() {

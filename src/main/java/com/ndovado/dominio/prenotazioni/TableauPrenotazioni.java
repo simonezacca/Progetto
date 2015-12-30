@@ -3,8 +3,10 @@ package com.ndovado.dominio.prenotazioni;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
+import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,16 +52,15 @@ public class TableauPrenotazioni implements IPersistente {
 	/**
 	 * 
 	 */
-	@OneToOne()
+	@OneToOne(mappedBy = "tableau")
 	private Struttura struttura;
 
 
 	/**
 	 * @return
 	 */
-	public Prenotazione creaPrenotazione() {
-		// TODO implement here
-		return null;
+	public Prenotazione creaPrenotazione(Locatario l) {
+		return new Prenotazione(l);
 	}
 
 	/**
@@ -75,9 +76,9 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @param idPrenotazione 
 	 * @return
 	 */
-	public Prenotazione getPrenotazione(String idPrenotazione) {
-		// TODO implement here
-		return null;
+	public Prenotazione getPrenotazione(Long idPrenotazione) {
+		Prenotazione p = ServizioPersistenzaBase.<Prenotazione>get(Prenotazione.class, idPrenotazione);
+		return p;
 	}
 
 	/**

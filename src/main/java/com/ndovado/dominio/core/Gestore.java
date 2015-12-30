@@ -2,7 +2,6 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -12,7 +11,6 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * 
  */
 @Entity
-@DiscriminatorValue("1")
 public class Gestore extends ARuolo implements IPersistente {
 
 	/**

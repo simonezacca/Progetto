@@ -27,6 +27,11 @@ public class ServizioPersistenzaBase<T extends IPersistente>{
 		return sessionFactory;
 	}
 	
+	public static void shutdown() {
+		// Close caches and connection pools
+		getSessionFactory().close();
+	}
+	
 	public static <T> Long create(final T o){
 		Session session = getSessionFactory().openSession();
 		session.beginTransaction();

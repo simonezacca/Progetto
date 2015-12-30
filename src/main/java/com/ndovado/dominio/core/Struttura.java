@@ -4,9 +4,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -42,7 +42,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * Il nome della struttura
 	 */
-	@Column(name = "nome", nullable = false, length = 45)
+	@Column(name = "nome", nullable = false)
 	private String nomeStruttura;
 
 	/**
@@ -56,14 +56,14 @@ public class Struttura implements IPersistente {
 	/**
 	 * Insieme dei servizi offerti dalla struttura
 	 */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "struttura")
+	@OneToMany(mappedBy = "struttura")
 	private Set<DettaglioServizio> serviziOfferti;
 
 	/**
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
 	 */
 
-	@OneToOne(mappedBy = "struttura")
+	@OneToOne(cascade=CascadeType.ALL)
 	private TableauPrenotazioni tableau;
 
 	/**
@@ -90,11 +90,10 @@ public class Struttura implements IPersistente {
 	}
 
 	/**
-	 * @return una nuova camera
+	 * @return una nuova camera, la nuova camera è automaticamente collegata alla struttura corrente
 	 */
-	public static Camera creaNuovaCamera() {
-		// TODO implement here
-		return null;
+	public Camera creaNuovaCamera() {
+		return new Camera(this);
 	}
 
 	/**
@@ -233,8 +232,8 @@ public class Struttura implements IPersistente {
 		return this.camereInserite;
 	}
 
-	/**
-	 * @return the idStruttura
+	/** Ritorna la chiave primaria della tabella del database
+	 * @return la chiave primaria della tabella del database
 	 */
 	public Long getId() {
 		return idStruttura;
@@ -247,22 +246,25 @@ public class Struttura implements IPersistente {
 		this.idStruttura = idStruttura;
 	}
 
-	/**
-	 * @return the nomeStruttura
+	/** Ritorna il nome della struttura
+	 * @return il nome della struttura
 	 */
 	public String getNomeStruttura() {
 		return nomeStruttura;
 	}
 
-	/**
-	 * @param nomeStruttura the nomeStruttura to set
+	/** Imposta il nome della struttura
+	 * @param nomeStruttura il nuovo nome della struttura
 	 */
 	public void setNomeStruttura(String nomeStruttura) {
 		if (nomeStruttura!=null) {
 			this.nomeStruttura = nomeStruttura;	
 		}
 	}
-	
+	/**
+	 * Aggiunge una camera alla struttura
+	 * @param c la camera da aggiungere
+	 */
 	public void addCamera(Camera c) {
 		if (c!=null) {
 			// aggiungo la camera c all'elenco delle camere associate alla struttura
@@ -271,7 +273,10 @@ public class Struttura implements IPersistente {
 			c.setStruttura(this);
 		}
 	}
-	
+	/**
+	 * Rimuove una camera dalla struttura
+	 * @param c la camera da rimuovere
+	 */
 	public void removeCamera(Camera c) {
 		if (this.camereInserite.contains(c)) {
 			this.camereInserite.remove(c);

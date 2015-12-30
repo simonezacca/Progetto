@@ -2,13 +2,22 @@ package com.ndovado.dominio.prenotazioni;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Column;
+
+
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.MetaValue;
+
+import com.ndovado.dominio.core.Camera;
+import com.ndovado.dominio.servizi.ServizioAggiuntivo;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
@@ -41,8 +50,12 @@ public class LineaPrenotazione implements IPersistente {
 	 * 
 	 */
 	// TODO implementare discriminator hibernate per interfaccia IPrenotabile
-	@Embedded
-	//@Transient
+	@Any(metaColumn = @Column(name = "tipo_oggetto"))
+	@AnyMetaDef(idType = "integer", metaType = "integer", metaValues = {
+	    @MetaValue(value = "1", targetEntity = Camera.class),
+	    @MetaValue(value = "2", targetEntity = ServizioAggiuntivo.class)
+	})
+	@JoinColumn(name="oggetto_id")
 	private IPrenotabile oggettoPrenotato;
 
 	/**

@@ -18,6 +18,7 @@ public class UserTest {
 		u2.setRuolo(ARuolo.getRuoloGestore()); 
 		
 		Utente u3 = new Utente("Cicchitto", "Giuseppe");
+		u3.setMail("cicc@mail.com");
 		
 		ServizioPersistenzaBase.<Utente>create(u1);
 		ServizioPersistenzaBase.<Utente>create(u2);
@@ -25,7 +26,7 @@ public class UserTest {
 		
 		u1.setCognome("Orsini");
 		ServizioPersistenzaBase.<Utente>update(u1);
-		System.out.println("Nuovo congnome "+u1.getCognome());
+		System.out.println("Nuovo cognome "+u1.getCognome());
 		
 		List<Utente> list = ServizioPersistenzaBase.<Utente>getAll(Utente.class);
 		
