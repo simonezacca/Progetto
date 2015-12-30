@@ -1,8 +1,11 @@
 package com.ndovado.dominio.prenotazioni.statiprenotazione;
 
+import javax.persistence.Entity;
+
 /**
  * 
  */
+@Entity
 public class StatoConfermata extends AStatoPrenotazione {
 
 	/**

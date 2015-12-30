@@ -1,42 +1,49 @@
 package com.ndovado.dominio.prenotazioni;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
+@Entity
+@Table(name="linea_prenotazione")
 public class LineaPrenotazione implements IPersistente {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((prenotazioneCorrente == null) ? 0 : prenotazioneCorrente.hashCode());
-		return result;
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof LineaPrenotazione))
-			return false;
-		LineaPrenotazione other = (LineaPrenotazione) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (prenotazioneCorrente == null) {
-			if (other.prenotazioneCorrente != null)
-				return false;
-		} else if (!prenotazioneCorrente.equals(other.prenotazioneCorrente))
-			return false;
-		return true;
-	}
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long id;
+
+	/**
+	 * 
+	 */
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	private Prenotazione prenotazioneCorrente;
+
+	/**
+	 * 
+	 */
+	// TODO implementare discriminator hibernate per interfaccia IPrenotabile
+	@Embedded
+	//@Transient
+	private IPrenotabile oggettoPrenotato;
 
 	/**
 	 * Default constructor
@@ -44,26 +51,12 @@ public class LineaPrenotazione implements IPersistente {
 	@SuppressWarnings("unused")
 	private LineaPrenotazione() {
 	}
-	
+
 	public LineaPrenotazione(Prenotazione prenotazione) {
 		if (prenotazione!=null) {
 			this.prenotazioneCorrente = prenotazione;
 		}
 	}
-
-	/**
-	 * 
-	 */
-	private Prenotazione prenotazioneCorrente;
-
-	/**
-	 * 
-	 */
-	private Long id;
-	/**
-	 * 
-	 */
-	private IPrenotabile oggettoPrenotato;
 
 	/**
 	 * @param oggettoPrenotabile
@@ -108,6 +101,37 @@ public class LineaPrenotazione implements IPersistente {
 		if (p!=null) {
 			this.prenotazioneCorrente = p;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((prenotazioneCorrente == null) ? 0 : prenotazioneCorrente.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof LineaPrenotazione))
+			return false;
+		LineaPrenotazione other = (LineaPrenotazione) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (prenotazioneCorrente == null) {
+			if (other.prenotazioneCorrente != null)
+				return false;
+		} else if (!prenotazioneCorrente.equals(other.prenotazioneCorrente))
+			return false;
+		return true;
 	}
 
 }

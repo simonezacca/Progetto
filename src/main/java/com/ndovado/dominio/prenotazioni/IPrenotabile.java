@@ -1,10 +1,16 @@
 package com.ndovado.dominio.prenotazioni;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 /**
  * 
  */
-public interface IPrenotabile {
 
+@Embeddable
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public interface IPrenotabile{
 
 	/**
 	 * @return

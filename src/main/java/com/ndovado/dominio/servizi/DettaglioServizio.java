@@ -1,18 +1,41 @@
 package com.ndovado.dominio.servizi;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.ndovado.dominio.core.Struttura;
 
-public class DettagliServizioOfferto {
-
-	@SuppressWarnings("unused")
+@Entity
+@Table(name = "dettaglio_servizio")
+public class DettaglioServizio {
+	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long iddettaglio_servizio;
+	
+	@OneToOne
 	private Struttura struttura;
+	
+	@OneToOne
 	private ServizioComune servizio;
 	
+	@Column(name = "note")
 	private String note;
 	
+	
+	@OneToOne(mappedBy="servizio")
 	private ATipologiaServizio tipologia;
 	
-	public DettagliServizioOfferto(Struttura st, ServizioComune sc) {
+	protected DettaglioServizio() {
+	}
+
+	public DettaglioServizio(Struttura st, ServizioComune sc) {
 		// imposto i riferimenti struttura e servzio della classe dettagli servizi
 		this.struttura = st;
 		this.servizio = sc;
@@ -23,7 +46,7 @@ public class DettagliServizioOfferto {
 		
 	}
 	
-	public DettagliServizioOfferto(Struttura st, ServizioComune sc,Float prezzo) {
+	public DettaglioServizio(Struttura st, ServizioComune sc,Float prezzo) {
 		// imposto i riferimenti struttura e servzio della classe dettagli servizi
 		this.struttura = st;
 		this.servizio = sc;

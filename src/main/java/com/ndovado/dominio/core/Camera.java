@@ -1,16 +1,15 @@
 package com.ndovado.dominio.core;
 
+import static javax.persistence.GenerationType.IDENTITY;
 import java.util.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
@@ -21,48 +20,52 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * Modella l'entità di dominio Camera
  */
 @Entity
-@Table(name = "descrizionecamera")
+@Table(name = "camera")
 public class Camera implements IPersistente, IPrenotabile {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
+	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long idCamera;
 
 	/**
 	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
 	 */
 	@OneToOne
-	@JoinColumn(name="descrizionecamera_id")
+	@PrimaryKeyJoinColumn
 	private DescrizioneCamera descrizioneCorrente;
-	
-	/**
-	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long idCamera;
 
 	/**
 	 * Nome della camera
 	 */
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false, length = 45)
 	private String nomeCamera;
 
 	/**
 	 * Numero di camera disponibili della tipologia
 	 */
-	@Column(name = "qty")
+	@Column(name = "qta")
 	private Integer qtyCamera;
 
 	/**
 	 * Riferimento ad un'istanza della classe <code>Struttura</code> utilizzata per aggregare più camere
 	 */
 	@ManyToOne
-	@JoinColumn(name = "struttura_id")
+	@PrimaryKeyJoinColumn
 	private Struttura struttura;
 
 	/**
 	 * Lista ordinata di oggetti di tipo <code>DescrizioneCamera</code> utilizzata per mantenere una cronologia
 	 * dei cambiamenti sulle date, prezzi e pax
 	 */
-	@OneToMany(mappedBy="cameraAssociata")
+	@OneToMany(mappedBy = "cameraAssociata")
 	private List<DescrizioneCamera> descrizioniCamera;
 
 	/**

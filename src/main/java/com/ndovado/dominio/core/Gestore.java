@@ -2,14 +2,28 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+import com.ndovado.tecservices.persistenza.base.IPersistente;
+
 /**
  * 
  */
-public class Gestore extends ARuolo {
+@Entity
+@DiscriminatorValue("1")
+public class Gestore extends ARuolo implements IPersistente {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Default constructor
 	 */
+
+	
 	public Gestore() {
 		struttureGestite = new HashSet<Struttura>();
 	}
@@ -17,6 +31,7 @@ public class Gestore extends ARuolo {
 	/**
 	 * 
 	 */
+	@OneToMany(mappedBy = "proprietario")
 	private Set<Struttura> struttureGestite;
 
 	/**
@@ -50,6 +65,11 @@ public class Gestore extends ARuolo {
 	@Override
 	public String toString() {
 		return "Gestore";
+	}
+
+	@Override
+	public Long getId() {
+		return id;
 	}
 
 }

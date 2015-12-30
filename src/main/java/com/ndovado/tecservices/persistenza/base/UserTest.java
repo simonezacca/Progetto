@@ -15,7 +15,7 @@ public class UserTest {
 		
 		Utente u2 = new Utente("Zaccariello", "Simone");
 		u2.setMail("simone.zaccariello@gmail.com");
-		u2.setRuolo(ARuolo.getRuoloGestore());
+		u2.setRuolo(ARuolo.getRuoloGestore()); 
 		
 		Utente u3 = new Utente("Cicchitto", "Giuseppe");
 		

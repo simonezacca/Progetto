@@ -1,11 +1,12 @@
 package com.ndovado.dominio.core;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,8 +17,38 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * Implementare i metodi equals() and hasCode()
  */
 @Entity
-@Table(name = "luogo")
+@Table(name = "comune")
 public class Luogo implements IPersistente {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long idLuogo;
+
+	/**
+	 * 
+	 */
+	@Column(name = "nome", nullable = false, length = 45)
+	private String nomeComune;
+
+	/**
+	 * 
+	 */
+	@Column(name = "cap", length = 45)
+	private String CAP;
+
+	/**
+	 * 
+	 */
+	@OneToMany(mappedBy = "luogoStruttura")
+	private List<Struttura> struttureInLuogo;
 
 	/**
 	 * Default constructor
@@ -25,32 +56,6 @@ public class Luogo implements IPersistente {
 	public Luogo() {
 		struttureInLuogo = new ArrayList<Struttura>();
 	}
-
-	/**
-	 * 
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long idLuogo;
-
-	/**
-	 * 
-	 */
-	@Column(name = "comune")
-	private String nomeComune;
-
-	/**
-	 * 
-	 */
-	@Column(name = "cap")
-	private String CAP;
-
-	/**
-	 * 
-	 */
-	@OneToMany(mappedBy="luogoStruttura")
-	private List<Struttura> struttureInLuogo;
 
 	/**
 	 * @return

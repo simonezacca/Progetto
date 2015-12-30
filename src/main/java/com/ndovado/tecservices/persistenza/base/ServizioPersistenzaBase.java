@@ -2,7 +2,6 @@ package com.ndovado.tecservices.persistenza.base;
 
 import java.util.List;
 
-import org.apache.log4j.BasicConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,7 +13,7 @@ public class ServizioPersistenzaBase<T extends IPersistente>{
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 
 	private static SessionFactory buildSessionFactory() {
-		BasicConfigurator.configure();
+//		BasicConfigurator.configure();
 		try {
 			SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 			return sessionFactory;

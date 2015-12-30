@@ -1,20 +1,22 @@
 package com.ndovado.dominio.core;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
-import com.ndovado.dominio.servizi.DettagliServizioOfferto;
+import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
@@ -22,63 +24,70 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * Modella l'entità di dominio Struttura
  */
 @Entity
-@Table(name = "utente")
+@Table(name = "struttura")
 public class Struttura implements IPersistente {
 
 	/**
-	 * Costruttore di default
+	 * 
 	 */
-	public Struttura() {
-		camereInserite = new HashSet<Camera>();
-		serviziOfferti = new HashSet<DettagliServizioOfferto>();
-		
-		tableau = new TableauPrenotazioni(this);
-	}
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@GeneratedValue(strategy = IDENTITY)
 	private Long idStruttura;
 
 	/**
 	 * Il nome della struttura
 	 */
-	@Column(name = "nome")
+	@Column(name = "nome", nullable = false, length = 45)
 	private String nomeStruttura;
 
 	/**
 	 * Riferimento ad un'istanza di tipo <code>Gestore</code>, utente gestore della struttura
 	 */
+
 	@ManyToOne
+	@PrimaryKeyJoinColumn
 	private Gestore proprietario;
 
 	/**
 	 * Insieme dei servizi offerti dalla struttura
 	 */
-	@OneToMany
-	private Set<DettagliServizioOfferto> serviziOfferti;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "struttura")
+	private Set<DettaglioServizio> serviziOfferti;
 
 	/**
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
 	 */
-	@Transient
+
+	@OneToOne(mappedBy = "struttura")
 	private TableauPrenotazioni tableau;
 
 	/**
 	 * Insieme delle camera collegate alla struttura
 	 */
-	@OneToMany
+	@OneToMany(mappedBy = "struttura")
 	private Set<Camera> camereInserite;
 
 	/**
 	 * Luogo nel quale è situata la struttura
 	 */
 	@ManyToOne
-    @JoinColumn(name="luogo_id")
+	@PrimaryKeyJoinColumn
 	private Luogo luogoStruttura;
+
+	/**
+	 * Costruttore di default
+	 */
+	public Struttura() {
+		camereInserite = new HashSet<Camera>();
+		serviziOfferti = new HashSet<DettaglioServizio>();
+		
+		tableau = new TableauPrenotazioni(this);
+	}
 
 	/**
 	 * @return una nuova camera
@@ -174,7 +183,7 @@ public class Struttura implements IPersistente {
 	 */
 	public void addServizioBase(ServizioComune servizio) {
 		if (servizio!=null) {
-			DettagliServizioOfferto dso = new DettagliServizioOfferto(this, servizio);
+			DettaglioServizio dso = new DettaglioServizio(this, servizio);
 			this.serviziOfferti.add(dso);
 		}
 	}
@@ -184,7 +193,7 @@ public class Struttura implements IPersistente {
 	 */
 	public void addServizioAggiuntivo(ServizioComune servizio, Float prezzo) {
 		if (servizio!=null && prezzo >= 0) {
-			DettagliServizioOfferto dso = new DettagliServizioOfferto(this, servizio, prezzo);
+			DettaglioServizio dso = new DettaglioServizio(this, servizio, prezzo);
 			this.serviziOfferti.add(dso);
 		}
 	}
@@ -206,7 +215,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * @return
 	 */
-	public Set<DettagliServizioOfferto> getServiziOfferti() {
+	public Set<DettaglioServizio> getServiziOfferti() {
 		return serviziOfferti;
 	}
 

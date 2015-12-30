@@ -2,20 +2,32 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
+import javax.persistence.Entity;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
+
+import javax.persistence.OneToMany;
 
 /**
  * 
  */
-public class Locatario extends ARuolo {
+@Entity
+public class Locatario extends ARuolo implements IPersistente {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor
 	 */
+	
 	public Locatario() {
 		prenotazioni = new HashSet<Prenotazione>();
 	}
 	
+	@OneToMany(mappedBy = "locatario")
 	private Set<Prenotazione> prenotazioni;
 
 	/**
@@ -33,6 +45,11 @@ public class Locatario extends ARuolo {
 	@Override
 	public String toString() {
 		return "Locatario";
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
 	}
 
 }

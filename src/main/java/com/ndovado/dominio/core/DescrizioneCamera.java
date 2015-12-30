@@ -1,15 +1,18 @@
 package com.ndovado.dominio.core;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
@@ -17,36 +20,26 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * Implementare i metodi equals() and hasCode()
  */
 @Entity
-@Table(name = "descrizionecamera")
+@Table(name = "descrizione_camera")
 public class DescrizioneCamera implements IPersistente {
 
 	/**
-	 * Default constructor
-	 */
-	public DescrizioneCamera() {
-	}
-	/**
 	 * 
-	 * @param aCamera
 	 */
-	public DescrizioneCamera(Camera aCamera) {
-		if (aCamera!=null) {
-			this.setCameraAssociata(aCamera);
-		}
-	}
+	private static final long serialVersionUID = 1L;
+
 
 	/**
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@GeneratedValue(strategy = IDENTITY)
 	private Long idDescrizioneCamera;
 
 	/**
 	 * 
 	 */
-	@Column(name = "descrizione")
+	@Column(name = "descrizione", nullable = false)
 	private String descrizioneCamera;
 
 	/**
@@ -64,23 +57,39 @@ public class DescrizioneCamera implements IPersistente {
 	/**
 	 * 
 	 */
-	@Column(name = "data_inizio_affitto")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_inizio")
 	private Date dataInizioAffitto;
 
 	/**
 	 * 
 	 */
-	@Column(name = "data_fine_affitto")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_fine")
 	private Date dataFineAffitto;
 
 	/**
 	 * 
 	 */
 	@ManyToOne
-    @JoinColumn(name="camera_id", nullable=false)
+	@PrimaryKeyJoinColumn
 	private Camera cameraAssociata;
 
 
+	/**
+	 * Default constructor
+	 */
+	public DescrizioneCamera() {
+	}
+	/**
+	 * 
+	 * @param aCamera
+	 */
+	public DescrizioneCamera(Camera aCamera) {
+		if (aCamera!=null) {
+			this.setCameraAssociata(aCamera);
+		}
+	}
 	/**
 	 * @return
 	 */

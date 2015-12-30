@@ -4,11 +4,31 @@ import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.tecservices.persistenza.base.IPersistente;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * 
  */
-public class TableauPrenotazioni {
+@Entity
+public class TableauPrenotazioni implements IPersistente {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
+	protected TableauPrenotazioni() {
+	}
 
 	/**
 	 * Default constructor
@@ -22,11 +42,15 @@ public class TableauPrenotazioni {
 	/**
 	 * 
 	 */
+	//@OneToMany
+	// TODO implementare
+	@Transient
 	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni;
 
 	/**
 	 * 
 	 */
+	@OneToOne()
 	private Struttura struttura;
 
 
@@ -119,6 +143,11 @@ public class TableauPrenotazioni {
 			if (p.getDataArrivo().after(oggi))
 				return s.tailSet(p);
 		return new TreeSet<Prenotazione>(); // ritorno insieme vuoto in caso di mancanza prenotazioni future
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
 	}
 	
 }

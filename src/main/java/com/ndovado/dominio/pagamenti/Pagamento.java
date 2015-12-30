@@ -4,12 +4,15 @@ import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
@@ -21,47 +24,39 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 @Table(name = "pagamento")
 public class Pagamento implements IPersistente {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dataOraPagamento == null) ? 0 : dataOraPagamento.hashCode());
-		result = prime * result + ((idPagamento == null) ? 0 : idPagamento.hashCode());
-		result = prime * result + ((idTransazione == null) ? 0 : idTransazione.hashCode());
-		result = prime * result + ((prenotazioneSaldata == null) ? 0 : prenotazioneSaldata.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Pagamento))
-			return false;
-		Pagamento other = (Pagamento) obj;
-		if (dataOraPagamento == null) {
-			if (other.dataOraPagamento != null)
-				return false;
-		} else if (!dataOraPagamento.equals(other.dataOraPagamento))
-			return false;
-		if (idPagamento == null) {
-			if (other.idPagamento != null)
-				return false;
-		} else if (!idPagamento.equals(other.idPagamento))
-			return false;
-		if (idTransazione == null) {
-			if (other.idTransazione != null)
-				return false;
-		} else if (!idTransazione.equals(other.idTransazione))
-			return false;
-		if (prenotazioneSaldata == null) {
-			if (other.prenotazioneSaldata != null)
-				return false;
-		} else if (!prenotazioneSaldata.equals(other.prenotazioneSaldata))
-			return false;
-		return true;
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idPagamento;
+
+	/**
+	 * 
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_ora_pagamento")
+	private Date dataOraPagamento;
+
+	/**
+	 * 
+	 */
+	@Column(name = "id_transazion")
+	private String idTransazione;
+
+	/**
+	 * 
+	 */
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	private Prenotazione prenotazioneSaldata;
+
 	/**
 	 * Default constructor
 	 */
@@ -77,34 +72,6 @@ public class Pagamento implements IPersistente {
 			this.setPrenotazioneSaldata(aPrenotazione);
 		}
 	}
-
-	/**
-	 * 
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long idPagamento;
-
-	/**
-	 * 
-	 */
-	@Column(name = "data_ora_pagamento")
-	private Date dataOraPagamento;
-
-	/**
-	 * 
-	 */
-	@Column(name = "id_transazione")
-	private String idTransazione;
-
-	/**
-	 * 
-	 */
-	@ManyToOne
-	@JoinColumn(name="prenotazione_id")
-	private Prenotazione prenotazioneSaldata;
-
 	/**
 	 * @return
 	 */
@@ -168,6 +135,47 @@ public class Pagamento implements IPersistente {
 		if (prenotazioneSaldata!=null) {
 			this.prenotazioneSaldata = prenotazioneSaldata;
 		}
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataOraPagamento == null) ? 0 : dataOraPagamento.hashCode());
+		result = prime * result + ((idPagamento == null) ? 0 : idPagamento.hashCode());
+		result = prime * result + ((idTransazione == null) ? 0 : idTransazione.hashCode());
+		result = prime * result + ((prenotazioneSaldata == null) ? 0 : prenotazioneSaldata.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Pagamento))
+			return false;
+		Pagamento other = (Pagamento) obj;
+		if (dataOraPagamento == null) {
+			if (other.dataOraPagamento != null)
+				return false;
+		} else if (!dataOraPagamento.equals(other.dataOraPagamento))
+			return false;
+		if (idPagamento == null) {
+			if (other.idPagamento != null)
+				return false;
+		} else if (!idPagamento.equals(other.idPagamento))
+			return false;
+		if (idTransazione == null) {
+			if (other.idTransazione != null)
+				return false;
+		} else if (!idTransazione.equals(other.idTransazione))
+			return false;
+		if (prenotazioneSaldata == null) {
+			if (other.prenotazioneSaldata != null)
+				return false;
+		} else if (!prenotazioneSaldata.equals(other.prenotazioneSaldata))
+			return false;
+		return true;
 	}
 
 }

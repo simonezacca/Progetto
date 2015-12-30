@@ -1,65 +1,72 @@
 package com.ndovado.dominio.core;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.ndovado.tecservices.persistenza.base.IPersistente;
-import com.ndovado.tecservices.persistenza.converter.RuoloConverter;
 
 /**
  * Modella l'entità di dominio Utente
  */
+
 @Entity
-@Table(name = "utente")
+@Table(name ="utente")
 public class Utente implements IPersistente {
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
 
-	public Long getId() {
-		return id;
-	}
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long idutente;
 
 	/**
 	 * Nome dell'utente
 	 */
-	@Column(name = "nome")
+
 	private String nome;
 
 	/**
 	 * Cognome dell'utente
 	 */
-	@Column(name = "cognome")
+
 	private String cognome;
 
 	/**
 	 * Email dell'utente utilizzata come username per il login al sistema
 	 */
-	@Column(name = "mail")
+
 	private String mail;
 
 	/**
 	 * Password dell'utente
 	 */
-	@Column(name = "password")
+
 	private String password;
 
 	/**
 	 * Riferimento ad un'instanza di tipo <code>ARuolo</code> per indicare il ruolo dell'utente nel sistema
 	 */
-	@Column
-	@Convert(converter = RuoloConverter.class)
+	//@Column
+	//@Convert(converter = RuoloConverter.class)
+	//@OneToMany(mappedBy="utente")
+	@OneToOne(cascade=CascadeType.ALL)
 	private ARuolo ruolo = ARuolo.getRuoloLocatario();
+
 
 	/**
 	 * Costrutto di default
@@ -76,6 +83,9 @@ public class Utente implements IPersistente {
 			this.cognome=aCognome;
 			this.nome = aNome;
 		}
+	}
+	public Long getId() {
+		return idutente;
 	}
 	/**
 	 * @return il nome dell'utente
@@ -154,6 +164,7 @@ public class Utente implements IPersistente {
 	public void setRuolo(ARuolo aRuolo) {
 		if (aRuolo!=null) {
 			this.ruolo = aRuolo;
+			aRuolo.setUtente(this);
 		}
 	}
 	/**
@@ -209,7 +220,7 @@ public class Utente implements IPersistente {
 	}
 
 	protected void setId(Long idUtente) {
-		this.id = idUtente;
+		this.idutente = idUtente;
 	}
 
 }

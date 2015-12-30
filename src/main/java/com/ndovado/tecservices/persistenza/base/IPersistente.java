@@ -1,6 +1,8 @@
 package com.ndovado.tecservices.persistenza.base;
 
-public interface IPersistente {
+import java.io.Serializable;
+
+public interface IPersistente extends Serializable {
 
 	public Long getId();
 	

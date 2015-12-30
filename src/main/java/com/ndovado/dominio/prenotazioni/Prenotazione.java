@@ -1,6 +1,20 @@
 package com.ndovado.dominio.prenotazioni;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
@@ -12,11 +26,84 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 /**
  * Implementare i metodi equals() and hasCode()
  */
+@Entity
+@Table(name = "prenotazione")
 public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Long idPrenotazione;
+
+	/**
+	 * 
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_ora_prenotazione")
+	private Date dataOraPrenotazione;
+
+	/**
+	 * 
+	 */
+	@Column(name = "importo")
+	private Float importoTotale;
+
+	/**
+	 * 
+	 */
+	@Column(name = "codice_prenotazione")
+	private String codicePrenotazione;
+
+	/**
+	 * 
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_arrivo")
+	private Date dataArrivo;
+
+	/**
+	 * 
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_partenza")
+	private Date dataPartenza;
+
+
+	/**
+	 * 
+	 */
+	@OneToOne
+	private AStatoPrenotazione statoPrenotazione;
+
+	/**
+	 * 
+	 */
+	@OneToMany(mappedBy="prenotazioneCorrente")
+	private Set<LineaPrenotazione> lineePrenotazione;
+
+	/**
+	 * 
+	 */
+	@OneToMany(mappedBy = "prenotazioneSaldata")
+	private Set<Pagamento> pagamentiAssociati;
+	
+	/**
+	 * 
+	 */
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	private Locatario locatario;
 
 	@SuppressWarnings("unused")
 	private Prenotazione() {}
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -28,57 +115,6 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		pagamentiAssociati = new HashSet<Pagamento>();
 		lineePrenotazione = new HashSet<LineaPrenotazione>();
 	}
-
-	/**
-	 * 
-	 */
-	private Long idPrenotazione;
-
-	/**
-	 * 
-	 */
-	private Date dataOraPrenotazione;
-
-	/**
-	 * 
-	 */
-	private Float importoTotale;
-
-	/**
-	 * 
-	 */
-	private String codicePrenotazione;
-
-	/**
-	 * 
-	 */
-	private Date dataArrivo;
-
-	/**
-	 * 
-	 */
-	private Date dataPartenza;
-
-
-	/**
-	 * 
-	 */
-	private AStatoPrenotazione statoPrenotazione;
-
-	/**
-	 * 
-	 */
-	private Set<LineaPrenotazione> lineePrenotazione;
-
-	/**
-	 * 
-	 */
-	private Set<Pagamento> pagamentiAssociati;
-	
-	/**
-	 * 
-	 */
-	private Locatario locatario;
 
 	public void setLocatario(Locatario locatario) {
 		this.locatario = locatario;
