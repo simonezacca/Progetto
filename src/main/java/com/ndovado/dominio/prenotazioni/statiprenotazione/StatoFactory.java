@@ -15,40 +15,35 @@ public class StatoFactory {
 	 * @return
 	 */
 	public static AStatoPrenotazione creaStatoDaConfermare() {
-		// TODO implement here
-		return null;
+		return new StatoDaConfermare();
 	}
 
 	/**
 	 * @return
 	 */
 	public static AStatoPrenotazione creaStatoDaCompletarePagamento() {
-		// TODO implement here
-		return null;
+		return new StatoDaCompletarePagamento();
 	}
 
 	/**
 	 * @return
 	 */
 	public static AStatoPrenotazione creaStatoEliminata() {
-		// TODO implement here
-		return null;
+		return new StatoEliminata();
 	}
 
 	/**
 	 * @return
 	 */
 	public static AStatoPrenotazione creaStatoRifiutata() {
-		// TODO implement here
-		return null;
+		return new StatoRifiutata();
 	}
 
 	/**
 	 * @return
 	 */
 	public static AStatoPrenotazione creaStatoConfermata() {
-		// TODO implement here
-		return null;
+		return new StatoConfermata();
 	}
 
 }

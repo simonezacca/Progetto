@@ -49,7 +49,6 @@ public class LineaPrenotazione implements IPersistente {
 	/**
 	 * 
 	 */
-	// TODO implementare discriminator hibernate per interfaccia IPrenotabile
 	@Any(metaColumn = @Column(name = "tipo_oggetto"))
 	@AnyMetaDef(idType = "integer", metaType = "integer", metaValues = {
 	    @MetaValue(value = "1", targetEntity = Camera.class),

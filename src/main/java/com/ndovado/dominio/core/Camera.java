@@ -41,7 +41,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
 	 */
 	@OneToOne(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@PrimaryKeyJoinColumn()
 	private DescrizioneCamera descrizioneCorrente;
 
 	/**
@@ -67,9 +67,11 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * Lista ordinata di oggetti di tipo <code>DescrizioneCamera</code> utilizzata per mantenere una cronologia
 	 * dei cambiamenti sulle date, prezzi e pax
 	 */
-	@OneToMany(mappedBy = "cameraAssociata")
+	@OneToMany(mappedBy = "cameraAssociata",cascade=CascadeType.ALL)
 	private List<DescrizioneCamera> descrizioniCamera;
 
+	@SuppressWarnings("unused")
+	private Camera() {}
 	/**
 	 * Costruttore di default
 	 */

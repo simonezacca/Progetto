@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
+import com.ndovado.dominio.servizi.CatalogoServizi;
+import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.tecservices.loggers.EventLogger;
 
 public class UserTest {
 
@@ -26,7 +29,7 @@ public class UserTest {
 		
 		u1.setCognome("Orsini");
 		ServizioPersistenzaBase.<Utente>update(u1);
-		System.out.println("Nuovo cognome "+u1.getCognome());
+		EventLogger.info("Nuovo cognome "+u1.getCognome());
 		
 		List<Utente> list = ServizioPersistenzaBase.<Utente>getAll(Utente.class);
 		
@@ -38,6 +41,15 @@ public class UserTest {
 		
 		ServizioPersistenzaBase.<Utente>delete(Utente.class, u3.getId());
 		
+		ServizioComune sc1 = CatalogoServizi.getIstance().creaNuovoServizio("prova1");
+		ServizioComune sc2 = CatalogoServizi.getIstance().creaNuovoServizio("prova2");
+		ServizioComune sc3 = CatalogoServizi.getIstance().creaNuovoServizio("prova3");
+		
+		
+		List<ServizioComune> l = CatalogoServizi.getIstance().cercaServizioPerNome("prova");
+		for (ServizioComune servizioComune : l) {
+			System.out.println(servizioComune.getNomeServizio());
+		}
 		
 	}
 

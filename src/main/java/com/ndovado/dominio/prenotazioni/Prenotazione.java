@@ -86,13 +86,13 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy="prenotazioneCorrente")
+	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL)
 	private Set<LineaPrenotazione> lineePrenotazione;
 
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "prenotazioneSaldata")
+	@OneToMany(mappedBy = "prenotazioneSaldata",cascade=CascadeType.ALL)
 	private Set<Pagamento> pagamentiAssociati;
 	
 	/**

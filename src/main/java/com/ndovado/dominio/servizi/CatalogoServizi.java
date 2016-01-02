@@ -2,11 +2,21 @@ package com.ndovado.dominio.servizi;
 
 import java.util.*;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
+
+
+
 /**
  * 
  */
 public class CatalogoServizi {
 
+	private static SessionFactory sf = ServizioPersistenzaBase.getSessionFactory();
+	
 	/**
 	 * Default constructor
 	 */
@@ -51,17 +61,24 @@ public class CatalogoServizi {
 	 * @param nomeServizio 
 	 * @return
 	 */
-	public Set<ServizioComune> cercaServizioPerNome(String nomeServizio) {
-		// TODO implement here
-		return null;
+	public List<ServizioComune> cercaServizioPerNome(String nomeServizio) {
+		
+		Session session = sf.openSession();
+		Query query = session.getNamedQuery("cercaServizioPerNome").setString("nome", "%"+nomeServizio+"%");
+
+		@SuppressWarnings("unchecked")
+		List<ServizioComune> elenco = query.list();
+		session.close();
+		return elenco;
 	}
 
 	/**
 	 * @return
 	 */
-	public static ServizioComune creaNuovoServizio() {
-		// TODO implement here
-		return null;
+	public ServizioComune creaNuovoServizio(String aNomeServizio) {
+		ServizioComune sc = new ServizioComune(aNomeServizio);
+		ServizioPersistenzaBase.<ServizioComune>saveOrUpdate(sc);
+		return sc;
 	}
 
 }

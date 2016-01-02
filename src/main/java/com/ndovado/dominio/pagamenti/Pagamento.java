@@ -76,15 +76,14 @@ public class Pagamento implements IPersistente {
 	 * @return
 	 */
 	public Date getDataOraPagamento() {
-		// TODO implement here
-		return null;
+		return this.dataOraPagamento;
 	}
 
 	/**
 	 * @param aDataOraPagamento
 	 */
 	public void setDataPagamento(Date aDataPagamento) {
-		// TODO implement here
+		this.dataOraPagamento = aDataPagamento;
 	}
 
 	/**

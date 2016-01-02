@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Luogo implements IPersistente {
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "luogoStruttura")
+	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL)
 	private List<Struttura> struttureInLuogo;
 
 	/**

@@ -56,7 +56,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * Insieme dei servizi offerti dalla struttura
 	 */
-	@OneToMany(mappedBy = "struttura")
+	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
 	private Set<DettaglioServizio> serviziOfferti;
 
 	/**
@@ -69,7 +69,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * Insieme delle camera collegate alla struttura
 	 */
-	@OneToMany(mappedBy = "struttura")
+	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
 	private Set<Camera> camereInserite;
 
 	/**
