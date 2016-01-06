@@ -216,7 +216,7 @@ public class Camera implements IPersistente, IPrenotabile {
 			// imposto la struttura s come struttura della camera
 			this.struttura = s;
 			// aggiungo la camera corrente all'elenco delle camere collegate alla struttura s
-			s.addCamera(this);
+			//s.addCamera(this);
 		}
 	}
 	

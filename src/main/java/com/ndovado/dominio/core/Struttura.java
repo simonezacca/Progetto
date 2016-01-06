@@ -106,12 +106,12 @@ public class Struttura implements IPersistente {
 	/**Imposta il gestore della struttura
 	 * @param aGestore il gestore da assegnare alla struttura
 	 */
-	public void setProprietario(Gestore aGestore) {
+	public void setProprietario(ARuolo aGestore) {
 		if (aGestore!=null) {
 			// imposto il proprietario corrente
-			this.proprietario = aGestore;
+			this.proprietario = (Gestore) aGestore;
 			// aggiungo la struttura corrente all'elenco delle struttura gestite da aGestore
-			aGestore.gestisciStruttura(this);
+			((Gestore) aGestore).gestisciStruttura(this);
 		}
 	}
 
@@ -283,19 +283,7 @@ public class Struttura implements IPersistente {
 		}
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((camereInserite == null) ? 0 : camereInserite.hashCode());
-		result = prime * result + ((idStruttura == null) ? 0 : idStruttura.hashCode());
-		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
-		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
-		result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
-		result = prime * result + ((serviziOfferti == null) ? 0 : serviziOfferti.hashCode());
-		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
-		return result;
-	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

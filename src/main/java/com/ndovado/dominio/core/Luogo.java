@@ -51,11 +51,15 @@ public class Luogo implements IPersistente {
 	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL)
 	private List<Struttura> struttureInLuogo;
 
+	protected Luogo() {
+		
+	}
 	/**
 	 * Default constructor
 	 */
-	public Luogo() {
+	public Luogo(String nome) {
 		struttureInLuogo = new ArrayList<Struttura>();
+		this.nomeComune = nome;
 	}
 
 	/**
@@ -109,17 +113,6 @@ public class Luogo implements IPersistente {
 	 */
 	protected void setId(Long idLuogo) {
 		this.idLuogo = idLuogo;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((CAP == null) ? 0 : CAP.hashCode());
-		result = prime * result + ((idLuogo == null) ? 0 : idLuogo.hashCode());
-		result = prime * result + ((nomeComune == null) ? 0 : nomeComune.hashCode());
-		result = prime * result + ((struttureInLuogo == null) ? 0 : struttureInLuogo.hashCode());
-		return result;
 	}
 
 	@Override

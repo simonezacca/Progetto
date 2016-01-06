@@ -3,6 +3,10 @@ package com.ndovado.tecservices.persistenza.base;
 import java.util.List;
 
 import com.ndovado.dominio.core.ARuolo;
+import com.ndovado.dominio.core.Camera;
+import com.ndovado.dominio.core.CatalogoStrutture;
+import com.ndovado.dominio.core.Luogo;
+import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.dominio.servizi.CatalogoServizi;
 import com.ndovado.dominio.servizi.ServizioComune;
@@ -45,12 +49,28 @@ public class UserTest {
 		ServizioComune sc2 = CatalogoServizi.getIstance().creaNuovoServizio("prova2");
 		ServizioComune sc3 = CatalogoServizi.getIstance().creaNuovoServizio("prova3");
 		
-		
 		List<ServizioComune> l = CatalogoServizi.getIstance().cercaServizioPerNome("prova");
 		for (ServizioComune servizioComune : l) {
 			System.out.println(servizioComune.getNomeServizio());
 		}
 		
+		Luogo l1 = new Luogo("Chieti");
+		ServizioPersistenzaBase.<Luogo>saveOrUpdate(l1);
+		
+		Struttura s1 = new Struttura();
+		s1.setNomeStruttura("Struttura prova");
+		s1.setLuogo(l1);
+		
+		s1.setProprietario(u2.getRuolo());
+		
+		Camera c1 = s1.creaNuovaCamera();
+		c1.setNomeCamera("Camera prova");
+		
+		s1.addCamera(c1);
+		
+		ServizioPersistenzaBase.<Struttura>saveOrUpdate(s1);
+		
+		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
 	}
 
 }
