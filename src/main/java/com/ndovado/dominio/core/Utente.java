@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
@@ -19,6 +22,14 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 @Entity
 @Table(name ="utente")
+@NamedQueries({
+	   @NamedQuery(
+	        name = "cercaUtentePerMail", 
+	        query="FROM Utente u WHERE u.mail LIKE :mail"),
+	   @NamedQuery(
+		    name = "verificaCredenzialiUtente", 
+		    query="FROM Utente u WHERE u.mail LIKE :mail AND u.password LIKE :password") 
+	})
 public class Utente implements IPersistente {
 
 

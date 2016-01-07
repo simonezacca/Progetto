@@ -2,6 +2,7 @@ package com.ndovado.tecservices.persistenza.base;
 
 import java.util.List;
 
+import com.ndovado.controllers.utente.UtenteController;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.CatalogoStrutture;
@@ -71,6 +72,15 @@ public class UserTest {
 		ServizioPersistenzaBase.<Struttura>saveOrUpdate(s1);
 		
 		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
+		
+		UtenteController uc = new UtenteController();
+		String mail = "antonio.schiazza@gmail.com";
+		if(uc.verificaEsistenzaMail(mail)) {
+			System.out.println("Indirizzo "+mail+" esistente!");
+		} else {
+			System.out.println("Indirizzo "+mail+" NON esistente!");
+		}
+		
 	}
 
 }

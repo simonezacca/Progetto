@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @Table(name="ruolo")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipologia")
-
 public abstract class ARuolo{
 
 	@Id
