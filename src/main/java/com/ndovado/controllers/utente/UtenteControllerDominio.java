@@ -7,17 +7,18 @@ import org.hibernate.SessionFactory;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
+import com.ndovado.webapp.bean.UtenteBean;
 
 
-public class UtenteController {
+public class UtenteControllerDominio {
 	
-	public UtenteController() {
+	public UtenteControllerDominio() {
 		
 	}
 	
 	private static SessionFactory sf = ServizioPersistenzaBase.getSessionFactory();
 
-	public static boolean verificaEsistenzaMail(String mailAddress) {
+	public static boolean esisteIndirizzoMail(String mailAddress) {
 		if (mailAddress!=null) {
 			Session session = sf.openSession();
 			Query query = session.getNamedQuery("cercaUtentePerMail").setString("mail", mailAddress);
@@ -43,15 +44,13 @@ public class UtenteController {
 		return false;
 	}
 	
-	public static Utente creaNuovoUtente(String aCognome, String aNome, String aMail, String aPassword, Integer ruoloCode) {
+	public static Utente creaNuovoUtente(String aCognome, String aNome, String aMail, String aPassword, String ruoloCode) {
 		Utente u = new Utente(aCognome, aNome);
 		u.setMail(aMail);
 		u.setPassword(aPassword);
-		if (ruoloCode.equals(new Integer(1))) {
-			// caso gestore - ruoloCode == 1
+		if (ruoloCode.equals("gestore")) {
 			u.setRuolo(ARuolo.getRuoloGestore());
 		} else {
-			// caso locatario - ruoloCode == 0
 			u.setRuolo(ARuolo.getRuoloLocatario());
 		}
 		// rendo persistente il nuovo utente creato
@@ -61,5 +60,23 @@ public class UtenteController {
 	
 	public static TokenAutenticazioneUtente creaTokenAutenticazione(Utente aUtente) {
 		return new TokenAutenticazioneUtente(aUtente, aUtente.getRuolo());
+	}
+	
+	public static UtenteBean creaOAggiornaUtenteDaBean(UtenteBean data) {
+		if (data.isNewBean()) {
+			// nuovo utente da creare
+			Utente u = creaNuovoUtente(
+					data.getCognome(), data.getNome(), data.getMail(), data.getPassword(), data.getRuolo());
+			data.setId(u.getId());
+		} else {
+			// utente gia esistente
+			Utente u = ServizioPersistenzaBase.<Utente>get(Utente.class, data.getId());
+			u.setCognome(data.getCognome());
+			u.setNome(data.getNome());
+			u.setMail(data.getMail());
+			u.setPassword(data.getPassword());
+			ServizioPersistenzaBase.<Utente>saveOrUpdate(u);
+		}
+		return data;
 	}
 }

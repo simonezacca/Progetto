@@ -96,7 +96,7 @@ public class TableauPrenotazioni implements IPersistente {
 				totPax = c.getPax();
 			}
 		}
-		if (totPax<npersone) {
+		if(totPax<npersone) {
 			// se la disponibilità delle camere non è sufficiente per il numero delle persone richieste
 			// faccio tornare una lista vuota
 			risultati.clear();

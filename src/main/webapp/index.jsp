@@ -7,10 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="indexservlet" method="post">
-<input type="text" name="username">
-<input type="text" name="password">
-<input type="submit" value="Invia" name="invia">
-</form>
+<jsp:include page="topBar.jsp"></jsp:include>
+<jsp:include page="/utente/controller"></jsp:include>
 </body>
 </html>

@@ -2,7 +2,7 @@ package com.ndovado.tecservices.persistenza.base;
 
 import java.util.List;
 
-import com.ndovado.controllers.utente.UtenteController;
+import com.ndovado.controllers.utente.UtenteControllerDominio;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.CatalogoStrutture;
@@ -11,7 +11,7 @@ import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.dominio.servizi.CatalogoServizi;
 import com.ndovado.dominio.servizi.ServizioComune;
-import com.ndovado.tecservices.loggers.EventLogger;
+import com.ndovado.tecservices.loggers.AppLogger;
 
 public class UserTest {
 
@@ -34,7 +34,7 @@ public class UserTest {
 		
 		u1.setCognome("Orsini");
 		ServizioPersistenzaBase.<Utente>update(u1);
-		EventLogger.info("Nuovo cognome "+u1.getCognome());
+		AppLogger.info("Nuovo cognome "+u1.getCognome());
 		
 		List<Utente> list = ServizioPersistenzaBase.<Utente>getAll(Utente.class);
 		
@@ -73,9 +73,9 @@ public class UserTest {
 		
 		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
 		
-		UtenteController uc = new UtenteController();
+		UtenteControllerDominio uc = new UtenteControllerDominio();
 		String mail = "antonio.schiazza@gmail.com";
-		if(uc.verificaEsistenzaMail(mail)) {
+		if(uc.esisteIndirizzoMail(mail)) {
 			System.out.println("Indirizzo "+mail+" esistente!");
 		} else {
 			System.out.println("Indirizzo "+mail+" NON esistente!");

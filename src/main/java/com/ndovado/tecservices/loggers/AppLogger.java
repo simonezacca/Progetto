@@ -7,22 +7,14 @@ import org.apache.log4j.PropertyConfigurator;
 /**
  * 
  */
-public class EventLogger {
-
-	/**
-	 * Default constructor
-	 */
-	public EventLogger() {
-	}
+public class AppLogger {
 
 	/**
 	 * riferimento ad un'istanza dell'oggetto logger di Log4J
 	 */
-	private static Logger logger = LogManager.getLogger(EventLogger.class);
-
-	/**
-	 * @param fileName
-	 */
+	private static Logger logger = LogManager.getLogger(AppLogger.class);
+	
+	
 	public static void init(String fileName) {
 		PropertyConfigurator.configure(fileName);
 	}
@@ -43,6 +35,7 @@ public class EventLogger {
 		logger.info(message);
 	}
 
+
 	/**
 	 * @param message
 	 */
@@ -50,12 +43,14 @@ public class EventLogger {
 		logger.debug(message);
 	}
 
+
 	/**
 	 * @param message
 	 */
 	public static void error(String message) {
 		logger.error(message);
 	}
+
 
 	/**
 	 * @param message
