@@ -26,12 +26,11 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 @NamedQueries({
 	   @NamedQuery(
 	        name = "cercaUtentePerMail", 
-	        query="FROM Utente u WHERE u.mail LIKE :mail"),
-	   @NamedQuery(
-		    name = "verificaCredenzialiUtente", 
-		    query="FROM Utente u WHERE u.mail LIKE :mail AND u.password LIKE :password") 
+	        query="FROM Utente u WHERE u.mail LIKE :mail")
 	})
 public class Utente implements IPersistente , IModel {
+
+	public static final String FIND_BY_EMAIL = "cercaUtentePerMail";
 
 
 	/**

@@ -83,4 +83,8 @@ public class UtenteBean implements IBean {
 		return id==0 || id == null;
 	}
 	
+	public boolean getIsNewBean() {
+		return isNewBean();
+	}
+	
 }

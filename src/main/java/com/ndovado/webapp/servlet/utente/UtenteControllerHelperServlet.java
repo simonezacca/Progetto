@@ -109,9 +109,6 @@ public class UtenteControllerHelperServlet extends HelperBase {
 			String messaggio = "Indirizzo mail esistente";
 			messaggiErrore.add(messaggio);
 			request.setAttribute("messaggiErrore", messaggiErrore);
-		} else if(esitoMail && !data.isNewBean()) {
-			// caso aggiornamento utente esistente
-			esitoMail = false;
 		}
 		return super.isValid(data) && !esitoMail;
 	}

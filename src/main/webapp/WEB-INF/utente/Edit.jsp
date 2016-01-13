@@ -33,7 +33,7 @@
 						value="${helper.data.password}"></td>
 				</tr>
 				<tr>
-				<c:if test="${helper.data.id == null}">
+				<c:if test="${helper.data.id == null || helper.data.id == 0}">
 					<td>Ruolo ${helper.errors.ruolo}</td>
 					<td><input type="radio" name="ruolo" value="locatario" ${helper.checked.ruolo["locatario"]}>Locatario
 						<input type="radio" name="ruolo" value="gestore" ${helper.checked.ruolo["gestore"]}>Gestore

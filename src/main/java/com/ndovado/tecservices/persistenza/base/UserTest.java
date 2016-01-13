@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Camera;
-import com.ndovado.dominio.core.CatalogoStrutture;
 import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
@@ -28,15 +27,16 @@ public class UserTest {
 		Utente u3 = new Utente("Cicchitto", "Giuseppe");
 		u3.setMail("cicc@mail.com");
 		
-		ServizioPersistenzaBase.<Utente>create(u1);
-		ServizioPersistenzaBase.<Utente>create(u2);
-		ServizioPersistenzaBase.<Utente>create(u3);
+		UtenteDAO ud = new UtenteDAO();
+		ud.saveOrUpdate(u1);
+		ud.saveOrUpdate(u2);
+		ud.saveOrUpdate(u3);
 		
 		u1.setCognome("Orsini");
-		ServizioPersistenzaBase.<Utente>update(u1);
+		ud.saveOrUpdate(u1);
 		AppLogger.info("Nuovo cognome "+u1.getCognome());
 		
-		List<Utente> list = ServizioPersistenzaBase.<Utente>getAll(Utente.class);
+		List<Utente> list = ud.getAll();
 		
 		System.out.println("===== getAll ========");
 		for (Utente u : list) {
@@ -44,7 +44,7 @@ public class UserTest {
 		}
 		System.out.println("=================");
 		
-		ServizioPersistenzaBase.<Utente>delete(Utente.class, u3.getId());
+		ud.delete(u3.getId());
 		
 		ServizioComune sc1 = CatalogoServizi.getIstance().creaNuovoServizio("prova1");
 		ServizioComune sc2 = CatalogoServizi.getIstance().creaNuovoServizio("prova2");
@@ -73,9 +73,8 @@ public class UserTest {
 		
 		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
 		
-		UtenteHelper uc = new UtenteHelper();
 		String mail = "antonio.schiazza@gmail.com";
-		if(uc.esisteIndirizzoMail(mail)) {
+		if(UtenteHelper.esisteIndirizzoMail(mail)) {
 			System.out.println("Indirizzo "+mail+" esistente!");
 		} else {
 			System.out.println("Indirizzo "+mail+" NON esistente!");

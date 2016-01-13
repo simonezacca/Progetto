@@ -1,15 +1,12 @@
 package com.ndovado.helpers.utente;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.ndovado.bridge.IBean;
 import com.ndovado.bridge.IBeanModelBridge;
 import com.ndovado.bridge.IModel;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
+import com.ndovado.tecservices.persistenza.base.UtenteDAO;
 import com.ndovado.webapp.bean.UtenteBean;
 
 
@@ -18,36 +15,24 @@ public class UtenteHelper implements IBeanModelBridge {
 	public UtenteHelper() {
 		
 	}
-	
-	private static SessionFactory sf = ServizioPersistenzaBase.getSessionFactory();
+
+	private static UtenteDAO ud = new UtenteDAO();
 
 	public static boolean esisteIndirizzoMail(String mailAddress) {
-		if (mailAddress!=null) {
-			Session session = sf.openSession();
-			Query query = session.getNamedQuery("cercaUtentePerMail").setString("mail", mailAddress);
-
-			Integer occorrenze = query.list().size();
-			session.close();
-			return occorrenze>0 ? true : false;
-		}
-		return false;
+		Utente u = ud.cercaUtentePerMail(mailAddress);
+		return u!=null;
 	}
 	
 	public static boolean verificaCredenzialiUtente(String username, String password) {
-		if (username!=null && password!=null) {
-			Session session = sf.openSession();
-			Query query = session.getNamedQuery("verificaCredenzialiUtente")
-								.setString("mail", username)
-								.setString("password", password);
-
-			Integer occorrenze = query.list().size();
-			session.close();
-			return occorrenze>0 ? true : false;
+		Utente u = ud.cercaUtentePerMail(username);
+		if (u!=null) {
+			return u.getPassword().equals(password);
 		}
 		return false;
 	}
 	
-	public static Utente creaNuovoUtente(String aCognome, String aNome, String aMail, String aPassword, String ruoloCode) {
+	public static Utente creaNuovoUtente(
+			String aCognome, String aNome, String aMail, String aPassword, String ruoloCode) {
 		Utente u = new Utente(aCognome, aNome);
 		u.setMail(aMail);
 		u.setPassword(aPassword);
@@ -57,7 +42,7 @@ public class UtenteHelper implements IBeanModelBridge {
 			u.setRuolo(ARuolo.getRuoloLocatario());
 		}
 		// rendo persistente il nuovo utente creato
-		ServizioPersistenzaBase.<Utente>saveOrUpdate(u);
+		ud.saveOrUpdate(u);
 		return u;
 	}
 	
@@ -78,7 +63,7 @@ public class UtenteHelper implements IBeanModelBridge {
 			u.setNome(data.getNome());
 			u.setMail(data.getMail());
 			u.setPassword(data.getPassword());
-			ServizioPersistenzaBase.<Utente>saveOrUpdate(u);
+			ud.saveOrUpdate(u);
 		}
 		return data;
 	}
