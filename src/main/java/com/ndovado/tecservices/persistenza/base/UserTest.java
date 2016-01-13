@@ -75,6 +75,8 @@ public class UserTest {
 		
 		String mail = "antonio.schiazza@gmail.com";
 		if(UtenteHelper.esisteIndirizzoMail(mail)) {
+			Utente u = ud.cercaUtentePerMail(mail);
+			System.out.println(u.getCognome()+" "+u.getNome());
 			System.out.println("Indirizzo "+mail+" esistente!");
 		} else {
 			System.out.println("Indirizzo "+mail+" NON esistente!");

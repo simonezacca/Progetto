@@ -21,4 +21,5 @@ public class TokenAutenticazioneUtente {
 	public boolean isValido() { return this.tokenValido; }
 	
 	public void invalidaToken() { this.tokenValido = false; }
+	
 }

@@ -3,8 +3,10 @@ package com.ndovado.webapp.shared;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +32,8 @@ public abstract class HelperBase {
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected Logger logger;
+	
+	protected List<String> messaggiErrore = new ArrayList<String>();
 	
 	protected Map<String, Map<String, String>> checked = new HashMap<String, Map<String, String>>();
 	protected Map<String, Map<String, String>> selected = new HashMap<String, Map<String, String>>();
@@ -349,4 +353,20 @@ public abstract class HelperBase {
 	}
 	
 	public abstract void resetNullable();
+	
+	public Object getObjectFromSession(String keyName) {
+		return request.getSession().getAttribute(keyName);
+	}
+	
+	public void putObjectInSession(String keyName, Object obj) {
+		request.getSession().setAttribute(keyName, obj);
+	}
+	public void removeObjectFromSession(String keyName) {
+		request.getSession().removeAttribute(keyName);
+	}
+	
+	public void appendMessageToRequest(String message) {
+		messaggiErrore.add(message);
+		request.setAttribute("messaggiErrore", messaggiErrore);
+	}
 }

@@ -7,14 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ndovado.helpers.utente.UtenteHelper;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.bean.LoginBean;
+import com.ndovado.webapp.bean.UtenteBean;
 import com.ndovado.webapp.shared.ButtonMethod;
 import com.ndovado.webapp.shared.HelperBase;
 
 public class LoginControllerHelperServlet extends HelperBase {
 
 	protected LoginBean data = new LoginBean();
-	protected List<String> messaggiErrore = new ArrayList<>();
+	protected List<String> messaggiErrore = new ArrayList<String>();
 
 	public LoginControllerHelperServlet(HttpServletRequest request, HttpServletResponse response) {
 		super(request, response);
@@ -36,21 +38,34 @@ public class LoginControllerHelperServlet extends HelperBase {
 	protected String jspLocation(String page) {
 		return "/WEB-INF/login/" + page;
 	}
+	
+	protected String jspAbsLocation(String page) {
+		return "/" + page;
+	}
 
-	@ButtonMethod(buttonName = "editButton", isDefault = true)
+	@ButtonMethod(buttonName = "editButton",isDefault = true)
 	public String editMethod() {
-		return jspLocation("Edit.jsp");
+		String address;
+		// verifico se esiste un bean token di autenticazione
+		UtenteBean ub = (UtenteBean) getObjectFromSession("utenteBean");
+		if(ub!=null) {
+			// token valido, redireziono alla pagina utente
+			address = jspAbsLocation("AreaUtente.jsp");
+		} else {
+			// token non valido, redireziono alla pagina di inserimento dati
+			address = jspLocation("Edit.jsp");
+		} 
+		return address;
 	}
 
 	@ButtonMethod(buttonName = "confirmButton")
 	public String confirmMethod() {
 		resetNullable();
 		fillBeanFromRequest(data);
-		setCheckedAndSelected(data);
-		// The next JSP address depends on the validity of the data.
 		String address;
 		if (isValid(data)) {
-			address = jspLocation("Confirm.jsp");
+			putObjectInSession("utenteBean", data);
+			address = jspAbsLocation("AreaUtente.jsp");
 		} else {
 			address = jspLocation("Edit.jsp");
 		}
@@ -84,7 +99,10 @@ public class LoginControllerHelperServlet extends HelperBase {
 	
 	public boolean isValid(LoginBean data) {
 		boolean esitoControlloCoppia = UtenteHelper.verificaCredenzialiUtente(data.getMail(), data.getPassword());
-		data.setRuolo("Locatore");
+		AppLogger.debug("Controllo credenziali [mail:"+data.getMail()+", password: "+data.getPassword()+"] esito verifica: "+esitoControlloCoppia);
+		if (!esitoControlloCoppia) {
+			appendMessageToRequest("Controlla le credenziali inserite.");
+		}
 		return super.isValid(data) && esitoControlloCoppia;
 	}
 

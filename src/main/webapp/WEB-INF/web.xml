@@ -13,19 +13,44 @@
   <servlet>
     <servlet-name>InitAppLoggerServlet</servlet-name>
     <servlet-class>com.ndovado.webapp.servlet.init.InitAppLoggerServlet</servlet-class>
-       	<init-param>
-		<param-name>start</param-name>
-		<param-value>false</param-value>
-		</init-param>
-    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>start</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>InitServizioPersistenzaBaseServlet</servlet-name>
     <servlet-class>com.ndovado.webapp.servlet.init.InitServizioPersistenzaBaseServlet</servlet-class>
     <init-param>
-		<param-name>start</param-name>
-		<param-value>false</param-value>
-	</init-param>
-    <load-on-startup>2</load-on-startup>
+      <param-name>start</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>3</load-on-startup>
   </servlet>
+  <context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+</context-param>
+<servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+  <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.faces</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
 </web-app>

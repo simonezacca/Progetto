@@ -1,7 +1,5 @@
 package com.ndovado.webapp.servlet.utente;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +14,6 @@ import com.ndovado.webapp.shared.HelperBase;
 public class UtenteControllerHelperServlet extends HelperBase {
 
 	protected UtenteBean data = new UtenteBean();
-	protected List<String> messaggiErrore = new ArrayList<>();
 
 	public UtenteControllerHelperServlet(HttpServletRequest request, HttpServletResponse response) {
 		super(request, response);
@@ -65,7 +62,10 @@ public class UtenteControllerHelperServlet extends HelperBase {
 		if (!isValid(data)) {
 			return jspLocation("Edit.jsp");
 		}
+		AppLogger.debug("creo o aggiorno utente da bean");
 		data = UtenteHelper.creaOAggiornaUtenteDaBean(data);
+		AppLogger.debug("aggiungo utenteBean alla sessione");
+		putObjectInSession("utenteBean", data);
 		return jspLocation("Process.jsp");
 	}
 
@@ -106,10 +106,14 @@ public class UtenteControllerHelperServlet extends HelperBase {
 		AppLogger.debug("data.isNewBean(): "+data.isNewBean());
 		if(esitoMail && data.isNewBean()) {
 			// caso inserimento nuovo utente
-			String messaggio = "Indirizzo mail esistente";
-			messaggiErrore.add(messaggio);
-			request.setAttribute("messaggiErrore", messaggiErrore);
+			appendMessageToRequest("Indirizzo mail associato ad altro utente!");
+		} else if(esitoMail && !data.isNewBean() ) {
+			// mail esistente 
+			appendMessageToRequest("Indirizzo mail associato ad altro utente!");
 		}
+		
 		return super.isValid(data) && !esitoMail;
 	}
+
+	
 }
