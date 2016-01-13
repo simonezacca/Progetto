@@ -6,7 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ndovado.controllers.utente.UtenteControllerDominio;
+import com.ndovado.helpers.utente.UtenteHelper;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.bean.UtenteBean;
 import com.ndovado.webapp.shared.ButtonMethod;
 import com.ndovado.webapp.shared.HelperBase;
@@ -45,7 +46,7 @@ public class UtenteControllerHelperServlet extends HelperBase {
 
 	@ButtonMethod(buttonName = "confirmButton")
 	public String confirmMethod() {
-		//messaggiErrore.clear();
+		messaggiErrore.clear();
 		resetNullable();
 		fillBeanFromRequest(data);
 		setCheckedAndSelected(data);
@@ -64,7 +65,7 @@ public class UtenteControllerHelperServlet extends HelperBase {
 		if (!isValid(data)) {
 			return jspLocation("Edit.jsp");
 		}
-		data = UtenteControllerDominio.creaOAggiornaUtenteDaBean(data);
+		data = UtenteHelper.creaOAggiornaUtenteDaBean(data);
 		return jspLocation("Process.jsp");
 	}
 
@@ -100,9 +101,9 @@ public class UtenteControllerHelperServlet extends HelperBase {
 	}
 	
 	public boolean isValid(UtenteBean data) {
-		boolean esitoMail = UtenteControllerDominio.esisteIndirizzoMail(data.getMail());
-		System.out.println("esitoMail: "+esitoMail);
-		System.out.println("data.isNewBean(): "+data.isNewBean());
+		boolean esitoMail = UtenteHelper.esisteIndirizzoMail(data.getMail());
+		AppLogger.debug("esitoMail: "+esitoMail);
+		AppLogger.debug("data.isNewBean(): "+data.isNewBean());
 		if(esitoMail && data.isNewBean()) {
 			// caso inserimento nuovo utente
 			String messaggio = "Indirizzo mail esistente";

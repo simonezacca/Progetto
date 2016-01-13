@@ -3,9 +3,12 @@ package com.ndovado.webapp.bean;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class LoginBean {
+import com.ndovado.bridge.IBean;
+
+public class LoginBean implements IBean {
 	private String mail;
 	private String password;
+	private String ruolo;
 	
 	/**
 	 * @return the password
@@ -18,14 +21,15 @@ public class LoginBean {
 	/**
 	 * @param password the password to set
 	 */
-	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
-	@NotNull
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	/**
 	 * @return the mail
 	 */
+	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
+	@NotNull
 	public String getMail() {
 		return mail;
 	}
@@ -34,6 +38,18 @@ public class LoginBean {
 	 */
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+	/**
+	 * @return the ruolo
+	 */
+	public String getRuolo() {
+		return ruolo;
+	}
+	/**
+	 * @param ruolo the ruolo to set
+	 */
+	public void setRuolo(String ruolo) {
+		this.ruolo = ruolo;
 	}	
 }
 

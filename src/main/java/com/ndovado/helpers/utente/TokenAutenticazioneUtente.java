@@ -1,4 +1,4 @@
-package com.ndovado.controllers.utente;
+package com.ndovado.helpers.utente;
 
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;

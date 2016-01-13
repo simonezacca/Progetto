@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.ndovado.bridge.IModel;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
@@ -30,7 +31,7 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 		    name = "verificaCredenzialiUtente", 
 		    query="FROM Utente u WHERE u.mail LIKE :mail AND u.password LIKE :password") 
 	})
-public class Utente implements IPersistente {
+public class Utente implements IPersistente , IModel {
 
 
 	/**

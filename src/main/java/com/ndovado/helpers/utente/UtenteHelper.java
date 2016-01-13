@@ -1,18 +1,21 @@
-package com.ndovado.controllers.utente;
+package com.ndovado.helpers.utente;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.ndovado.bridge.IBean;
+import com.ndovado.bridge.IBeanModelBridge;
+import com.ndovado.bridge.IModel;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
 import com.ndovado.webapp.bean.UtenteBean;
 
 
-public class UtenteControllerDominio {
+public class UtenteHelper implements IBeanModelBridge {
 	
-	public UtenteControllerDominio() {
+	public UtenteHelper() {
 		
 	}
 	
@@ -78,5 +81,36 @@ public class UtenteControllerDominio {
 			ServizioPersistenzaBase.<Utente>saveOrUpdate(u);
 		}
 		return data;
+	}
+
+	@Override
+	public IBean createBeanByModel(IModel model) {
+		UtenteBean ub = new UtenteBean();
+		Utente u = (Utente) model;
+		ub.setId(u.getId());
+		ub.setCognome(u.getCognome());
+		ub.setNome(u.getNome());
+		ub.setPassword(u.getPassword());
+		ub.setRuolo(u.getRuolo().toString());
+		return ub;
+	}
+
+	@Override
+	public IModel createModelByBean(IBean bean) {
+		Utente u = new Utente();
+		UtenteBean ub = (UtenteBean) bean;
+		return u;
+	}
+
+	@Override
+	public IBean updateBeanByModel(IModel model) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IModel updateModelByBean(IBean bean) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

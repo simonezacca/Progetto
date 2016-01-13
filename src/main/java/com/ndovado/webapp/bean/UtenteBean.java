@@ -3,10 +3,11 @@ package com.ndovado.webapp.bean;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.ndovado.bridge.IBean;
 import com.ndovado.webapp.shared.AttributeType;
 import com.ndovado.webapp.shared.SetByAttribute;
 
-public class UtenteBean {
+public class UtenteBean implements IBean {
 
 	private Long id;
 	private String nome;

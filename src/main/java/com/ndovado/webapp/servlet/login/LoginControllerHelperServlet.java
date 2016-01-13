@@ -5,11 +5,9 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 
-import com.ndovado.controllers.utente.UtenteControllerDominio;
+import com.ndovado.helpers.utente.UtenteHelper;
 import com.ndovado.webapp.bean.LoginBean;
-import com.ndovado.webapp.bean.UtenteBean;
 import com.ndovado.webapp.shared.ButtonMethod;
 import com.ndovado.webapp.shared.HelperBase;
 
@@ -59,15 +57,6 @@ public class LoginControllerHelperServlet extends HelperBase {
 		return address;
 	}
 
-	@ButtonMethod(buttonName = "processButton")
-	public String processMethod() {
-		if (!isValid(data)) {
-			return jspLocation("Edit.jsp");
-		}
-		//data = UtenteControllerDominio.creaOAggiornaUtenteDaBean(data);
-	
-		return jspLocation("Process.jsp");
-	}
 
 	@Override
 	protected void doGet() throws ServletException, java.io.IOException {
@@ -93,14 +82,10 @@ public class LoginControllerHelperServlet extends HelperBase {
 	}
 
 	
-	public boolean isValid(UtenteBean data) {
-		boolean esitoMail = UtenteControllerDominio.esisteIndirizzoMail(data.getMail());
-		if(esitoMail && data.isNewBean()) {
-			String messaggio = "Indirizzo mail esistente";
-			messaggiErrore.add(messaggio);
-			request.setAttribute("messaggiErrore", messaggiErrore);
-		}
-		return super.isValid(data) && !esitoMail;
+	public boolean isValid(LoginBean data) {
+		boolean esitoControlloCoppia = UtenteHelper.verificaCredenzialiUtente(data.getMail(), data.getPassword());
+		data.setRuolo("Locatore");
+		return super.isValid(data) && esitoControlloCoppia;
 	}
 
 	@Override

@@ -8,6 +8,5 @@
 </head>
 <body>
 <jsp:include page="topBar.jsp"></jsp:include>
-<jsp:include page="/utente/controller"></jsp:include>
 </body>
 </html>

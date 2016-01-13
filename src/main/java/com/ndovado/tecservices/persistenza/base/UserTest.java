@@ -2,7 +2,6 @@ package com.ndovado.tecservices.persistenza.base;
 
 import java.util.List;
 
-import com.ndovado.controllers.utente.UtenteControllerDominio;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.CatalogoStrutture;
@@ -11,6 +10,7 @@ import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.dominio.servizi.CatalogoServizi;
 import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.helpers.utente.UtenteHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 
 public class UserTest {
@@ -73,7 +73,7 @@ public class UserTest {
 		
 		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
 		
-		UtenteControllerDominio uc = new UtenteControllerDominio();
+		UtenteHelper uc = new UtenteHelper();
 		String mail = "antonio.schiazza@gmail.com";
 		if(uc.esisteIndirizzoMail(mail)) {
 			System.out.println("Indirizzo "+mail+" esistente!");
