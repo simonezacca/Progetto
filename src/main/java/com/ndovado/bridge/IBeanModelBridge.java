@@ -2,7 +2,7 @@ package com.ndovado.bridge;
 
 public interface IBeanModelBridge {
 	
-	public IBean createBeanByModel(IModel model);
+	abstract IBean createBeanByModel(IModel model);
 	
 	public IModel createModelByBean(IBean bean);
 	

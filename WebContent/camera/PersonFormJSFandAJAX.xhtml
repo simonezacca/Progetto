@@ -11,42 +11,37 @@
             <fieldset>
                 <legend>Info:</legend>
                 <h:panelGrid columns="2" columnClasses="label, field" styleClass="table">
-                    <h:outputText value="Nome: "></h:outputText>
+                <h:outputText value="Nome: "></h:outputText>
 				<h:inputText label="Nome: " value="#{pinfo.first_name}"	required="true">”
 				<f:validateLength minimum="2" maximum="30"></f:validateLength>
 				</h:inputText>
 				<h:outputText value="Cognome: "></h:outputText>
-				<h:inputText label="Cognome: " value="#{pinfo.last_name}"
-					required="true">
-					<f:validateLength minimum="2" maximum="30"></f:validateLength>
+				<h:inputText label="Cognome: " value="#{pinfo.last_name}" required="true">
+				<f:validateLength minimum="2" maximum="30"></f:validateLength>
 				</h:inputText>
 				<h:outputText value="Età: "></h:outputText>
 				<h:inputText label="Età: " value="#{pinfo.age}" required="true">
-					<f:validateLongRange minimum="18" maximum="100">
-					</f:validateLongRange>
+				<f:validateLongRange minimum="18" maximum="100">
+				</f:validateLongRange>
 				</h:inputText>
 				<h:outputText value="Indirizzo: "></h:outputText>
-				<h:inputText label="Indirizzo: " value="#{pinfo.address}"
-					required="true"></h:inputText>
+				<h:inputText label="Indirizzo: " value="#{pinfo.address}" required="true"></h:inputText>
 				<h:outputText value="Lavoro: "></h:outputText>
 				<h:inputText label="Lavoro: " value="#{pinfo.job}" required="true"></h:inputText>
-                    <h:commandButton value="Invia i dati">
-                        <f:ajax execute="@form" 
-                                render="r_name r_lname r_age r_addr r_job"></f:ajax>
-                    </h:commandButton>
+                <h:commandButton value="Invia i dati">
+                    <f:ajax execute="@form" 
+                            render="r_name r_lname r_age r_addr r_job"></f:ajax>
+                </h:commandButton>
                 </h:panelGrid>
             </fieldset>
             <hr/>
             <fieldset>
                 <legend>Data:</legend>
-                <h:panelGrid columns="2" columnClasses="label, field" 
-                                         styleClass="table" border="1">
+                <h:panelGrid columns="2" columnClasses="label, field"  styleClass="table" border="1">
                     <h:outputText value="Nome: "></h:outputText>
-                    <h:outputText id="r_name" 
-                                  value="#{pinfo.first_name}"></h:outputText>
+                    <h:outputText id="r_name" value="#{pinfo.first_name}"></h:outputText>
                     <h:outputText value="Cognome: "></h:outputText>
-                    <h:outputText id="r_lname" 
-                                  value="#{pinfo.last_name}"></h:outputText>
+                    <h:outputText id="r_lname" value="#{pinfo.last_name}"></h:outputText>
                     <h:outputText value="Età: "></h:outputText>
 					<h:outputText id="r_age" value="#{pinfo.age}"></h:outputText>
                     <h:outputText value="Indirizzo: "></h:outputText>

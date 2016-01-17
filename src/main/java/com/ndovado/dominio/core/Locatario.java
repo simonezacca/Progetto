@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.Entity;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
+import com.ndovado.helpers.utente.TipoUtente;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 import javax.persistence.OneToMany;
@@ -51,5 +52,12 @@ public class Locatario extends ARuolo implements IPersistente {
 	public Long getId() {
 		return this.id;
 	}
+
+	@Override
+	public TipoUtente getEnumTypeRuolo() {
+		return TipoUtente.LOCATARIO;
+	}
+	
+	
 
 }

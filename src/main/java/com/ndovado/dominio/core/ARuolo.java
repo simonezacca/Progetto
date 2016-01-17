@@ -10,6 +10,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.ndovado.helpers.utente.TipoUtente;
+
 
 /**
  * 
@@ -52,5 +54,7 @@ public abstract class ARuolo{
 	public void setUtente(Utente utente) {
 		this.utente = utente;
 	}
+	
+	public abstract TipoUtente getEnumTypeRuolo();
 
 }

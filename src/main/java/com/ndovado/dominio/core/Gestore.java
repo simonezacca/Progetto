@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.ndovado.helpers.utente.TipoUtente;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
@@ -68,6 +69,11 @@ public class Gestore extends ARuolo implements IPersistente {
 	@Override
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	public TipoUtente getEnumTypeRuolo() {
+		return TipoUtente.GESTORE;
 	}
 
 }
