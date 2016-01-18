@@ -5,7 +5,7 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import com.ndovado.helpers.utente.TipoUtente;
+import com.ndovado.helpers.core.TipoUtente;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**

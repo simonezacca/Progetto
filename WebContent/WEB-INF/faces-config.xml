@@ -4,27 +4,5 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>/*</from-view-id>
-		<navigation-case>
-			<from-outcome>logout</from-outcome>
-			<to-view-id>/index.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>areaPrivata</from-outcome>
-			<to-view-id>/areaPrivata.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>login/login</display-name>
-		<from-view-id>/login/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
-			<if>#{tokenAuth.valid == true}</if>
-			<to-view-id>#{tokenAuth.mainArea}</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+    
 </faces-config>

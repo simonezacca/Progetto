@@ -9,7 +9,7 @@ import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.dominio.servizi.CatalogoServizi;
 import com.ndovado.dominio.servizi.ServizioComune;
-import com.ndovado.helpers.utente.UtenteHelper;
+import com.ndovado.helpers.core.UtenteHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 
 public class UserTest {

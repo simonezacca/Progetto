@@ -1,18 +1,14 @@
-package com.ndovado.helpers.utente;
+package com.ndovado.helpers.core;
 
-import javax.persistence.EnumType;
 
-import com.ndovado.bridge.IBean;
 import com.ndovado.bridge.IBeanModelBridge;
-import com.ndovado.bridge.IModel;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
 import com.ndovado.tecservices.persistenza.base.UtenteDAO;
-import com.ndovado.webapp.bean.UtenteBean;
+import com.ndovado.webapp.beans.core.UtenteBean;
 
-public class UtenteHelper implements IBeanModelBridge {
+public class UtenteHelper implements IBeanModelBridge<UtenteBean,Utente> {
 	
 	public UtenteHelper() {
 		
@@ -21,7 +17,7 @@ public class UtenteHelper implements IBeanModelBridge {
 	private static UtenteHelper istance;
 
 	private static UtenteDAO ud = new UtenteDAO();
-
+	
 	public static boolean esisteIndirizzoMail(String mailAddress) {
 		Utente u = ud.cercaUtentePerMail(mailAddress);
 		return u!=null;
@@ -62,7 +58,7 @@ public class UtenteHelper implements IBeanModelBridge {
 			// normalizzo la stringa ruolo
 		} else {
 			// utente gia esistente
-			Utente u = ServizioPersistenzaBase.<Utente>get(Utente.class, data.getId());
+			Utente u = ud.get(data.getId());
 			u.setCognome(data.getCognome());
 			u.setNome(data.getNome());
 			u.setMail(data.getMail());
@@ -74,9 +70,9 @@ public class UtenteHelper implements IBeanModelBridge {
 	}
 
 	
-	public IBean createBeanByModel(IModel model) {
+	public UtenteBean createBeanByModel(Utente model) {
 		UtenteBean ub = new UtenteBean();
-		Utente u = (Utente) model;
+		Utente u = model;
 		ub.setId(u.getId());
 		ub.setCognome(u.getCognome());
 		ub.setNome(u.getNome());
@@ -87,20 +83,25 @@ public class UtenteHelper implements IBeanModelBridge {
 	}
 
 	@Override
-	public IModel createModelByBean(IBean bean) {
+	public Utente createModelByBean(UtenteBean bean) {
 		Utente u = new Utente();
-		UtenteBean ub = (UtenteBean) bean;
+		u.setCognome(bean.getCognome());
+		u.setNome(bean.getNome());
+		u.setMail(bean.getMail());
+		u.setPassword(bean.getPassword());
+		ARuolo ruolo = (bean.getRuolo().equals(TipoUtente.LOCATARIO)) ? ARuolo.getRuoloLocatario() : ARuolo.getRuoloGestore();
+		u.setRuolo(ruolo);
 		return u;
 	}
 
 	@Override
-	public IBean updateBeanByModel(IModel model) {
+	public UtenteBean updateBeanByModel(Utente model) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IModel updateModelByBean(IBean bean) {
+	public Utente updateModelByBean(UtenteBean bean) {
 		// TODO Auto-generated method stub
 		return null;
 	}

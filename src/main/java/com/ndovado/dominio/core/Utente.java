@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-import com.ndovado.bridge.IModel;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 /**
@@ -28,7 +27,7 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
 	        name = "cercaUtentePerMail", 
 	        query="FROM Utente u WHERE u.mail LIKE :mail")
 	})
-public class Utente implements IPersistente , IModel {
+public class Utente implements IPersistente {
 
 	public static final String FIND_BY_EMAIL = "cercaUtentePerMail";
 

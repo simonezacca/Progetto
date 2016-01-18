@@ -1,4 +1,4 @@
-package com.ndovado.helpers.utente;
+package com.ndovado.helpers.core;
 
 public enum TipoUtente {
 	GESTORE, LOCATARIO

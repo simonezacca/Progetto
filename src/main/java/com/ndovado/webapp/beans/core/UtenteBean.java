@@ -1,4 +1,4 @@
-package com.ndovado.webapp.bean;
+package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
 
@@ -7,12 +7,11 @@ import javax.faces.bean.SessionScoped;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.ndovado.bridge.IBean;
-import com.ndovado.helpers.utente.TipoUtente;
+import com.ndovado.helpers.core.TipoUtente;
 
 @ManagedBean(name="utenteBean")
 @SessionScoped
-public class UtenteBean implements IBean, Serializable {
+public class UtenteBean implements Serializable {
 
 	/**
 	 * 
@@ -26,10 +25,9 @@ public class UtenteBean implements IBean, Serializable {
 	private String password;
 	
 	private TipoUtente ruolo;
+	private String homePageName;
 	
-	private LoginUtenteController controller = new LoginUtenteController();
-	
-	private boolean logged = false;
+	private boolean loggedIn = false;
 
 	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
     @NotNull
@@ -100,27 +98,16 @@ public class UtenteBean implements IBean, Serializable {
 	 * @return the logged
 	 */
 	public boolean isLogged() {
-		return logged;
+		return loggedIn;
 	}
 
 	/**
 	 * @param logged the logged to set
 	 */
 	public void setLogged(boolean logged) {
-		this.logged = logged;
+		this.loggedIn = logged;
 	}
 	
-	public String doLogout() {
-		return getController().doLogout(this);
-	}
-	
-	public String doLogin() {
-		return getController().doLogin(this);
-	}
-
-	public String doRegistrazione() {
-		return this.getController().doRegistrazione(this);
-	}
 	
 	public void cloneFrom(UtenteBean u) {
 		if (u instanceof UtenteBean) {
@@ -130,25 +117,9 @@ public class UtenteBean implements IBean, Serializable {
 			this.mail = u.getMail();
 			this.password = u.getPassword();
 			this.setRuolo(u.getRuolo());
-			this.controller = u.getController();
-			this.logged = u.isLogged();
+			this.loggedIn = u.isLogged();
 		}
 	}
-
-	/**
-	 * @return the controller
-	 */
-	public LoginUtenteController getController() {
-		return controller;
-	}
-
-	/**
-	 * @param controller the controller to set
-	 */
-	public void setController(LoginUtenteController controller) {
-		this.controller = controller;
-	}
-
 	/**
 	 * @return the ruolo
 	 */
@@ -159,9 +130,16 @@ public class UtenteBean implements IBean, Serializable {
 	/**
 	 * @param ruolo the ruolo to set
 	 */
-	@NotNull
 	public void setRuolo(TipoUtente ruolo) {
 		this.ruolo = ruolo;
 	}
-	
+
+	/**
+	 * @return the homePageName
+	 */
+	public String getHomePageName() {
+		if(this.ruolo!=null)
+			return (this.ruolo.equals(TipoUtente.LOCATARIO)) ? "/areaPrivata?faces-redirect=true": "/gestore/areaGestore?faces-redirect=true" ;
+		return null;
+	}
 }

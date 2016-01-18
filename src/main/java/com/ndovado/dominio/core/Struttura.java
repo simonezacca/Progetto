@@ -242,7 +242,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * @param idStruttura the idStruttura to set
 	 */
-	protected void setId(Long idStruttura) {
+	public void setId(Long idStruttura) {
 		this.idStruttura = idStruttura;
 	}
 

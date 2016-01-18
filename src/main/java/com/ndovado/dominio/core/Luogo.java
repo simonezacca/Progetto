@@ -36,7 +36,7 @@ public class Luogo implements IPersistente {
 	/**
 	 * 
 	 */
-	@Column(name = "nome", nullable = false, length = 45)
+	@Column(name = "comune", nullable = false, length = 45)
 	private String nomeComune;
 
 	/**
@@ -48,6 +48,9 @@ public class Luogo implements IPersistente {
 	/**
 	 * 
 	 */
+	@Column(name="provincia")
+	private String provincia;
+	
 	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL)
 	private List<Struttura> struttureInLuogo;
 
@@ -111,7 +114,7 @@ public class Luogo implements IPersistente {
 	/**
 	 * @param idLuogo the idLuogo to set
 	 */
-	protected void setId(Long idLuogo) {
+	public void setId(Long idLuogo) {
 		this.idLuogo = idLuogo;
 	}
 
@@ -160,6 +163,18 @@ public class Luogo implements IPersistente {
 		if (struttureInLuogo.contains(s)) {
 			struttureInLuogo.remove(s);
 		}
+	}
+	/**
+	 * @return the provincia
+	 */
+	public String getProvincia() {
+		return provincia;
+	}
+	/**
+	 * @param provincia the provincia to set
+	 */
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
 	}
 
 }

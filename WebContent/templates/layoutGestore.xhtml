@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
@@ -42,7 +41,12 @@
         </div>
 		<div id="leftbar">
                 <ui:insert name="leftbar">
-                    <p>Sidebar/Right-nav</p>
+	                <ul>
+						<li><h:link outcome="profiloGestore" value="Gestione profilo" /></li>
+						<li><h:link outcome="elencoStrutture" value="Elenco strutture" /></li>
+						<li>Prenotazioni</li>
+						<li>Tableau Prenotazioni</li>
+					</ul>
                 </ui:insert>
             </div>            
 			<div id="content">

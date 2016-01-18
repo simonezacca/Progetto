@@ -1,12 +1,12 @@
 package com.ndovado.bridge;
 
-public interface IBeanModelBridge {
+public interface IBeanModelBridge<B,M> {
 	
-	abstract IBean createBeanByModel(IModel model);
+	abstract B createBeanByModel(M model);
 	
-	public IModel createModelByBean(IBean bean);
+	public M createModelByBean(B bean);
 	
-	public IBean updateBeanByModel(IModel model);
+	public B updateBeanByModel(M model);
 	
-	public IModel updateModelByBean(IBean bean);
+	public M updateModelByBean(B bean);
 }

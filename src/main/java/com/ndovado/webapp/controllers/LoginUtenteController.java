@@ -1,10 +1,13 @@
-package com.ndovado.webapp.bean;
+package com.ndovado.webapp.controllers;
 
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import com.ndovado.helpers.utente.UtenteHelper;
+import com.ndovado.helpers.core.UtenteHelper;
+import com.ndovado.webapp.beans.core.UtenteBean;
 
+@ManagedBean(name="loginController")
 public class LoginUtenteController {
 	
 	public String doLogin(UtenteBean u) {
@@ -13,7 +16,7 @@ public class LoginUtenteController {
 				UtenteBean unew = UtenteHelper.creaUtenteBeanDaMail(u.getMail());
 				u.cloneFrom(unew);
 				u.setLogged(true);
-				return "areaPrivata";
+				return u.getHomePageName();
 			}
 		return null;	
 	}
@@ -23,13 +26,13 @@ public class LoginUtenteController {
 			u.setLogged(false);
 			terminaSessioneUtente();
 		}
-		return "logout"; // outcome
+		return "/index?faces-redirect=true";
 	}
 	public String doRegistrazione(UtenteBean u) {
-		if (!UtenteHelper.esisteIndirizzoMail(u.getMail())) {
+		if (!UtenteHelper.esisteIndirizzoMail(u.getMail()) || !u.isNewBean()) {
 			u = UtenteHelper.creaOAggiornaUtenteDaBean(u);
 			u.setLogged(true);
-			return "areaPrivata";
+			return u.getHomePageName();
 		}
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("mailMessage", "Indirizzo mail esistente");
 		return null;
