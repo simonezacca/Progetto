@@ -5,9 +5,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -43,7 +45,7 @@ public class Utente implements IPersistente {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idutente;
+	private Long id;
 
 	/**
 	 * Nome dell'utente
@@ -73,8 +75,10 @@ public class Utente implements IPersistente {
 	 * Riferimento ad un'instanza di tipo <code>ARuolo</code> per indicare il ruolo dell'utente nel sistema
 	 */
 
-	@OneToOne(cascade=CascadeType.ALL)
-	private ARuolo ruolo = ARuolo.getRuoloLocatario();
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="utente")
+	// utente è entità principale
+	//@Embedded
+	private ARuolo ruolo;
 
 
 	/**
@@ -92,9 +96,6 @@ public class Utente implements IPersistente {
 			this.cognome=aCognome;
 			this.nome = aNome;
 		}
-	}
-	public Long getId() {
-		return idutente;
 	}
 	/**
 	 * @return il nome dell'utente
@@ -227,9 +228,18 @@ public class Utente implements IPersistente {
 			return false;
 		return true;
 	}
-
-	protected void setId(Long idUtente) {
-		this.idutente = idUtente;
+	/**
+	 * @return the id
+	 */
+	@Override
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

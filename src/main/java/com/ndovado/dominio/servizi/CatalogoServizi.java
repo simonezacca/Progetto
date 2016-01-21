@@ -6,7 +6,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
+
+import com.ndovado.tecservices.persistenza.base.ServizioComuneDAO;
 
 
 
@@ -15,7 +16,7 @@ import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
  */
 public class CatalogoServizi {
 
-	private static SessionFactory sf = ServizioPersistenzaBase.getSessionFactory();
+	private static SessionFactory sf = ServizioComuneDAO.getSessionFactory();
 	
 	/**
 	 * Default constructor
@@ -77,7 +78,8 @@ public class CatalogoServizi {
 	 */
 	public ServizioComune creaNuovoServizio(String aNomeServizio) {
 		ServizioComune sc = new ServizioComune(aNomeServizio);
-		ServizioPersistenzaBase.<ServizioComune>saveOrUpdate(sc);
+		ServizioComuneDAO scdao = new ServizioComuneDAO();
+		scdao.saveOrUpdate(sc);
 		return sc;
 	}
 

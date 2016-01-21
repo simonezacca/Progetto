@@ -1,10 +1,10 @@
 package com.ndovado.helpers.core;
 
-import com.ndovado.bridge.IBeanModelBridge;
 import com.ndovado.dominio.core.Luogo;
+import com.ndovado.modeladapter.IBeanModelConverter;
 import com.ndovado.webapp.beans.core.LuogoBean;
 
-public class LuogoHelper implements IBeanModelBridge<LuogoBean, Luogo>{
+public class LuogoHelper implements IBeanModelConverter<LuogoBean, Luogo>{
 
 	
 	private static LuogoHelper instance;
@@ -32,17 +32,4 @@ public class LuogoHelper implements IBeanModelBridge<LuogoBean, Luogo>{
 		l.setProvincia(bean.getProvincia());
 		return l;
 	}
-
-	@Override
-	public LuogoBean updateBeanByModel(Luogo model) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Luogo updateModelByBean(LuogoBean bean) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

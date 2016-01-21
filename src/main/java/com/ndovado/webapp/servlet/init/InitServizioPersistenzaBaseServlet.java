@@ -3,7 +3,7 @@ package com.ndovado.webapp.servlet.init;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 
-import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
+import com.ndovado.tecservices.persistenza.base.GenericDAO;
 
 /**
  * Servlet implementation class InitServizioPersistenzaBase
@@ -17,7 +17,7 @@ public class InitServizioPersistenzaBaseServlet extends HttpServlet {
 	public void init() {
 		boolean start = Boolean.parseBoolean(getServletConfig().getInitParameter("start"));
 		if(start)
-			ServizioPersistenzaBase.getSessionFactory();
+			GenericDAO.getSessionFactory();
 	}
 
 }

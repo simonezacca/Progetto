@@ -2,6 +2,7 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.helpers.core.TipoUtente;
@@ -13,7 +14,33 @@ import javax.persistence.OneToMany;
  * 
  */
 @Entity
+//@Embeddable
 public class Locatario extends ARuolo implements IPersistente {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prenotazioni == null) ? 0 : prenotazioni.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Locatario))
+			return false;
+		Locatario other = (Locatario) obj;
+		if (prenotazioni == null) {
+			if (other.prenotazioni != null)
+				return false;
+		} else if (!prenotazioni.equals(other.prenotazioni))
+			return false;
+		return true;
+	}
 
 	/**
 	 * 

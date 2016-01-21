@@ -12,7 +12,7 @@ import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.helpers.core.UtenteHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 
-public class UserTest {
+public class UserTestDAO {
 
 	public static void main(String[] args) {
 		
@@ -55,12 +55,13 @@ public class UserTest {
 			System.out.println(servizioComune.getNomeServizio());
 		}
 		
+		LuogoDAO ldao = new LuogoDAO();
 		Luogo l1 = new Luogo("Chieti");
-		ServizioPersistenzaBase.<Luogo>saveOrUpdate(l1);
+		ldao.saveOrUpdate(l1);
 		
 		Struttura s1 = new Struttura();
 		s1.setNomeStruttura("Struttura prova");
-		s1.setLuogo(l1);
+		s1.setLuogoStruttura(l1);
 		
 		s1.setProprietario(u2.getRuolo());
 		
@@ -69,9 +70,10 @@ public class UserTest {
 		
 		s1.addCamera(c1);
 		
-		ServizioPersistenzaBase.<Struttura>saveOrUpdate(s1);
+		StrutturaDAO sdao = new StrutturaDAO();
+		sdao.saveOrUpdate(s1);
 		
-		ServizioPersistenzaBase.<Struttura>delete(Struttura.class, s1.getId());
+		sdao.delete(s1.getId());
 		
 		String mail = "antonio.schiazza@gmail.com";
 		if(UtenteHelper.esisteIndirizzoMail(mail)) {

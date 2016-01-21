@@ -81,6 +81,7 @@ public abstract class GenericDAO<T> {
     	Session session = getSessionFactory().openSession();
     	session.beginTransaction();
 		session.merge(o);
+		//session.update(o);
 		session.getTransaction().commit();
 		session.close();
 		System.out.println("Successfully updated " + o.toString());

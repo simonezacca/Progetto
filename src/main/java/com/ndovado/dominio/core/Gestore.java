@@ -2,6 +2,8 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -12,6 +14,7 @@ import com.ndovado.tecservices.persistenza.base.IPersistente;
  * 
  */
 @Entity
+//@Embeddable
 public class Gestore extends ARuolo implements IPersistente {
 
 	/**
@@ -24,14 +27,39 @@ public class Gestore extends ARuolo implements IPersistente {
 
 	
 	public Gestore() {
-		struttureGestite = new HashSet<Struttura>();
+		struttureGestite = new ArrayList<Struttura>();
 	}
 
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "proprietario")
-	private Set<Struttura> struttureGestite;
+	@OneToMany(cascade=CascadeType.ALL,mappedBy = "gestore")
+	private List<Struttura> struttureGestite;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((struttureGestite == null) ? 0 : struttureGestite.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Gestore))
+			return false;
+		Gestore other = (Gestore) obj;
+		if (struttureGestite == null) {
+			if (other.struttureGestite != null)
+				return false;
+		} else if (!struttureGestite.equals(other.struttureGestite))
+			return false;
+		return true;
+	}
 
 	/**
 	 * @param aStruttura
@@ -55,7 +83,7 @@ public class Gestore extends ARuolo implements IPersistente {
 	 * 
 	 * @return
 	 */
-	public Set<Struttura> getStruttureGestite() {
+	public List<Struttura> getStruttureGestite() {
 		return this.struttureGestite;
 	}
 	/**

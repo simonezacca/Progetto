@@ -9,12 +9,27 @@
 <h:body>
 <ui:composition template="/templates/layoutGestore.xhtml">
 		<ui:define name="content">
-			<h2>Elenco Strutture</h2><h:link outcome="struttura/aggiungiStruttura" value="Aggiungi struttura" />	
-			<h:form>
-				<h:panelGrid columns="2">
-					
-				</h:panelGrid>
-			</h:form>
+			<h2>Elenco Strutture</h2><h:link outcome="struttura/aggiungiStruttura" value="Aggiungi struttura" />
+			
+			<h:dataTable value="#{strutturaHelper.getListaStruttureBeanByGestore(utenteBean)}" var="strutturaBean">
+				<h:column>
+				<f:facet name="header">
+					Nome struttura
+				</f:facet>	
+				#{strutturaBean.nomeStruttura} 
+				</h:column>
+				<h:column>
+				<f:facet name="header">
+					Luogo
+				</f:facet>	
+				#{strutturaBean.luogoStruttura.nomeComune} 
+				</h:column>
+				<h:column>
+					<!-- next column components -->
+					<!--<h:commandLink value="" action="..." />-->
+				</h:column>
+				
+			</h:dataTable>
 			<h:messages></h:messages>
 		</ui:define>
 	</ui:composition>

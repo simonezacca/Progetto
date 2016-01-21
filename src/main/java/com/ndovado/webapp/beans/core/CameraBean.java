@@ -7,55 +7,108 @@ import java.util.List;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.DescrizioneCamera;
 
-public class CameraBean implements Serializable {
+public class CameraBean implements Serializable, Identifiable {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
+		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
+		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof CameraBean))
+			return false;
+		CameraBean other = (CameraBean) obj;
+		if (descrizioneCorrente == null) {
+			if (other.descrizioneCorrente != null)
+				return false;
+		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
+			return false;
+		if (descrizioniCamera == null) {
+			if (other.descrizioniCamera != null)
+				return false;
+		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nomeCamera == null) {
+			if (other.nomeCamera != null)
+				return false;
+		} else if (!nomeCamera.equals(other.nomeCamera))
+			return false;
+		if (qtyCamera == null) {
+			if (other.qtyCamera != null)
+				return false;
+		} else if (!qtyCamera.equals(other.qtyCamera))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} else if (!struttura.equals(other.struttura))
+			return false;
+		return true;
+	}
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Long idCamera = new Long(0);
+	private Long id = null;
 	private String nomeCamera;
 	private Integer qtyCamera = new Integer(1);
-	private DescrizioneCameraBean descCorrente;
+	private DescrizioneCameraBean descrizioneCorrente;
 	
-	private List<DescrizioneCameraBean> descrizioni;
+	private StrutturaBean struttura;
+	
+	private List<DescrizioneCameraBean> descrizioniCamera = new ArrayList<DescrizioneCameraBean>();
 	
 	public CameraBean() {
-		setDescrizioni(new ArrayList<DescrizioneCameraBean>());
+	}
+	
+	public CameraBean(StrutturaBean s) {
+		this.struttura = s;
+		s.addCameraBean(this);
 	}
 	
 	public CameraBean(Camera c) {
-		setDescrizioni(new ArrayList<DescrizioneCameraBean>());
 		fillBeanFromModel(c);
 	}
 	
-	public void fillBeanFromModel(Camera c) {
+	protected void fillBeanFromModel(Camera c) {
 		if (c!=null) {
-			this.idCamera = c.getId();
+			this.id = c.getId();
 			this.nomeCamera = c.getNomeCamera();
-			this.qtyCamera = c.getQuantity();
-			this.descCorrente = new DescrizioneCameraBean(c.getDescrizioneCameraCorrente());
+			this.qtyCamera = c.getQtyCamera();
+			this.descrizioneCorrente = new DescrizioneCameraBean(c.getDescrizioneCorrente());
 			
-			List<DescrizioneCamera> descsModel = c.getAllDescrizioniCamera();
+			List<DescrizioneCamera> descsModel = c.getDescrizioniCamera();
 			for (DescrizioneCamera descrizioneCamera : descsModel) {
-				getDescrizioni().add(new DescrizioneCameraBean(descrizioneCamera));
+				getDescrizioniCamera().add(new DescrizioneCameraBean(descrizioneCamera));
 			}
 		}
 	}
 
 	/**
-	 * @return the idCamera
-	 */
-	public Long getIdCamera() {
-		return idCamera;
-	}
-
-	/**
 	 * @param idCamera the idCamera to set
 	 */
-	public void setIdCamera(Long idCamera) {
-		this.idCamera = idCamera;
+	public void setId(Long idCamera) {
+		this.id = idCamera;
 	}
 
 	/**
@@ -89,32 +142,61 @@ public class CameraBean implements Serializable {
 	/**
 	 * @return the descCorrente
 	 */
-	public DescrizioneCameraBean getDescCorrente() {
-		return descCorrente;
+	public DescrizioneCameraBean getDescrizioneCorrente() {
+		return descrizioneCorrente;
 	}
 
 	/**
 	 * @param descCorrente the descCorrente to set
 	 */
-	public void setDescCorrente(DescrizioneCameraBean descCorrente) {
-		this.descCorrente = descCorrente;
+	public void setDescrizioneCorrente(DescrizioneCameraBean descCorrente) {
+		this.descrizioneCorrente = descCorrente;
+		this.descrizioniCamera.add(descCorrente);
 	}
 	
-	public boolean isNewBean() {
-		return this.idCamera==0 || this.idCamera == null;
-	}
-
 	/**
 	 * @return the descrizioni
 	 */
-	public List<DescrizioneCameraBean> getDescrizioni() {
-		return descrizioni;
+	public List<DescrizioneCameraBean> getDescrizioniCamera() {
+		return descrizioniCamera;
 	}
 
 	/**
 	 * @param descrizioni the descrizioni to set
 	 */
 	public void setDescrizioni(List<DescrizioneCameraBean> descrizioni) {
-		this.descrizioni = descrizioni;
+		this.descrizioniCamera = descrizioni;
+	}
+
+	/**
+	 * @return the strutturaBean
+	 */
+	public StrutturaBean getStruttura() {
+		return struttura;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder risultato = new StringBuilder();
+		
+		risultato.append("CameraBean [id:"+this.id+
+						", nomeCamera"+this.nomeCamera+
+						", qtyCamera"+this.qtyCamera+"]\n\t");
+		
+		List<DescrizioneCameraBean> descCamBeans = this.getDescrizioniCamera();
+		for (DescrizioneCameraBean dcb : descCamBeans) {
+			risultato.append(dcb+"\n\t\t");
+		}
+		return risultato.toString();
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	@Override
+	public Boolean isNewBean() {
+		return this.id==0 || this.id == null;
 	}
 }

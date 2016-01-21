@@ -12,9 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.OrderBy;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
 import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
@@ -37,7 +43,7 @@ public class Struttura implements IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idStruttura;
+	private Long id;
 
 	/**
 	 * Il nome della struttura
@@ -51,13 +57,14 @@ public class Struttura implements IPersistente {
 
 	@ManyToOne
 	@PrimaryKeyJoinColumn
-	private Gestore proprietario;
+	private Gestore gestore;
 
 	/**
 	 * Insieme dei servizi offerti dalla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
-	private Set<DettaglioServizio> serviziOfferti;
+	@OrderBy(clause="iddettaglio_servizio")
+	private List<DettaglioServizio> serviziOfferti;
 
 	/**
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
@@ -70,7 +77,8 @@ public class Struttura implements IPersistente {
 	 * Insieme delle camera collegate alla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
-	private Set<Camera> camereInserite;
+	@OrderBy(clause="id")
+	private List<Camera> camereInserite;
 
 	/**
 	 * Luogo nel quale è situata la struttura
@@ -83,10 +91,10 @@ public class Struttura implements IPersistente {
 	 * Costruttore di default
 	 */
 	public Struttura() {
-		camereInserite = new HashSet<Camera>();
-		serviziOfferti = new HashSet<DettaglioServizio>();
+		setCamereInserite(new ArrayList<Camera>());
+		setServiziOfferti(new ArrayList<DettaglioServizio>());
 		
-		tableau = new TableauPrenotazioni(this);
+		setTableau(new TableauPrenotazioni(this));
 	}
 
 	/**
@@ -94,25 +102,6 @@ public class Struttura implements IPersistente {
 	 */
 	public Camera creaNuovaCamera() {
 		return new Camera(this);
-	}
-
-	/**
-	 * @return il gestore della struttura
-	 */
-	public Gestore getProprietario() {
-		return this.proprietario;
-	}
-
-	/**Imposta il gestore della struttura
-	 * @param aGestore il gestore da assegnare alla struttura
-	 */
-	public void setProprietario(ARuolo aGestore) {
-		if (aGestore!=null) {
-			// imposto il proprietario corrente
-			this.proprietario = (Gestore) aGestore;
-			// aggiungo la struttura corrente all'elenco delle struttura gestite da aGestore
-			((Gestore) aGestore).gestisciStruttura(this);
-		}
 	}
 
 	/**
@@ -128,7 +117,7 @@ public class Struttura implements IPersistente {
 	 * @return la camera con l'identificativo corrispondente
 	 */
 	public Camera getCamera(Integer aIdCamera) {
-		for (Camera c : camereInserite) {
+		for (Camera c : getCamereInserite()) {
 			if (c.getId().equals(aIdCamera)) {
 				return c;
 			}
@@ -141,7 +130,7 @@ public class Struttura implements IPersistente {
 	 * @return
 	 */
 	public Camera getCamera(Camera aCamera) {
-		for (Camera c : camereInserite) {
+		for (Camera c : getCamereInserite()) {
 			if (c.equals(aCamera)) {
 				return c;
 			}
@@ -160,21 +149,19 @@ public class Struttura implements IPersistente {
 	/**
 	 * @return
 	 */
-	public Luogo getLuogo() {
+	public Luogo getLuogoStruttura() {
 		return this.luogoStruttura;
 	}
 
 	/**
 	 * @param aLuogo
 	 */
-	public void setLuogo(Luogo aLuogo) {
-		if (aLuogo!=null) {
-			// imposto il comune per la struttura corrente
-			this.luogoStruttura=aLuogo;
-			// aggiungo la struttura corrente all'elenco delle strutture 
-			// inserite nel luogo
-			aLuogo.addStruttura(this);
-		}
+	public void setLuogoStruttura(Luogo aLuogo) {
+		// imposto il comune per la struttura corrente
+		this.luogoStruttura = aLuogo;
+		// aggiungo la struttura corrente all'elenco delle strutture 
+		// inserite nel luogo
+		aLuogo.addStruttura(this);
 	}
 
 	/**
@@ -183,7 +170,7 @@ public class Struttura implements IPersistente {
 	public void addServizioBase(ServizioComune servizio) {
 		if (servizio!=null) {
 			DettaglioServizio dso = new DettaglioServizio(this, servizio);
-			this.serviziOfferti.add(dso);
+			this.getServiziOfferti().add(dso);
 		}
 	}
 	
@@ -193,7 +180,7 @@ public class Struttura implements IPersistente {
 	public void addServizioAggiuntivo(ServizioComune servizio, Float prezzo) {
 		if (servizio!=null && prezzo >= 0) {
 			DettaglioServizio dso = new DettaglioServizio(this, servizio, prezzo);
-			this.serviziOfferti.add(dso);
+			this.getServiziOfferti().add(dso);
 		}
 	}
 
@@ -214,7 +201,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * @return
 	 */
-	public Set<DettaglioServizio> getServiziOfferti() {
+	public List<DettaglioServizio> getServiziOfferti() {
 		return serviziOfferti;
 	}
 
@@ -222,29 +209,9 @@ public class Struttura implements IPersistente {
 	 * @return
 	 */
 	public TableauPrenotazioni getTableauPrenotazioni() {
-		return this.tableau;
+		return this.getTableau();
 	}
 
-	/**
-	 * @return the camereInserite
-	 */
-	public Set<Camera> getCamere() {
-		return this.camereInserite;
-	}
-
-	/** Ritorna la chiave primaria della tabella del database
-	 * @return la chiave primaria della tabella del database
-	 */
-	public Long getId() {
-		return idStruttura;
-	}
-
-	/**
-	 * @param idStruttura the idStruttura to set
-	 */
-	public void setId(Long idStruttura) {
-		this.idStruttura = idStruttura;
-	}
 
 	/** Ritorna il nome della struttura
 	 * @return il nome della struttura
@@ -268,7 +235,7 @@ public class Struttura implements IPersistente {
 	public void addCamera(Camera c) {
 		if (c!=null) {
 			// aggiungo la camera c all'elenco delle camere associate alla struttura
-			this.getCamere().add(c);
+			this.getCamereInserite().add(c);
 			// imposto la struttura corrente come struttura associeta alla camera aggiunta
 			c.setStruttura(this);
 		}
@@ -278,12 +245,40 @@ public class Struttura implements IPersistente {
 	 * @param c la camera da rimuovere
 	 */
 	public void removeCamera(Camera c) {
-		if (this.camereInserite.contains(c)) {
-			this.camereInserite.remove(c);
+		if (this.getCamereInserite().contains(c)) {
+			this.getCamereInserite().remove(c);
 		}
 	}
 
 	
+
+	@Override
+	public String toString() {
+		return "Struttura [idStruttura=" + getId() + ", nomeStruttura=" + nomeStruttura + ", gestore=" + getGestore()
+				+ ", luogoStruttura=" + luogoStruttura + "]";
+	}
+
+	/**
+	 * @return the id
+	 */
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((camereInserite == null) ? 0 : camereInserite.hashCode());
+		result = prime * result + ((gestore == null) ? 0 : gestore.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
+		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
+		result = prime * result + ((serviziOfferti == null) ? 0 : serviziOfferti.hashCode());
+		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -294,15 +289,20 @@ public class Struttura implements IPersistente {
 		if (!(obj instanceof Struttura))
 			return false;
 		Struttura other = (Struttura) obj;
-		if (camereInserite == null) {
+		if (getCamereInserite() == null) {
 			if (other.camereInserite != null)
 				return false;
-		} else if (!camereInserite.equals(other.camereInserite))
+		} else if(!getCamereInserite().equals(other.getCamereInserite()))
 			return false;
-		if (idStruttura == null) {
-			if (other.idStruttura != null)
+		if (gestore == null) {
+			if (other.gestore != null)
 				return false;
-		} else if (!idStruttura.equals(other.idStruttura))
+		} else if (!gestore.equals(other.gestore))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (luogoStruttura == null) {
 			if (other.luogoStruttura != null)
@@ -314,15 +314,10 @@ public class Struttura implements IPersistente {
 				return false;
 		} else if (!nomeStruttura.equals(other.nomeStruttura))
 			return false;
-		if (proprietario == null) {
-			if (other.proprietario != null)
-				return false;
-		} else if (!proprietario.equals(other.proprietario))
-			return false;
 		if (serviziOfferti == null) {
 			if (other.serviziOfferti != null)
 				return false;
-		} else if (!serviziOfferti.equals(other.serviziOfferti))
+		} else if (!serviziOfferti.containsAll(other.serviziOfferti))
 			return false;
 		if (tableau == null) {
 			if (other.tableau != null)
@@ -330,5 +325,63 @@ public class Struttura implements IPersistente {
 		} else if (!tableau.equals(other.tableau))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the camereInserite
+	 */
+	public List<Camera> getCamereInserite() {
+		return camereInserite;
+	}
+
+	/**
+	 * @param camereInserite the camereInserite to set
+	 */
+	public void setCamereInserite(List<Camera> camereInserite) {
+		this.camereInserite = camereInserite;
+	}
+
+	/**
+	 * @return the tableau
+	 */
+	public TableauPrenotazioni getTableau() {
+		return tableau;
+	}
+
+	/**
+	 * @param tableau the tableau to set
+	 */
+	public void setTableau(TableauPrenotazioni tableau) {
+		this.tableau = tableau;
+	}
+
+	/**
+	 * @param serviziOfferti the serviziOfferti to set
+	 */
+	public void setServiziOfferti(List<DettaglioServizio> serviziOfferti) {
+		this.serviziOfferti = serviziOfferti;
+	}
+
+	/**
+	 * @return the gestore
+	 */
+	public Gestore getGestore() {
+		return gestore;
+	}
+
+	/**
+	 * @param gestore the gestore to set
+	 */
+	public void setGestore(Gestore gestore) {
+		this.gestore = gestore;
 	} 
+	
+	
 }

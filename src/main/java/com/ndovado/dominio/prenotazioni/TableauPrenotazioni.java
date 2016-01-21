@@ -6,8 +6,7 @@ import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
-import com.ndovado.tecservices.persistenza.base.ServizioPersistenzaBase;
-
+import com.ndovado.tecservices.persistenza.base.PrenotazioneDAO;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,10 +19,49 @@ import javax.persistence.Transient;
  */
 @Entity
 public class TableauPrenotazioni implements IPersistente {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((elencoPrenotazioni == null) ? 0 : elencoPrenotazioni.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TableauPrenotazioni))
+			return false;
+		TableauPrenotazioni other = (TableauPrenotazioni) obj;
+		if (elencoPrenotazioni == null) {
+			if (other.elencoPrenotazioni != null)
+				return false;
+		} //else if (!elencoPrenotazioni.equals(other.elencoPrenotazioni))
+		//	return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} //else if (!struttura.equals(other.struttura))
+		//	return false;
+		return true;
+	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static PrenotazioneDAO pdao = new PrenotazioneDAO();
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -77,7 +115,7 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @return
 	 */
 	public Prenotazione getPrenotazione(Long idPrenotazione) {
-		Prenotazione p = ServizioPersistenzaBase.<Prenotazione>get(Prenotazione.class, idPrenotazione);
+		Prenotazione p = pdao.get(idPrenotazione);
 		return p;
 	}
 
@@ -89,7 +127,7 @@ public class TableauPrenotazioni implements IPersistente {
 	public List<RisultatoRicerca> getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
 		Integer totPax = 0;
 		List<RisultatoRicerca> risultati = new ArrayList<RisultatoRicerca>();
-		for (Camera c : struttura.getCamere()) {
+		for (Camera c : struttura.getCamereInserite()) {
 			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
 				RisultatoRicerca rr = new RisultatoRicerca(struttura);
 				rr.addCameraDisponibile(c);

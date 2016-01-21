@@ -6,14 +6,73 @@ import java.util.Date;
 import com.ndovado.dominio.core.DescrizioneCamera;
 
 
-public class DescrizioneCameraBean implements Serializable {
+public class DescrizioneCameraBean implements Serializable, Identifiable {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cameraAssociata == null) ? 0 : cameraAssociata.hashCode());
+		result = prime * result + ((dataFineAffitto == null) ? 0 : dataFineAffitto.hashCode());
+		result = prime * result + ((dataInizioAffitto == null) ? 0 : dataInizioAffitto.hashCode());
+		result = prime * result + ((descrizioneCamera == null) ? 0 : descrizioneCamera.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
+		result = prime * result + ((prezzoCamera == null) ? 0 : prezzoCamera.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof DescrizioneCameraBean))
+			return false;
+		DescrizioneCameraBean other = (DescrizioneCameraBean) obj;
+		if (cameraAssociata == null) {
+			if (other.cameraAssociata != null)
+				return false;
+		} else if (dataFineAffitto == null) {
+			if (other.dataFineAffitto != null)
+				return false;
+		} else if (!dataFineAffitto.equals(other.dataFineAffitto))
+			return false;
+		if (dataInizioAffitto == null) {
+			if (other.dataInizioAffitto != null)
+				return false;
+		} else if (!dataInizioAffitto.equals(other.dataInizioAffitto))
+			return false;
+		if (descrizioneCamera == null) {
+			if (other.descrizioneCamera != null)
+				return false;
+		} else if (!descrizioneCamera.equals(other.descrizioneCamera))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (pax == null) {
+			if (other.pax != null)
+				return false;
+		} else if (!pax.equals(other.pax))
+			return false;
+		if (prezzoCamera == null) {
+			if (other.prezzoCamera != null)
+				return false;
+		} else if (!prezzoCamera.equals(other.prezzoCamera))
+			return false;
+		return true;
+	}
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Long idDescrizioneCamera = new Long(0);
+	private Long id = null;
 	private String descrizioneCamera;
 	private Integer pax = new Integer(0);
 	private Float prezzoCamera = new Float(0);
@@ -27,13 +86,17 @@ public class DescrizioneCameraBean implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public DescrizioneCameraBean(CameraBean camera) {
+		this.cameraAssociata = camera;
+	}
+	
 	public DescrizioneCameraBean(DescrizioneCamera desc) {
 		fillBeanFromModel(desc);
 	}
 	
-	public void fillBeanFromModel(DescrizioneCamera desc) {
+	protected void fillBeanFromModel(DescrizioneCamera desc) {
 		if (desc !=null) {
-			this.idDescrizioneCamera = desc.getId();
+			this.id = desc.getId();
 			this.descrizioneCamera = desc.getDescrizioneCamera();
 			this.pax = desc.getPax();
 			this.prezzoCamera = desc.getPrezzoCamera();
@@ -43,16 +106,10 @@ public class DescrizioneCameraBean implements Serializable {
 	}
 	
 	/**
-	 * @return the idDescrizioneCamera
-	 */
-	public Long getIdDescrizioneCamera() {
-		return idDescrizioneCamera;
-	}
-	/**
 	 * @param idDescrizioneCamera the idDescrizioneCamera to set
 	 */
-	public void setIdDescrizioneCamera(Long idDescrizioneCamera) {
-		this.idDescrizioneCamera = idDescrizioneCamera;
+	public void setId(Long idDescrizioneCamera) {
+		this.id = idDescrizioneCamera;
 	}
 	/**
 	 * @return the descrizioneCamera
@@ -115,9 +172,6 @@ public class DescrizioneCameraBean implements Serializable {
 		this.dataFineAffitto = dataFineAffitto;
 	}
 	
-	public boolean isNewBean() {
-		return this.idDescrizioneCamera==0 || this.idDescrizioneCamera == null;
-	}
 
 	/**
 	 * @return the cameraAssociata
@@ -132,6 +186,25 @@ public class DescrizioneCameraBean implements Serializable {
 	public void setCameraAssociata(CameraBean cameraAssociata) {
 		this.cameraAssociata = cameraAssociata;
 	}
-		
+	
+	@Override
+	public String toString() {
+		return "DescrizioneCameraBean [id:"+this.id+
+				", dataInizio:"+this.dataInizioAffitto+
+				", dataFine:"+this.dataFineAffitto+
+				", descrizione:"+this.descrizioneCamera+
+				", pax:"+this.pax+
+				", prezzo:"+this.prezzoCamera+"]";
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	@Override
+	public Boolean isNewBean() {
+		return this.id==0 || this.id == null;
+	}
 	
 }

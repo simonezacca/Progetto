@@ -7,6 +7,7 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -31,7 +32,7 @@ public class Luogo implements IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idLuogo;
+	private Long id;
 
 	/**
 	 * 
@@ -51,8 +52,8 @@ public class Luogo implements IPersistente {
 	@Column(name="provincia")
 	private String provincia;
 	
-	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL)
-	private List<Struttura> struttureInLuogo;
+	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<Struttura> struttureInLuogo = new ArrayList<Struttura>();
 
 	protected Luogo() {
 		
@@ -61,7 +62,6 @@ public class Luogo implements IPersistente {
 	 * Default constructor
 	 */
 	public Luogo(String nome) {
-		struttureInLuogo = new ArrayList<Struttura>();
 		this.nomeComune = nome;
 	}
 
@@ -104,20 +104,6 @@ public class Luogo implements IPersistente {
 		}
 	}
 
-	/**
-	 * @return the idLuogo
-	 */
-	public Long getId() {
-		return idLuogo;
-	}
-
-	/**
-	 * @param idLuogo the idLuogo to set
-	 */
-	public void setId(Long idLuogo) {
-		this.idLuogo = idLuogo;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -132,37 +118,37 @@ public class Luogo implements IPersistente {
 				return false;
 		} else if (!CAP.equals(other.CAP))
 			return false;
-		if (idLuogo == null) {
-			if (other.idLuogo != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!idLuogo.equals(other.idLuogo))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		if (nomeComune == null) {
 			if (other.nomeComune != null)
 				return false;
 		} else if (!nomeComune.equals(other.nomeComune))
 			return false;
-		if (struttureInLuogo == null) {
-			if (other.struttureInLuogo != null)
+		if (getStruttureInLuogo() == null) {
+			if (other.getStruttureInLuogo() != null)
 				return false;
-		} else if (!struttureInLuogo.equals(other.struttureInLuogo))
-			return false;
+		} //else if (!getStruttureInLuogo().equals(other.getStruttureInLuogo()))
+		//	return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Luogo [idLuogo=" + idLuogo + ", nomeComune=" + nomeComune + ", CAP=" + CAP + "]";
-	}
-	
 	public void addStruttura(Struttura s) {
 		this.getStruttureInLuogo().add(s);
 	}
 	
 	public void removeStruttura(Struttura s) {
-		if (struttureInLuogo.contains(s)) {
-			struttureInLuogo.remove(s);
+		if (getStruttureInLuogo().contains(s)) {
+			getStruttureInLuogo().remove(s);
 		}
+	}
+	@Override
+	public String toString() {
+		return "Luogo [idLuogo=" + getId() + ", nomeComune=" + nomeComune + ", CAP=" + CAP + ", provincia=" + provincia
+				+ "]";
 	}
 	/**
 	 * @return the provincia
@@ -175,6 +161,24 @@ public class Luogo implements IPersistente {
 	 */
 	public void setProvincia(String provincia) {
 		this.provincia = provincia;
+	}
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	/**
+	 * @param struttureInLuogo the struttureInLuogo to set
+	 */
+	public void setStruttureInLuogo(List<Struttura> struttureInLuogo) {
+		this.struttureInLuogo = struttureInLuogo;
 	}
 
 }

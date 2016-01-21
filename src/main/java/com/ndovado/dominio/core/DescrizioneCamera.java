@@ -34,7 +34,7 @@ public class DescrizioneCamera implements IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idDescrizioneCamera;
+	private Long id;
 
 	/**
 	 * 
@@ -57,14 +57,14 @@ public class DescrizioneCamera implements IPersistente {
 	/**
 	 * 
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_inizio")
 	private Date dataInizioAffitto;
 
 	/**
 	 * 
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_fine")
 	private Date dataFineAffitto;
 
@@ -79,7 +79,7 @@ public class DescrizioneCamera implements IPersistente {
 	/**
 	 * Default constructor
 	 */
-	public DescrizioneCamera() {
+	private DescrizioneCamera() {
 	}
 	/**
 	 * 
@@ -175,14 +175,14 @@ public class DescrizioneCamera implements IPersistente {
 	 * @return the idCamera
 	 */
 	public Long getId() {
-		return idDescrizioneCamera;
+		return id;
 	}
 
 	/**
 	 * @param idCamera the idCamera to set
 	 */
-	protected void setId(Long idCamera) {
-		this.idDescrizioneCamera = idCamera;
+	public void setId(Long idCamera) {
+		this.id = idCamera;
 	}
 	/**
 	 * @return the cameraAssociata
@@ -199,19 +199,6 @@ public class DescrizioneCamera implements IPersistente {
 		}
 	}
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cameraAssociata == null) ? 0 : cameraAssociata.hashCode());
-		result = prime * result + ((dataFineAffitto == null) ? 0 : dataFineAffitto.hashCode());
-		result = prime * result + ((dataInizioAffitto == null) ? 0 : dataInizioAffitto.hashCode());
-		result = prime * result + ((descrizioneCamera == null) ? 0 : descrizioneCamera.hashCode());
-		result = prime * result + ((idDescrizioneCamera == null) ? 0 : idDescrizioneCamera.hashCode());
-		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
-		result = prime * result + ((prezzoCamera == null) ? 0 : prezzoCamera.hashCode());
-		return result;
-	}
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -223,9 +210,7 @@ public class DescrizioneCamera implements IPersistente {
 		if (cameraAssociata == null) {
 			if (other.cameraAssociata != null)
 				return false;
-		} else if (!cameraAssociata.equals(other.cameraAssociata))
-			return false;
-		if (dataFineAffitto == null) {
+		} else if (dataFineAffitto == null) {
 			if (other.dataFineAffitto != null)
 				return false;
 		} else if (!dataFineAffitto.equals(other.dataFineAffitto))
@@ -240,10 +225,10 @@ public class DescrizioneCamera implements IPersistente {
 				return false;
 		} else if (!descrizioneCamera.equals(other.descrizioneCamera))
 			return false;
-		if (idDescrizioneCamera == null) {
-			if (other.idDescrizioneCamera != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idDescrizioneCamera.equals(other.idDescrizioneCamera))
+		} else if (!id.equals(other.id))
 			return false;
 		if (pax == null) {
 			if (other.pax != null)

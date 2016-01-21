@@ -81,7 +81,7 @@ public class CatalogoStrutture {
 	public static void removeStruttura(Struttura s) {
 		if (elencoStrutture.contains(s)) {
 			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
-			s.getLuogo().removeStruttura(s);
+			s.getLuogoStruttura().removeStruttura(s);
 			s.getProprietario().rimuoviGestioneStruttura(s);
 			// infine elimino la struttura dal catalogo
 			elencoStrutture.remove(s);

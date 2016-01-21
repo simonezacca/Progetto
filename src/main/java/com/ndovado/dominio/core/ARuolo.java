@@ -1,6 +1,7 @@
 package com.ndovado.dominio.core;
 
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,10 +17,13 @@ import com.ndovado.helpers.core.TipoUtente;
 /**
  * 
  */
+
 @Entity
 @Table(name="ruolo")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipologia")
+
+//@Embeddable
 public abstract class ARuolo{
 
 	@Id
@@ -28,8 +32,9 @@ public abstract class ARuolo{
 	/**
 	 * 
 	 */
-	@OneToOne(mappedBy="ruolo")
-	protected Utente utente;
+	//@OneToOne(mappedBy="ruolo")
+	@OneToOne
+	private Utente utente;
 
 	/**
 	 * Default constructor
@@ -51,10 +56,34 @@ public abstract class ARuolo{
 		return new Locatario();
 	}
 	
+	public abstract TipoUtente getEnumTypeRuolo();
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the utente
+	 */
+	public Utente getUtente() {
+		return utente;
+	}
+
+	/**
+	 * @param utente the utente to set
+	 */
 	public void setUtente(Utente utente) {
 		this.utente = utente;
 	}
-	
-	public abstract TipoUtente getEnumTypeRuolo();
 
 }
