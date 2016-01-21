@@ -7,6 +7,7 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -75,7 +76,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * Insieme delle camera collegate alla struttura
 	 */
-	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	//@OrderBy(clause="id")
 	private List<Camera> camereInserite;
 

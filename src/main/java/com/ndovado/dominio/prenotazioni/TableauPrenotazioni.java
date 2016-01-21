@@ -5,19 +5,25 @@ import java.util.*;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 import com.ndovado.tecservices.persistenza.base.PrenotazioneDAO;
-import javax.persistence.Entity;
+import com.ndovado.tecservices.persistenza.base.StrutturaDAO;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 /**
  * 
  */
-//@Entity
+
 public class TableauPrenotazioni implements IPersistente {
 	/**
 	 * 
@@ -36,17 +42,29 @@ public class TableauPrenotazioni implements IPersistente {
 	/**
 	 * Default constructor
 	 */
+	
+	public static void main (String [] args)
+	   {
+		
+		StrutturaDAO sdao = new StrutturaDAO();
+		Struttura s = sdao.get(new Long(1));
+		TableauPrenotazioni tp = new  TableauPrenotazioni(s);
+		
+		AppLogger.debug(tp.elencoPrenotazioni.toString());
+			
+	   }
+	
 	public TableauPrenotazioni(Struttura s) {
-		elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
 		// collego la struttura s al tablea prenotazioni appena istanziato
 		this.struttura = s;
+		initMapTableau();
+		initTableau();
 	}
 
 	/**
 	 * 
 	 */
-	//@OneToMany
-	// TODO implementare
+
 	@Transient
 	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni;
 
@@ -88,13 +106,15 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @return
 	 */
 	public List<RisultatoRicerca> getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
+		// numero massimo di persone che possono alloggiare nella struttura
 		Integer totPax = 0;
 		List<RisultatoRicerca> risultati = new ArrayList<RisultatoRicerca>();
 		for (Camera c : struttura.getCamereInserite()) {
 			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
 				RisultatoRicerca rr = new RisultatoRicerca(struttura);
 				rr.addCameraDisponibile(c);
-				totPax = c.getPax();
+				// incremento il numero dei possibili alloggiati
+				totPax += c.getPax();
 			}
 		}
 		if(totPax<npersone) {
@@ -115,7 +135,8 @@ public class TableauPrenotazioni implements IPersistente {
 		Boolean risultato = false;
 		Set<Prenotazione> sp = getElencoPrenotazioniFuturePerCamera(c); // navigable set ordinato per dataArrivo asc
 		Iterator<Prenotazione> i = sp.iterator();
-		while(i.hasNext() && !risultato) {
+		// controllare i.hasNext con caso 1 prenotazione futura
+		while(i.next()!=null && !risultato) {
 			Prenotazione p = i.next();
 			risultato = p.isDateSovrapposte(da, dp);
 		}
@@ -187,6 +208,58 @@ public class TableauPrenotazioni implements IPersistente {
 		} //else if (!struttura.equals(other.struttura))
 		//	return false;
 		return true;
+	}
+	
+	private void initMapTableau() {
+		if (elencoPrenotazioni==null) {
+			elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
+		}
+	}
+	
+	private void initTableau() {
+		// passo 1: ottengo lista camere della struttura
+		// passo 2: instanzire la map e usare la camera come chiave
+		// passo 3: per ogni camera ottenere l'elenco delle prenotazioni
+		// 			tramite query SQL o HQL se DIO vuole
+		// passo 4: inserisco coppia <K,V> come <Camera,Set<Prenotazione>>
+		List<Camera> elencoCamere = struttura.getCamereInserite();
+		initMapTableau();
+		for (Camera camera : elencoCamere) {
+			TreeSet<Prenotazione> pPerCamera = getInsiemePrenotazioniPerCamera(camera);
+			elencoPrenotazioni.put(camera, pPerCamera);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCamera(Camera c) {
+//		Query esempio
+		
+//		select p.* from Prenotazione p
+//		join LineaPrenotazione lp
+//			on p.idPrenotazione = lp.prenotazioneCorrente_idPrenotazione
+//		join Camera c
+//			on c.id = lp.oggetto_id
+//		where c.id = 2 and lp.tipo_oggetto = 1
+		
+		String queryElencoCamere = "select p.* from prenotazione p "
+				+ "join linea_prenotazione lp "
+				+ "on p.idPrenotazione = lp.prenotazioneCorrente_idPrenotazione "
+				+ "join camera c	on c.id = lp.oggetto_id "
+				+ "where c.id = "+c.getId().toString()+" and lp.tipo_oggetto = 1;";
+		
+		TreeSet<Prenotazione> insiemePrenotazioni = new TreeSet<Prenotazione>();
+		SessionFactory sf = pdao.getSessionFactory();
+		Session session = sf.openSession();
+		
+		Query q = session.createSQLQuery(queryElencoCamere).addEntity(Prenotazione.class);
+		List<Prenotazione> lista = q.list();
+		for (Prenotazione prenotazione : lista) {
+			insiemePrenotazioni.add(prenotazione);
+		}
+		
+		session.close();
+		
+		return insiemePrenotazioni;
 	}
 	
 }
