@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<stop-on-errors>true</stop-on-errors>
+	</configuration>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Utente</class-a>
+		<class-b>com.ndovado.webapp.beans.core.UtenteBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Camera</class-a>
+		<class-b>com.ndovado.webapp.beans.core.CameraBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.DescrizioneCamera</class-a>
+		<class-b>com.ndovado.webapp.beans.core.DescrizioneCameraBean</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Struttura</class-a>
+		<class-b>com.ndovado.webapp.beans.core.StrutturaBean</class-b>
+
+		<field>
+			<a get-method="getGestore">gestore</a>
+			<b>gestore.ruolo</b>
+		</field>
+		<field-exclude>
+			<a>tableau</a>
+			<b>tableau</b>
+		</field-exclude>
+		<field-exclude>
+			<a>serviziOfferti</a>
+			<b>elencoServizi</b>
+		</field-exclude>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Luogo</class-a>
+		<class-b>com.ndovado.webapp.beans.core.LuogoBean</class-b>
+
+		<field-exclude>
+			<a get-method="getStruttureInLuogo">struttureInLuogo</a>
+			<b get-method="getStruttureInLuogo">struttureInLuogo</b>
+		</field-exclude>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Gestore</class-a>
+		<class-b>com.ndovado.webapp.beans.core.GestoreBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.Locatario</class-a>
+		<class-b>com.ndovado.webapp.beans.core.LocatarioBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.core.ARuolo</class-a>
+		<class-b>com.ndovado.webapp.beans.core.ARuoloBean</class-b>
+	</mapping>
+</mappings>
