@@ -79,7 +79,8 @@ public class DescrizioneCamera implements IPersistente {
 	/**
 	 * Default constructor
 	 */
-	private DescrizioneCamera() {
+	protected DescrizioneCamera() {
+	
 	}
 	/**
 	 * 

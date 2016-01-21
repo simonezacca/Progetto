@@ -2,10 +2,8 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
-import com.ndovado.helpers.core.TipoUtente;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 
 import javax.persistence.OneToMany;
@@ -14,14 +12,13 @@ import javax.persistence.OneToMany;
  * 
  */
 @Entity
-//@Embeddable
 public class Locatario extends ARuolo implements IPersistente {
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((prenotazioni == null) ? 0 : prenotazioni.hashCode());
+//		result = prime * result + ((prenotazioni == null) ? 0 : prenotazioni.hashCode());
 		return result;
 	}
 
@@ -34,11 +31,11 @@ public class Locatario extends ARuolo implements IPersistente {
 		if (!(obj instanceof Locatario))
 			return false;
 		Locatario other = (Locatario) obj;
-		if (prenotazioni == null) {
-			if (other.prenotazioni != null)
-				return false;
-		} else if (!prenotazioni.equals(other.prenotazioni))
-			return false;
+//		if (prenotazioni == null) {
+//			if (other.prenotazioni != null)
+//				return false;
+//		} else if (!prenotazioni.equals(other.prenotazioni))
+//			return false;
 		return true;
 	}
 
@@ -79,12 +76,6 @@ public class Locatario extends ARuolo implements IPersistente {
 	public Long getId() {
 		return this.id;
 	}
-
-	@Override
-	public TipoUtente getEnumTypeRuolo() {
-		return TipoUtente.LOCATARIO;
-	}
-	
 	
 
 }

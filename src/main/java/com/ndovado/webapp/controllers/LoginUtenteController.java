@@ -4,7 +4,10 @@ package com.ndovado.webapp.controllers;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import com.ndovado.dominio.core.Utente;
 import com.ndovado.helpers.core.UtenteHelper;
+import com.ndovado.tecservices.mappers.UserMapper;
+import com.ndovado.tecservices.persistenza.base.UtenteDAO;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
 @ManagedBean(name="loginController")
@@ -30,7 +33,10 @@ public class LoginUtenteController {
 	}
 	public String doRegistrazione(UtenteBean u) {
 		if (!UtenteHelper.esisteIndirizzoMail(u.getMail()) || !u.isNewBean()) {
-			u = UtenteHelper.creaOAggiornaUtenteDaBean(u);
+			UtenteDAO udao = new UtenteDAO();
+			Utente umodel = UserMapper.getInstance().getModelFromBean(u);
+			udao.saveOrUpdate(umodel);
+			u = UserMapper.getInstance().getBeanFromModel(umodel);
 			u.setLogged(true);
 			return u.getHomePageName();
 		}

@@ -82,7 +82,7 @@ public class CatalogoStrutture {
 		if (elencoStrutture.contains(s)) {
 			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
 			s.getLuogoStruttura().removeStruttura(s);
-			s.getProprietario().rimuoviGestioneStruttura(s);
+			s.getGestore().rimuoviGestioneStruttura(s);
 			// infine elimino la struttura dal catalogo
 			elencoStrutture.remove(s);
 		}

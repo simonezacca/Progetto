@@ -4,12 +4,8 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Utente;
-import com.ndovado.helpers.core.TipoUtente;
 
 @ManagedBean(name="utenteBean")
 @SessionScoped
@@ -96,8 +92,6 @@ public class UtenteBean implements Serializable, Identifiable{
 	
 	private boolean loggedIn = false;
 
-	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
-    @NotNull
 	public String getNome() {
 		return nome;
 	}
@@ -106,8 +100,6 @@ public class UtenteBean implements Serializable, Identifiable{
 		this.nome = nome;
 	}
 
-	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
-    @NotNull
 	public String getCognome() {
 		return cognome;
 	}
@@ -116,8 +108,6 @@ public class UtenteBean implements Serializable, Identifiable{
 		this.cognome = cognome;
 	}
 
-	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
-    @NotNull
 	public String getMail() {
 		return mail;
 	}
@@ -125,8 +115,7 @@ public class UtenteBean implements Serializable, Identifiable{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	@Pattern(regexp = ".*\\S.*", message = "cannot be empty")
-	@NotNull
+
 	public String getPassword() {
 		return password;
 	}
@@ -152,13 +141,6 @@ public class UtenteBean implements Serializable, Identifiable{
 	
 	public Boolean isNewBean() {
 		return id==0 || id == null;
-	}
-	
-	public TipoUtente getValoreLocatario() {
-		return TipoUtente.LOCATARIO;
-	}
-	public TipoUtente getValoreGestore() {
-		return TipoUtente.GESTORE;
 	}
 
 	/**
@@ -192,7 +174,7 @@ public class UtenteBean implements Serializable, Identifiable{
 	 */
 	public String getHomePageName() {
 		if(this.getRuolo()!=null)
-			return (this.getRuolo().equals(getValoreLocatario())) ? "/areaPrivata?faces-redirect=true": "/gestore/areaGestore?faces-redirect=true" ;
+			return (this.getRuolo() instanceof LocatarioBean) ? "/areaPrivata?faces-redirect=true": "/gestore/areaGestore?faces-redirect=true" ;
 		return null;
 	}
 	

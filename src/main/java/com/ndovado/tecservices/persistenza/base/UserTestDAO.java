@@ -63,7 +63,7 @@ public class UserTestDAO {
 		s1.setNomeStruttura("Struttura prova");
 		s1.setLuogoStruttura(l1);
 		
-		s1.setProprietario(u2.getRuolo());
+		//s1.setGestore(u2.getRuolo());
 		
 		Camera c1 = s1.creaNuovaCamera();
 		c1.setNomeCamera("Camera prova");

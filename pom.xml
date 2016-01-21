@@ -52,16 +52,7 @@
 		<artifactId>slf4j-api</artifactId>
 		<version>1.7.13</version>
 	</dependency>
-	<dependency>
-		<groupId>commons-beanutils</groupId>
-		<artifactId>commons-beanutils</artifactId>
-		<version>1.8.3</version>
-	</dependency>
-	<dependency>
-	   <groupId>org.hibernate</groupId>
-	   <artifactId>hibernate-validator</artifactId>
-	   <version>5.2.2.Final</version>
-	</dependency>
+	
 	<dependency>
 		<groupId>jstl</groupId>
 		<artifactId>jstl</artifactId>
@@ -87,6 +78,5 @@
 	<artifactId>dozer</artifactId>
 	<version>5.5.1</version>
 </dependency>
-    
   </dependencies>
 </project>

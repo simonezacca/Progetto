@@ -12,7 +12,6 @@ import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
-import com.ndovado.modeladapter.IBeanModelConverter;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistenza.base.CameraDAO;
 import com.ndovado.tecservices.persistenza.base.DescrizioneCameraDAO;
@@ -20,12 +19,13 @@ import com.ndovado.tecservices.persistenza.base.LuogoDAO;
 import com.ndovado.tecservices.persistenza.base.StrutturaDAO;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.DescrizioneCameraBean;
+import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
 @ManagedBean(name="strutturaHelper")
-public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Struttura>{
+public class StrutturaHelper{
 
 	private static StrutturaDAO sdao = new StrutturaDAO();
 	private static DescrizioneCameraDAO dcdao = new DescrizioneCameraDAO();
@@ -45,7 +45,7 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 	public List<StrutturaBean> getListaStruttureBeanByGestore(UtenteBean g) {
 		List<StrutturaBean> struttureBean = new ArrayList<StrutturaBean>();
 		
-		if (g.getRuolo() == TipoUtente.GESTORE) {
+		if (g.getRuolo() instanceof GestoreBean) {
 			Utente gestore = UtenteHelper.getUtenteModelFromBean(g);
 			if (gestore!=null) {
 				Gestore ruolo = (Gestore) gestore.getRuolo();
@@ -74,7 +74,7 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 			dcmodel = new DescrizioneCamera(cmodel);
 		}
 		else {
-			dcmodel = dcdao.get(dcb.getIdDescrizioneCamera());
+			dcmodel = dcdao.get(dcb.getId());
 		}
 		fillDescrizioneCameraModelFromBean(dcb, dcmodel);
 		// persisto la descrozione camera
@@ -96,7 +96,7 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 		if (cb.isNewBean()) {
 			cmodel = new Camera(smodel);
 		} else {
-			cmodel = cdao.get(cb.getIdCamera());
+			cmodel = cdao.get(cb.getId());
 		}
 		fillCameraModelFromBean(cb, cmodel);
 		// persisto la struttura e tutte le entità collegate in cascata
@@ -114,11 +114,11 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 		AppLogger.debug("Creo nuova Descrizione Camera Model");
 		DescrizioneCamera descrizioneCorrenteModel = new DescrizioneCamera(cmodel);
 		AppLogger.debug("Imposto Descrizione Camera Model <--- Descrizione Camera Bean");
-		cmodel.setDescrizioneCameraCorrente(descrizioneCorrenteModel);
+		cmodel.setDescrizioneCorrente(descrizioneCorrenteModel);
 		fillDescrizioneCameraModelFromBean(dcb, descrizioneCorrenteModel);
 				
 		descrizioneCorrenteModel.setCameraAssociata(cmodel);
-		cmodel.setDescrizioneCameraCorrente(descrizioneCorrenteModel);
+		cmodel.setDescrizioneCorrente(descrizioneCorrenteModel);
 		
 		List<DescrizioneCameraBean> descCamereBean = cb.getDescrizioniCamera();
 		for (DescrizioneCameraBean descrizioneCameraBean : descCamereBean) {
@@ -135,11 +135,11 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 			AppLogger.debug("Nuova struttura da Bean");
 			smodel = new Struttura();
 			// lego la struttura con il proprietario
-			smodel.setProprietario(gestore.getRuolo());
+			smodel.setGestore((Gestore) gestore.getRuolo());
 			
 		} else {
 			AppLogger.debug("Struttura esistente da Bean");
-			smodel = sdao.get(sb.getIdStruttura());
+			smodel = sdao.get(sb.getId());
 		}
 		AppLogger.debug("Riempio struttura da Bean");
 		fillStrutturaModelFromBean(sb, smodel);
@@ -150,8 +150,8 @@ public class StrutturaHelper implements IBeanModelConverter<StrutturaBean,Strutt
 	
 	private void fillStrutturaModelFromBean(StrutturaBean sb, Struttura smodel) {
 		smodel.setNomeStruttura(sb.getNomeStruttura());
-		Luogo l = ldao.get(sb.getLuogoStruttura().getIdLuogo());
-		smodel.setLuogo(l);
+		Luogo l = ldao.get(sb.getLuogoStruttura().getId());
+		smodel.setLuogoStruttura(l);
 		
 		AppLogger.debug("Ottengo elenco camere da Struttura Bean");
 		List<CameraBean> camereBean = sb.getCamereInserite();

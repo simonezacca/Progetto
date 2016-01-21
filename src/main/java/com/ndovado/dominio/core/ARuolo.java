@@ -1,7 +1,6 @@
 package com.ndovado.dominio.core;
 
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +9,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.ndovado.helpers.core.TipoUtente;
-
 
 /**
  * 
@@ -23,7 +19,6 @@ import com.ndovado.helpers.core.TipoUtente;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipologia")
 
-//@Embeddable
 public abstract class ARuolo{
 
 	@Id
@@ -55,8 +50,7 @@ public abstract class ARuolo{
 	public static Locatario getRuoloLocatario() {
 		return new Locatario();
 	}
-	
-	public abstract TipoUtente getEnumTypeRuolo();
+
 
 	/**
 	 * @return the id

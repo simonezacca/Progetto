@@ -12,15 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.OrderBy;
 
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
 import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
@@ -36,6 +33,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * 
 	 */
+	@Transient
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -63,21 +61,22 @@ public class Struttura implements IPersistente {
 	 * Insieme dei servizi offerti dalla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
-	@OrderBy(clause="iddettaglio_servizio")
+	//@OrderBy(clause="iddettaglio_servizio")
 	private List<DettaglioServizio> serviziOfferti;
 
 	/**
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
 	 */
 
-	@OneToOne(cascade=CascadeType.ALL)
+	//@OneToOne(cascade=CascadeType.ALL,mappedBy = "struttura")
+	@Transient
 	private TableauPrenotazioni tableau;
 
 	/**
 	 * Insieme delle camera collegate alla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
-	@OrderBy(clause="id")
+	//@OrderBy(clause="id")
 	private List<Camera> camereInserite;
 
 	/**

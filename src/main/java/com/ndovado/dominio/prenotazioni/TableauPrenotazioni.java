@@ -17,45 +17,8 @@ import javax.persistence.Transient;
 /**
  * 
  */
-@Entity
+//@Entity
 public class TableauPrenotazioni implements IPersistente {
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((elencoPrenotazioni == null) ? 0 : elencoPrenotazioni.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof TableauPrenotazioni))
-			return false;
-		TableauPrenotazioni other = (TableauPrenotazioni) obj;
-		if (elencoPrenotazioni == null) {
-			if (other.elencoPrenotazioni != null)
-				return false;
-		} //else if (!elencoPrenotazioni.equals(other.elencoPrenotazioni))
-		//	return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (struttura == null) {
-			if (other.struttura != null)
-				return false;
-		} //else if (!struttura.equals(other.struttura))
-		//	return false;
-		return true;
-	}
-
 	/**
 	 * 
 	 */
@@ -90,7 +53,7 @@ public class TableauPrenotazioni implements IPersistente {
 	/**
 	 * 
 	 */
-	@OneToOne(mappedBy = "tableau")
+	@OneToOne
 	private Struttura struttura;
 
 
@@ -187,6 +150,43 @@ public class TableauPrenotazioni implements IPersistente {
 	@Override
 	public Long getId() {
 		return this.id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((elencoPrenotazioni == null) ? 0 : elencoPrenotazioni.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof TableauPrenotazioni))
+			return false;
+		TableauPrenotazioni other = (TableauPrenotazioni) obj;
+		if (elencoPrenotazioni == null) {
+			if (other.elencoPrenotazioni != null)
+				return false;
+		} //else if (!elencoPrenotazioni.equals(other.elencoPrenotazioni))
+		//	return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} //else if (!struttura.equals(other.struttura))
+		//	return false;
+		return true;
 	}
 	
 }

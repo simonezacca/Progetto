@@ -34,7 +34,7 @@ public class RisultatoRicerca {
 	 */
 	public void addCameraDisponibile(Camera aCamera) {
 		if (aCamera!= null) {
-			camereLibere.add(aCamera);
+			getCamereLibere().add(aCamera);
 		}
 	}
 	
@@ -43,6 +43,20 @@ public class RisultatoRicerca {
 	 */
 	public Struttura getStruttura() {
 		return this.struttura;
+	}
+
+	/**
+	 * @return the camereLibere
+	 */
+	public Set<Camera> getCamereLibere() {
+		return camereLibere;
+	}
+
+	/**
+	 * @param camereLibere the camereLibere to set
+	 */
+	public void setCamereLibere(Set<Camera> camereLibere) {
+		this.camereLibere = camereLibere;
 	}
 
 }

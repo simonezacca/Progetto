@@ -46,7 +46,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_ora_prenotazione")
 	private Date dataOraPrenotazione;
 
@@ -65,14 +65,14 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_arrivo")
 	private Date dataArrivo;
 
 	/**
 	 * 
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "data_partenza")
 	private Date dataPartenza;
 
@@ -87,13 +87,13 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * 
 	 */
 	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL)
-	private Set<LineaPrenotazione> lineePrenotazione;
+	private List<LineaPrenotazione> lineePrenotazione;
 
 	/**
 	 * 
 	 */
 	@OneToMany(mappedBy = "prenotazioneSaldata",cascade=CascadeType.ALL)
-	private Set<Pagamento> pagamentiAssociati;
+	private List<Pagamento> pagamentiAssociati;
 	
 	/**
 	 * 
@@ -113,8 +113,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 			this.locatario = l;
 			l.addPrenotazione(this);
 		}
-		pagamentiAssociati = new HashSet<Pagamento>();
-		lineePrenotazione = new HashSet<LineaPrenotazione>();
+		pagamentiAssociati = new ArrayList<Pagamento>();
+		lineePrenotazione = new ArrayList<LineaPrenotazione>();
 	}
 
 	public void setLocatario(Locatario locatario) {
@@ -259,7 +259,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		result = prime * result + ((idPrenotazione == null) ? 0 : idPrenotazione.hashCode());
 		result = prime * result + ((importoTotale == null) ? 0 : importoTotale.hashCode());
 		result = prime * result + ((lineePrenotazione == null) ? 0 : lineePrenotazione.hashCode());
-		result = prime * result + ((locatario == null) ? 0 : locatario.hashCode());
+		//result = prime * result + ((locatario == null) ? 0 : locatario.hashCode());
 		result = prime * result + ((pagamentiAssociati == null) ? 0 : pagamentiAssociati.hashCode());
 		result = prime * result + ((statoPrenotazione == null) ? 0 : statoPrenotazione.hashCode());
 		return result;
