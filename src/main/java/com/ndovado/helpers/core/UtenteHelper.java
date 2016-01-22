@@ -1,6 +1,5 @@
 package com.ndovado.helpers.core;
 
-import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistenza.base.UtenteDAO;

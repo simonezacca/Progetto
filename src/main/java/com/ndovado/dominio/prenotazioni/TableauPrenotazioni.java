@@ -246,14 +246,14 @@ public class TableauPrenotazioni {
 	
 	@SuppressWarnings("unchecked")
 	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCamera(Camera c) {
-//		Query esempio
-		
-//		select p.* from Prenotazione p
-//		join LineaPrenotazione lp
-//			on p.idPrenotazione = lp.prenotazioneCorrente_idPrenotazione
-//		join Camera c
-//			on c.id = lp.oggetto_id
-//		where c.id = 2 and lp.tipo_oggetto = 1
+		//	Query esempio
+				
+		//	select p.* from Prenotazione p
+		//	join LineaPrenotazione lp
+		//		on p.idPrenotazione = lp.prenotazioneCorrente_idPrenotazione
+		//	join Camera c
+		//		on c.id = lp.oggetto_id
+		//	where c.id = 2 and lp.tipo_oggetto = 1
 		
 		String queryElencoCamere = "select p.* from prenotazione p "
 				+ "join linea_prenotazione lp "
