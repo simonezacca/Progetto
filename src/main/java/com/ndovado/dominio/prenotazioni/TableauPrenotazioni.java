@@ -3,12 +3,14 @@ package com.ndovado.dominio.prenotazioni;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
+import com.ndovado.dominio.core.DescrizioneCamera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistenza.base.IPersistente;
 import com.ndovado.tecservices.persistenza.base.PrenotazioneDAO;
 import com.ndovado.tecservices.persistenza.base.StrutturaDAO;
+import com.sun.org.apache.regexp.internal.recompile;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,18 +27,13 @@ import org.hibernate.SessionFactory;
  * 
  */
 
-public class TableauPrenotazioni implements IPersistente {
+public class TableauPrenotazioni {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+
 	private static PrenotazioneDAO pdao = new PrenotazioneDAO();
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
 	protected TableauPrenotazioni() {
 	}
 
@@ -43,16 +41,36 @@ public class TableauPrenotazioni implements IPersistente {
 	 * Default constructor
 	 */
 	
-	public static void main (String [] args)
-	   {
+	public static void main (String [] args) {
 		
 		StrutturaDAO sdao = new StrutturaDAO();
 		Struttura s = sdao.get(new Long(1));
 		TableauPrenotazioni tp = new  TableauPrenotazioni(s);
 		
 		AppLogger.debug(tp.elencoPrenotazioni.toString());
-			
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(2016, 0, 27);
+		Date da = cal.getTime();
+		
+		cal.set(2016, 0, 30);
+		Date dp = cal.getTime();
+		
+		List<RisultatoRicerca> rr = tp.getSoluzioniDisponibili(da, dp, 2);
+		if (!rr.isEmpty()) {
+			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.size());
+			for (RisultatoRicerca risultatoRicerca : rr) {
+				AppLogger.debug("Elenco camere libere:");
+				Set<Camera> sc = risultatoRicerca.getCamereLibere();
+				for (Camera camera : sc) {
+					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera()+"\n");
+				}
+			}
+		} else {
+			AppLogger.debug("Lista risultati ricerca VUOTA");
+		}
 	   }
+	
 	
 	public TableauPrenotazioni(Struttura s) {
 		// collego la struttura s al tablea prenotazioni appena istanziato
@@ -66,7 +84,7 @@ public class TableauPrenotazioni implements IPersistente {
 	 */
 
 	@Transient
-	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni;
+	private Map<Long,TreeSet<Prenotazione>> elencoPrenotazioni;
 
 	/**
 	 * 
@@ -113,6 +131,7 @@ public class TableauPrenotazioni implements IPersistente {
 			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
 				RisultatoRicerca rr = new RisultatoRicerca(struttura);
 				rr.addCameraDisponibile(c);
+				risultati.add(rr);
 				// incremento il numero dei possibili alloggiati
 				totPax += c.getPax();
 			}
@@ -131,16 +150,22 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @param dp 
 	 * @return
 	 */
-	private Boolean isCameraDisponibile(Camera c, Date da, Date dp) {
+	private Boolean isCameraDisponibile(final Camera c, Date da, Date dp) {
+		// controllare prima che nella descrizione camera corrente
+		// sia disponibile il periodo di prenotazione
+		DescrizioneCamera d = c.getDescrizioneCorrente();
+		if(d.getDataInizioAffitto().after(da) || d.getDataFineAffitto().before(dp) )
+			return false;
+		
 		Boolean risultato = false;
 		Set<Prenotazione> sp = getElencoPrenotazioniFuturePerCamera(c); // navigable set ordinato per dataArrivo asc
 		Iterator<Prenotazione> i = sp.iterator();
-		// controllare i.hasNext con caso 1 prenotazione futura
-		while(i.next()!=null && !risultato) {
+		
+		while(i.hasNext() && !risultato) {
 			Prenotazione p = i.next();
 			risultato = p.isDateSovrapposte(da, dp);
 		}
-		return risultato;
+		return !risultato;
 	}
 
 	/**
@@ -148,7 +173,7 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @return
 	 */
 	protected Set<Prenotazione> getElencoPrenotazioniPerCamera(Camera c) {
-		Set<Prenotazione> s = elencoPrenotazioni.get(c);
+		Set<Prenotazione> s = elencoPrenotazioni.get(c.getId());
 		return s;
 	}
 
@@ -160,17 +185,12 @@ public class TableauPrenotazioni implements IPersistente {
 	 * @return
 	 */
 	protected Set<Prenotazione> getElencoPrenotazioniFuturePerCamera(Camera c) {
-		TreeSet<Prenotazione> s = elencoPrenotazioni.get(c);
+		TreeSet<Prenotazione> s = (TreeSet<Prenotazione>) getElencoPrenotazioniPerCamera(c);
 		Date oggi = new Date();
 		for (Prenotazione p : s)
-			if (p.getDataArrivo().after(oggi))
+			if (p.getDataPartenza().after(oggi))
 				return s.tailSet(p);
 		return new TreeSet<Prenotazione>(); // ritorno insieme vuoto in caso di mancanza prenotazioni future
-	}
-
-	@Override
-	public Long getId() {
-		return this.id;
 	}
 
 	@Override
@@ -178,7 +198,6 @@ public class TableauPrenotazioni implements IPersistente {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((elencoPrenotazioni == null) ? 0 : elencoPrenotazioni.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
 		return result;
 	}
@@ -197,12 +216,7 @@ public class TableauPrenotazioni implements IPersistente {
 				return false;
 		} //else if (!elencoPrenotazioni.equals(other.elencoPrenotazioni))
 		//	return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (struttura == null) {
+		else if (struttura == null) {
 			if (other.struttura != null)
 				return false;
 		} //else if (!struttura.equals(other.struttura))
@@ -212,13 +226,13 @@ public class TableauPrenotazioni implements IPersistente {
 	
 	private void initMapTableau() {
 		if (elencoPrenotazioni==null) {
-			elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
+			elencoPrenotazioni = new HashMap<Long,TreeSet<Prenotazione>>();
 		}
 	}
 	
 	private void initTableau() {
 		// passo 1: ottengo lista camere della struttura
-		// passo 2: instanzire la map e usare la camera come chiave
+		// passo 2: instanziare la map e usare la camera come chiave
 		// passo 3: per ogni camera ottenere l'elenco delle prenotazioni
 		// 			tramite query SQL o HQL se DIO vuole
 		// passo 4: inserisco coppia <K,V> come <Camera,Set<Prenotazione>>
@@ -226,7 +240,7 @@ public class TableauPrenotazioni implements IPersistente {
 		initMapTableau();
 		for (Camera camera : elencoCamere) {
 			TreeSet<Prenotazione> pPerCamera = getInsiemePrenotazioniPerCamera(camera);
-			elencoPrenotazioni.put(camera, pPerCamera);
+			elencoPrenotazioni.put(camera.getId(), pPerCamera);
 		}
 	}
 	
@@ -260,6 +274,11 @@ public class TableauPrenotazioni implements IPersistente {
 		session.close();
 		
 		return insiemePrenotazioni;
+	}
+
+	@Override
+	public String toString() {
+		return "TableauPrenotazioni [struttura=" + struttura + ", elencoPrenotazioni=" + elencoPrenotazioni + "]";
 	}
 	
 }

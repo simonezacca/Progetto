@@ -17,6 +17,7 @@ public class RisultatoRicerca {
 		if (s!=null) {
 			struttura = s;
 		}
+		camereLibere = new HashSet<Camera>();
 	}
 
 	/**
