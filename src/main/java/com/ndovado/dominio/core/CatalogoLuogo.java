@@ -52,8 +52,16 @@ public class CatalogoLuogo {
 		return instance;
 	}
 	
-	public Luogo getLuogo(Long id) {
+	public Luogo getLuogoById(Long id) {
 		return mappaLuoghi.get(id);
+	}
+	
+	public Luogo getLuogo(Luogo l) {
+		if (mappaLuoghi.containsValue(l)) {
+			Long id = l.getId();
+			return mappaLuoghi.get(id);
+		}
+		return null;
 	}
 	
 	public List<Luogo> getListaLuoghiPerNome(String nome) {

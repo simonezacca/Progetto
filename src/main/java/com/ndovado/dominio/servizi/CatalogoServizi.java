@@ -6,7 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistenza.base.ServizioComuneDAO;
 
 
@@ -16,33 +16,48 @@ import com.ndovado.tecservices.persistenza.base.ServizioComuneDAO;
  */
 public class CatalogoServizi {
 
-	private static SessionFactory sf = ServizioComuneDAO.getSessionFactory();
+	private static ServizioComuneDAO scdao = new ServizioComuneDAO();
+	private List<ServizioComune> serviziDisponibili;
+	private static CatalogoServizi instance;
 	
 	/**
 	 * Default constructor
 	 */
-	protected CatalogoServizi() {
-		serviziDisponibili = new HashSet<ServizioComune>();
+	private CatalogoServizi() {
+		initList();
+		populateList();
 	}
+	
+	private void initList() {
+		if (serviziDisponibili==null) {
+			serviziDisponibili = new ArrayList<ServizioComune>();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void populateList() {
+		AppLogger.debug("Popolo lista servizi da DB");
+		SessionFactory sf = scdao.getSessionFactory();
+		Session session = sf.openSession();
+		
+		Query q = session.createQuery("from ServizioComune");
+		
+		this.serviziDisponibili = q.list();
+		session.close();
+		AppLogger.debug("Lista popolata con "+serviziDisponibili.size()+" elementi.");
+	}
+	
+	
 
-	/**
-	 * 
-	 */
-	private static CatalogoServizi istance;
-
-	/**
-	 * 
-	 */
-	private Set<ServizioComune> serviziDisponibili;
 
 	/**
 	 * @return
 	 */
-	public static CatalogoServizi getIstance() {
-		if (istance==null) {
-			istance = new CatalogoServizi();
+	public static CatalogoServizi getInstance() {
+		if (instance==null) {
+			instance = new CatalogoServizi();
 		}
-		return istance;
+		return instance;
 	}
 
 	/**
@@ -50,7 +65,7 @@ public class CatalogoServizi {
 	 * @return
 	 */
 	public ServizioComune getServizio(Long idServizio) {
-		for (ServizioComune servizio : serviziDisponibili) {
+		for (ServizioComune servizio : getServiziDisponibili()) {
 			if (servizio.getId() == idServizio) {
 				return servizio;
 			}
@@ -62,25 +77,70 @@ public class CatalogoServizi {
 	 * @param nomeServizio 
 	 * @return
 	 */
-	public List<ServizioComune> cercaServizioPerNome(String nomeServizio) {
+	
+	public List<ServizioComune> getListaServiziPerNome(String nome) {
+		List<ServizioComune> elencoRisultati = new ArrayList<ServizioComune>();
 		
-		Session session = sf.openSession();
-		Query query = session.getNamedQuery("cercaServizioPerNome").setString("nome", "%"+nomeServizio+"%");
-
-		@SuppressWarnings("unchecked")
-		List<ServizioComune> elenco = query.list();
-		session.close();
-		return elenco;
+		for (ServizioComune servizioComune : getServiziDisponibili()) {
+			if (servizioComune.getNomeServizio().contains(nome)) {
+				elencoRisultati.add(servizioComune);
+			}
+		}
+		return elencoRisultati;
 	}
-
+	
 	/**
 	 * @return
 	 */
-	public ServizioComune creaNuovoServizio(String aNomeServizio) {
+	
+	public ServizioComune aggiungiServizio(String aNomeServizio) {
+		// istanzio un nuovo servizio comune
 		ServizioComune sc = new ServizioComune(aNomeServizio);
-		ServizioComuneDAO scdao = new ServizioComuneDAO();
+		// persisto il servizio comune su DB
 		scdao.saveOrUpdate(sc);
+		//aggiungo il nuovo servizio alla lista
+		getServiziDisponibili().add(sc);
 		return sc;
+	}
+	
+	public void rimuoviServizio(ServizioComune s) {
+		if(s!=null) {
+			// rimuovo il servizio dal DB
+			scdao.delete(s.getId());
+			// rimuovo il servizio dalla lista in memoria
+			serviziDisponibili.remove(s);
+		}
+	} 
+	
+	public static void main(String[] args) {
+		
+		CatalogoServizi cs = CatalogoServizi.getInstance();
+		
+		String chiave = "prova";
+		
+		AppLogger.debug("Elenco servizi caricati:");
+		for (ServizioComune servizioComune : cs.getServiziDisponibili()) {
+			AppLogger.debug(servizioComune.toString());
+		}
+		List<ServizioComune> lsc = cs.getListaServiziPerNome(chiave);
+		AppLogger.debug("Elenco servizi per la chiave di ricerca: "+chiave+", Elementi in lista:"+lsc.size());
+		for (ServizioComune servizioComune : lsc) {
+			AppLogger.debug(servizioComune.toString());
+		}
+	}
+
+	/**
+	 * @return the serviziDisponibili
+	 */
+	public List<ServizioComune> getServiziDisponibili() {
+		return serviziDisponibili;
+	}
+
+	/**
+	 * @param serviziDisponibili the serviziDisponibili to set
+	 */
+	public void setServiziDisponibili(List<ServizioComune> serviziDisponibili) {
+		this.serviziDisponibili = serviziDisponibili;
 	}
 
 }

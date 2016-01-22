@@ -46,11 +46,11 @@ public class UserTestDAO {
 		
 		ud.delete(u3.getId());
 		
-		ServizioComune sc1 = CatalogoServizi.getIstance().creaNuovoServizio("prova1");
-		ServizioComune sc2 = CatalogoServizi.getIstance().creaNuovoServizio("prova2");
-		ServizioComune sc3 = CatalogoServizi.getIstance().creaNuovoServizio("prova3");
+		ServizioComune sc1 = CatalogoServizi.getInstance().aggiungiServizio("prova1");
+		ServizioComune sc2 = CatalogoServizi.getInstance().aggiungiServizio("prova2");
+		ServizioComune sc3 = CatalogoServizi.getInstance().aggiungiServizio("prova3");
 		
-		List<ServizioComune> l = CatalogoServizi.getIstance().cercaServizioPerNome("prova");
+		List<ServizioComune> l = CatalogoServizi.getInstance().cercaServizioPerNome("prova");
 		for (ServizioComune servizioComune : l) {
 			System.out.println(servizioComune.getNomeServizio());
 		}

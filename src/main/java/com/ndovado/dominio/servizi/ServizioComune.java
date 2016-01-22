@@ -29,7 +29,7 @@ public class ServizioComune implements IPersistente {
 
 	@Override
 	public String toString() {
-		return "ServizioComune [nomeServizio=" + nomeServizio + "]";
+		return "ServizioComune [idServizio=" + idServizio + ", nomeServizio=" + nomeServizio + "]";
 	}
 
 	/**

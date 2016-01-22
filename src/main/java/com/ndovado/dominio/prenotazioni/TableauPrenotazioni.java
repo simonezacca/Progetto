@@ -1,5 +1,8 @@
 package com.ndovado.dominio.prenotazioni;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
@@ -49,26 +52,19 @@ public class TableauPrenotazioni {
 		
 		AppLogger.debug(tp.elencoPrenotazioni.toString());
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(2016, 0, 27);
-		Date da = cal.getTime();
-		
-		cal.set(2016, 0, 30);
-		Date dp = cal.getTime();
-		
-		List<RisultatoRicerca> rr = tp.getSoluzioniDisponibili(da, dp, 2);
-		if (!rr.isEmpty()) {
-			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.size());
-			for (RisultatoRicerca risultatoRicerca : rr) {
-				AppLogger.debug("Elenco camere libere:");
-				Set<Camera> sc = risultatoRicerca.getCamereLibere();
-				for (Camera camera : sc) {
-					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera()+"\n");
-				}
-			}
-		} else {
-			AppLogger.debug("Lista risultati ricerca VUOTA");
+		try {
+			tp.doTest(tp, 1, "22/01/2016", "23/01/2016", 3);
+			tp.doTest(tp, 2, "22/01/2016", "23/01/2016", 2);
+			tp.doTest(tp, 3, "22/01/2016", "23/01/2016", 4);
+			tp.doTest(tp, 4, "01/02/2016", "04/02/2016", 5);
+			tp.doTest(tp, 5, "01/02/2016", "04/02/2016", 3);
+			tp.doTest(tp, 6, "01/02/2016", "04/02/2016", 2);
+			tp.doTest(tp, 7, "29/01/2016", "30/01/2016", 5);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	   }
 	
 	
@@ -279,6 +275,43 @@ public class TableauPrenotazioni {
 	@Override
 	public String toString() {
 		return "TableauPrenotazioni [struttura=" + struttura + ", elencoPrenotazioni=" + elencoPrenotazioni + "]";
+	}
+	
+	private void doTest(TableauPrenotazioni tp,Integer ntest, String daString, String aString, Integer npersone) throws ParseException {
+		
+		DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+		Date dataCI = formatter.parse(daString);
+		Calendar calendar = Calendar.getInstance();
+		Date dataCO = formatter.parse(aString);
+		
+		calendar.setTime(dataCI);
+		dataCI = calendar.getTime();
+		
+		calendar.setTime(dataCO);
+		dataCO = calendar.getTime();
+		
+		
+//		Calendar cal = Calendar.getInstance();
+//		cal.set(2016, 0, 27);
+//		Date da = cal.getTime();
+//		
+//		cal.set(2016, 0, 30);
+//		Date dp = cal.getTime();
+		AppLogger.debug("TEST NUMERO "+ntest);
+		List<RisultatoRicerca> rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);
+		if (!rr.isEmpty()) {
+			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.size());
+			for (RisultatoRicerca risultatoRicerca : rr) {
+				AppLogger.debug("Elenco camere libere:");
+				Set<Camera> sc = risultatoRicerca.getCamereLibere();
+				for (Camera camera : sc) {
+					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera());
+				}
+			}
+		} else {
+			AppLogger.debug("Lista risultati ricerca VUOTA\n");
+		}
+		
 	}
 	
 }
