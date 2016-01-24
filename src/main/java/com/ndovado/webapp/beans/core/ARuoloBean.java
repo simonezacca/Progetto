@@ -2,12 +2,14 @@ package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
 
+
 public abstract class ARuoloBean implements Identifiable, Serializable {
 
 	/**
 	 * 
 	 */
 	protected static final long serialVersionUID = 1L;
+	
 	protected Long id = null;
 	protected UtenteBean utente;
 	/**

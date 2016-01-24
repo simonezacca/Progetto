@@ -3,17 +3,28 @@ package com.ndovado.dominio.core;
 import java.util.*;
 
 import com.ndovado.dominio.prenotazioni.RisultatoRicerca;
+import com.ndovado.tecservices.loggers.AppLogger;
+import com.ndovado.tecservices.persistence.base.StrutturaDAO;
 
 /**
  * 
  */
 public class CatalogoStrutture {
 
+	private static StrutturaDAO sdao = new StrutturaDAO();
 	/**
 	 * Default constructor
 	 */
 	protected CatalogoStrutture() {
+		AppLogger.debug("Instazione set per elenco strutture.");
 		elencoStrutture = new HashSet<Struttura>();
+		populateSetStrutture();
+	}
+	
+	private void populateSetStrutture() {
+		List<Struttura> elencoStrutture = sdao.getAll();
+		elencoStrutture.addAll(elencoStrutture);
+		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" utenti.");
 	}
 
 	/**

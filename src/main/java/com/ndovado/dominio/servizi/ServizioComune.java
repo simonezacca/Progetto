@@ -10,7 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()

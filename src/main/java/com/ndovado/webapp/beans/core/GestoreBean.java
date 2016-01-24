@@ -5,6 +5,9 @@ import java.util.List;
 
 public class GestoreBean extends ARuoloBean {
 
+	private final Integer idRadio = 1;
+	private final String nameRadio = "Gestore";
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,6 +51,18 @@ public class GestoreBean extends ARuoloBean {
 	@Override
 	public String toString() {
 		return "GestoreBean [id="+id+"]";
+	}
+	/**
+	 * @return the idradio
+	 */
+	public Integer getIdradio() {
+		return idRadio;
+	}
+	/**
+	 * @return the nameradio
+	 */
+	public String getNameradio() {
+		return nameRadio;
 	}
 	
 }

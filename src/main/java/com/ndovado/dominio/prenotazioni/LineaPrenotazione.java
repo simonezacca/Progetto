@@ -18,7 +18,7 @@ import org.hibernate.annotations.MetaValue;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()

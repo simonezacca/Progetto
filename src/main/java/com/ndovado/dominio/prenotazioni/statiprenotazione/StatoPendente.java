@@ -3,12 +3,12 @@ package com.ndovado.dominio.prenotazioni.statiprenotazione;
 /**
  * 
  */
-public class StatoDaConfermare extends AStatoPrenotazione {
+public class StatoPendente extends AStatoPrenotazione {
 
 	/**
 	 * Default constructor
 	 */
-	public StatoDaConfermare() {
+	public StatoPendente() {
 	}
 
 	/**

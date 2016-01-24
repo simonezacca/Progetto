@@ -10,10 +10,12 @@ import com.ndovado.dominio.core.DescrizioneCamera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
-import com.ndovado.tecservices.persistenza.base.PrenotazioneDAO;
-import com.ndovado.tecservices.persistenza.base.StrutturaDAO;
+import com.ndovado.tecservices.persistence.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
+import com.ndovado.tecservices.persistence.base.StrutturaDAO;
 import com.sun.org.apache.regexp.internal.recompile;
+
+import apple.security.AppleProvider;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,7 @@ import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.joda.time.LocalDate;
 
 /**
  * 
@@ -60,6 +63,7 @@ public class TableauPrenotazioni {
 			tp.doTest(tp, 5, "01/02/2016", "04/02/2016", 3);
 			tp.doTest(tp, 6, "01/02/2016", "04/02/2016", 2);
 			tp.doTest(tp, 7, "29/01/2016", "30/01/2016", 5);
+			tp.doTest(tp, 8, "25/01/2016", "26/01/2016", 2);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -281,22 +285,17 @@ public class TableauPrenotazioni {
 		
 		DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
 		Date dataCI = formatter.parse(daString);
-		Calendar calendar = Calendar.getInstance();
 		Date dataCO = formatter.parse(aString);
+
+		dataCI.setHours(0);
+		dataCI.setMinutes(0);
+		dataCI.setSeconds(0);
 		
-		calendar.setTime(dataCI);
-		dataCI = calendar.getTime();
+		dataCO.setHours(0);
+		dataCO.setMinutes(0);
+		dataCO.setSeconds(0);		
 		
-		calendar.setTime(dataCO);
-		dataCO = calendar.getTime();
-		
-		
-//		Calendar cal = Calendar.getInstance();
-//		cal.set(2016, 0, 27);
-//		Date da = cal.getTime();
-//		
-//		cal.set(2016, 0, 30);
-//		Date dp = cal.getTime();
+
 		AppLogger.debug("TEST NUMERO "+ntest);
 		List<RisultatoRicerca> rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);
 		if (!rr.isEmpty()) {
@@ -308,6 +307,7 @@ public class TableauPrenotazioni {
 					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera());
 				}
 			}
+			AppLogger.debug("\n");
 		} else {
 			AppLogger.debug("Lista risultati ricerca VUOTA\n");
 		}

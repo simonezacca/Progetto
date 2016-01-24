@@ -3,7 +3,7 @@ package com.ndovado.tecservices.mappers;
 import com.ndovado.dominio.core.ARuolo;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistenza.base.UtenteDAO;
+import com.ndovado.tecservices.persistence.base.UtenteDAO;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
 public class UserMapperTest {

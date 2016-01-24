@@ -1,83 +1,23 @@
 package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import com.ndovado.dominio.core.Gestore;
-import com.ndovado.dominio.core.Utente;
 
-@ManagedBean(name="utenteBean")
+import com.ndovado.dominio.core.ARuolo;
+
+@ManagedBean(name="utenteB")
 @SessionScoped
 public class UtenteBean implements Serializable, Identifiable{
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
-		result = prime * result + ((homePageName == null) ? 0 : homePageName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (loggedIn ? 1231 : 1237);
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((ruolo == null) ? 0 : ruolo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof UtenteBean))
-			return false;
-		UtenteBean other = (UtenteBean) obj;
-		if (cognome == null) {
-			if (other.cognome != null)
-				return false;
-		} else if (!cognome.equals(other.cognome))
-			return false;
-		if (homePageName == null) {
-			if (other.homePageName != null)
-				return false;
-		} else if (!homePageName.equals(other.homePageName))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (loggedIn != other.loggedIn)
-			return false;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (ruolo == null) {
-			if (other.ruolo != null)
-				return false;
-		} else if (!ruolo.equals(other.ruolo))
-			return false;
-		return true;
-	}
 
 	/**
 	 * 
 	 */
+	private final static String AREA_UTENTE = "/areaPrivata?faces-redirect=true";
+	private final static String AREA_GESTORE = "/gestore/areaGestore?faces-redirect=true";
 	private static final long serialVersionUID = 1L;
 	
 	private Long id = null;
@@ -87,10 +27,12 @@ public class UtenteBean implements Serializable, Identifiable{
 	private String password;
 	
 	//private TipoUtente ruolo;
-	private ARuoloBean ruolo;
+	private ARuoloBean ruolo = new LocatarioBean();
 	private String homePageName;
 	
 	private boolean loggedIn = false;
+	
+	
 
 	public String getNome() {
 		return nome;
@@ -165,40 +107,30 @@ public class UtenteBean implements Serializable, Identifiable{
 			this.cognome = u.getCognome();
 			this.mail = u.getMail();
 			this.password = u.getPassword();
-			this.setRuolo(u.getRuolo());
+			//this.setRuolo(u.getRuolo());
 			this.loggedIn = u.isLogged();
 		}
 	}
+	
 	/**
 	 * @return the homePageName
 	 */
 	public String getHomePageName() {
 		if(this.getRuolo()!=null)
-			return (this.getRuolo() instanceof LocatarioBean) ? "/areaPrivata?faces-redirect=true": "/gestore/areaGestore?faces-redirect=true" ;
+			return (this.getRuolo() instanceof LocatarioBean) ? AREA_UTENTE : AREA_GESTORE ;
 		return null;
 	}
 	
-	protected void fillBeanFromModel(Utente u) {
-		if (u!=null) {
-			this.id = u.getId();
-			this.cognome = u.getCognome();
-			this.nome = u.getNome();
-			this.mail = u.getMail();
-			this.password = u.getPassword();
-			//this.setRuolo(u);
-		}
+	public UtenteBean() {
+		
 	}
 	
-	public UtenteBean(Utente u) {
-		fillBeanFromModel(u);
-	}
-	
-	public UtenteBean() {}
-	
+
+
 	@Override
 	public String toString() {
-		return "Utente [id="+id+", cognome="+cognome+", nome="+nome+", mail="+mail+"]";
-		
+		return "UtenteBean [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", mail=" + mail + ", password="
+				+ password + ", ruolo=" + ruolo + ", loggedIn=" + loggedIn + "]";
 	}
 
 	/**
@@ -213,6 +145,70 @@ public class UtenteBean implements Serializable, Identifiable{
 	 */
 	public void setRuolo(ARuoloBean ruolo) {
 		this.ruolo = ruolo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
+		result = prime * result + ((homePageName == null) ? 0 : homePageName.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (loggedIn ? 1231 : 1237);
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((ruolo == null) ? 0 : ruolo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof UtenteBean))
+			return false;
+		UtenteBean other = (UtenteBean) obj;
+		if (cognome == null) {
+			if (other.cognome != null)
+				return false;
+		} else if (!cognome.equals(other.cognome))
+			return false;
+		if (homePageName == null) {
+			if (other.homePageName != null)
+				return false;
+		} else if (!homePageName.equals(other.homePageName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (loggedIn != other.loggedIn)
+			return false;
+		if (mail == null) {
+			if (other.mail != null)
+				return false;
+		} else if (!mail.equals(other.mail))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (ruolo == null) {
+			if (other.ruolo != null)
+				return false;
+		} else if (!ruolo.equals(other.ruolo))
+			return false;
+		return true;
 	}
 	
 }

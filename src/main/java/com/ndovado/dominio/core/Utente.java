@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Modella l'entità di dominio Utente

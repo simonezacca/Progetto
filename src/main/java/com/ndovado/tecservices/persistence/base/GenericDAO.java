@@ -1,4 +1,4 @@
-package com.ndovado.tecservices.persistenza.base;
+package com.ndovado.tecservices.persistence.base;
 
 import java.util.List;
 import java.util.Map;

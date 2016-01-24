@@ -2,6 +2,9 @@ package com.ndovado.webapp.beans.core;
 
 public class LocatarioBean extends ARuoloBean {
 
+	private final Integer idRadio = 0;
+	private final String nameRadio = "Locatario";
+	
 	/**
 	 * 
 	 */
@@ -9,5 +12,19 @@ public class LocatarioBean extends ARuoloBean {
 
 	public String toString() {
 		return "LocatarioBean [id="+id+"]";
+	}
+
+	/**
+	 * @return the idradio
+	 */
+	public Integer getIdradio() {
+		return idRadio;
+	}
+
+	/**
+	 * @return the nameradio
+	 */
+	public String getNameradio() {
+		return nameRadio;
 	}
 }

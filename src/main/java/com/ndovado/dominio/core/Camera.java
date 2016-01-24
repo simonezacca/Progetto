@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OrderBy;
 
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 
 /**

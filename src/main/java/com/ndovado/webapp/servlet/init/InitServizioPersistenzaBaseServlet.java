@@ -3,7 +3,7 @@ package com.ndovado.webapp.servlet.init;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 
-import com.ndovado.tecservices.persistenza.base.GenericDAO;
+import com.ndovado.tecservices.persistence.base.GenericDAO;
 
 /**
  * Servlet implementation class InitServizioPersistenzaBase

@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistenza.base.LuogoDAO;
+import com.ndovado.tecservices.persistence.base.LuogoDAO;
 
 public class CatalogoLuogo {
 
@@ -32,17 +28,12 @@ public class CatalogoLuogo {
 	
 	private void initListaLuoghi() {
 		AppLogger.debug("Popolo mappa luoghi da DB");
-		@SuppressWarnings("static-access")
-		SessionFactory sf = ldao.getSessionFactory();
-		Session session = sf.openSession();
-		
-		Query q = session.createQuery("from Luogo");
-		@SuppressWarnings("unchecked")
-		List<Luogo> elencoLuoghi = q.list();
+		// ottento dal servizio di persistenza l'elenco completo dei luoghi presenti nel DB
+		List<Luogo> elencoLuoghi = ldao.getAll();
+		// ciclo sulla lista per aggiungerli alla mappa
 		for (Luogo luogo : elencoLuoghi) {
 			mappaLuoghi.put(luogo.getId(), luogo);
 		}
-		session.close();
 	}
 	
 	public static CatalogoLuogo getInstance() {
@@ -87,10 +78,10 @@ public class CatalogoLuogo {
 	public Luogo addLuogo(Luogo l) {
 		if (l!=null) {
 			if (!mappaLuoghi.containsKey(l.getId())) {
-				// aggiungo il luogo alla mappa
-				mappaLuoghi.put(l.getId(), l);
 				// persisto l'instanza di luogo su DB
 				ldao.saveOrUpdate(l);
+				// aggiungo il luogo alla mappa
+				mappaLuoghi.put(l.getId(), l);
 				AppLogger.debug("Luogo salvato su DB con id="+l.getId());
 			} else
 				AppLogger.debug("Luogo già presente nella mappa");

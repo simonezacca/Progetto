@@ -21,8 +21,8 @@ import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
-import com.ndovado.dominio.servizi.ServizioComune;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.dominio.servizi.ServizioAggiuntivo;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
@@ -101,6 +101,9 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	@ManyToOne
 	@PrimaryKeyJoinColumn
 	private Locatario locatario;
+	
+	@Column(name="note")
+	private String notePrenotazione;
 
 	@SuppressWarnings("unused")
 	private Prenotazione() {}
@@ -129,18 +132,37 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 			LineaPrenotazione l = new LineaPrenotazione(this);
 			l.addOggettoPrenotato((IPrenotabile) aCamera);
 			lineePrenotazione.add(l);
+			ricalcolaTotalePrenotazione();
 		}
 	}
 
 	/**
 	 * @param aServizio
 	 */
-	public void addServizio(ServizioComune aServizio) {
-		if (aServizio!=null) {
+	public void addServizioAggiuntivo(ServizioAggiuntivo aServizioAgg) {
+		if (aServizioAgg!=null) {
 			LineaPrenotazione l = new LineaPrenotazione(this);
-			l.addOggettoPrenotato((IPrenotabile) aServizio);
+			l.addOggettoPrenotato(aServizioAgg);
 			lineePrenotazione.add(l);
+			ricalcolaTotalePrenotazione();
 		}
+	}
+	
+	public void removeCamera(Camera aCamera) {
+		
+	}
+	
+	public void removeServizioAggiuntivo(ServizioAggiuntivo aServizioAgg) {
+		
+	}
+	
+	protected Float ricalcolaTotalePrenotazione() {
+		Float localImporto = new Float(0);
+		for (LineaPrenotazione lineaPrenotazione : lineePrenotazione) {
+			localImporto+= lineaPrenotazione.getOggettoPrenotato().getPrezzo();
+		}
+		importoTotale = localImporto;
+		return localImporto;
 	}
 	
 	protected void addLineaPrenotazione(LineaPrenotazione l) {
@@ -237,6 +259,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * @return
 	 */
 	protected Boolean isDateSovrapposte(Date dataArrivo, Date dataPartenza) {
+
 		return this.dataArrivo.before(dataPartenza) && dataArrivo.before(this.dataPartenza);
 	}
 
@@ -344,6 +367,20 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	
 	protected void setId(Long idPrenotazione) {
 		this.idPrenotazione = idPrenotazione;
+	}
+
+	/**
+	 * @return the notePrenotazione
+	 */
+	public String getNotePrenotazione() {
+		return notePrenotazione;
+	}
+
+	/**
+	 * @param notePrenotazione the notePrenotazione to set
+	 */
+	public void setNotePrenotazione(String notePrenotazione) {
+		this.notePrenotazione = notePrenotazione;
 	}
 
 }

@@ -14,15 +14,8 @@ public class StatoFactory {
 	/**
 	 * @return
 	 */
-	public static AStatoPrenotazione creaStatoDaConfermare() {
-		return new StatoDaConfermare();
-	}
-
-	/**
-	 * @return
-	 */
-	public static AStatoPrenotazione creaStatoDaCompletarePagamento() {
-		return new StatoDaCompletarePagamento();
+	public static AStatoPrenotazione creaStatoPendente() {
+		return new StatoPendente();
 	}
 
 	/**
@@ -30,13 +23,6 @@ public class StatoFactory {
 	 */
 	public static AStatoPrenotazione creaStatoEliminata() {
 		return new StatoEliminata();
-	}
-
-	/**
-	 * @return
-	 */
-	public static AStatoPrenotazione creaStatoRifiutata() {
-		return new StatoRifiutata();
 	}
 
 	/**

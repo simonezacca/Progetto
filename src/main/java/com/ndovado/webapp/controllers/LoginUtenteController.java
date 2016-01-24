@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import com.ndovado.dominio.core.Utente;
 import com.ndovado.helpers.core.UtenteHelper;
 import com.ndovado.tecservices.mappers.UserMapper;
-import com.ndovado.tecservices.persistenza.base.UtenteDAO;
+import com.ndovado.tecservices.persistence.base.UtenteDAO;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
 @ManagedBean(name="loginController")

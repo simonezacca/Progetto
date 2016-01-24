@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistenza.base.ServizioComuneDAO;
+import com.ndovado.tecservices.persistence.base.ServizioComuneDAO;
 
 
 

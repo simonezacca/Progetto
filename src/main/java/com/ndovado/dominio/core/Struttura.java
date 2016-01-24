@@ -22,7 +22,7 @@ import org.hibernate.annotations.OrderBy;
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
 import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Modella l'entità di dominio Struttura
@@ -86,6 +86,12 @@ public class Struttura implements IPersistente {
 	@ManyToOne
 	@PrimaryKeyJoinColumn
 	private Luogo luogoStruttura;
+	
+	@Column(name="descrizione")
+	private String descrizioneStruttura;
+	
+	@Column(name="indirizzo")
+	private String indirizzoLuogo;
 
 	/**
 	 * Costruttore di default
@@ -381,6 +387,34 @@ public class Struttura implements IPersistente {
 	 */
 	public void setGestore(Gestore gestore) {
 		this.gestore = gestore;
+	}
+
+	/**
+	 * @return the descrizioneStruttura
+	 */
+	public String getDescrizioneStruttura() {
+		return descrizioneStruttura;
+	}
+
+	/**
+	 * @param descrizioneStruttura the descrizioneStruttura to set
+	 */
+	public void setDescrizioneStruttura(String descrizioneStruttura) {
+		this.descrizioneStruttura = descrizioneStruttura;
+	}
+
+	/**
+	 * @return the indirizzoLuogo
+	 */
+	public String getIndirizzoLuogo() {
+		return indirizzoLuogo;
+	}
+
+	/**
+	 * @param indirizzoLuogo the indirizzoLuogo to set
+	 */
+	public void setIndirizzoLuogo(String indirizzoLuogo) {
+		this.indirizzoLuogo = indirizzoLuogo;
 	} 
 	
 	

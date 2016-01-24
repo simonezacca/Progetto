@@ -1,4 +1,4 @@
-package com.ndovado.tecservices.persistenza.base;
+package com.ndovado.tecservices.persistence.base;
 
 import java.io.Serializable;
 

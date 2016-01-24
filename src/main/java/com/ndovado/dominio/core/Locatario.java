@@ -4,7 +4,7 @@ import java.util.*;
 
 import javax.persistence.Entity;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
-import com.ndovado.tecservices.persistenza.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.IPersistente;
 
 import javax.persistence.OneToMany;
 

@@ -1,4 +1,4 @@
-package com.ndovado.tecservices.persistenza.base;
+package com.ndovado.tecservices.persistence.base;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 
