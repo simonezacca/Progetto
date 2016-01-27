@@ -4,15 +4,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.ARuoloBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LocatarioBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
+import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="registrazioneUtenteBB")
+//@Named("registrazioneUtenteBB")
+//@RequestScoped
 @RequestScoped
 public class RegistrazioneUtenteBackingBean {
 
+	private GestioneUtenteController controller = new GestioneUtenteController();
 	private static ARuoloBean[] ruoli;
 	
 	public RegistrazioneUtenteBackingBean() {
@@ -29,7 +34,8 @@ public class RegistrazioneUtenteBackingBean {
 		return ruoli;
 	}	
 	
-	@ManagedProperty(value="#{utenteB}")
+	@ManagedProperty(value="#{utenteBean}")
+	//@Inject
 	private UtenteBean utenteCorrente;
 	
 	/**
@@ -47,15 +53,16 @@ public class RegistrazioneUtenteBackingBean {
 	}
 	
 	public String doRegistrazione() {
-		System.out.println(utenteCorrente);
-		return null;
+		// TODO spostare controllo mail qui inveve che in GestioneControllerUtente
+		UtenteBean newUB = controller.doRegistrazione(utenteCorrente);
+		String outcome;
+		if (newUB!=null) {
+			utenteCorrente.cloneFrom(newUB);
+			//AppLogger.debug("Nuovo bean utente da doRegistrazione "+utenteCorrente);
+			outcome = utenteCorrente.getHomePageName();
+		} else
+			outcome = null;
+		return outcome; 
 	}
-	
-	public GestoreBean getGestoreRuoloBean() {
-		return new GestoreBean();
-	}
-	
-	public LocatarioBean getLocatarioRuoloBean() {
-		return new LocatarioBean();
-	}
+
 }

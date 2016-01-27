@@ -122,4 +122,12 @@ public class CatalogoLuogo {
 		
 		System.out.println(strutturaInLuogo);
 	}
+	
+	public List<Luogo> getAllLuogo() {
+		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
+		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+				elencoRisultati.add(entry.getValue());
+		}
+		return elencoRisultati;
+	}
 }

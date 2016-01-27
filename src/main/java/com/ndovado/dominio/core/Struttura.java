@@ -69,7 +69,6 @@ public class Struttura implements IPersistente {
 	 * Riferimento ad un'istanza del tableau prenotazioni, responsabile della gestione delle prenotazioni nelle camere
 	 */
 
-	//@OneToOne(cascade=CascadeType.ALL,mappedBy = "struttura")
 	@Transient
 	private TableauPrenotazioni tableau;
 

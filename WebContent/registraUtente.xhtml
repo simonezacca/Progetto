@@ -6,22 +6,22 @@
 <h:head>
 </h:head>
 <h:body>
-<ui:composition template="/templates/masterLayout.xhtml">
+<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
 			<br/><br/>
 			<h:form>
 				<h:panelGrid columns="2">
 					<h:outputText value="Cognome" />
-					<h:inputText id="cognome" value="#{utenteB.cognome}" required="true" />
+					<h:inputText id="cognome" value="#{utenteBean.cognome}" required="true" />
 					<h:outputText value="Nome" />
-					<h:inputText id="nome" value="#{utenteB.nome}" required="true" />
+					<h:inputText id="nome" value="#{utenteBean.nome}" required="true" />
 					<h:outputText value="Mail" />
-					<h:inputText id="mail" value="#{utenteB.mail}" required="true">
+					<h:inputText id="mail" value="#{utenteBean.mail}" required="true">
 					</h:inputText>
 					<h:outputText value="Password" />
-					<h:inputText id="password" value="#{utenteB.password}" required="true" />
+					<h:inputText id="password" value="#{utenteBean.password}" required="true" />
 					<h:outputText value="Ruolo" />
-					<h:selectOneRadio value="#{utenteB.ruolo}" converter="#{userRoleConverter}">
+					<h:selectOneRadio value="#{utenteBean.ruolo}" converter="#{userRoleConverter}">
 						<f:selectItems value="#{registrazioneUtenteBB.ruoliValues}" var="r"
 							itemLabel="#{r.nameradio}" itemValue="#{r}" />
 					</h:selectOneRadio>

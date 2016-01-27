@@ -23,7 +23,7 @@
 
 		<field>
 			<a get-method="getGestore">gestore</a>
-			<b>gestore.ruolo</b>
+			<b>gestore</b>
 		</field>
 		<field-exclude>
 			<a>tableau</a>
@@ -46,7 +46,11 @@
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Gestore</class-a>
 		<class-b>com.ndovado.webapp.beans.core.GestoreBean</class-b>
-	</mapping>
+	<field-exclude>
+		<a>struttureGestite</a>
+		<b>struttureGestite</b>
+	</field-exclude>
+</mapping>
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Locatario</class-a>
 		<class-b>com.ndovado.webapp.beans.core.LocatarioBean</class-b>

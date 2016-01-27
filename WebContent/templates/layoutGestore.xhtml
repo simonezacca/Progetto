@@ -4,63 +4,44 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-<h:outputStylesheet library="css" name="styles.css"/>
+<h:outputStylesheet library="css" name="ndovado_style.css"/>
+<h:outputStylesheet library="css" name="semantic.min.css"/>
+<h:outputStylesheet library="css" name="datepicker/daterangepicker.min.css"/>
+
+<h:outputScript library="javascript" target="head" name="jquery-2.2.0.min.js" />
+<h:outputScript library="javascript" target="head" name="semantic.min.js" />
+<h:outputScript library="javascript" target="head" name="datepicker/moment.min.js" />
+<h:outputScript library="javascript" target="head" name="datepicker/daterangepicker.min.js" />
+<h:outputScript library="javascript" target="body" name="ndovado_js.js" />
+
 </h:head>
 <h:body>
-    <div id="page">
-        <div id="header-container">
-            <div id="header">
-                <ui:insert name="header">
-                    <h:panelGroup rendered="#{not utenteBean.logged}">
-					<h:form>
-						<h:panelGrid columns="4">
-							<h:inputText id="mail" value="#{utenteBean.mail}" required="true" />
-							<h:inputSecret id="password" value="#{utenteBean.password}" required="true" />
-							<h:commandButton value="Login" action="#{loginController.doLogin(utenteBean)}" />
-							<h:button outcome="registraUtente" value="Registra utente"></h:button>
-						</h:panelGrid>
-					<h:message for="mail"></h:message><br />
-					<h:message for="password"></h:message>
-					</h:form>
-					</h:panelGroup>
-					<h:panelGroup rendered="#{utenteBean.logged}">
-						<h:form>
-						<h:panelGrid columns="2">
-						<h:link outcome="#{utenteBean.homePageName}" >
-						<h:outputFormat value="Utente connesso: {0} {1}">
-							<f:param value="#{utenteBean.cognome}"></f:param>
-							<f:param value="#{utenteBean.nome}"></f:param>
-						</h:outputFormat>
-						</h:link>
-							<h:commandButton action="#{loginController.doLogout(utenteBean)}" value="Logout" />
-						</h:panelGrid>
-						</h:form>
-					</h:panelGroup>
-                </ui:insert>
-            </div>
-        </div>
+	<div id="page">
+		<div id="header-container">
+			<div id="header">
+				<ui:insert name="header">
+					<ui:include src="/sections/topbar.xhtml"></ui:include>
+				</ui:insert>
+			</div>
+		</div>
 		<div id="leftbar">
-                <ui:insert name="leftbar">
-	                <ul>
-						<li><h:link outcome="profiloGestore" value="Gestione profilo" /></li>
-						<li><h:link outcome="elencoStrutture" value="Elenco strutture" /></li>
-						<li>Prenotazioni</li>
-						<li>Tableau Prenotazioni</li>
-					</ul>
-                </ui:insert>
-            </div>            
-			<div id="content">
-                <ui:insert name="content">
-                    <p>Main content</p>
-                </ui:insert>
-            </div>
-        <div id="footer-container">
-            <div id="footer">
-                <ui:insert name="footer">
-                    <p>Footer</p>
-                </ui:insert>
-            </div>
-        </div>
-    </div>
+			<ui:insert name="leftbar">
+				<ui:include src="/gestore/leftmenubar.xhtml"></ui:include>
+			</ui:insert>
+		</div>
+		            
+		<div id="content">
+			<ui:insert name="content">
+				<p>Main content</p>
+			</ui:insert>
+		</div>
+		<div id="footer-container">
+			<div id="footer">
+				<ui:insert name="footer">
+					<p>Footer</p>
+				</ui:insert>
+			</div>
+		</div>
+	</div>
 </h:body>
 </html>

@@ -2,7 +2,7 @@ package com.ndovado.webapp.beans.core;
 
 public class LocatarioBean extends ARuoloBean {
 
-	private final Integer idRadio = 0;
+	private final Long idRadio = new Long(0);
 	private final String nameRadio = "Locatario";
 	
 	/**
@@ -17,7 +17,7 @@ public class LocatarioBean extends ARuoloBean {
 	/**
 	 * @return the idradio
 	 */
-	public Integer getIdradio() {
+	public Long getIdradio() {
 		return idRadio;
 	}
 

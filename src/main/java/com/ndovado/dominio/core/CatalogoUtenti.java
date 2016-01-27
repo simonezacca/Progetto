@@ -19,7 +19,7 @@ public class CatalogoUtenti {
 		populateList();
 	}
 	
-	public CatalogoUtenti getInstance(){
+	public static CatalogoUtenti getInstance(){
 		if (instance==null) {
 			instance = new CatalogoUtenti();
 		}
@@ -100,6 +100,23 @@ public class CatalogoUtenti {
 			}
 		}
 		return false;
+	}
+	
+	public static void main(String[] args) {
+		
+		CatalogoUtenti cu = CatalogoUtenti.getInstance();
+		
+		Utente umodel = new Utente("Orsini","Federico");
+		umodel.setMail("orsini@mail.com");
+		umodel.setPassword("ciao");
+		umodel.setRuolo(ARuolo.getRuoloLocatario());
+		
+		cu.salvaOAggiornaUtente(umodel);
+		
+		AppLogger.debug("Utente salvato: "+umodel);
+		
+		cu.rimuoviUtente(umodel);
+		AppLogger.debug("Utente eliminato");
 	}
 	
 }

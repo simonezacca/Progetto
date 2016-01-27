@@ -181,7 +181,7 @@ public class Utente implements IPersistente {
 	 */
 	@Override
 	public String toString() {
-		return "Utente [nome=" + nome + ", cognome=" + cognome + ", mail=" + mail + ", Ruolo=" + ruolo.toString()+" ]";
+		return "Utente [id= "+id+", nome=" + nome + ", cognome=" + cognome + ", mail=" + mail + ", Ruolo=" + ruolo.toString()+" ]";
 	}
 
 	@Override

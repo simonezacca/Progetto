@@ -4,65 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.DescrizioneCamera;
 
+@ManagedBean(name="cameraBean")
 public class CameraBean implements Serializable, Identifiable {
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
-		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
-		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
-		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof CameraBean))
-			return false;
-		CameraBean other = (CameraBean) obj;
-		if (descrizioneCorrente == null) {
-			if (other.descrizioneCorrente != null)
-				return false;
-		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
-			return false;
-		if (descrizioniCamera == null) {
-			if (other.descrizioniCamera != null)
-				return false;
-		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nomeCamera == null) {
-			if (other.nomeCamera != null)
-				return false;
-		} else if (!nomeCamera.equals(other.nomeCamera))
-			return false;
-		if (qtyCamera == null) {
-			if (other.qtyCamera != null)
-				return false;
-		} else if (!qtyCamera.equals(other.qtyCamera))
-			return false;
-		if (struttura == null) {
-			if (other.struttura != null)
-				return false;
-		} else if (!struttura.equals(other.struttura))
-			return false;
-		return true;
-	}
 
 	/**
 	 * 
@@ -79,11 +27,17 @@ public class CameraBean implements Serializable, Identifiable {
 	private List<DescrizioneCameraBean> descrizioniCamera = new ArrayList<DescrizioneCameraBean>();
 	
 	public CameraBean() {
+		descrizioneCorrente = new DescrizioneCameraBean();
 	}
 	
 	public CameraBean(StrutturaBean s) {
 		this.struttura = s;
 		s.addCameraBean(this);
+		descrizioneCorrente = new DescrizioneCameraBean();
+	}
+	
+	public void setStruttura(StrutturaBean s) {
+		this.struttura= s;
 	}
 	
 	public CameraBean(Camera c) {
@@ -198,5 +152,60 @@ public class CameraBean implements Serializable, Identifiable {
 	@Override
 	public Boolean isNewBean() {
 		return this.id==0 || this.id == null;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
+		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
+		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof CameraBean))
+			return false;
+		CameraBean other = (CameraBean) obj;
+		if (descrizioneCorrente == null) {
+			if (other.descrizioneCorrente != null)
+				return false;
+		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
+			return false;
+		if (descrizioniCamera == null) {
+			if (other.descrizioniCamera != null)
+				return false;
+		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nomeCamera == null) {
+			if (other.nomeCamera != null)
+				return false;
+		} else if (!nomeCamera.equals(other.nomeCamera))
+			return false;
+		if (qtyCamera == null) {
+			if (other.qtyCamera != null)
+				return false;
+		} else if (!qtyCamera.equals(other.qtyCamera))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} else if (!struttura.equals(other.struttura))
+			return false;
+		return true;
 	}
 }

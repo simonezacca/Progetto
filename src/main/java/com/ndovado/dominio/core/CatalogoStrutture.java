@@ -98,5 +98,14 @@ public class CatalogoStrutture {
 			elencoStrutture.remove(s);
 		}
 	}
+	
+	public void salvaOAggiornaStruttura(Struttura smodel) {
+		if (smodel!=null) {
+			// salvo per la prima volta o aggiorno il model struttura su db
+			sdao.saveOrUpdate(smodel);
+			// aggiungo il model struttura alla lista delle strutture in elenco
+			elencoStrutture.add(smodel);
+		}
+	} 
 
 }

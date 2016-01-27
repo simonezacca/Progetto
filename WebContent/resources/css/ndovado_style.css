@@ -1,0 +1,128 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+    margin: 20px 20px 20px 20px;
+}
+
+#content {
+	width: 80%;s
+	
+}
+
+#header {
+	width: 95%;
+	
+}
+.m-b-reset{
+	margin-bottom: 0px !important;
+}
+
+.padding-reset{
+	padding: 0px !important;
+}
+
+.ui .message{
+	padding-top: 30px !important;
+	padding-bottom:  50px !important;
+}
+
+.m-top-10{
+	margin-top: 10px !important;
+}
+
+.hidden{
+	opacity: 0;
+}
+
+.ui .button{
+	text-transform: capitalize;
+}
+
+body { 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+    font-family: 'Open Sans', sans-serif;
+	margin-bottom: 60px;
+}
+
+h3.ui.header {
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #000;
+    margin: 15px auto 30px auto;
+}
+
+.ui.radio.checkbox {
+    min-height: 14px;
+    margin-right: 7px;
+}
+
+.ui.green.button, .ui.green.buttons .button {
+    background-color: #5bbd72;
+    color: #fff;
+    text-shadow: none;
+    background-image: none;
+    float: right;
+}
+.container {
+    margin-top: 20px;
+    margin-left:20px;
+    
+}
+
+.ui.button, .ui.buttons .button, .ui.buttons .or {
+    font-size: 1rem;
+}
+
+.ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg {
+    width: 150px;
+    height: auto;
+    font-size: .92857143rem;
+    display: inline;
+}
+
+.ui.inverted.menu .orange.active.item, .ui.inverted.orange.menu {
+    background-color: #FF6702  !important;
+}
+
+.ui.inverted.orange.menu .item:before {
+    background-color: #FF6702 !important;
+}
+
+.ui.modal>.header {
+    display: block;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    background: #FF6702 !important;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    box-shadow: none;
+    color: white !important;
+    border-bottom: 1px solid rgba(34,36,38,.15);
+}
+
+.image {
+
+    box-sizing: inherit;
+}
+
+img {
+    border: 0;
+    width: inherit;
+}
+
+
+@font-face {
+  font-family: 'Icons';
+  src: url("#{resource['css:themes/default/assets/fonts/icons.eot']}");
+  src: url("#{resource['css:themes/default/assets/fonts/icons.eot?#iefix']}") format('embedded-opentype'), url("#{resource['css:themes/default/assets/fonts/icons.woff2']}") format('woff2'), url("#{resource['css:themes/default/assets/fonts/icons.woff']}") format('woff'), url("#{resource['css:themes/default/assets/fonts/icons.ttf']}") format('truetype'), url("#{resource['css:themes/default/assets/fonts/icons.svg#icons']}") format('svg');
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}

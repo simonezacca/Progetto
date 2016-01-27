@@ -20,8 +20,9 @@ public class UserMapper extends GenericMapper<UtenteBean, Utente> {
 	}
 	@Override
 	public UtenteBean getBeanFromModel(Utente model) {
-		AppLogger.debug("model to convert: "+model.toString());
+		AppLogger.debug("model to convert: "+model);
 		UtenteBean bean = mapper.map(model, UtenteBean.class);
+		AppLogger.debug("bean converted: "+bean);
 		return bean;
 	}
 

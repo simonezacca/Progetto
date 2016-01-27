@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition>
+		<nav class="ui menu inverted orange navbar page grid"
+			style="margin-bottom: 0px">
+		<div class="left menu">
+			<div>
+				<a href="" class="brand item">NdoVaDo</a>
+			</div>
+		</div>
+		<!-- inizio button per signin e login -->
+		<h:panelGroup rendered="#{not utenteBean.logged}">
+		<div class="right menu">
+			<div class="item">
+				<button id="signInButton" class="ui red button">Sign in</button>
+			</div>
+			<div class="item">
+				<button id="loginButton" class="ui inverted button">Login</button>
+			</div>
+		</div>
+		</h:panelGroup>
+		<!-- fine button per signin e login -->
+		
+		<!-- inizio sezione barra loggato -->
+		<h:panelGroup rendered="#{utenteBean.logged}">
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:link outcome="#{utenteBean.homePageName}">
+						<h:outputFormat value="Bentornato {0} {1}">
+							<f:param value="#{utenteBean.cognome}"></f:param>
+							<f:param value="#{utenteBean.nome}"></f:param>
+						</h:outputFormat>
+					</h:link>
+					<h:commandButton action="#{loginControllerBB.doLogout}"
+						value="Logout" styleClass="ui red button"/>
+				</h:panelGrid>
+			</h:form>
+		</h:panelGroup>
+		<!-- fine sezione barra loggato -->
+		</nav>
+
+		<!-- modal popup login -->
+
+		<div id="loginModalWindow" class="ui modal">
+			<div class="header">Inserisci le tue credenziali di accesso</div>
+			<div class="content">
+				<h:form>
+					<div class="item">
+						<div class="ui input">
+							<h:inputText value="#{utenteBean.mail}" p:placeholder="Email" required="true" />
+						</div>
+						<!-- </div>
+					<div class="item">  -->
+						<div class="ui input">
+							<h:inputText value="#{utenteBean.password}"
+								p:placeholder="Password" required="true"/>
+						</div>
+					</div>
+					<div class="ui clearing divider"></div>
+					<h:commandButton value="Annulla" styleClass="ui red button" />
+					<h:commandButton value="Accedi" styleClass="ui green button"
+						action="#{loginControllerBB.doLogin}" />
+				</h:form>
+			</div>
+		</div>
+
+
+		<!-- modal popup registrazione -->
+
+		<div id="signInModalWindow" class="ui modal">
+			<div class="header">Registrati</div>
+			<div class="content">
+				<h:form>
+					<div class="item">
+						<div class="ui input">
+							<label>Nome</label>
+							<h:inputText value="#{utenteBean.nome}" p:placeholder="Nome"
+								required="true" />
+						</div>
+						<div class="ui input">
+							<label>Cognome</label>
+							<h:inputText value="#{utenteBean.cognome}"
+								p:placeholder="Cognome" required="true" />
+						</div>
+					</div>
+					<div class="item">
+						<div class="ui input">
+							<label>Password</label>
+							<h:inputSecret value="#{utenteBean.password}"
+								p:placeholder="Password" required="true" />
+						</div>
+						<!--  
+							<div class="ui input">
+								<label>Ripeti password</label>
+								<input type="repeatPassword" placeholder="Ripeti Password" />
+							</div>
+							-->
+					</div>
+					<div class="ui form">
+						<div class="grouped fields">
+							<label>Tipologia Utente</label>
+							<h:selectOneRadio value="#{utenteBean.ruolo}"
+								converter="#{userRoleConverter}">
+								<div class="ui radio checkbox">
+									<f:selectItems value="#{registrazioneUtenteBB.ruoliValues}"
+										var="r" itemLabel="#{r.nameradio}" itemValue="#{r}" />
+								</div>
+							</h:selectOneRadio>
+						</div>
+					</div>
+
+					<!-- inizio pannello messaggi errore -->
+					<h:panelGroup rendered="#{not empty facesContext.messageList}">
+						<div class="ui error message">
+							<i class="close icon"></i>
+							<div class="header">Sono presenti degli errori:</div>
+							<h:messages styleClass="list">
+							</h:messages>
+						</div>
+					</h:panelGroup>
+					<!-- fine pannello messaggi errore -->
+
+					<button class="ui red button">Reset</button>
+					<button class="ui green button">Conferma</button>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:composition>
+</h:body>
+</html>

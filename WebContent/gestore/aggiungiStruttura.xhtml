@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/layoutGestore.xhtml">
+		<ui:define name="content">
+			<div class="container">
+				<div class="ui segment">
+					<h:panelGroup rendered="#{not StrutturaBB.addingStruttura}">
+						<h2 class="ui right floated header">
+							<button class="ui button">Aggiungi nuova struttura</button>
+						</h2>
+					</h:panelGroup>
+					<h3 class="ui header" align="center">Aggiungi nuova struttura</h3>
+
+					<!-- inizio pannello messaggi errore -->
+					<h:panelGroup rendered="#{not empty facesContext.messageList}">
+						<div class="ui error message">
+							<i class="close icon"></i>
+							<div class="header">Sono presenti degli errori:</div>
+							<h:messages styleClass="list">
+							</h:messages>
+						</div>
+					</h:panelGroup>
+					<!-- fine pannello messaggi errore -->
+
+					<h:panelGroup rendered="#{StrutturaBB.addingStruttura}">
+						<h:form styleClass="ui form">
+							<h4 class="ui dividing header">Dati Generali</h4>
+							<div class="field">
+								<div class="two fields">
+									<div class="field">
+										<label>Nome struttura</label>
+										<h:inputText p:placeholder="Nome struttura"
+											value="#{StrutturaBB.strutturaCorrente.nomeStruttura}" />
+									</div>
+									<div class="field">
+										<label>Indirizzo</label>
+										<h:inputText p:placeholder="Indirizzo struttura"
+											value="#{StrutturaBB.strutturaCorrente.indirizzoLuogo}" />
+									</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="two fields">
+									<div class="field">
+										<h:selectOneMenu value="#{StrutturaBB.codProvinciaCorrente}" styleClass="ui fluid dropdown">
+											<f:selectItems value="#{StrutturaBB.valoriProvinceDisponibili}" var="provincia"
+							itemLabel="#{provincia}" itemValue="#{provincia}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="field">
+										<div class="ui fluid search selection dropdown">
+											<input type="hidden" name="country" /> <i
+												class="dropdown icon"></i>
+											<div class="default text">Provincia</div>
+											<div class="menu">
+												<div class="item">
+													<i class="af flag"></i>Afghanistan
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<label>Descrizione Locazione:</label>
+								<div class="ui form" />
+								<div class="field">
+									<h:inputTextarea
+										value="#{StrutturaBB.strutturaCorrente.descrizioneStruttura}" />
+								</div>
+							</div>
+
+							<!-- inizio foto gallery -->
+							<h4 class="ui dividing header">Photogallery</h4>
+							<div class="ui segment">
+								<h:graphicImage library="images" name="square-image.png"
+									styleClass="ui small image bordered spaced" />
+								<h:graphicImage library="images" name="square-image.png"
+									styleClass="ui small image bordered spaced" />
+								<h:graphicImage library="images" name="square-image.png"
+									styleClass="ui small image bordered spaced" />
+							</div>
+							<!-- fine foto gallery -->
+							<h:panelGroup
+								rendered="#{not empty StrutturaBB.strutturaCorrente.camereInserite}">
+								<div class="ui clearing divider"></div>
+								<h4 class="ui dividing header">Camere inserite</h4>
+								<ui:repeat var="camera"
+									value="#{StrutturaBB.strutturaCorrente.camereInserite}">
+									<div class="ui segment">
+										<div class="three fields">
+											<div class="field">
+												<h3>
+													<h:outputText value="#{camera.nomeCamera}"
+														p:placeholder="Nome della camera" />
+												</h3>
+											</div>
+											<div class="two field">
+												<div class="field">
+													<h:outputText
+														value="#{camera.descrizioneCorrente.dataInizioAffitto}"
+														p:placeholder="Data inizio affitto">
+														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText>
+												</div>
+												<div class="field">
+													<h:outputText
+														value="#{camera.descrizioneCorrente.dataFineAffitto}"
+														p:placeholder="Data fine affitto">
+														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText>
+												</div>
+											</div>
+											<div class="two field">
+												<div class="field">
+													<h:outputText value="#{camera.descrizioneCorrente.pax}"/>
+												</div>
+												<div class="field">
+													<h:outputText value="#{camera.descrizioneCorrente.prezzoCamera}" />
+												</div>
+												<div class="field">
+													<h:outputText value="#{camera.descrizioneCorrente.descrizioneCamera}" />
+												</div>
+												<div class="field">
+													<h:commandButton value="Modifica" styleClass="ui button"
+														action="#{StrutturaBB.modificaCamera(camera)}" />
+													<h:commandButton value="Elimina" styleClass="ui button red"
+														action="#{StrutturaBB.eliminaCamera(camera)}" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</ui:repeat>
+							</h:panelGroup>
+
+							<!-- inizio sezione aggiunta camera -->
+							<div class="field">
+								<div class="ui clearing divider"></div>
+								<div class="ui segment">
+									<h4 class="ui dividing header">Aggiungi Camera</h4>
+									<div class="three fields">
+										<div class="field">
+											<label>Nome della camera</label>
+											<h:inputText
+												value="#{StrutturaBB.cameraInAggiunta.nomeCamera}"
+												p:placeholder="Nome della camera" />
+										</div>
+										<div class="two field">
+											<div class="field">
+												<label>Data inizio affitto</label>
+												<h:inputText
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCorrente.dataInizioAffitto}"
+													p:placeholder="Data inizio affitto">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:inputText>
+											</div>
+											<div class="field">
+												<label>Data fine affitto</label>
+												<h:inputText
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCorrente.dataFineAffitto}"
+													p:placeholder="Data fine affitto">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:inputText>
+											</div>
+										</div>
+										<div class="three field">
+											<div class="field">
+												<label>Numero pax di persone</label>
+												<h:inputText
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCorrente.pax}"
+													p:placeholder="Numero pax" />
+											</div>
+											<div class="field">
+												<label>Descrizione camera</label>
+												<h:inputTextarea
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCorrente.descrizioneCamera}" />
+											</div>
+											<label>Prezzo camera</label>
+											<div class="ui right labeled input">
+												<div class="ui label">&euro;</div>
+												<h:inputText
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCorrente.prezzoCamera}" />
+											</div>
+										</div>
+									</div>
+									<h:commandButton value="Aggiungi camera"
+										action="#{StrutturaBB.aggiungiCamera}"
+										styleClass="ui orange button" />
+								</div>
+								<!-- fine sezione aggiunta camera -->
+
+
+
+								<div class="ui segment">
+									<h4 class="ui dividing header">Servizi Base (DA RIVEDERE)</h4>
+									<div class="fields">
+										<div class="ui form">
+											<div class="inline fields">
+												<div class="field">
+													<div class="ui radio checkbox">
+														<input type="radio" name="frequency" checked="checked" />
+														<label>Servizio Base 1</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui radio checkbox">
+														<input type="radio" name="frequency" /> <label>Servizio
+															Base 2</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui radio checkbox">
+														<input type="radio" name="frequency" /> <label>Servizio
+															Base 3</label>
+													</div>
+												</div>
+												<div class="field">
+													<div class="ui radio checkbox">
+														<input type="radio" name="frequency" /> <label>Servizio
+															Base 4</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ui segment">
+								<h4 class="ui dividing header">Servizi Aggiuntivi (DA
+									RIVEDERE)</h4>
+								<div class="fields">
+									<div class="ui form">
+										<div class="inline fields">
+											<div class="field">
+												<div class="ui radio checkbox">
+													<input type="radio" name="frequency" checked="checked" />
+													<label>Servizio Aggiuntivo 1</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox">
+													<input type="radio" name="frequency" /> <label>Servizio
+														Aggiuntivo 2</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox">
+													<input type="radio" name="frequency" /> <label>Servizio
+														Aggiuntivo 3</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox">
+													<input type="radio" name="frequency" /> <label>Servizio
+														Aggiuntivo 4</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h:commandButton value="Salva"
+								action="#{StrutturaBB.salvaStruttura}"
+								styleClass="ui green button"
+								rendered="#{StrutturaBB.strutturaSalvabile}" />
+						</h:form>
+					</h:panelGroup>
+				</div>
+
+				<!-- inizio sezione riepilogo struttura appena inserita -->
+				<h:panelGroup rendered="#{StrutturaBB.completed}">
+					<div class="ui segment">
+					
+					
+					</div>
+				</h:panelGroup>
+				<!-- fine sezione riepilogo struttura appena inserita -->
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,23 +1,18 @@
 package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import com.ndovado.dominio.core.ARuolo;
-
-@ManagedBean(name="utenteB")
+@ManagedBean(name="utenteBean")
 @SessionScoped
 public class UtenteBean implements Serializable, Identifiable{
 
 	/**
 	 * 
 	 */
-	private final static String AREA_UTENTE = "/areaPrivata?faces-redirect=true";
-	private final static String AREA_GESTORE = "/gestore/areaGestore?faces-redirect=true";
+	private final static String AREA_UTENTE = "/locatario/index?faces-redirect=true";
+	private final static String AREA_GESTORE = "/gestore/index?faces-redirect=true";
 	private static final long serialVersionUID = 1L;
 	
 	private Long id = null;
@@ -27,7 +22,7 @@ public class UtenteBean implements Serializable, Identifiable{
 	private String password;
 	
 	//private TipoUtente ruolo;
-	private ARuoloBean ruolo = new LocatarioBean();
+	private ARuoloBean ruolo = null;
 	private String homePageName;
 	
 	private boolean loggedIn = false;
@@ -107,7 +102,7 @@ public class UtenteBean implements Serializable, Identifiable{
 			this.cognome = u.getCognome();
 			this.mail = u.getMail();
 			this.password = u.getPassword();
-			//this.setRuolo(u.getRuolo());
+			this.setRuolo(u.getRuolo());
 			this.loggedIn = u.isLogged();
 		}
 	}

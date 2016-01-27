@@ -3,13 +3,9 @@ package com.ndovado.webapp.beans.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import javax.faces.bean.ManagedBean;
 
-import com.ndovado.dominio.core.Camera;
-import com.ndovado.dominio.core.Struttura;
-import com.ndovado.tecservices.loggers.AppLogger;
+
 
 @ManagedBean(name="strutturaBean")
 public class StrutturaBean implements Serializable, Identifiable {
@@ -17,10 +13,15 @@ public class StrutturaBean implements Serializable, Identifiable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Long id = null;
 	private String nomeStruttura;
 	private LuogoBean luogoStruttura;
+	
+	private String descrizioneStruttura;
+	
+	private String indirizzoLuogo;
 	
 	private List<CameraBean> camereInserite;
 	
@@ -85,7 +86,7 @@ public class StrutturaBean implements Serializable, Identifiable {
 		return true;
 	}
 
-	private UtenteBean gestore;
+	private GestoreBean gestore;
 	
 	private Object tableau;
 	private Object elencoServizi;
@@ -94,29 +95,10 @@ public class StrutturaBean implements Serializable, Identifiable {
 		setCamereInserite(new ArrayList<CameraBean>());
 	}
 	
-	public StrutturaBean(UtenteBean gestore) {
+	public StrutturaBean(GestoreBean gestore) {
 		this.gestore = gestore;
 		//AppLogger.debug("Imposto gestore per StrutturaBean:"+gestore.getMail());
 		setCamereInserite(new ArrayList<CameraBean>());
-	}
-	
-	public StrutturaBean(Struttura s) {
-		setCamereInserite(new ArrayList<CameraBean>());
-		fillBeanFromModel(s);
-		
-	}
-	
-	protected void fillBeanFromModel(Struttura s) {
-		if (s!=null) {
-			this.id = s.getId();
-			this.nomeStruttura = s.getNomeStruttura();
-			this.luogoStruttura = new LuogoBean();
-			
-			List<Camera> camereModel = s.getCamereInserite();
-			for (Camera camera : camereModel) {
-				getCamereInserite().add(new CameraBean(camera));
-			}
-		}
 	}
 	
 	/**
@@ -153,19 +135,20 @@ public class StrutturaBean implements Serializable, Identifiable {
 	/**
 	 * @return the gestore
 	 */
-	public UtenteBean getGestore() {
+	public GestoreBean getGestore() {
 		return gestore;
 	}
 
 	/**
 	 * @param gestore the gestore to set
 	 */
-	public void setGestore(UtenteBean gestore) {
+	public void setGestore(GestoreBean gestore) {
 		this.gestore = gestore;
 	}
 	
 	public void addCameraBean(CameraBean cb) {
 		this.getCamereInserite().add(cb);
+		cb.setStruttura(this);
 	}
 	
 	@Override
@@ -175,7 +158,7 @@ public class StrutturaBean implements Serializable, Identifiable {
 		risultato.append("StrutturaBean[");
 		risultato.append("id: "+this.id+", ");
 		risultato.append("nome: "+this.nomeStruttura+", ");
-		risultato.append("gestore: "+this.gestore.getMail()+", ");
+		//risultato.append("gestore: "+this.gestore.getMail()+", ");
 		risultato.append("luogo: "+this.luogoStruttura.getNomeComune()+"]\n\t");
 		
 		risultato.append("CamereBeans:\n\t");
@@ -237,6 +220,34 @@ public class StrutturaBean implements Serializable, Identifiable {
 	 */
 	public void setCamereInserite(List<CameraBean> camereInserite) {
 		this.camereInserite = camereInserite;
+	}
+
+	/**
+	 * @return the descrizioneStruttura
+	 */
+	public String getDescrizioneStruttura() {
+		return descrizioneStruttura;
+	}
+
+	/**
+	 * @param descrizioneStruttura the descrizioneStruttura to set
+	 */
+	public void setDescrizioneStruttura(String descrizioneStruttura) {
+		this.descrizioneStruttura = descrizioneStruttura;
+	}
+
+	/**
+	 * @return the indirizzoLuogo
+	 */
+	public String getIndirizzoLuogo() {
+		return indirizzoLuogo;
+	}
+
+	/**
+	 * @param indirizzoLuogo the indirizzoLuogo to set
+	 */
+	public void setIndirizzoLuogo(String indirizzoLuogo) {
+		this.indirizzoLuogo = indirizzoLuogo;
 	}
 		
 	

@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.ndovado.tecservices.persistence.base.IPersistente;
@@ -25,7 +26,7 @@ public class Gestore extends ARuolo implements IPersistente {
 
 	
 	public Gestore() {
-		struttureGestite = new ArrayList<Struttura>();
+		setStruttureGestite(new ArrayList<Struttura>());
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class Gestore extends ARuolo implements IPersistente {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((struttureGestite == null) ? 0 : struttureGestite.hashCode());
+		result = prime * result + ((getStruttureGestite() == null) ? 0 : getStruttureGestite().hashCode());
 		return result;
 	}
 
@@ -51,10 +52,10 @@ public class Gestore extends ARuolo implements IPersistente {
 		if (!(obj instanceof Gestore))
 			return false;
 		Gestore other = (Gestore) obj;
-		if (struttureGestite == null) {
-			if (other.struttureGestite != null)
+		if (getStruttureGestite() == null) {
+			if (other.getStruttureGestite() != null)
 				return false;
-		} else if (!struttureGestite.equals(other.struttureGestite))
+		} else if (!getStruttureGestite().equals(other.getStruttureGestite()))
 			return false;
 		return true;
 	}
@@ -64,7 +65,7 @@ public class Gestore extends ARuolo implements IPersistente {
 	 */
 	public void gestisciStruttura(Struttura aStruttura) {
 		if (aStruttura!=null) {
-			this.struttureGestite.add(aStruttura);
+			this.getStruttureGestite().add(aStruttura);
 		}
 	}
 
@@ -73,7 +74,7 @@ public class Gestore extends ARuolo implements IPersistente {
 	 */
 	public void rimuoviGestioneStruttura(Struttura aStruttura) {
 		if(aStruttura!=null) {
-			this.struttureGestite.remove(aStruttura);
+			this.getStruttureGestite().remove(aStruttura);
 		}
 	}
 	
@@ -95,6 +96,13 @@ public class Gestore extends ARuolo implements IPersistente {
 	@Override
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @param struttureGestite the struttureGestite to set
+	 */
+	public void setStruttureGestite(List<Struttura> struttureGestite) {
+		this.struttureGestite = struttureGestite;
 	}
 
 }

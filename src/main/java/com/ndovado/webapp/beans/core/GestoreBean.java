@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GestoreBean extends ARuoloBean {
 
-	private final Integer idRadio = 1;
+	private final Long idRadio = new Long(1);
 	private final String nameRadio = "Gestore";
 	
 	@Override
@@ -55,7 +55,7 @@ public class GestoreBean extends ARuoloBean {
 	/**
 	 * @return the idradio
 	 */
-	public Integer getIdradio() {
+	public Long getIdradio() {
 		return idRadio;
 	}
 	/**

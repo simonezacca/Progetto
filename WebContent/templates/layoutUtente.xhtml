@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:head>
+<h:outputStylesheet library="css" name="ndovado_style.css"/>
+<h:outputStylesheet library="css" name="semantic.min.css"/>
+<h:outputStylesheet library="css" name="datepicker/daterangepicker.min.css"/>
+
+<h:outputScript library="javascript" target="head" name="jquery-2.2.0.min.js" />
+<h:outputScript library="javascript" target="head" name="semantic.min.js" />
+<h:outputScript library="javascript" target="head" name="datepicker/moment.min.js" />
+<h:outputScript library="javascript" target="head" name="datepicker/daterangepicker.min.js" />
+<h:outputScript library="javascript" target="body" name="ndovado_js.js" />
+
+</h:head>
+<h:body>
+<div id="page">
+<div id="header-container">
+<div id="header">
+<ui:insert name="header">
+<ui:include src="/sections/topbar.xhtml" />               
+</ui:insert>
+</div>
+</div>
+<div id="leftbar">
+<ui:insert name="leftbar">
+<ui:include src="/locatario/leftmenubar.xhtml"></ui:include>
+</ui:insert>
+</div>            
+<div id="content">
+<ui:insert name="content">
+<p>Main content</p>
+</ui:insert>
+</div>
+<div id="footer-container">
+<div id="footer">
+<ui:insert name="footer">
+<p>Footer</p>
+</ui:insert>
+</div>
+</div>
+</div>
+</h:body>
+</html>

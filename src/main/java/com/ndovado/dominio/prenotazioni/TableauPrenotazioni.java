@@ -10,24 +10,14 @@ import com.ndovado.dominio.core.DescrizioneCamera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.tecservices.persistence.base.IPersistente;
 import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
 import com.ndovado.tecservices.persistence.base.StrutturaDAO;
-import com.sun.org.apache.regexp.internal.recompile;
-
-import apple.security.AppleProvider;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.joda.time.LocalDate;
 
 /**
  * 

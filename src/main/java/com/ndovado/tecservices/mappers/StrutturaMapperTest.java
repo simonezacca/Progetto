@@ -10,6 +10,7 @@ import com.ndovado.tecservices.persistence.base.StrutturaDAO;
 import com.ndovado.tecservices.persistence.base.UtenteDAO;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.DescrizioneCameraBean;
+import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
@@ -32,7 +33,7 @@ public class StrutturaMapperTest {
 		
 		
 		AppLogger.debug("Creo StrutturaBean");
-		StrutturaBean sb = new StrutturaBean(ubean);
+		StrutturaBean sb = new StrutturaBean((GestoreBean)ubean.getRuolo());
 		AppLogger.debug("Imposto luogo LuogoBean in StrutturaBean");
 		sb.setLuogoStruttura(lb);
 		
