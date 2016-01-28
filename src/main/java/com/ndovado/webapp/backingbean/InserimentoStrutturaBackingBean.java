@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+
+import com.ndovado.tecservices.loggers.AppLogger;
+import com.ndovado.webapp.beans.core.ARuoloBean;
 import com.ndovado.webapp.beans.core.CameraBean;
-import com.ndovado.webapp.beans.core.CatalogoLuogoBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
+import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneStrutturaController;
  
 @ManagedBean(name="StrutturaBB")
@@ -20,12 +25,6 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@ManagedProperty(value="#{catalogoLuogoBean}")
-	private CatalogoLuogoBean clb;
-	
-	public List<String> getValoriProvinceDisponibili() {
-		return clb.getValoriProvinceDisponibili();
-	}
 	private String codProvinciaCorrente;
 	
 	// collego il bean utente contenuto in sessione  con il gestore corrente
@@ -40,16 +39,25 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	
 	private CameraBean cameraInAggiunta;
 	
+	private List<String> provinceDisponibili;
+	
 	private List<LuogoBean> luoghiDisponibili;
 	
 	private GestioneStrutturaController controller;
 	
 	public InserimentoStrutturaBackingBean() {
-		gestoreCorrente = new GestoreBean();
+		
+	}
+	
+	@PostConstruct
+	protected void initBB() {
 		strutturaCorrente = new StrutturaBean(gestoreCorrente);
 		cameraInAggiunta = new CameraBean();
 		luoghiDisponibili = new ArrayList<LuogoBean>();
 		controller = new GestioneStrutturaController(gestoreCorrente);
+		provinceDisponibili = controller.getListaTutteProvinceStrings();
+		
+		AppLogger.debug("Ruolo utente corrente "+gestoreCorrente);
 	}
 	
 	public boolean isStrutturaSalvabile() {
@@ -83,7 +91,7 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 			completed = true;
 			addingStruttura = false;
 		}
-		return null;
+		return "/locatario/index?faces-redirect=true";
 	}
 
 	/**
@@ -182,6 +190,17 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	 */
 	public void setCodProvinciaCorrente(String codProvinciaCorrente) {
 		this.codProvinciaCorrente = codProvinciaCorrente;
+	}
+	
+	public void settaListaComuniBeans(final AjaxBehaviorEvent event) {
+		luoghiDisponibili = controller.getListaLuogoBeanPerProvincia(codProvinciaCorrente);
+	}
+
+	/**
+	 * @return the provinceDisponibili
+	 */
+	public List<String> getProvinceDisponibili() {
+		return provinceDisponibili;
 	}
 
 }

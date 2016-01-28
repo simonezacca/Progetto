@@ -54,7 +54,7 @@ public class Struttura implements IPersistente {
 	 * Riferimento ad un'istanza di tipo <code>Gestore</code>, utente gestore della struttura
 	 */
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@PrimaryKeyJoinColumn
 	private Gestore gestore;
 

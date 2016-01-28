@@ -5,6 +5,7 @@ import java.util.*;
 import com.ndovado.dominio.prenotazioni.RisultatoRicerca;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.StrutturaDAO;
+import com.ndovado.tecservices.persistence.base.UtenteDAO;
 
 /**
  * 
@@ -17,14 +18,13 @@ public class CatalogoStrutture {
 	 */
 	protected CatalogoStrutture() {
 		AppLogger.debug("Instazione set per elenco strutture.");
-		elencoStrutture = new HashSet<Struttura>();
+		//elencoStrutture = new HashSet<Struttura>();
 		populateSetStrutture();
 	}
 	
 	private void populateSetStrutture() {
-		List<Struttura> elencoStrutture = sdao.getAll();
-		elencoStrutture.addAll(elencoStrutture);
-		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" utenti.");
+		elencoStrutture = sdao.getAll();
+		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" strutture.");
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class CatalogoStrutture {
 	/**
 	 * 
 	 */
-	private static Set<Struttura> elencoStrutture;
+	private static List<Struttura> elencoStrutture = new ArrayList<Struttura>();
 
 	/**
 	 * @return
@@ -96,6 +96,8 @@ public class CatalogoStrutture {
 			s.getGestore().rimuoviGestioneStruttura(s);
 			// infine elimino la struttura dal catalogo
 			elencoStrutture.remove(s);
+			// rimuovo la struttura dal DB
+			sdao.delete(s.getId());
 		}
 	}
 	
@@ -104,6 +106,7 @@ public class CatalogoStrutture {
 			// salvo per la prima volta o aggiorno il model struttura su db
 			sdao.saveOrUpdate(smodel);
 			// aggiungo il model struttura alla lista delle strutture in elenco
+			AppLogger.debug("Aggiungo struttura salvata nel catalogo strutture");
 			elencoStrutture.add(smodel);
 		}
 	} 

@@ -6,7 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <property name="context-root" value="com.ndovado.webapp"/>
         <property name="java-output-path" value="/com.ndovado.webapp/target/classes"/>
+        <property name="context-root" value="ndovado"/>
     </wb-module>
 </project-modules>

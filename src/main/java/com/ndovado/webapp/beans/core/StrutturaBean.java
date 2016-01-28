@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 
+import com.ndovado.tecservices.loggers.AppLogger;
+
 
 
 @ManagedBean(name="strutturaBean")
@@ -97,7 +99,7 @@ public class StrutturaBean implements Serializable, Identifiable {
 	
 	public StrutturaBean(GestoreBean gestore) {
 		this.gestore = gestore;
-		//AppLogger.debug("Imposto gestore per StrutturaBean:"+gestore.getMail());
+		AppLogger.debug("Imposto gestore per StrutturaBean:"+gestore);
 		setCamereInserite(new ArrayList<CameraBean>());
 	}
 	

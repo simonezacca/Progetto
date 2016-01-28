@@ -9,13 +9,11 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="loginControllerBB")
-//@Named("loginControllerBB")
 public class LoginControllerBackingBean {
 
 	private GestioneUtenteController controller = new GestioneUtenteController();
 	
 	@ManagedProperty(value="#{utenteBean}")
-	//@Inject
 	private UtenteBean utenteCorrente;
 	
 	public String doLogin(){

@@ -31,21 +31,6 @@ public class DescrizioneCameraBean implements Serializable, Identifiable {
 		this.cameraAssociata = camera;
 	}
 	
-	public DescrizioneCameraBean(DescrizioneCamera desc) {
-		fillBeanFromModel(desc);
-	}
-	
-	protected void fillBeanFromModel(DescrizioneCamera desc) {
-		if (desc !=null) {
-			this.id = desc.getId();
-			this.descrizioneCamera = desc.getDescrizioneCamera();
-			this.pax = desc.getPax();
-			this.prezzoCamera = desc.getPrezzoCamera();
-			this.dataInizioAffitto = desc.getDataInizioAffitto();
-			this.dataFineAffitto = desc.getDataFineAffitto();
-		}
-	}
-	
 	/**
 	 * @param idDescrizioneCamera the idDescrizioneCamera to set
 	 */

@@ -130,4 +130,15 @@ public class CatalogoLuogo {
 		}
 		return elencoRisultati;
 	}
+	
+	public List<String> getListaTutteProvinceStrings() {
+		List<String> strings = new ArrayList<String>();
+		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+			String provincia = entry.getValue().getProvincia();
+			if (!strings.contains(provincia)) {
+				strings.add(provincia);
+			}
+		}
+		return strings;
+	}
 }

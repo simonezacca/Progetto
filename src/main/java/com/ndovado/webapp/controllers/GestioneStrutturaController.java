@@ -1,29 +1,48 @@
 package com.ndovado.webapp.controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.mysql.fabric.xmlrpc.base.Array;
+import com.ndovado.dominio.core.CatalogoLuogo;
 import com.ndovado.dominio.core.CatalogoStrutture;
 import com.ndovado.dominio.core.CatalogoUtenti;
+import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.tecservices.loggers.AppLogger;
+import com.ndovado.tecservices.mappers.LuogoMapper;
 import com.ndovado.tecservices.mappers.StrutturaMapper;
 import com.ndovado.tecservices.mappers.UserMapper;
 import com.ndovado.webapp.beans.core.GestoreBean;
+import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
 public class GestioneStrutturaController {
 	
-	private StrutturaMapper smapeer = StrutturaMapper.getInstance();
+	private StrutturaMapper smapper = StrutturaMapper.getInstance();
 	private CatalogoStrutture csmodel = CatalogoStrutture.getInstance();
+	private LuogoMapper lmapper;
+	private CatalogoLuogo clmodel; 
 	
 	private GestoreBean gestore;
 	
+	private void initLuogoUtils() {
+		lmapper = LuogoMapper.getInstance();
+		clmodel = CatalogoLuogo.getInstance();
+	}
+	
+	
 	public GestioneStrutturaController(GestoreBean gestore) {
 		this.setGestore(gestore);
+		initLuogoUtils();
 	}
 
 	/**
@@ -50,13 +69,32 @@ public class GestioneStrutturaController {
 	
 	public StrutturaBean doSalvaStruttura(StrutturaBean sb) {
 		// converto il bean struttura in model struttura
-		Struttura smodel = smapeer.getModelFromBean(sb);
+		Struttura smodel = smapper.getModelFromBean(sb);
 		// persisto su DB il modello della struttura
 		csmodel.salvaOAggiornaStruttura(smodel);
 		// ripopolo il bean struttura con le informazioni del model gestito
-		sb = smapeer.getBeanFromModel(smodel);
+		sb = smapper.getBeanFromModel(smodel);
 		// faccio tornare indietro il nuovo bean popolato
 		return sb;
+	}
+	
+	public List<LuogoBean> getListaLuogoBeanPerProvincia(String codProvincia) {
+		List<LuogoBean> lbeans = new ArrayList<LuogoBean>();
+		if (codProvincia!=null && !codProvincia.isEmpty() && codProvincia.length()==2) {
+			AppLogger.debug("Popolo lista luoghi bean da codProvincia= "+codProvincia);
+			List<Luogo> lmodels = clmodel.getListaLuoghiPerProvincia(codProvincia);
+			for (Luogo luogo : lmodels) {
+				LuogoBean lb = lmapper.getBeanFromModel(luogo);
+				lbeans.add(lb);
+			}
+		}
+		return lbeans;
+	}
+	
+	public List<String> getListaTutteProvinceStrings() {
+		List<String> strings = clmodel.getListaTutteProvinceStrings();
+		Collections.sort(strings);
+		return strings;
 	}
 	
 }

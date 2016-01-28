@@ -52,7 +52,7 @@ public class Luogo implements IPersistente {
 	@Column(name="provincia")
 	private String provincia;
 	
-	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL)
 	private List<Struttura> struttureInLuogo = new ArrayList<Struttura>();
 
 	protected Luogo() {

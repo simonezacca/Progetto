@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
-import com.ndovado.dominio.core.Camera;
-import com.ndovado.dominio.core.DescrizioneCamera;
-
 @ManagedBean(name="cameraBean")
 public class CameraBean implements Serializable, Identifiable {
 
@@ -20,42 +17,25 @@ public class CameraBean implements Serializable, Identifiable {
 	private Long id = null;
 	private String nomeCamera;
 	private Integer qtyCamera = new Integer(1);
-	private DescrizioneCameraBean descrizioneCorrente;
-	
 	private StrutturaBean struttura;
 	
+	private DescrizioneCameraBean descrizioneCorrente;
 	private List<DescrizioneCameraBean> descrizioniCamera = new ArrayList<DescrizioneCameraBean>();
 	
 	public CameraBean() {
-		descrizioneCorrente = new DescrizioneCameraBean();
+		descrizioneCorrente = new DescrizioneCameraBean(this);
+		getDescrizioniCamera().add(descrizioneCorrente);
 	}
 	
 	public CameraBean(StrutturaBean s) {
 		this.struttura = s;
 		s.addCameraBean(this);
-		descrizioneCorrente = new DescrizioneCameraBean();
+		descrizioneCorrente = new DescrizioneCameraBean(this);
+		getDescrizioniCamera().add(descrizioneCorrente);
 	}
 	
 	public void setStruttura(StrutturaBean s) {
 		this.struttura= s;
-	}
-	
-	public CameraBean(Camera c) {
-		fillBeanFromModel(c);
-	}
-	
-	protected void fillBeanFromModel(Camera c) {
-		if (c!=null) {
-			this.id = c.getId();
-			this.nomeCamera = c.getNomeCamera();
-			this.qtyCamera = c.getQtyCamera();
-			this.descrizioneCorrente = new DescrizioneCameraBean(c.getDescrizioneCorrente());
-			
-			List<DescrizioneCamera> descsModel = c.getDescrizioniCamera();
-			for (DescrizioneCamera descrizioneCamera : descsModel) {
-				getDescrizioniCamera().add(new DescrizioneCameraBean(descrizioneCamera));
-			}
-		}
 	}
 
 	/**
@@ -105,23 +85,9 @@ public class CameraBean implements Serializable, Identifiable {
 	 */
 	public void setDescrizioneCorrente(DescrizioneCameraBean descCorrente) {
 		this.descrizioneCorrente = descCorrente;
-		this.descrizioniCamera.add(descCorrente);
+		this.getDescrizioniCamera().add(descCorrente);
 	}
 	
-	/**
-	 * @return the descrizioni
-	 */
-	public List<DescrizioneCameraBean> getDescrizioniCamera() {
-		return descrizioniCamera;
-	}
-
-	/**
-	 * @param descrizioni the descrizioni to set
-	 */
-	public void setDescrizioni(List<DescrizioneCameraBean> descrizioni) {
-		this.descrizioniCamera = descrizioni;
-	}
-
 	/**
 	 * @return the strutturaBean
 	 */
@@ -159,7 +125,7 @@ public class CameraBean implements Serializable, Identifiable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((descrizioneCorrente == null) ? 0 : descrizioneCorrente.hashCode());
-		result = prime * result + ((descrizioniCamera == null) ? 0 : descrizioniCamera.hashCode());
+		result = prime * result + ((getDescrizioniCamera() == null) ? 0 : getDescrizioniCamera().hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
 		result = prime * result + ((qtyCamera == null) ? 0 : qtyCamera.hashCode());
@@ -181,10 +147,10 @@ public class CameraBean implements Serializable, Identifiable {
 				return false;
 		} else if (!descrizioneCorrente.equals(other.descrizioneCorrente))
 			return false;
-		if (descrizioniCamera == null) {
-			if (other.descrizioniCamera != null)
+		if (getDescrizioniCamera() == null) {
+			if (other.getDescrizioniCamera() != null)
 				return false;
-		} else if (!descrizioniCamera.equals(other.descrizioniCamera))
+		} else if (!getDescrizioniCamera().equals(other.getDescrizioniCamera()))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -207,5 +173,19 @@ public class CameraBean implements Serializable, Identifiable {
 		} else if (!struttura.equals(other.struttura))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return the descrizioniCamera
+	 */
+	public List<DescrizioneCameraBean> getDescrizioniCamera() {
+		return descrizioniCamera;
+	}
+
+	/**
+	 * @param descrizioniCamera the descrizioniCamera to set
+	 */
+	public void setDescrizioniCamera(List<DescrizioneCameraBean> descrizioniCamera) {
+		this.descrizioniCamera = descrizioniCamera;
 	}
 }
