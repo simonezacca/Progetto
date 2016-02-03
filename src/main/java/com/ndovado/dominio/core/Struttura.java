@@ -61,7 +61,7 @@ public class Struttura implements IPersistente {
 	/**
 	 * Insieme dei servizi offerti dalla struttura
 	 */
-	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	//@OrderBy(clause="iddettaglio_servizio")
 	private List<DettaglioServizio> serviziOfferti;
 
@@ -186,6 +186,12 @@ public class Struttura implements IPersistente {
 		if (servizio!=null && prezzo >= 0) {
 			DettaglioServizio dso = new DettaglioServizio(this, servizio, prezzo);
 			this.getServiziOfferti().add(dso);
+		}
+	}
+	
+	public void addDettaglioServizio(DettaglioServizio ds) {
+		if (ds!=null) {
+			this.getServiziOfferti().add(ds);
 		}
 	}
 

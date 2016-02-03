@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory>
+ <session-factory name="">
   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
   <property name="hibernate.connection.password">aschi.2991</property>
   <property name="hibernate.connection.url">jdbc:mysql://localhost:8889/ndovado</property>
@@ -24,6 +24,8 @@
   <mapping class="com.ndovado.dominio.servizi.ATipologiaServizio"/>
   <mapping class="com.ndovado.dominio.servizi.DettaglioServizio"/>
   <mapping class="com.ndovado.dominio.servizi.ServizioComune"/>
+  <mapping class="com.ndovado.dominio.servizi.ServizioBase"/>
+  <mapping class="com.ndovado.dominio.servizi.ServizioAggiuntivo"/>
   <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione"/>
   <mapping class="com.ndovado.dominio.prenotazioni.IPrenotabile"/>
  </session-factory>

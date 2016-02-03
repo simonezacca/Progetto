@@ -64,7 +64,7 @@ public class CatalogoServizi {
 	 * @param idServizio 
 	 * @return
 	 */
-	public ServizioComune getServizio(Long idServizio) {
+	public ServizioComune getServizioById(Long idServizio) {
 		for (ServizioComune servizio : getServiziDisponibili()) {
 			if (servizio.getId() == idServizio) {
 				return servizio;

@@ -201,49 +201,82 @@
 						<!-- fine sezione aggiunta camera -->
 
 						<!-- inizio sezione aggiunta servizio -->
-						<h:form>
-							<div class="ui segment">
-								<h4 class="ui dividing header">Personalizzazione servizi
-									disponibili nella piattaforma</h4>
-								<div class="four fields">
-									<div class="field">
-										<h:selectOneMenu value="#{StrutturaBB.sccorrente}"
-											styleClass="ui fluid selection dropdown">
-											<f:selectItems
-												value="#{StrutturaBB.serviziComuniDisponibili}" var="sc"
-												itemLabel="#{sc.nomeServizio}" itemValue="#{sc}" />
-										</h:selectOneMenu>
-									</div>
-									<div class="field">
-										<h:selectOneRadio value="#{StrutturaBB.dsbcorrente.tipologia}" converter="#{tipologiaServizioBeanConverter}">
-											<div class="ui radio checkbox">
-												<f:selectItems
-													value="#{StrutturaBB.tipologieSevizioBeanDisponibili}"
-													var="tsb" itemLabel="#{tsb.stringLabel}" itemValue="#{tsb}"></f:selectItems>
-											</div>
-										</h:selectOneRadio>
-									</div>
-									<div class="field">
-										<label>Prezzo servizio</label>
-										<div class="ui right labeled input">
-											<div class="ui label">&euro;</div>
-											<h:inputText
-												value="#{StrutturaBB.dsbcorrente.tipologia.prezzo}"></h:inputText>
-										</div>
-									</div>
-									<div class="field">
-										<h:commandButton
-											action="#{StrutturaBB.aggiungiDettaglioServizio}"
-											styleClass="ui green button" value="Aggiungi" />
-									</div>
+						<div class="ui segment">
+							<h4 class="ui dividing header">Personalizzazione servizi
+								disponibili nella piattaforma</h4>
+							<div class="two fields">
+								<div class="field">
+									<button id="addBaseServiceBtn" class="ui orange button">Aggiungi
+										servizio base</button>
+								</div>
+								<div class="field">
+									<button id="addPlusServiceBtn" class="ui orange button">Aggiungi
+										servizio plus</button>
 								</div>
 							</div>
-						</h:form>
+						</div>
+
+						<!-- modal servizio base -->
+						<div class="ui modal" id="modalBaseService">
+							<i class="close icon"></i>
+							<div class="header">Aggiungi servizio BASE</div>
+							<div class="content">
+								<h:form>
+									<h:selectOneMenu value="#{StrutturaBB.sccorrente}"
+										styleClass="ui fluid selection dropdown"
+										converter="#{servizioComuneBeanConverter}">
+										<f:selectItems value="#{StrutturaBB.serviziComuniDisponibili}"
+											var="sc" itemLabel="#{sc.nomeServizio}" itemValue="#{sc}" />
+									</h:selectOneMenu>
+									<label>Note per servizio</label>
+									<h:inputTextarea value="#{StrutturaBB.dsbcorrente.note}" />
+									<div class="actions">
+										<h:commandButton value="Aggiungi"
+											action="#{StrutturaBB.aggiungiDettaglioServizioBase}"
+											styleClass="ui green button"></h:commandButton>
+										<div class="ui button">Annulla</div>
+									</div>
+								</h:form>
+							</div>
+						</div>
+
+						<!-- modal servizio aggiuntivo -->
+						<div class="ui modal" id="modalPlusService">
+							<i class="close icon"></i>
+							<div class="header">Aggiungi servizio BASE</div>
+							<div class="content">
+								<h:form>
+									<h:selectOneMenu value="#{StrutturaBB.sccorrente}"
+										styleClass="ui fluid selection dropdown"
+										converter="#{servizioComuneBeanConverter}">
+										<f:selectItems value="#{StrutturaBB.serviziComuniDisponibili}"
+											var="sc" itemLabel="#{sc.nomeServizio}" itemValue="#{sc}" />
+									</h:selectOneMenu>
+									<label>Prezzo servizio</label>
+									<div class="ui right labeled input">
+										<div class="ui label">&euro;</div>
+										<h:inputText value="#{StrutturaBB.prezzoDSB}" />
+									</div>
+									<label>Note per servizio</label>
+									<h:inputTextarea value="#{StrutturaBB.dsbcorrente.note}" />
+									<div class="actions">
+										<h:commandButton value="Aggiungi"
+											action="#{StrutturaBB.aggiungiDettaglioServizioPlus}"
+											styleClass="ui green button"></h:commandButton>
+										<div class="ui button">Annulla</div>
+									</div>
+								</h:form>
+							</div>
+						</div>
+
+
+
 						<!-- fine sezione aggiunta servizio -->
 
 						<!-- inizio pannello servizi già inseriti -->
 						<h:panelGroup
 							rendered="#{not empty StrutturaBB.strutturaCorrente.serviziOfferti}">
+							<h:form>
 							<div class="ui segment">
 								<h4 class="ui dividing header">Servizi aggiunti</h4>
 								<div class="fields">
@@ -253,7 +286,8 @@
 											<div class="inline fields">
 												<div class="field">
 													<div class="ui radio checkbox">
-														<h:outputText value="#{servizio.servizio.nomeServizio}"></h:outputText>
+														<h:outputText value="#{servizio.servizio.nomeServizio} | #{servizio.tipologia.prezzo} | #{servizio.note}"></h:outputText>
+														<h:commandButton action="#{StrutturaBB.eliminaDettaglioServizio(servizio)}" value="Elimina" styleClass="ui red button"/>
 													</div>
 												</div>
 											</div>
@@ -261,6 +295,7 @@
 									</ui:repeat>
 								</div>
 							</div>
+							</h:form>
 						</h:panelGroup>
 						<!-- fine pannello servizi già inseriti -->
 

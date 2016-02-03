@@ -9,8 +9,10 @@ public class ServizioBaseBean extends ATipologiaServizioBean {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ServizioBaseBean(ServizioComuneBean scb) {
-		this.servizio = scb;
+	public ServizioBaseBean(ServizioComuneBean scb,DettaglioServizioBean dsb) {
+		this.dettaglioServizio = dsb;
+		this.dettaglioServizio.setServizio(scb);
+		//this.servizio = scb;
 	}
 
 	@Override

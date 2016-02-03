@@ -2,35 +2,61 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	>
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 </h:head>
 <h:body>
-<ui:composition template="/templates/layoutGestore.xhtml">
+	<ui:composition template="/templates/layoutGestore.xhtml">
 		<ui:define name="content">
-			<h2>Elenco Strutture</h2><h:link outcome="struttura/aggiungiStruttura" value="Aggiungi struttura" />
-			
-			<h:dataTable value="#{strutturaHelper.getListaStruttureBeanByGestore(utenteBean)}" var="strutturaBean">
-				<h:column>
-				<f:facet name="header">
-					Nome struttura
-				</f:facet>	
-				#{strutturaBean.nomeStruttura} 
-				</h:column>
-				<h:column>
-				<f:facet name="header">
-					Luogo
-				</f:facet>	
-				#{strutturaBean.luogoStruttura.nomeComune} 
-				</h:column>
-				<h:column>
-					<!-- next column components -->
-					<!--<h:commandLink value="" action="..." />-->
-				</h:column>
-				
-			</h:dataTable>
-			<h:messages></h:messages>
+			<div class="ui orange segment">
+				<h4 class="ui left orange dividing header">Locazioni inserite</h4>
+				<div class="ui orange divided items"></div>
+				<h2 class="ui right floated header">
+					<h:button styleClass="ui orange button"
+						value="Aggiungi nuova locazione" outcome="aggiungiStruttura" />
+				</h2>
+				<div class="ui orange clearing divider"></div>
+				<div class="ui orange divided items">
+					<ui:repeat var="struttura"
+						value="#{elencoStruttureBB.elencoStrutture}">
+					<div class="item">
+						<div class="image">
+							<h:graphicImage library="images" name="square-image.png" />
+						</div>
+						<div class="content">
+							<h:link value="#{struttura.nomeStruttura}"></h:link>
+							<div class="meta">
+								<span class="cinema"> <h:outputFormat value="{0} - {1}">
+										<f:param value="#{struttura.indirizzoLuogo}"></f:param>
+										<f:param value="#{struttura.luogoStruttura}"></f:param>
+									</h:outputFormat>
+								</span>
+							</div>
+							<div class="description">
+								<h:outputText value="#{struttura.descrizioneStruttura}"></h:outputText>
+							</div>
+							<div class="extra">
+								<div class="ui right floated orange icon button">
+									<h:commandLink action="#{elencoStruttureBB.visualizzaStruttura(struttura)}" styleClass="info basic icon" />
+
+									<i class="info basic icon"></i>
+
+								</div>
+								<div class="ui right floated orange icon button">
+									<h:commandLink action="#{elencoStruttureBB.modificaStruttura(struttura)}" styleClass="edit basic icon" />
+									<i class="edit basic icon"></i>
+
+								</div>
+								<div class="ui right floated orange icon button">
+									<h:commandLink action="#{elencoStruttureBB.eliminaStruttura(struttura)}" styleClass="delete basic icon" />
+									<i class="delete basic icon"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					</ui:repeat>
+				</div>
+			</div>
 		</ui:define>
 	</ui:composition>
 </h:body>

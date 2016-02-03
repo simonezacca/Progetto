@@ -18,7 +18,6 @@ public class CatalogoStrutture {
 	 */
 	protected CatalogoStrutture() {
 		AppLogger.debug("Instazione set per elenco strutture.");
-		//elencoStrutture = new HashSet<Struttura>();
 		populateSetStrutture();
 	}
 	
@@ -110,5 +109,16 @@ public class CatalogoStrutture {
 			elencoStrutture.add(smodel);
 		}
 	} 
+	
+	public List<Struttura> getElencoStruttureByGestore(Gestore gmodel) {
+		List<Struttura> smodels = new ArrayList<Struttura>();
+		for (Struttura struttura : elencoStrutture) {
+			if (struttura.getGestore().getId().equals(gmodel.getId())) {
+				smodels.add(struttura);
+			}
+		}
+		return smodels;
+	}
+	
 
 }

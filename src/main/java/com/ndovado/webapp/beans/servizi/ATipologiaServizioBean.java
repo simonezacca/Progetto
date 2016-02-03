@@ -2,9 +2,14 @@ package com.ndovado.webapp.beans.servizi;
 
 public abstract class ATipologiaServizioBean {
 	
-	private Long id = null;
+	protected Long id = null;
 	protected Float prezzo = new Float(0);
-	protected ServizioComuneBean servizio;
+	
+	protected DettaglioServizioBean dettaglioServizio;
+	
+	public ATipologiaServizioBean() {
+		dettaglioServizio = new DettaglioServizioBean();
+	}
 	/**
 	 * @return the id
 	 */
@@ -29,20 +34,20 @@ public abstract class ATipologiaServizioBean {
 	public void setPrezzo(Float prezzo) {
 		this.prezzo = prezzo;
 	}
-	/**
-	 * @return the servizio
-	 */
-	public ServizioComuneBean getServizio() {
-		return servizio;
-	}
-	/**
-	 * @param servizio the servizio to set
-	 */
-	public void setServizio(ServizioComuneBean servizio) {
-		this.servizio = servizio;
-	}
 	
 	public abstract String getStringLabel();
+	/**
+	 * @return the dettaglioServizio
+	 */
+	public DettaglioServizioBean getDettaglioServizio() {
+		return dettaglioServizio;
+	}
+	/**
+	 * @param dettaglioServizio the dettaglioServizio to set
+	 */
+	public void setDettaglioServizio(DettaglioServizioBean dettaglioServizio) {
+		this.dettaglioServizio = dettaglioServizio;
+	}
 
 
 }

@@ -6,12 +6,15 @@ public class ServizioAggiuntivoBean extends ATipologiaServizioBean {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ServizioAggiuntivoBean(ServizioComuneBean scb) {
-		this.servizio = scb;
+	public ServizioAggiuntivoBean(ServizioComuneBean scb, DettaglioServizioBean dsb) {
+		this.dettaglioServizio = dsb;
+		this.dettaglioServizio.setServizio(scb);
+		//this.servizio = scb;
 	}
 	
 	public String getNomeOggettoPrenotabile() {
-		return this.servizio.getNomeServizio();
+		return this.dettaglioServizio.getServizio().getNomeServizio();
+		//return this.servizio.getNomeServizio();
 	}
 	
 	public void setPrezzo(Float aPrezzo) {

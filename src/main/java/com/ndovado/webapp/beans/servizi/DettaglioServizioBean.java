@@ -17,7 +17,7 @@ public class DettaglioServizioBean {
 	public DettaglioServizioBean(StrutturaBean sb, ServizioComuneBean scb) {
 		this.struttura = sb;
 		this.servizio = scb;
-		this.tipologia = new ServizioBaseBean(servizio);
+		this.tipologia = new ServizioBaseBean(servizio,this);
 	}
 	/**
 	 * @return the id

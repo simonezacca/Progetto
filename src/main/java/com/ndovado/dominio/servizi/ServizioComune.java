@@ -63,7 +63,7 @@ public class ServizioComune implements IPersistente {
 	/**
 	 * @param idServizio the idServizio to set
 	 */
-	protected void setId(Long idServizio) {
+	public void setId(Long idServizio) {
 		this.id = idServizio;
 	}
 

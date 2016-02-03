@@ -47,6 +47,7 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	private List<ServizioComuneBean> serviziComuniDisponibili;
 	private ServizioComuneBean sccorrente;
 	private DettaglioServizioBean dsbcorrente;
+	private Float prezzoDSB = new Float(0);
 	
 	
 	
@@ -93,6 +94,7 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 		}
 		return null;
 	}
+	
     
 	public String salvaStruttura() {
 		if (strutturaCorrente!=null) {
@@ -228,11 +230,36 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 		this.serviziComuniDisponibili = serviziComuniDisponibili;
 	}
 	
-	public String aggiungiDettaglioServizio() {
-		strutturaCorrente.getServiziOfferti().add(getDsbcorrente());
-		setDsbcorrente(new DettaglioServizioBean(strutturaCorrente,sccorrente));
+	public String aggiungiDettaglioServizioBase() {
+		//aggiorno il servizio collegato
+		dsbcorrente.setServizio(sccorrente);
+		// aggiungo il dettaglio servizio bean appena creato alla lista dei servizi bean offerti dalla struttura bean
+		strutturaCorrente.getServiziOfferti().add(dsbcorrente);
+		// creo un nuovo servizio comune
 		sccorrente = new ServizioComuneBean();
-
+		// creo un nuovo dettaglio servizio bean
+		dsbcorrente = new DettaglioServizioBean(strutturaCorrente, sccorrente);
+		return null;
+	}
+	
+	public String aggiungiDettaglioServizioPlus() {
+		// creo una descrizione servizio bean e la associo con la struttura e il servizio comune selezionato nel listmenu
+		dsbcorrente.setServizio(sccorrente);
+		// setto la tipologia di servizio
+		ServizioAggiuntivoBean sab = new ServizioAggiuntivoBean(sccorrente,dsbcorrente);
+		sab.setPrezzo(prezzoDSB);
+		dsbcorrente.setTipologia(sab);
+		// aggiungo il dettaglio servizio bean appena creato alla lista dei servizi bean offerti dalla struttura bean
+		strutturaCorrente.getServiziOfferti().add(dsbcorrente);
+		
+		
+		//reset dsb
+		// creo un nuovo servizio comune
+		sccorrente = new ServizioComuneBean();
+		// creo un nuovo dettaglio servizio bean
+		dsbcorrente = new DettaglioServizioBean(strutturaCorrente, sccorrente);
+		// azzera prezzo corrente 
+		prezzoDSB = new Float(0);
 		return null;
 	}
 	
@@ -281,11 +308,25 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	
 	public List<ATipologiaServizioBean> getTipologieSevizioBeanDisponibili() {
 		List<ATipologiaServizioBean> lista = new ArrayList<ATipologiaServizioBean>();
-		ServizioBaseBean baseBean = new ServizioBaseBean(sccorrente);
-		ServizioAggiuntivoBean aggiuntivoBean = new ServizioAggiuntivoBean(sccorrente);
+		ServizioBaseBean baseBean = new ServizioBaseBean(sccorrente,dsbcorrente);
+		ServizioAggiuntivoBean aggiuntivoBean = new ServizioAggiuntivoBean(sccorrente,dsbcorrente);
 		lista.add(baseBean);
 		lista.add(aggiuntivoBean);
 		return lista;
+	}
+
+	/**
+	 * @return the prezzoDSB
+	 */
+	public Float getPrezzoDSB() {
+		return prezzoDSB;
+	}
+
+	/**
+	 * @param prezzoDSB the prezzoDSB to set
+	 */
+	public void setPrezzoDSB(Float prezzoDSB) {
+		this.prezzoDSB = prezzoDSB;
 	}
 
 }

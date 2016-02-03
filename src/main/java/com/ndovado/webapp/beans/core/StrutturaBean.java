@@ -34,15 +34,20 @@ public class StrutturaBean implements Serializable, Identifiable {
 	private List<DettaglioServizioBean> serviziOfferti;
 	
 	public StrutturaBean() {
-		setCamereInserite(new ArrayList<CameraBean>());
+		initLists();
 	}
 	
 	public StrutturaBean(GestoreBean gestore) {
 		this.gestore = gestore;
 		AppLogger.debug("Imposto gestore per StrutturaBean:"+gestore);
-		setCamereInserite(new ArrayList<CameraBean>());
+		initLists();
 	}
 	
+	
+	private void initLists() {
+		setCamereInserite(new ArrayList<CameraBean>());
+		setServiziOfferti(new ArrayList<DettaglioServizioBean>());
+	}
 	/**
 	 * @param idStruttura the idStruttura to set
 	 */
@@ -179,20 +184,6 @@ public class StrutturaBean implements Serializable, Identifiable {
 		this.indirizzoLuogo = indirizzoLuogo;
 	}
 
-	/**
-	 * @return the serviziOfferti
-	 */
-	public List<DettaglioServizioBean> getServiziOfferti() {
-		return serviziOfferti;
-	}
-
-	/**
-	 * @param serviziOfferti the serviziOfferti to set
-	 */
-	public void setServiziOfferti(List<DettaglioServizioBean> serviziOfferti) {
-		this.serviziOfferti = serviziOfferti;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -204,7 +195,7 @@ public class StrutturaBean implements Serializable, Identifiable {
 		result = prime * result + ((indirizzoLuogo == null) ? 0 : indirizzoLuogo.hashCode());
 		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
 		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
-		result = prime * result + ((serviziOfferti == null) ? 0 : serviziOfferti.hashCode());
+		result = prime * result + ((getServiziOfferti() == null) ? 0 : getServiziOfferti().hashCode());
 		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
 		return result;
 	}
@@ -253,10 +244,10 @@ public class StrutturaBean implements Serializable, Identifiable {
 				return false;
 		} else if (!nomeStruttura.equals(other.nomeStruttura))
 			return false;
-		if (serviziOfferti == null) {
-			if (other.serviziOfferti != null)
+		if (getServiziOfferti() == null) {
+			if (other.getServiziOfferti() != null)
 				return false;
-		} else if (!serviziOfferti.equals(other.serviziOfferti))
+		} else if (!getServiziOfferti().equals(other.getServiziOfferti()))
 			return false;
 		if (tableau == null) {
 			if (other.tableau != null)
@@ -264,6 +255,20 @@ public class StrutturaBean implements Serializable, Identifiable {
 		} else if (!tableau.equals(other.tableau))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return the serviziOfferti
+	 */
+	public List<DettaglioServizioBean> getServiziOfferti() {
+		return serviziOfferti;
+	}
+
+	/**
+	 * @param serviziOfferti the serviziOfferti to set
+	 */
+	public void setServiziOfferti(List<DettaglioServizioBean> serviziOfferti) {
+		this.serviziOfferti = serviziOfferti;
 	}
 		
 	

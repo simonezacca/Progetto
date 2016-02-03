@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.w3c.dom.css.CSSMediaRule;
+
 import com.ndovado.dominio.core.CatalogoLuogo;
 import com.ndovado.dominio.core.CatalogoStrutture;
+import com.ndovado.dominio.core.CatalogoUtenti;
+import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.servizi.CatalogoServizi;
@@ -14,6 +18,7 @@ import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.mappers.LuogoMapper;
 import com.ndovado.tecservices.mappers.ServizioComuneMapper;
 import com.ndovado.tecservices.mappers.StrutturaMapper;
+import com.ndovado.tecservices.mappers.UserMapper;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
@@ -28,6 +33,8 @@ public class GestioneStrutturaController {
 	private ServizioComuneMapper scmapper = ServizioComuneMapper.getInstance();
 	private LuogoMapper lmapper;
 	private CatalogoLuogo clmodel; 
+	
+	private UserMapper umapper = UserMapper.getInstance();
 	
 	private GestoreBean gestore;
 	
@@ -60,6 +67,16 @@ public class GestioneStrutturaController {
 		List<StrutturaBean> strutture = new ArrayList<StrutturaBean>();
 		if (g.getRuolo() instanceof GestoreBean) {
 			
+			Gestore gmodel = (Gestore) umapper.getModelFromBean(g).getRuolo();
+			AppLogger.debug("Recupero gestore model da utente bean: "+gmodel);
+					
+			List<Struttura> smodels = csmodel.getElencoStruttureByGestore(gmodel);
+			AppLogger.debug("Recupero elenco strutture models da gestore model");
+			for (Struttura struttura : smodels) {
+				AppLogger.debug("Converto struttura model in struttura bean");
+				StrutturaBean sbean = smapper.getBeanFromModel(struttura);
+				strutture.add(sbean);
+			}
 		}
 		return strutture;
 	}

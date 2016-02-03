@@ -12,7 +12,7 @@
 		<class-a>com.ndovado.dominio.core.Camera</class-a>
 		<class-b>com.ndovado.webapp.beans.core.CameraBean</class-b>
 	</mapping>
-	
+
 
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Struttura</class-a>
@@ -39,11 +39,11 @@
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Gestore</class-a>
 		<class-b>com.ndovado.webapp.beans.core.GestoreBean</class-b>
-	<field-exclude>
-		<a>struttureGestite</a>
-		<b>struttureGestite</b>
-	</field-exclude>
-</mapping>
+		<field-exclude>
+			<a>struttureGestite</a>
+			<b>struttureGestite</b>
+		</field-exclude>
+	</mapping>
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Locatario</class-a>
 		<class-b>com.ndovado.webapp.beans.core.LocatarioBean</class-b>
@@ -51,5 +51,29 @@
 	<mapping>
 		<class-a>com.ndovado.dominio.core.ARuolo</class-a>
 		<class-b>com.ndovado.webapp.beans.core.ARuoloBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.servizi.ATipologiaServizio</class-a>
+		<class-b>com.ndovado.webapp.beans.servizi.ATipologiaServizioBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.servizi.ServizioAggiuntivo</class-a>
+		<class-b>com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.servizi.ServizioBase</class-a>
+		<class-b>com.ndovado.webapp.beans.servizi.ServizioBaseBean</class-b>
+		<field-exclude>
+			<a>prezzo</a>
+			<b>prezzo</b>
+		</field-exclude>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.servizi.ServizioComune</class-a>
+		<class-b>com.ndovado.webapp.beans.servizi.ServizioComuneBean</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.servizi.DettaglioServizio</class-a>
+		<class-b>com.ndovado.webapp.beans.servizi.DettaglioServizioBean</class-b>
 	</mapping>
 </mappings>
