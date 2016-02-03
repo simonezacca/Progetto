@@ -12,10 +12,7 @@
 		<class-a>com.ndovado.dominio.core.Camera</class-a>
 		<class-b>com.ndovado.webapp.beans.core.CameraBean</class-b>
 	</mapping>
-	<mapping>
-		<class-a>com.ndovado.dominio.core.DescrizioneCamera</class-a>
-		<class-b>com.ndovado.webapp.beans.core.DescrizioneCameraBean</class-b>
-	</mapping>
+	
 
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Struttura</class-a>
@@ -28,10 +25,6 @@
 		<field-exclude>
 			<a>tableau</a>
 			<b>tableau</b>
-		</field-exclude>
-		<field-exclude>
-			<a>serviziOfferti</a>
-			<b>elencoServizi</b>
 		</field-exclude>
 	</mapping>
 	<mapping>

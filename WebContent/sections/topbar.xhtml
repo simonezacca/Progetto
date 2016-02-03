@@ -89,6 +89,11 @@
 							<h:inputText value="#{utenteBean.cognome}"
 								p:placeholder="Cognome" required="true" />
 						</div>
+						<div class="ui input">
+							<label>Mail</label>
+							<h:inputText value="#{utenteBean.mail}"
+								p:placeholder="Mail" required="true" />
+						</div>
 					</div>
 					<div class="item">
 						<div class="ui input">
@@ -96,12 +101,6 @@
 							<h:inputSecret value="#{utenteBean.password}"
 								p:placeholder="Password" required="true" />
 						</div>
-						<!--  
-							<div class="ui input">
-								<label>Ripeti password</label>
-								<input type="repeatPassword" placeholder="Ripeti Password" />
-							</div>
-							-->
 					</div>
 					<div class="ui form">
 						<div class="grouped fields">
@@ -128,7 +127,8 @@
 					<!-- fine pannello messaggi errore -->
 
 					<button class="ui red button">Reset</button>
-					<button class="ui green button">Conferma</button>
+					<h:commandButton value="Registra" styleClass="ui green button"
+						action="#{registrazioneUtenteBB.doRegistrazione}" />
 				</h:form>
 			</div>
 		</div>

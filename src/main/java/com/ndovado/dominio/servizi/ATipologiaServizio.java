@@ -31,11 +31,11 @@ public abstract class ATipologiaServizio {
 	public ATipologiaServizio() {
 	}
 	
-	public ServizioComune getServizioAssociato() {
+	public ServizioComune getServizio() {
 		return this.servizio;
 	}
 	
-	public Float getPrezzo() {
+	public final Float getPrezzo() {
 		return this.prezzo;
 	}
 

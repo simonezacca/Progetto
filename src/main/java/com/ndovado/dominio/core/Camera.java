@@ -3,23 +3,18 @@ package com.ndovado.dominio.core;
 import static javax.persistence.GenerationType.IDENTITY;
 import java.util.*;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OrderBy;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
 import com.ndovado.tecservices.persistence.base.IPersistente;
-
 
 /**
  * Modella l'entità di dominio Camera
@@ -43,9 +38,10 @@ public class Camera implements IPersistente, IPrenotabile {
 	/**
 	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
 	 */
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="cameraAssociata")
-	@PrimaryKeyJoinColumn(name="descrizioneCorrente_id")
-	private DescrizioneCamera descrizioneCorrente;
+	// @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER,
+	// mappedBy="cameraAssociata")
+	// @PrimaryKeyJoinColumn(name="descrizioneCorrente_id")
+	// private DescrizioneCamera descrizioneCorrente;
 
 	/**
 	 * Nome della camera
@@ -54,33 +50,46 @@ public class Camera implements IPersistente, IPrenotabile {
 	private String nomeCamera;
 
 	/**
-	 * Numero di camera disponibili della tipologia
-	 */
-	@Column(name = "qta")
-	private Integer qtyCamera;
-
-	/**
-	 * Riferimento ad un'istanza della classe <code>Struttura</code> utilizzata per aggregare più camere
+	 * Riferimento ad un'istanza della classe <code>Struttura</code> utilizzata
+	 * per aggregare più camere
 	 */
 	@ManyToOne
 	@PrimaryKeyJoinColumn
 	private Struttura struttura;
 
-	/**
-	 * Lista ordinata di oggetti di tipo <code>DescrizioneCamera</code> utilizzata per mantenere una cronologia
-	 * dei cambiamenti sulle date, prezzi e pax
-	 */
-	@OneToMany(mappedBy = "cameraAssociata",cascade=CascadeType.ALL)
-	@OrderBy(clause="id")
-	private List<DescrizioneCamera> descrizioniCamera;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_inizio_affitto")
+	private Date dataInizioAffitto;
 
-	
-	public Camera() {}
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_fine_affitto")
+	private Date dataFineAffitto;
+
+	@Column(name = "pax")
+	private Integer pax = new Integer(1);
+
+	@Column(name = "prezzo")
+	private Float prezzo = new Float(0);
+
+	@Column(name = "descrizione")
+	private String descrizioneCamera;
+
+	/**
+	 * Lista ordinata di oggetti di tipo <code>DescrizioneCamera</code>
+	 * utilizzata per mantenere una cronologia dei cambiamenti sulle date,
+	 * prezzi e pax
+	 */
+	// @OneToMany(mappedBy = "cameraAssociata",cascade=CascadeType.ALL)
+	// @OrderBy(clause="id")
+	// private List<DescrizioneCamera> descrizioniCamera;
+
+	public Camera() {
+	}
+
 	/**
 	 * Costruttore di default
 	 */
 	public Camera(Struttura s) {
-		setDescrizioniCamera(new ArrayList<DescrizioneCamera>());
 		this.struttura = s;
 		// aggiungo l'istanza corrente alla lista delle camere disponibili
 		s.addCamera(this);
@@ -96,6 +105,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	protected void setId(Long idCamera) {
 		this.id = idCamera;
 	}
+
 	/**
 	 * @return il nome della camera
 	 */
@@ -104,66 +114,59 @@ public class Camera implements IPersistente, IPrenotabile {
 	}
 
 	/**
-	 * @param aNomeCamera nuovo nome della camera
+	 * @param aNomeCamera
+	 *            nuovo nome della camera
 	 */
 	public void setNomeCamera(String aNomeCamera) {
-		if (aNomeCamera!=null) {
-			this.nomeCamera= aNomeCamera;
+		if (aNomeCamera != null) {
+			this.nomeCamera = aNomeCamera;
 		}
-	}
-
-	/**
-	 * @return la quantità di camere disponibili di quella tipologia
-	 */
-	public Integer getQtyCamera() {
-		return qtyCamera;
-	}
-
-	/**
-	 * @param aQtyCamera numero di camere disponibili di quella tipologia
-	 */
-	public void setQtyCamera(Integer aQtyCamera) {
-		this.qtyCamera = aQtyCamera;
 	}
 
 	/**
 	 * @return il numero massimo di persone per la capienza della camera
 	 */
 	public Integer getPax() {
-		return this.getDescrizioneCorrente().getPax();
+		return this.pax;
 	}
 
 	/**
-	 * @param aPax il numero massimo di persone per la capienza della camera
+	 * @param aPax
+	 *            il numero massimo di persone per la capienza della camera
 	 */
 	public void setPax(Integer aPax) {
-		if (aPax!=null) {
-			this.getDescrizioneCorrente().setPax(aPax);
+		if (aPax != null) {
+			this.pax = aPax;
 		}
 	}
 
 	/**
-	 * @param aDataInizioAffitto data di inizio disponibilità al soggiorno
-	 * @param aDataFineAffitto data di fine disponibilità al soggiorno
+	 * @param aDataInizioAffitto
+	 *            data di inizio disponibilità al soggiorno
+	 * @param aDataFineAffitto
+	 *            data di fine disponibilità al soggiorno
 	 */
 	public void setDataIntervalloAffitto(Date aDataInizioAffitto, Date aDataFineAffitto) {
-		if (aDataInizioAffitto!=null && aDataFineAffitto!=null) {
+		if (aDataInizioAffitto != null && aDataFineAffitto != null) {
 			// controllo che l'ordine delle date sia corretto
 			if (aDataInizioAffitto.before(aDataFineAffitto)) {
-				//aggiorno i valori per il riferimento corrente a descrizione camera
-				this.getDescrizioneCorrente().setDataInizioAffitto(aDataInizioAffitto);
-				this.getDescrizioneCorrente().setDataFineAffitto(aDataFineAffitto);
+				// aggiorno i valori per il riferimento corrente a descrizione
+				// camera
+				this.dataInizioAffitto = aDataInizioAffitto;
+				this.dataFineAffitto = aDataFineAffitto;
 			}
 		}
 	}
 
 	/**
-	 * @param aPrezzo il prezzo della camera da associare alla descrizione camera corrente
+	 * @param aPrezzo
+	 *            il prezzo della camera da associare alla descrizione camera
+	 *            corrente
 	 */
 	public void setPrezzo(Float aPrezzo) {
-		if (aPrezzo!=null) {
-			if (aPrezzo>=0) {
-				this.getDescrizioneCorrente().setPrezzoCamera(aPrezzo);
+		if (aPrezzo != null) {
+			if (aPrezzo >= 0) {
+				this.prezzo = aPrezzo;
 			}
 		}
 	}
@@ -172,33 +175,15 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * @return il prezzo della camera associato alla descrizione camera corrente
 	 */
 	public Float getPrezzo() {
-		return this.getDescrizioneCorrente().getPrezzoCamera();
+		return this.prezzo;
 	}
 
 	/**
-	 * @param aDescrizioneCamera Nuova descrizione camera da utilizzare come descrizione camera corrente
-	 */
-	public void addDescrizioneCamera(DescrizioneCamera aDescrizioneCamera) {
-		if (aDescrizioneCamera!=null) {
-			// aggiungo la descrizione camera all'elenco delle descrizioni della camera
-			this.getDescrizioniCamera().add(aDescrizioneCamera);
-			// collego la descrizione camera alla camera corrente
-			aDescrizioneCamera.setCameraAssociata(this);
-		}
-	}
-
-	/**
-	 * @return Un elenco di oggetti di tipo <code>DescrizioneCamera</code> associata alla camera ordinati per data di aggiunta
-	 */
-	public List<DescrizioneCamera> getDescrizioniCamera() {
-		return descrizioniCamera;
-	}
-
-	/**
-	 * @return Una descrizione testuale contenente nome della camera e numero di persone
+	 * @return Una descrizione testuale contenente nome della camera e numero di
+	 *         persone
 	 */
 	public String getNomeOggettoPrenotabile() {
-		return "Camera: "+this.nomeCamera+" - Pax("+this.getDescrizioneCorrente().getPax()+")";
+		return "Camera: " + this.nomeCamera + " - Pax(" + this.getPax() + ")";
 	}
 
 	/**
@@ -207,20 +192,75 @@ public class Camera implements IPersistente, IPrenotabile {
 	public Struttura getStruttura() {
 		return this.struttura;
 	}
-	
+
 	public void setStruttura(Struttura s) {
-		if (s!=null) {
+		if (s != null) {
 			// imposto la struttura s come struttura della camera
 			this.struttura = s;
-			// aggiungo la camera corrente all'elenco delle camere collegate alla struttura s
-			//s.addCamera(this);
+			// aggiungo la camera corrente all'elenco delle camere collegate
+			// alla struttura s
+			// s.addCamera(this);
 		}
 	}
-	
-	public void removeDescrizioneCamera(DescrizioneCamera dc) {
-		if (this.getDescrizioniCamera().contains(dc)) {
-			this.getDescrizioniCamera().remove(dc);
-		}
+
+	/**
+	 * @param descrizioniCamera
+	 *            the descrizioniCamera to set
+	 */
+	public void setDescrizioneCamera(String descrizioneCamera) {
+		this.descrizioneCamera = descrizioneCamera;
+	}
+
+	/**
+	 * @return the descrizioneCorrente
+	 */
+	public String getDescrizioneCamera() {
+		return this.descrizioneCamera;
+	}
+
+	/**
+	 * @return the dataInizioAffitto
+	 */
+	public Date getDataInizioAffitto() {
+		return dataInizioAffitto;
+	}
+
+	/**
+	 * @param dataInizioAffitto
+	 *            the dataInizioAffitto to set
+	 */
+	public void setDataInizioAffitto(Date dataInizioAffitto) {
+		this.dataInizioAffitto = dataInizioAffitto;
+	}
+
+	/**
+	 * @return the dataFineAffitto
+	 */
+	public Date getDataFineAffitto() {
+		return dataFineAffitto;
+	}
+
+	/**
+	 * @param dataFineAffitto
+	 *            the dataFineAffitto to set
+	 */
+	public void setDataFineAffitto(Date dataFineAffitto) {
+		this.dataFineAffitto = dataFineAffitto;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataFineAffitto == null) ? 0 : dataFineAffitto.hashCode());
+		result = prime * result + ((dataInizioAffitto == null) ? 0 : dataInizioAffitto.hashCode());
+		result = prime * result + ((descrizioneCamera == null) ? 0 : descrizioneCamera.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
+		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
+		result = prime * result + ((prezzo == null) ? 0 : prezzo.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
 	}
 
 	@Override
@@ -232,15 +272,20 @@ public class Camera implements IPersistente, IPrenotabile {
 		if (!(obj instanceof Camera))
 			return false;
 		Camera other = (Camera) obj;
-		if (getDescrizioneCorrente() == null) {
-			if (other.getDescrizioneCorrente() != null)
+		if (dataFineAffitto == null) {
+			if (other.dataFineAffitto != null)
 				return false;
-		} else if (!getDescrizioneCorrente().equals(other.getDescrizioneCorrente()))
+		} else if (!dataFineAffitto.equals(other.dataFineAffitto))
 			return false;
-		if (getDescrizioniCamera() == null) {
-			if (other.getDescrizioniCamera() != null)
+		if (dataInizioAffitto == null) {
+			if (other.dataInizioAffitto != null)
 				return false;
-		} else if (!getDescrizioniCamera().equals(other.getDescrizioniCamera()))
+		} else if (!dataInizioAffitto.equals(other.dataInizioAffitto))
+			return false;
+		if (descrizioneCamera == null) {
+			if (other.descrizioneCamera != null)
+				return false;
+		} else if (!descrizioneCamera.equals(other.descrizioneCamera))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -252,10 +297,15 @@ public class Camera implements IPersistente, IPrenotabile {
 				return false;
 		} else if (!nomeCamera.equals(other.nomeCamera))
 			return false;
-		if (qtyCamera == null) {
-			if (other.qtyCamera != null)
+		if (pax == null) {
+			if (other.pax != null)
 				return false;
-		} else if (!qtyCamera.equals(other.qtyCamera))
+		} else if (!pax.equals(other.pax))
+			return false;
+		if (prezzo == null) {
+			if (other.prezzo != null)
+				return false;
+		} else if (!prezzo.equals(other.prezzo))
 			return false;
 		if (struttura == null) {
 			if (other.struttura != null)
@@ -264,22 +314,13 @@ public class Camera implements IPersistente, IPrenotabile {
 			return false;
 		return true;
 	}
-	/**
-	 * @param descrizioniCamera the descrizioniCamera to set
-	 */
-	public void setDescrizioniCamera(List<DescrizioneCamera> descrizioniCamera) {
-		this.descrizioniCamera = descrizioniCamera;
+
+	@Override
+	public String toString() {
+		return "Camera [id=" + id + ", nomeCamera=" + nomeCamera + ", struttura=" + struttura + ", dataInizioAffitto="
+				+ dataInizioAffitto + ", dataFineAffitto=" + dataFineAffitto + ", pax=" + pax + ", prezzo=" + prezzo
+				+ ", descrizioneCamera=" + descrizioneCamera + "]";
 	}
-	/**
-	 * @return the descrizioneCorrente
-	 */
-	public DescrizioneCamera getDescrizioneCorrente() {
-		return descrizioneCorrente;
-	}
-	/**
-	 * @param descrizioneCorrente the descrizioneCorrente to set
-	 */
-	public void setDescrizioneCorrente(DescrizioneCamera descrizioneCorrente) {
-		this.descrizioneCorrente = descrizioneCorrente;
-	}
+
+	
 }

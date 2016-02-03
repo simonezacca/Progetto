@@ -1,34 +1,31 @@
 package com.ndovado.webapp.controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang3.ArrayUtils;
-
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.ndovado.dominio.core.CatalogoLuogo;
 import com.ndovado.dominio.core.CatalogoStrutture;
-import com.ndovado.dominio.core.CatalogoUtenti;
 import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.dominio.servizi.CatalogoServizi;
+import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.mappers.LuogoMapper;
+import com.ndovado.tecservices.mappers.ServizioComuneMapper;
 import com.ndovado.tecservices.mappers.StrutturaMapper;
-import com.ndovado.tecservices.mappers.UserMapper;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
+import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
 
 public class GestioneStrutturaController {
 	
 	private StrutturaMapper smapper = StrutturaMapper.getInstance();
 	private CatalogoStrutture csmodel = CatalogoStrutture.getInstance();
+	private CatalogoServizi cscmodel = CatalogoServizi.getInstance();
+	private ServizioComuneMapper scmapper = ServizioComuneMapper.getInstance();
 	private LuogoMapper lmapper;
 	private CatalogoLuogo clmodel; 
 	
@@ -95,6 +92,16 @@ public class GestioneStrutturaController {
 		List<String> strings = clmodel.getListaTutteProvinceStrings();
 		Collections.sort(strings);
 		return strings;
+	}
+	
+	public List<ServizioComuneBean> getElencoServizioComuneBeans() {
+		List<ServizioComune> smodels = cscmodel.getServiziDisponibili();
+		List<ServizioComuneBean> sbeans = new ArrayList<ServizioComuneBean>();
+		for (ServizioComune servizioComune : smodels) {
+			ServizioComuneBean sb = scmapper.getBeanFromModel(servizioComune);
+			sbeans.add(sb);
+		}
+		return sbeans;
 	}
 	
 }

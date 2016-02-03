@@ -11,12 +11,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import com.ndovado.tecservices.loggers.AppLogger;
-import com.ndovado.webapp.beans.core.ARuoloBean;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
-import com.ndovado.webapp.beans.core.UtenteBean;
+import com.ndovado.webapp.beans.servizi.ATipologiaServizioBean;
+import com.ndovado.webapp.beans.servizi.DettaglioServizioBean;
+import com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean;
+import com.ndovado.webapp.beans.servizi.ServizioBaseBean;
+import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
 import com.ndovado.webapp.controllers.GestioneStrutturaController;
  
 @ManagedBean(name="StrutturaBB")
@@ -25,30 +28,33 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String codProvinciaCorrente;
-	
 	// collego il bean utente contenuto in sessione  con il gestore corrente
 	@ManagedProperty(value="#{utenteBean.ruolo}")
 	private GestoreBean gestoreCorrente;
 	
-	private boolean addingStruttura = true;
+	private GestioneStrutturaController controller;
 	
+	private boolean addingStruttura = true;
 	private boolean completed = false;
 	
 	private StrutturaBean strutturaCorrente;
-	
 	private CameraBean cameraInAggiunta;
 	
 	private List<String> provinceDisponibili;
-	
+	private String codProvinciaCorrente;
 	private List<LuogoBean> luoghiDisponibili;
 	
-	private GestioneStrutturaController controller;
+	private List<ServizioComuneBean> serviziComuniDisponibili;
+	private ServizioComuneBean sccorrente;
+	private DettaglioServizioBean dsbcorrente;
+	
+	
 	
 	public InserimentoStrutturaBackingBean() {
-		
+		// initBB verrà invocato con il @PostConstruct
 	}
 	
+	// serve per il corretto funzionamento dell'injecting del ruolo bean
 	@PostConstruct
 	protected void initBB() {
 		strutturaCorrente = new StrutturaBean(gestoreCorrente);
@@ -56,7 +62,12 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 		luoghiDisponibili = new ArrayList<LuogoBean>();
 		controller = new GestioneStrutturaController(gestoreCorrente);
 		provinceDisponibili = controller.getListaTutteProvinceStrings();
+		serviziComuniDisponibili = controller.getElencoServizioComuneBeans();
 		
+		sccorrente = new ServizioComuneBean();
+		dsbcorrente = new DettaglioServizioBean(strutturaCorrente,sccorrente);
+		
+
 		AppLogger.debug("Ruolo utente corrente "+gestoreCorrente);
 	}
 	
@@ -91,7 +102,7 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 			completed = true;
 			addingStruttura = false;
 		}
-		return "/locatario/index?faces-redirect=true";
+		return "/gestore/index?faces-redirect=true";
 	}
 
 	/**
@@ -201,6 +212,80 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	 */
 	public List<String> getProvinceDisponibili() {
 		return provinceDisponibili;
+	}
+
+	/**
+	 * @return the serviziComuniDisponibili
+	 */
+	public List<ServizioComuneBean> getServiziComuniDisponibili() {
+		return serviziComuniDisponibili;
+	}
+
+	/**
+	 * @param serviziComuniDisponibili the serviziComuniDisponibili to set
+	 */
+	public void setServiziComuniDisponibili(List<ServizioComuneBean> serviziComuniDisponibili) {
+		this.serviziComuniDisponibili = serviziComuniDisponibili;
+	}
+	
+	public String aggiungiDettaglioServizio() {
+		strutturaCorrente.getServiziOfferti().add(getDsbcorrente());
+		setDsbcorrente(new DettaglioServizioBean(strutturaCorrente,sccorrente));
+		sccorrente = new ServizioComuneBean();
+
+		return null;
+	}
+	
+	public String eliminaDettaglioServizio(DettaglioServizioBean dsb) {
+		if (dsb!=null) {
+			strutturaCorrente.getServiziOfferti().remove(dsb);	
+		}
+		return null;
+	}
+	
+	public String modificaDettaglioServizio(DettaglioServizioBean dsb) {
+		if (dsb!=null) {
+			setDsbcorrente(dsb);
+			strutturaCorrente.getServiziOfferti().remove(dsb);
+		}
+		return null;
+	}
+
+	/**
+	 * @return the dsbcorrente
+	 */
+	public DettaglioServizioBean getDsbcorrente() {
+		return dsbcorrente;
+	}
+
+	/**
+	 * @param dsbcorrente the dsbcorrente to set
+	 */
+	public void setDsbcorrente(DettaglioServizioBean dsbcorrente) {
+		this.dsbcorrente = dsbcorrente;
+	}
+
+	/**
+	 * @return the sccorrente
+	 */
+	public ServizioComuneBean getSccorrente() {
+		return sccorrente;
+	}
+
+	/**
+	 * @param sccorrente the sccorrente to set
+	 */
+	public void setSccorrente(ServizioComuneBean sccorrente) {
+		this.sccorrente = sccorrente;
+	}
+	
+	public List<ATipologiaServizioBean> getTipologieSevizioBeanDisponibili() {
+		List<ATipologiaServizioBean> lista = new ArrayList<ATipologiaServizioBean>();
+		ServizioBaseBean baseBean = new ServizioBaseBean(sccorrente);
+		ServizioAggiuntivoBean aggiuntivoBean = new ServizioAggiuntivoBean(sccorrente);
+		lista.add(baseBean);
+		lista.add(aggiuntivoBean);
+		return lista;
 	}
 
 }

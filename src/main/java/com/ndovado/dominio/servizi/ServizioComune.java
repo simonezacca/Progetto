@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.ndovado.tecservices.persistence.base.IPersistente;
@@ -18,18 +16,12 @@ import com.ndovado.tecservices.persistence.base.IPersistente;
 
 @Entity
 @Table(name = "servizio")
-@NamedQueries({
-	@NamedQuery(
-		name="cercaServizioPerNome",
-		query="FROM ServizioComune sc WHERE sc.nomeServizio LIKE :nome"
-		)
-})
 
 public class ServizioComune implements IPersistente {
 
 	@Override
 	public String toString() {
-		return "ServizioComune [idServizio=" + idServizio + ", nomeServizio=" + nomeServizio + "]";
+		return "ServizioComune [idServizio=" + id + ", nomeServizio=" + nomeServizio + "]";
 	}
 
 	/**
@@ -42,13 +34,13 @@ public class ServizioComune implements IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idServizio;
+	private Long id;
 
 	/**
 	 * 
 	 */
 	@Column(name = "nome")
-	protected String nomeServizio;
+	private String nomeServizio;
 
 	// necessario per hibernate
 	protected ServizioComune() {
@@ -65,14 +57,14 @@ public class ServizioComune implements IPersistente {
 	 * @return the idServizio
 	 */
 	public Long getId() {
-		return idServizio;
+		return id;
 	}
 
 	/**
 	 * @param idServizio the idServizio to set
 	 */
 	protected void setId(Long idServizio) {
-		this.idServizio = idServizio;
+		this.id = idServizio;
 	}
 
 	/**
@@ -89,6 +81,35 @@ public class ServizioComune implements IPersistente {
 		if (aNomeServizio!=null) {
 			this.nomeServizio = aNomeServizio;
 		}
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nomeServizio == null) ? 0 : nomeServizio.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof ServizioComune))
+			return false;
+		ServizioComune other = (ServizioComune) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nomeServizio == null) {
+			if (other.nomeServizio != null)
+				return false;
+		} else if (!nomeServizio.equals(other.nomeServizio))
+			return false;
+		return true;
 	}
 
 }

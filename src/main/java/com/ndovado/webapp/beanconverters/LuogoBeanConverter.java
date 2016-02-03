@@ -1,6 +1,5 @@
 package com.ndovado.webapp.beanconverters;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,7 +23,6 @@ public class LuogoBeanConverter implements Converter{
 		Long idLuogo = Long.parseLong(arg2);
 		Luogo lmodel = clmodel.getLuogoById(idLuogo);
 		return lmapper.getBeanFromModel(lmodel);
-		//return new Luogo("Chieti");
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class DettaglioServizio {
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long iddettaglio_servizio;
+	private Long id;
 	
 	@OneToOne
 	private Struttura struttura;
@@ -89,6 +89,13 @@ public class DettaglioServizio {
 	
 	public Float getPrezzo() {
 		return this.tipologia.getPrezzo();
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
 	}
 	
 }

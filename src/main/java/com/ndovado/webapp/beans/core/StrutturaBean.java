@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import com.ndovado.tecservices.loggers.AppLogger;
+import com.ndovado.webapp.beans.servizi.DettaglioServizioBean;
 
 
 
@@ -27,71 +28,10 @@ public class StrutturaBean implements Serializable, Identifiable {
 	
 	private List<CameraBean> camereInserite;
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((camereInserite == null) ? 0 : camereInserite.hashCode());
-		result = prime * result + ((elencoServizi == null) ? 0 : elencoServizi.hashCode());
-		result = prime * result + ((gestore == null) ? 0 : gestore.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
-		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
-		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof StrutturaBean))
-			return false;
-		StrutturaBean other = (StrutturaBean) obj;
-		if (camereInserite == null) {
-			if (other.camereInserite != null)
-				return false;
-		} else if (!camereInserite.equals(other.camereInserite))
-			return false;
-		if (elencoServizi == null) {
-			if (other.elencoServizi != null)
-				return false;
-		} else if (!elencoServizi.equals(other.elencoServizi))
-			return false;
-		if (gestore == null) {
-			if (other.gestore != null)
-				return false;
-		} else if (!gestore.equals(other.gestore))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (luogoStruttura == null) {
-			if (other.luogoStruttura != null)
-				return false;
-		} else if (!luogoStruttura.equals(other.luogoStruttura))
-			return false;
-		if (nomeStruttura == null) {
-			if (other.nomeStruttura != null)
-				return false;
-		} else if (!nomeStruttura.equals(other.nomeStruttura))
-			return false;
-		if (tableau == null) {
-			if (other.tableau != null)
-				return false;
-		} else if (!tableau.equals(other.tableau))
-			return false;
-		return true;
-	}
-
 	private GestoreBean gestore;
 	
 	private Object tableau;
-	private Object elencoServizi;
+	private List<DettaglioServizioBean> serviziOfferti;
 	
 	public StrutturaBean() {
 		setCamereInserite(new ArrayList<CameraBean>());
@@ -196,19 +136,6 @@ public class StrutturaBean implements Serializable, Identifiable {
 		this.tableau = tableau;
 	}
 
-	/**
-	 * @return the elencoServizi
-	 */
-	public Object getElencoServizi() {
-		return elencoServizi;
-	}
-
-	/**
-	 * @param elencoServizi the elencoServizi to set
-	 */
-	public void setElencoServizi(Object elencoServizi) {
-		this.elencoServizi = elencoServizi;
-	}
 
 	/**
 	 * @return the camereInserite
@@ -250,6 +177,93 @@ public class StrutturaBean implements Serializable, Identifiable {
 	 */
 	public void setIndirizzoLuogo(String indirizzoLuogo) {
 		this.indirizzoLuogo = indirizzoLuogo;
+	}
+
+	/**
+	 * @return the serviziOfferti
+	 */
+	public List<DettaglioServizioBean> getServiziOfferti() {
+		return serviziOfferti;
+	}
+
+	/**
+	 * @param serviziOfferti the serviziOfferti to set
+	 */
+	public void setServiziOfferti(List<DettaglioServizioBean> serviziOfferti) {
+		this.serviziOfferti = serviziOfferti;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((camereInserite == null) ? 0 : camereInserite.hashCode());
+		result = prime * result + ((descrizioneStruttura == null) ? 0 : descrizioneStruttura.hashCode());
+		result = prime * result + ((gestore == null) ? 0 : gestore.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((indirizzoLuogo == null) ? 0 : indirizzoLuogo.hashCode());
+		result = prime * result + ((luogoStruttura == null) ? 0 : luogoStruttura.hashCode());
+		result = prime * result + ((nomeStruttura == null) ? 0 : nomeStruttura.hashCode());
+		result = prime * result + ((serviziOfferti == null) ? 0 : serviziOfferti.hashCode());
+		result = prime * result + ((tableau == null) ? 0 : tableau.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof StrutturaBean))
+			return false;
+		StrutturaBean other = (StrutturaBean) obj;
+		if (camereInserite == null) {
+			if (other.camereInserite != null)
+				return false;
+		} else if (!camereInserite.equals(other.camereInserite))
+			return false;
+		if (descrizioneStruttura == null) {
+			if (other.descrizioneStruttura != null)
+				return false;
+		} else if (!descrizioneStruttura.equals(other.descrizioneStruttura))
+			return false;
+		if (gestore == null) {
+			if (other.gestore != null)
+				return false;
+		} else if (!gestore.equals(other.gestore))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (indirizzoLuogo == null) {
+			if (other.indirizzoLuogo != null)
+				return false;
+		} else if (!indirizzoLuogo.equals(other.indirizzoLuogo))
+			return false;
+		if (luogoStruttura == null) {
+			if (other.luogoStruttura != null)
+				return false;
+		} else if (!luogoStruttura.equals(other.luogoStruttura))
+			return false;
+		if (nomeStruttura == null) {
+			if (other.nomeStruttura != null)
+				return false;
+		} else if (!nomeStruttura.equals(other.nomeStruttura))
+			return false;
+		if (serviziOfferti == null) {
+			if (other.serviziOfferti != null)
+				return false;
+		} else if (!serviziOfferti.equals(other.serviziOfferti))
+			return false;
+		if (tableau == null) {
+			if (other.tableau != null)
+				return false;
+		} else if (!tableau.equals(other.tableau))
+			return false;
+		return true;
 	}
 		
 	

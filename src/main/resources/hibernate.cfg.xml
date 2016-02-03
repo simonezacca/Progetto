@@ -14,7 +14,6 @@
   <mapping class="com.ndovado.dominio.core.Gestore"/>
   <mapping class="com.ndovado.dominio.core.Locatario"/>
   <mapping class="com.ndovado.dominio.core.Camera"/>
-  <mapping class="com.ndovado.dominio.core.DescrizioneCamera"/>
   <mapping class="com.ndovado.dominio.core.Luogo"/>
   <mapping class="com.ndovado.dominio.core.Struttura"/>
   <mapping class="com.ndovado.dominio.core.Utente"/>

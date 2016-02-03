@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
-import com.ndovado.dominio.core.DescrizioneCamera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -143,8 +142,7 @@ public class TableauPrenotazioni {
 	private Boolean isCameraDisponibile(final Camera c, Date da, Date dp) {
 		// controllare prima che nella descrizione camera corrente
 		// sia disponibile il periodo di prenotazione
-		DescrizioneCamera d = c.getDescrizioneCorrente();
-		if(d.getDataInizioAffitto().after(da) || d.getDataFineAffitto().before(dp) )
+		if(c.getDataInizioAffitto().after(da) || c.getDataFineAffitto().before(dp) )
 			return false;
 		
 		Boolean risultato = false;
