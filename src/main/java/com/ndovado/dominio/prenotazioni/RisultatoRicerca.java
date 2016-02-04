@@ -59,5 +59,9 @@ public class RisultatoRicerca {
 	public void setCamereLibere(Set<Camera> camereLibere) {
 		this.camereLibere = camereLibere;
 	}
+	
+	public boolean esistonoRisultati() {
+		return camereLibere.size()>0;
+	}
 
 }

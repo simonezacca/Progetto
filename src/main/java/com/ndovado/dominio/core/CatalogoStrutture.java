@@ -2,10 +2,12 @@ package com.ndovado.dominio.core;
 
 import java.util.*;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.ndovado.dominio.prenotazioni.RisultatoRicerca;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.StrutturaDAO;
-import com.ndovado.tecservices.persistence.base.UtenteDAO;
 
 /**
  * 
@@ -18,13 +20,13 @@ public class CatalogoStrutture {
 	 */
 	protected CatalogoStrutture() {
 		AppLogger.debug("Instazione set per elenco strutture.");
-		populateSetStrutture();
+//		populateSetStrutture();
 	}
 	
-	private void populateSetStrutture() {
-		elencoStrutture = sdao.getAll();
-		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" strutture.");
-	}
+//	private void populateSetStrutture() {
+//		elencoStrutture = sdao.getAll();
+//		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" strutture.");
+//	}
 
 	/**
 	 * 
@@ -50,13 +52,14 @@ public class CatalogoStrutture {
 	 * @param idStruttura 
 	 * @return
 	 */
-	public Struttura selezionaStruttura(Integer idStruttura) {
-		for (Struttura s : elencoStrutture) {
-			if (s.getId().equals(idStruttura)) {
-				return s;
-			}
-		}
-		return null;
+	public Struttura selezionaStruttura(Long idStruttura) {
+		return sdao.get(idStruttura);
+//		for (Struttura s : elencoStrutture) {
+//			if (s.getId().equals(idStruttura)) {
+//				return s;
+//			}
+//		}
+//		return null;
 	}
 
 	/**
@@ -66,12 +69,12 @@ public class CatalogoStrutture {
 	 * @param npersone 
 	 * @return
 	 */
-	public List<List<RisultatoRicerca>> cercaSoluzioni(Luogo luogo, Date dataArrivo, Date dataPartenza, Integer npersone) {
+	public List<RisultatoRicerca> cercaSoluzioni(Luogo luogo, Date dataArrivo, Date dataPartenza, Integer npersone) {
 		List<Struttura> strutture = luogo.getStruttureInLuogo();
-		List<List<RisultatoRicerca>> soluzioni = new ArrayList<List<RisultatoRicerca>>();
+		List<RisultatoRicerca> soluzioni = new ArrayList<RisultatoRicerca>();
 		for (Struttura s : strutture) {
-			List<RisultatoRicerca> sd = s.getTableauPrenotazioni().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
-			if (sd.size()>0) {
+			RisultatoRicerca sd = s.getTableauPrenotazioni().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+			if (sd.esistonoRisultati()) {
 				soluzioni.add(sd);
 			}
 		}
@@ -81,23 +84,28 @@ public class CatalogoStrutture {
 	/**
 	 * @return
 	 */
-	public static Struttura creaNuovaStruttura() {
+	public Struttura creaNuovaStruttura() {
 		Struttura s = new Struttura();
 		// aggiungo s all'elenco delle strutture esistenti
-		elencoStrutture.add(s);
+		//elencoStrutture.add(s);
 		return s;
 	}
 	
-	public static void removeStruttura(Struttura s) {
-		if (elencoStrutture.contains(s)) {
-			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
-			s.getLuogoStruttura().removeStruttura(s);
-			s.getGestore().rimuoviGestioneStruttura(s);
-			// infine elimino la struttura dal catalogo
-			elencoStrutture.remove(s);
-			// rimuovo la struttura dal DB
-			sdao.delete(s.getId());
-		}
+	public void rimuoviStruttura(Struttura s) {
+		s.getLuogoStruttura().removeStruttura(s);
+		s.getGestore().rimuoviGestioneStruttura(s);
+		
+		sdao.delete(s.getId());
+		
+//		if (elencoStrutture.contains(s)) {
+//			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
+//			s.getLuogoStruttura().removeStruttura(s);
+//			s.getGestore().rimuoviGestioneStruttura(s);
+//			// infine elimino la struttura dal catalogo
+//			elencoStrutture.remove(s);
+//			// rimuovo la struttura dal DB
+//			sdao.delete(s.getId());
+//		}
 	}
 	
 	public void salvaOAggiornaStruttura(Struttura smodel) {
@@ -105,19 +113,26 @@ public class CatalogoStrutture {
 			// salvo per la prima volta o aggiorno il model struttura su db
 			sdao.saveOrUpdate(smodel);
 			// aggiungo il model struttura alla lista delle strutture in elenco
-			AppLogger.debug("Aggiungo struttura salvata nel catalogo strutture");
-			elencoStrutture.add(smodel);
+//			AppLogger.debug("Aggiungo struttura salvata nel catalogo strutture");
+//			elencoStrutture.add(smodel);
 		}
 	} 
 	
 	public List<Struttura> getElencoStruttureByGestore(Gestore gmodel) {
-		List<Struttura> smodels = new ArrayList<Struttura>();
-		for (Struttura struttura : elencoStrutture) {
-			if (struttura.getGestore().getId().equals(gmodel.getId())) {
-				smodels.add(struttura);
-			}
-		}
+		
+		Session session = sdao.getSessionFactory().openSession();
+		Query q = session.createQuery("from Struttura s where s.gestore = :gestore");
+		q.setParameter("gestore", gmodel);
+		
+		List<Struttura> smodels = q.list();
+		session.close();
 		return smodels;
+//		for (Struttura struttura : elencoStrutture) {
+//			if (struttura.getGestore().getId().equals(gmodel.getId())) {
+//				smodels.add(struttura);
+//			}
+//		}
+//		return smodels;
 	}
 	
 

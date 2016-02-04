@@ -54,6 +54,8 @@ public class ElencoStruttureBackingBean implements Serializable {
 	}
 	
 	public String eliminaStruttura(StrutturaBean sb) {
+		controller.doRimuoviStruttura(sb);
+		elencoStrutture = controller.getElencoStruttureByBean(utenteCorrente);
 		return null;
 		
 	}

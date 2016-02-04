@@ -107,30 +107,54 @@ public class TableauPrenotazioni {
 		return p;
 	}
 
+//	/**
+//	 * @param DataArrivo 
+//	 * @param DataPartenza 
+//	 * @return
+//	 */
+//	public List<RisultatoRicerca> getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
+//		// numero massimo di persone che possono alloggiare nella struttura
+//		Integer totPax = 0;
+//		List<RisultatoRicerca> risultati = new ArrayList<RisultatoRicerca>();
+//		for (Camera c : struttura.getCamereInserite()) {
+//			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
+//				RisultatoRicerca rr = new RisultatoRicerca(struttura);
+//				rr.addCameraDisponibile(c);
+//				risultati.add(rr);
+//				// incremento il numero dei possibili alloggiati
+//				totPax += c.getPax();
+//			}
+//		}
+//		if(totPax<npersone) {
+//			// se la disponibilità delle camere non è sufficiente per il numero delle persone richieste
+//			// faccio tornare una lista vuota
+//			risultati.clear();
+//		}
+//		return risultati;
+//	}
+	
 	/**
 	 * @param DataArrivo 
 	 * @param DataPartenza 
 	 * @return
 	 */
-	public List<RisultatoRicerca> getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
+	public RisultatoRicerca getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
 		// numero massimo di persone che possono alloggiare nella struttura
 		Integer totPax = 0;
-		List<RisultatoRicerca> risultati = new ArrayList<RisultatoRicerca>();
+		RisultatoRicerca rr = new RisultatoRicerca(struttura);
 		for (Camera c : struttura.getCamereInserite()) {
 			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
-				RisultatoRicerca rr = new RisultatoRicerca(struttura);
 				rr.addCameraDisponibile(c);
-				risultati.add(rr);
 				// incremento il numero dei possibili alloggiati
 				totPax += c.getPax();
 			}
 		}
 		if(totPax<npersone) {
 			// se la disponibilità delle camere non è sufficiente per il numero delle persone richieste
-			// faccio tornare una lista vuota
-			risultati.clear();
+			// azzero l'elenco delle camere
+			rr.getCamereLibere().clear();
 		}
-		return risultati;
+		return rr;
 	}
 
 	/**
@@ -161,7 +185,8 @@ public class TableauPrenotazioni {
 	 * @return
 	 */
 	protected Set<Prenotazione> getElencoPrenotazioniPerCamera(Camera c) {
-		Set<Prenotazione> s = elencoPrenotazioni.get(c.getId());
+		//Set<Prenotazione> s = elencoPrenotazioni.get(c.getId());
+		Set<Prenotazione> s = getInsiemePrenotazioniPerCamera(c);
 		return s;
 	}
 
@@ -186,7 +211,7 @@ public class TableauPrenotazioni {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((elencoPrenotazioni == null) ? 0 : elencoPrenotazioni.hashCode());
-		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		//result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
 		return result;
 	}
 
@@ -285,16 +310,14 @@ public class TableauPrenotazioni {
 		
 
 		AppLogger.debug("TEST NUMERO "+ntest);
-		List<RisultatoRicerca> rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);
-		if (!rr.isEmpty()) {
-			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.size());
-			for (RisultatoRicerca risultatoRicerca : rr) {
+		RisultatoRicerca rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);
+		if (rr.esistonoRisultati()) {
+			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.getCamereLibere().size());
 				AppLogger.debug("Elenco camere libere:");
-				Set<Camera> sc = risultatoRicerca.getCamereLibere();
+				Set<Camera> sc = rr.getCamereLibere();
 				for (Camera camera : sc) {
 					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera());
 				}
-			}
 			AppLogger.debug("\n");
 		} else {
 			AppLogger.debug("Lista risultati ricerca VUOTA\n");

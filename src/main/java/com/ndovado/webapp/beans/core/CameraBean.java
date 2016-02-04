@@ -5,8 +5,10 @@ import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 
+import com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean;
+
 @ManagedBean(name="cameraBean")
-public class CameraBean implements Serializable, Identifiable {
+public class CameraBean implements Serializable, Identifiable, IPrenotabileBean {
 
 	/**
 	 * 

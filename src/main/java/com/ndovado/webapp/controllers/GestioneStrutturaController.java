@@ -1,14 +1,10 @@
 package com.ndovado.webapp.controllers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import org.w3c.dom.css.CSSMediaRule;
 
 import com.ndovado.dominio.core.CatalogoLuogo;
 import com.ndovado.dominio.core.CatalogoStrutture;
-import com.ndovado.dominio.core.CatalogoUtenti;
 import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
@@ -31,22 +27,15 @@ public class GestioneStrutturaController {
 	private CatalogoStrutture csmodel = CatalogoStrutture.getInstance();
 	private CatalogoServizi cscmodel = CatalogoServizi.getInstance();
 	private ServizioComuneMapper scmapper = ServizioComuneMapper.getInstance();
-	private LuogoMapper lmapper;
-	private CatalogoLuogo clmodel; 
+	
 	
 	private UserMapper umapper = UserMapper.getInstance();
 	
 	private GestoreBean gestore;
 	
-	private void initLuogoUtils() {
-		lmapper = LuogoMapper.getInstance();
-		clmodel = CatalogoLuogo.getInstance();
-	}
-	
 	
 	public GestioneStrutturaController(GestoreBean gestore) {
 		this.setGestore(gestore);
-		initLuogoUtils();
 	}
 
 	/**
@@ -66,6 +55,7 @@ public class GestioneStrutturaController {
 	public List<StrutturaBean> getElencoStruttureByBean(UtenteBean g) {
 		List<StrutturaBean> strutture = new ArrayList<StrutturaBean>();
 		if (g.getRuolo() instanceof GestoreBean) {
+			
 			
 			Gestore gmodel = (Gestore) umapper.getModelFromBean(g).getRuolo();
 			AppLogger.debug("Recupero gestore model da utente bean: "+gmodel);
@@ -92,23 +82,9 @@ public class GestioneStrutturaController {
 		return sb;
 	}
 	
-	public List<LuogoBean> getListaLuogoBeanPerProvincia(String codProvincia) {
-		List<LuogoBean> lbeans = new ArrayList<LuogoBean>();
-		if (codProvincia!=null && !codProvincia.isEmpty() && codProvincia.length()==2) {
-			AppLogger.debug("Popolo lista luoghi bean da codProvincia= "+codProvincia);
-			List<Luogo> lmodels = clmodel.getListaLuoghiPerProvincia(codProvincia);
-			for (Luogo luogo : lmodels) {
-				LuogoBean lb = lmapper.getBeanFromModel(luogo);
-				lbeans.add(lb);
-			}
-		}
-		return lbeans;
-	}
-	
-	public List<String> getListaTutteProvinceStrings() {
-		List<String> strings = clmodel.getListaTutteProvinceStrings();
-		Collections.sort(strings);
-		return strings;
+	public void doRimuoviStruttura(StrutturaBean sb) {
+		Struttura smodel = smapper.getModelFromBean(sb);
+		csmodel.rimuoviStruttura(smodel);
 	}
 	
 	public List<ServizioComuneBean> getElencoServizioComuneBeans() {

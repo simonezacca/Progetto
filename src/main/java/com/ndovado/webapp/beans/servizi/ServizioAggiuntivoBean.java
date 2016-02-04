@@ -1,6 +1,11 @@
 package com.ndovado.webapp.beans.servizi;
 
-public class ServizioAggiuntivoBean extends ATipologiaServizioBean {
+import javax.faces.bean.ManagedBean;
+
+import com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean;
+
+@ManagedBean(name="servizioAggiuntivoBean")
+public class ServizioAggiuntivoBean extends ATipologiaServizioBean implements IPrenotabileBean {
 
 	public ServizioAggiuntivoBean() {
 		// TODO Auto-generated constructor stub

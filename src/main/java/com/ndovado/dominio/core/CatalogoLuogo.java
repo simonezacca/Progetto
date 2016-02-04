@@ -1,9 +1,12 @@
 package com.ndovado.dominio.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.LuogoDAO;
 
@@ -16,7 +19,7 @@ public class CatalogoLuogo {
 	
 	private CatalogoLuogo() {
 		initSet();
-		initListaLuoghi();
+//		initListaLuoghi();
 	}
 	
 	private void initSet() {
@@ -26,15 +29,15 @@ public class CatalogoLuogo {
 		}
 	}
 	
-	private void initListaLuoghi() {
-		AppLogger.debug("Popolo mappa luoghi da DB");
-		// ottento dal servizio di persistenza l'elenco completo dei luoghi presenti nel DB
-		List<Luogo> elencoLuoghi = ldao.getAll();
-		// ciclo sulla lista per aggiungerli alla mappa
-		for (Luogo luogo : elencoLuoghi) {
-			mappaLuoghi.put(luogo.getId(), luogo);
-		}
-	}
+//	private void initListaLuoghi() {
+//		AppLogger.debug("Popolo mappa luoghi da DB");
+//		// ottento dal servizio di persistenza l'elenco completo dei luoghi presenti nel DB
+//		List<Luogo> elencoLuoghi = ldao.getAll();
+//		// ciclo sulla lista per aggiungerli alla mappa
+//		for (Luogo luogo : elencoLuoghi) {
+//			mappaLuoghi.put(luogo.getId(), luogo);
+//		}
+//	}
 	
 	public static CatalogoLuogo getInstance() {
 		if (instance==null) {
@@ -44,47 +47,65 @@ public class CatalogoLuogo {
 	}
 	
 	public Luogo getLuogoById(Long id) {
-		return mappaLuoghi.get(id);
+		return ldao.get(id);
+//		return mappaLuoghi.get(id);
 	}
 	
 	public Luogo getLuogo(Luogo l) {
-		if (mappaLuoghi.containsValue(l)) {
-			Long id = l.getId();
-			return mappaLuoghi.get(id);
-		}
-		return null;
+		return ldao.get(l.getId());
+//		if (mappaLuoghi.containsValue(l)) {
+//			Long id = l.getId();
+//			return mappaLuoghi.get(id);
+//		}
+//		return null;
 	}
 	
 	public List<Luogo> getListaLuoghiPerNome(String nome) {
-		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
-		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
-			if(entry.getValue().getNomeComune().contains(nome)) {
-				elencoRisultati.add(entry.getValue());
-            }
-		}
+		
+		Session session = ldao.getSessionFactory().openSession();
+		Query q = session.createQuery("from Luogo where nome like :nome");
+		q.setParameter("nome", "%"+nome+"%");
+		List<Luogo> elencoRisultati = q.list();
+		session.close();
 		return elencoRisultati;
+		
+//		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
+//		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+//			if(entry.getValue().getNomeComune().contains(nome)) {
+//				elencoRisultati.add(entry.getValue());
+//            }
+//		}
+//		return elencoRisultati;
 	}
 	
 	public List<Luogo> getListaLuoghiPerProvincia(String provincia) {
-		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
-		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
-			if(entry.getValue().getProvincia().equalsIgnoreCase(provincia)){
-				elencoRisultati.add(entry.getValue());
-            }
-		}
+		
+		Session session = ldao.getSessionFactory().openSession();
+		Query q = session.createQuery("from Luogo where provincia = :prov");
+		q.setParameter("prov", provincia);
+		
+		List<Luogo> elencoRisultati = q.list();
+		session.close();
 		return elencoRisultati;
+//		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+//			if(entry.getValue().getProvincia().equalsIgnoreCase(provincia)){
+//				elencoRisultati.add(entry.getValue());
+//            }
+//		}
+//		return elencoRisultati;
 	}
 	
 	public Luogo addLuogo(Luogo l) {
 		if (l!=null) {
-			if (!mappaLuoghi.containsKey(l.getId())) {
-				// persisto l'instanza di luogo su DB
-				ldao.saveOrUpdate(l);
-				// aggiungo il luogo alla mappa
-				mappaLuoghi.put(l.getId(), l);
-				AppLogger.debug("Luogo salvato su DB con id="+l.getId());
-			} else
-				AppLogger.debug("Luogo già presente nella mappa");
+			ldao.saveOrUpdate(l);
+//			if (!mappaLuoghi.containsKey(l.getId())) {
+//				// persisto l'instanza di luogo su DB
+//				ldao.saveOrUpdate(l);
+//				// aggiungo il luogo alla mappa
+//				mappaLuoghi.put(l.getId(), l);
+//				AppLogger.debug("Luogo salvato su DB con id="+l.getId());
+//			} else
+//				AppLogger.debug("Luogo già presente nella mappa");
 		}
 		return l;
 	}
@@ -94,7 +115,7 @@ public class CatalogoLuogo {
 			// rimuovo prima il Luogo dal DB 
 			ldao.delete(l.getId());
 			// rimuovo il luogo dalla mappa
-			mappaLuoghi.remove(l.getId());
+			//mappaLuoghi.remove(l.getId());
 		}
 	}
 	
@@ -124,21 +145,27 @@ public class CatalogoLuogo {
 	}
 	
 	public List<Luogo> getAllLuogo() {
-		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
-		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
-				elencoRisultati.add(entry.getValue());
-		}
-		return elencoRisultati;
+		return ldao.getAll();
+//		List<Luogo> elencoRisultati = new ArrayList<Luogo>();
+//		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+//				elencoRisultati.add(entry.getValue());
+//		}
+//		return elencoRisultati;
 	}
 	
 	public List<String> getListaTutteProvinceStrings() {
-		List<String> strings = new ArrayList<String>();
-		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
-			String provincia = entry.getValue().getProvincia();
-			if (!strings.contains(provincia)) {
-				strings.add(provincia);
-			}
-		}
+		
+		Session session = ldao.getSessionFactory().openSession();
+		Query q = session.createQuery("select distinct l.provincia from Luogo l order by l.provincia asc");
+		List<String> strings = q.list();
+		session.close();
 		return strings;
+//		for (Map.Entry<Long, Luogo> entry : mappaLuoghi.entrySet()) {
+//			String provincia = entry.getValue().getProvincia();
+//			if (!strings.contains(provincia)) {
+//				strings.add(provincia);
+//			}
+//		}
+//		return strings;
 	}
 }

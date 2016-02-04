@@ -1,7 +1,10 @@
 package com.ndovado.webapp.beans.servizi;
 
+import javax.faces.bean.ManagedBean;
+
 import com.ndovado.webapp.beans.core.StrutturaBean;
 
+@ManagedBean(name="dettaglioServizioBean")
 public class DettaglioServizioBean {
 
 	private Long id = null;

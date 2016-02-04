@@ -2,6 +2,9 @@ package com.ndovado.webapp.beans.servizi;
 
 import java.io.Serializable;
 
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name="servizioComuneBean")
 public class ServizioComuneBean implements Serializable {
 
 	/**

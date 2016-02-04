@@ -1,5 +1,8 @@
 package com.ndovado.webapp.beans.servizi;
 
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name="servizioBaseBean")
 public class ServizioBaseBean extends ATipologiaServizioBean {
 
 	@SuppressWarnings("unused")

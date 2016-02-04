@@ -6,7 +6,7 @@ import com.ndovado.webapp.beans.core.LuogoBean;
 
 public class LuogoMapper extends GenericMapper<LuogoBean, Luogo> {
 
-private static LuogoMapper instance;
+	private static LuogoMapper instance;
 	
 	protected LuogoMapper() {
 		super();
@@ -27,6 +27,7 @@ private static LuogoMapper instance;
 
 	@Override
 	public Luogo getModelFromBean(LuogoBean bean) {
+		AppLogger.debug("bean to convert: "+bean.toString());
 		Luogo model = mapper.map(bean, Luogo.class);
 		return model;
 	}

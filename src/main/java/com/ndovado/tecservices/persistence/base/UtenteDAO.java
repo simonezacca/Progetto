@@ -17,4 +17,5 @@ public class UtenteDAO extends GenericDAO<Utente> {
 
 		return super.findOneResult(Utente.FIND_BY_EMAIL, parameters);
 	}
+	
 }

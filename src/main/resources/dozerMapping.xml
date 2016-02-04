@@ -73,7 +73,36 @@
 		<class-b>com.ndovado.webapp.beans.servizi.ServizioComuneBean</class-b>
 	</mapping>
 	<mapping>
-		<class-a>com.ndovado.dominio.servizi.DettaglioServizio</class-a>
-		<class-b>com.ndovado.webapp.beans.servizi.DettaglioServizioBean</class-b>
+	<class-a>com.ndovado.dominio.servizi.DettaglioServizio</class-a>
+	<class-b>com.ndovado.webapp.beans.servizi.DettaglioServizioBean
+	</class-b>
+</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione
+		</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean
+		</class-b>
 	</mapping>
-</mappings>
+	<mapping>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente
+		</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata
+		</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata
+		</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>com.ndovado.dominio.prenotazioni.Prenotazione</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean
+		</class-b>
+	</mapping></mappings>

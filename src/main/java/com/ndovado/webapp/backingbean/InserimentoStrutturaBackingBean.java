@@ -20,6 +20,7 @@ import com.ndovado.webapp.beans.servizi.DettaglioServizioBean;
 import com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean;
 import com.ndovado.webapp.beans.servizi.ServizioBaseBean;
 import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
+import com.ndovado.webapp.controllers.GestioneLuogoController;
 import com.ndovado.webapp.controllers.GestioneStrutturaController;
  
 @ManagedBean(name="StrutturaBB")
@@ -33,6 +34,8 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	private GestoreBean gestoreCorrente;
 	
 	private GestioneStrutturaController controller;
+	private GestioneLuogoController luogoController;
+	
 	
 	private boolean addingStruttura = true;
 	private boolean completed = false;
@@ -61,8 +64,11 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 		strutturaCorrente = new StrutturaBean(gestoreCorrente);
 		cameraInAggiunta = new CameraBean();
 		luoghiDisponibili = new ArrayList<LuogoBean>();
+		
 		controller = new GestioneStrutturaController(gestoreCorrente);
-		provinceDisponibili = controller.getListaTutteProvinceStrings();
+		luogoController = new GestioneLuogoController();
+		
+		provinceDisponibili = luogoController.getListaTutteProvinceStrings();
 		serviziComuniDisponibili = controller.getElencoServizioComuneBeans();
 		
 		sccorrente = new ServizioComuneBean();
@@ -206,7 +212,7 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 	
 	public void settaListaComuniBeans(final AjaxBehaviorEvent event) {
-		luoghiDisponibili = controller.getListaLuogoBeanPerProvincia(codProvinciaCorrente);
+		luoghiDisponibili = luogoController.getListaLuogoBeanPerProvincia(codProvinciaCorrente);
 	}
 
 	/**

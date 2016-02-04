@@ -19,41 +19,44 @@
 				<div class="ui orange divided items">
 					<ui:repeat var="struttura"
 						value="#{elencoStruttureBB.elencoStrutture}">
-					<div class="item">
-						<div class="image">
-							<h:graphicImage library="images" name="square-image.png" />
+						<div class="item">
+							<div class="image">
+								<h:graphicImage library="images" name="square-image.png" />
+							</div>
+							<div class="content">
+								<h:link value="#{struttura.nomeStruttura}"></h:link>
+								<div class="meta">
+									<span class="cinema"> <h:outputFormat value="{0} - {1}">
+											<f:param value="#{struttura.indirizzoLuogo}"></f:param>
+											<f:param value="#{struttura.luogoStruttura}"></f:param>
+										</h:outputFormat>
+									</span>
+								</div>
+								<div class="description">
+									<h:outputText value="#{struttura.descrizioneStruttura}"></h:outputText>
+								</div>
+								<div class="extra">
+									<h:form>
+										<div class="ui right floated orange icon button">
+											<h:commandLink
+												action="#{elencoStruttureBB.visualizzaStruttura(struttura)}"
+												styleClass="info basic icon" value="Visualizza"/>
+										</div>
+										<div class="ui right floated orange icon button">
+											<h:link
+												action="#{elencoStruttureBB.modificaStruttura(struttura)}"
+												styleClass="edit basic icon" value="Modifica"/>
+										</div>
+										<div class="ui right floated orange icon button">
+											<h:commandLink
+												action="#{elencoStruttureBB.eliminaStruttura(struttura)}"
+												styleClass="delete basic icon" value="Rimuovi" />
+										</div>
+									</h:form>
+								</div>
+							</div>
 						</div>
-						<div class="content">
-							<h:link value="#{struttura.nomeStruttura}"></h:link>
-							<div class="meta">
-								<span class="cinema"> <h:outputFormat value="{0} - {1}">
-										<f:param value="#{struttura.indirizzoLuogo}"></f:param>
-										<f:param value="#{struttura.luogoStruttura}"></f:param>
-									</h:outputFormat>
-								</span>
-							</div>
-							<div class="description">
-								<h:outputText value="#{struttura.descrizioneStruttura}"></h:outputText>
-							</div>
-							<div class="extra">
-								<div class="ui right floated orange icon button">
-									<h:commandLink action="#{elencoStruttureBB.visualizzaStruttura(struttura)}" styleClass="info basic icon" />
 
-									<i class="info basic icon"></i>
-
-								</div>
-								<div class="ui right floated orange icon button">
-									<h:commandLink action="#{elencoStruttureBB.modificaStruttura(struttura)}" styleClass="edit basic icon" />
-									<i class="edit basic icon"></i>
-
-								</div>
-								<div class="ui right floated orange icon button">
-									<h:commandLink action="#{elencoStruttureBB.eliminaStruttura(struttura)}" styleClass="delete basic icon" />
-									<i class="delete basic icon"></i>
-								</div>
-							</div>
-						</div>
-					</div>
 					</ui:repeat>
 				</div>
 			</div>

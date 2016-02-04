@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-@ManagedBean(name="utenteBean")
+@ManagedBean(name="utenteBean", eager=true)
 @SessionScoped
 public class UtenteBean implements Serializable, Identifiable{
 

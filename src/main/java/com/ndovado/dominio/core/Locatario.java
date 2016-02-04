@@ -49,16 +49,16 @@ public class Locatario extends ARuolo implements IPersistente {
 	 */
 	
 	public Locatario() {
-		prenotazioni = new HashSet<Prenotazione>();
+		prenotazioni = new ArrayList<Prenotazione>();
 	}
 	
 	@OneToMany(mappedBy = "locatario")
-	private Set<Prenotazione> prenotazioni;
+	private List<Prenotazione> prenotazioni;
 
 	/**
 	 * @return
 	 */
-	public Set<Prenotazione> getPrenotazioniEffettuate() {
+	public List<Prenotazione> getPrenotazioni() {
 		return prenotazioni;
 	}
 

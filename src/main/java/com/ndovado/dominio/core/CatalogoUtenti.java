@@ -16,7 +16,7 @@ public class CatalogoUtenti {
 	
 	protected CatalogoUtenti() {
 		initList();
-		populateList();
+		//populateList();
 	}
 	
 	public static CatalogoUtenti getInstance(){
@@ -33,13 +33,13 @@ public class CatalogoUtenti {
 		}
 	}
 	
-	private void populateList() {
-		AppLogger.debug("Popolo lista utenti da DB");
-		// ottengo dal servizio di persistenza l'elenco completo degli utenti presenti nel DB
-		// e lo assegno ad elencoUtenti
-		elencoUtenti = udao.getAll();
-		AppLogger.debug("Lista popolata con "+elencoUtenti.size()+" utenti.");
-	}
+//	private void populateList() {
+//		AppLogger.debug("Popolo lista utenti da DB");
+//		// ottengo dal servizio di persistenza l'elenco completo degli utenti presenti nel DB
+//		// e lo assegno ad elencoUtenti
+//		elencoUtenti = udao.getAll();
+//		AppLogger.debug("Lista popolata con "+elencoUtenti.size()+" utenti.");
+//	}
 	
 	public void rimuoviUtente(Utente u) {
 		if (u!=null) {
@@ -47,7 +47,7 @@ public class CatalogoUtenti {
 				// rimuovo prima l'utente dal DB
 				udao.delete(u.getId());
 				// rimuovo l'utente dalla lista in memoria
-				elencoUtenti.remove(u);
+				//elencoUtenti.remove(u);
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public class CatalogoUtenti {
 			// aggiorno o salvo l'utente su DB
 			udao.saveOrUpdate(u);
 			// aggiungo l'utente alla lista in memoria
-			elencoUtenti.add(u);
+			//elencoUtenti.add(u);
 		}
 	}
 	
@@ -72,12 +72,13 @@ public class CatalogoUtenti {
 	}
 	
 	public Utente getUtentePerEmail(String email) {
-		for (Utente utente : elencoUtenti) {
-			if (utente.getMail().equals(email)) {
-				return utente;
-			}
-		}
-		return null;
+		return udao.cercaUtentePerMail(email);
+//		for (Utente utente : elencoUtenti) {
+//			if (utente.getMail().equals(email)) {
+//				return utente;
+//			}
+//		}
+//		return null;
 	}
 	
 	public Boolean verificaCredenzialiUtente(String mail, String password) {
@@ -94,12 +95,17 @@ public class CatalogoUtenti {
 	}
 	
 	public Boolean isMailEsistente(String mail) {
-		for (Utente utente : elencoUtenti) {
-			if (utente.getMail().equals(mail)) {
-				return true;
-			}
-		}
-		return false;
+		return udao.cercaUtentePerMail(mail)!=null;
+//		for (Utente utente : elencoUtenti) {
+//			if (utente.getMail().equals(mail)) {
+//				return true;
+//			}
+//		}
+//		return false;
+	}
+	
+	public List<Utente> getAllUtenti() {
+		return udao.getAll();
 	}
 	
 	public static void main(String[] args) {

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.OrderBy;
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
 import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -71,6 +73,8 @@ public class Struttura implements IPersistente {
 
 	@Transient
 	private TableauPrenotazioni tableau;
+	
+	
 
 	/**
 	 * Insieme delle camera collegate alla struttura
@@ -99,7 +103,13 @@ public class Struttura implements IPersistente {
 		setCamereInserite(new ArrayList<Camera>());
 		setServiziOfferti(new ArrayList<DettaglioServizio>());
 		
-		setTableau(new TableauPrenotazioni(this));
+		 initTableau();
+	}
+	
+	@PostLoad
+	protected void initTableau() {
+		AppLogger.debug("Init Tableau in Struttura model");
+		this.tableau = new TableauPrenotazioni(this);
 	}
 
 	/**
