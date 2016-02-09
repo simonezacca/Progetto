@@ -3,10 +3,15 @@ package com.ndovado.dominio.core;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * 
@@ -52,7 +57,8 @@ public class Locatario extends ARuolo implements IPersistente {
 		prenotazioni = new ArrayList<Prenotazione>();
 	}
 	
-	@OneToMany(mappedBy = "locatario")
+	@OneToMany(mappedBy = "locatario", fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	private List<Prenotazione> prenotazioni;
 
 	/**

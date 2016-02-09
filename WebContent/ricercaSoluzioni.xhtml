@@ -3,11 +3,12 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pf="http://primefaces.org/ui"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 </h:head>
 <h:body>
-	<ui:composition template="/templates/layoutGestore.xhtml">
+	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
 
 			<div class="ui grid container">
@@ -17,163 +18,159 @@
 
 							<!--inizio left box seleziona criteri -->
 							<h:form>
-							<div class="five wide column">
-								<div class="ui white inverted header">TROVA LE MIGLIORI
-									OFFERTE</div>
-								<div class="ui orange segment">
-									<h4 class="ui orange dividing header">Dove vuoi passare il
-										tuo prossimo soggiorno?</h4>
-									<div class="ui fluid icon input">
-									
-										<h:selectOneMenu value="#{ricercaSoluzioniBB.codProvinciaCorrente}"
-											styleClass="ui fluid selection dropdown">
-											<f:selectItems value="#{ricercaSoluzioniBB.provinceDisponibili}" />
-											<f:ajax execute="@this"
-												listener="#{ricercaSoluzioniBB.settaListaComuniBeans}"
-												render="selectLuogoBean" />
-										</h:selectOneMenu>
-										
-										<h:panelGroup id="selectLuogoBean">
-											<h:selectOneMenu
-												value="#{ricercaSoluzioniBB.luogoCorrente}"
-												converter="#{luogoBeanConverter}"
-												rendered="#{not empty ricercaSoluzioniBB.luoghiDisponibili}"
-												styleClass="ui fluid selection dropdown">
-												<f:selectItems value="#{ricercaSoluzioniBB.luoghiDisponibili}"
-													var="luogo" itemLabel="#{luogo.nomeComune}"
-													itemValue="#{luogo}" />
-											</h:selectOneMenu>
-										</h:panelGroup>
-										<!--  
-										<h:inputText p:placeholder="Ricerca il luogo desiderato"
-											required="true" value="#{ricercaSoluzioniBB.luogoCorrente}"/>
-										<i class="search icon"></i>-->
-									</div>
-									<h4 class="ui orange dividing header">Seleziona le Date:</h4>
-									<div class="ui raised segment">
-											<label>Data arrivo</label>
-											<h:inputText value="#{ricercaSoluzioniBB.dataArrivo}"
-												required="true">
-												<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-											</h:inputText>
-											<label>Data partenza</label>
-											<h:inputText value="#{ricercaSoluzioniBB.dataPartenza}" required="true">
-												<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-											</h:inputText>
-										<!-- 
-										<div id="reportrange2" class="ui button"
-											style="display: inline-block; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-											<i class="calendar icon"></i> <span> </span> <i
-												class="caret down icon" style="margin: 0"></i>
+								<div class="five wide column">
+									<div class="ui white inverted header">TROVA LE MIGLIORI
+										OFFERTE</div>
+									<div class="ui orange segment">
+										<h4 class="ui orange dividing header">Dove vuoi passare
+											il tuo prossimo soggiorno?</h4>
+										<div class="ui fluid input">
+
+											<pf:autoComplete value="#{ricercaSoluzioniBB.luogoCorrente}"
+												completeMethod="#{ricercaSoluzioniBB.completaLuoghiDisponibili}"
+												var="luogoBean" itemLabel="#{luogoBean.nomeComune}"
+												itemValue="#{luogoBean}" converter="#{luogoBeanConverter}"
+												minQueryLength="3" forceSelection="true" required="true"
+												maxResults="10" />
+
 										</div>
-										 -->
-										<script type="text/javascript">
-											$(document)
-										    .ready(function() {
-										        $('#reportrange2 span').html(
-										                moment()
-										                .subtract(
-										                    29,
-										                    'days')
-										                .format(
-										                    'MMMM D, YYYY') + ' - ' + moment()
-										                .format(
-										                    'MMMM D, YYYY'));
-										        $('#reportrange2')
-										            .daterangepicker({
-										                opens: 'center'
-										            });
-										    });
-										</script>
-									</div>
-									<h4 class="ui orange dividing header">Numero di Persone:</h4>
-									
-										<h:selectOneMenu required="true"
-											styleClass="ui fluid selection dropdown" value="#{ricercaSoluzioniBB.numPersone}">
-											<f:selectItem itemLabel="1" itemValue="1" />
-											<f:selectItem itemLabel="2" itemValue="2" />
-											<f:selectItem itemLabel="3" itemValue="3" />
-										</h:selectOneMenu>
-									<div class="ui inverted orange button">
-										<h:commandButton value="Ricerca le soluzioni"
-											styleClass="ui orange button" action="#{ricercaSoluzioniBB.avviaRicercaSoluzioniDisponibili}"/>
+										<h4 class="ui orange dividing header">Seleziona le Date:</h4>
+										<div class="ui raised segment">
+
+											<label>Data arrivo</label>
+											<div class="ui input">
+												<pf:calendar id="fromDate"
+													value="#{ricercaSoluzioniBB.dataArrivo}" required="true" readonlyInput="true">
+													<pf:ajax event="dateSelect"
+														listener="#{ricercaSoluzioniBB.settaDataPartenza}"
+														update="toDate" />
+												</pf:calendar>
+											</div>
+											<br /> <br /> <label>Data partenza</label>
+											<div class="ui input">
+												<pf:calendar id="toDate"
+													value="#{ricercaSoluzioniBB.dataPartenza}" required="true" readonlyInput="true"
+													mindate="#{ricercaSoluzioniBB.dataArrivo}" />
+											</div>
+										</div>
+										<h4 class="ui orange dividing header">Numero di Persone:</h4>
+										<div class="ui form">
+											<div class="field">
+												<h:selectOneMenu required="true"
+													styleClass="ui selection fluid dropdown"
+													value="#{ricercaSoluzioniBB.numPersone}">
+													<f:selectItem itemLabel="1" itemValue="1" />
+													<f:selectItem itemLabel="2" itemValue="2" />
+													<f:selectItem itemLabel="3" itemValue="3" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="ui inverted orange button">
+											<h:commandButton value="Ricerca le soluzioni"
+												styleClass="ui orange button"
+												action="#{ricercaSoluzioniBB.avviaRicercaSoluzioniDisponibili}" />
+										</div>
 									</div>
 								</div>
-							</div>
 							</h:form>
 							<!-- fine left box seleziona criteri -->
 
 
 							<!-- inizio elenco soluzioni disponibili -->
-							<div class="eleven wide column">
-								<div class="ui white inverted header">SELEZIONA LA
-									LOCAZIONE CHE PREFERISCI</div>
-								<div class="ui orange segment">
-									<h4 class="ui orange dividing header">Risultati della
-										ricerca:</h4>
-									<div class="ui divided items">
-										<div class="filtra risultati">
-											<div class="ui floating dropdown labeled orange icon button">
-												<i class="filter icon"></i> <span class="text">Filtra
-													i risultati di ricerca</span>
-												<div class="menu">
-													<div class="scrolling menu">
-														<div class="item">
-															<div class="ui red empty circular label"></div>
-															Important
-														</div>
-														<div class="item">
-															<div class="ui blue empty circular label"></div>
-															Announcement
-														</div>
-														<div class="item">
-															<div class="ui black empty circular label"></div>
-															Cannot Fix
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<!-- inizio ciclo risultati ricerca -->
-										<h:panelGroup rendered="#{not empty ricercaSoluzioniBB.risultatiRicerca}">
-											<!-- visualizzare solo se l'elenco corrente dei risultati ricerca è popolato -->
-											<ui:repeat var="risultatoRicercaBean" value="#{ricercaSoluzioniBB.risultatiRicerca}">
-												<div class="item">
-													<div class="image">
-														<h:graphicImage library="images" name="square-image.png" />
-													</div>
-													<div class="content">
-														<h:link value="#{risultatoRicercaBean.struttura.nomeStruttura}" styleClass="header"/>
-														<div class="meta">
-															<span class="cinema">
-															<h:outputFormat value="{0} - {1} ({2})">
-																<f:param value="#{risultatoRicercaBean.struttura.indirizzoLuogo}" />
-																<f:param value="#{risultatoRicercaBean.struttura.luogoStruttura.nomeComune}"/>
-																<f:param value="#{risultatoRicercaBean.struttura.luogoStruttura.provincia}"/>
-															</h:outputFormat>
-															</span>
-														</div>
-														<div class="description">
-															<p><h:outputText value="#{risultatoRicercaBean.struttura.descrizioneStruttura}"/> </p>
-														</div>
-														<div class="extra">
-															<div class="ui right floated orange button">
-																Visualizza <i class="right chevron icon"></i>
-															</div>
-															<div class="ui label">Bisogna decidere</div>
-															<div class="ui label">
-																<i class="globe icon"></i> che farci in caso
-															</div>
-														</div>
-													</div>
-												</div>
-											</ui:repeat>
+							<h:form>
+								<div class="eleven wide column">
+									<div class="ui white inverted header">SELEZIONA LA
+										LOCAZIONE CHE PREFERISCI</div>
+									<div class="ui orange segment">
+										<h4 class="ui orange dividing header">Risultati della
+											ricerca:</h4>
+										<div class="ui divided items">
+											<h:panelGroup rendered="#{ricercaSoluzioniBB.primaRicerca}">
+										Elenco immagini che scorrono
 										</h:panelGroup>
-										<h:messages></h:messages>
+											<h:panelGroup
+												rendered="#{empty ricercaSoluzioniBB.risultatiRicerca and not ricercaSoluzioniBB.primaRicerca}">
+										Nessun risultato disponibile per i criteri selezionati
+										</h:panelGroup>
+											<!-- inizio ciclo risultati ricerca -->
+											<h:panelGroup
+												rendered="#{not empty ricercaSoluzioniBB.risultatiRicerca}">
+												<!-- visualizzare solo se l'elenco corrente dei risultati ricerca è popolato -->
+												<ui:repeat var="risultatoRicercaBean"
+													value="#{ricercaSoluzioniBB.risultatiRicerca}">
+													<div class="item">
+														<div class="image">
+															<h:graphicImage library="images" name="square-image.png" />
+														</div>
+														<div class="content">
+															<h:link
+																value="#{risultatoRicercaBean.struttura.nomeStruttura}"
+																styleClass="header" />
+															<div class="meta">
+																<span class="cinema"> <h:outputFormat
+																		value="{0} - {1} ({2})">
+																		<f:param
+																			value="#{risultatoRicercaBean.struttura.indirizzoLuogo}" />
+																		<f:param
+																			value="#{risultatoRicercaBean.struttura.luogoStruttura.nomeComune}" />
+																		<f:param
+																			value="#{risultatoRicercaBean.struttura.luogoStruttura.provincia}" />
+																	</h:outputFormat>
+																</span>
+															</div>
+															<div class="description">
+																<p>
+																	<h:outputText
+																		value="#{risultatoRicercaBean.struttura.descrizioneStruttura}" />
+																</p>
+															</div>
+															<div class="extra">
+																<div class="ui right floated orange button">
+																	<h:commandButton
+																		action="#{ricercaSoluzioniBB.visualizzaStruttura(risultatoRicercaBean.struttura)}"
+																		value="Visualizza" styleClass="ui orange button" />
+																</div>
+																<div class="ui label">Bisogna decidere</div>
+																<div class="ui label">
+																	<i class="globe icon"></i> che farci in caso
+																</div>
+															</div>
+															<!-- camere -->
+															<div>
+																<ui:repeat var="cameraBean"
+																	value="#{risultatoRicercaBean.camereLibere.toArray()}">
+																	<label>Nome camera </label>
+																	<h:outputText value="#{cameraBean.nomeCamera}" />
+																	<br />
+																	<label>Descrizione camera </label>
+																	<h:outputText value="#{cameraBean.descrizioneCamera}" />
+																	<br />
+																	<label>Pax </label>
+																	<h:outputText value="#{cameraBean.pax}" />
+																	<br />
+																	<label>Prezzo</label>
+																	<h:outputText value="#{cameraBean.prezzo}" />
+																	<br />
+																	<hr />
+																	<h:panelGroup rendered="#{not utenteBean.logged}">
+																		<font color="red">Per prenotare devi essere
+																			loggato</font>
+																	</h:panelGroup>
+																	<h:panelGroup rendered="#{utenteBean.logged}">
+																		<font color="green">Prenota</font>
+																	</h:panelGroup>
+																	<hr />
+																</ui:repeat>
+															</div>
+														</div>
+													</div>
+												</ui:repeat>
+											</h:panelGroup>
+											<h:messages></h:messages>
+										</div>
 									</div>
 								</div>
-							</div>
+							</h:form>
 						</div>
 					</div>
 				</div>

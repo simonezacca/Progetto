@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
@@ -46,34 +47,21 @@
 									</div>
 								</div>
 							</div>
+							<!-- inizio autocomplete luogo -->
 							<div class="field">
-								<div class="two fields">
-									<div class="field">
-
-										<h:selectOneMenu value="#{StrutturaBB.codProvinciaCorrente}"
-											styleClass="ui fluid selection dropdown">
-											<f:selectItems value="#{StrutturaBB.provinceDisponibili}" />
-											<f:ajax execute="@this"
-												listener="#{StrutturaBB.settaListaComuniBeans}"
-												render="selectLuogoBean" />
-										</h:selectOneMenu>
-									</div>
-									<div class="field">
-
-										<h:panelGroup id="selectLuogoBean">
-											<h:selectOneMenu
-												value="#{StrutturaBB.strutturaCorrente.luogoStruttura}"
-												converter="#{luogoBeanConverter}"
-												rendered="#{not empty StrutturaBB.luoghiDisponibili}"
-												styleClass="ui fluid selection dropdown">
-												<f:selectItems value="#{StrutturaBB.luoghiDisponibili}"
-													var="luogo" itemLabel="#{luogo.nomeComune}"
-													itemValue="#{luogo}" />
-											</h:selectOneMenu>
-										</h:panelGroup>
-
-									</div>
+								<div class="ui fluid input">
+									<pf:autoComplete
+										value="#{StrutturaBB.strutturaCorrente.luogoStruttura}"
+										completeMethod="#{StrutturaBB.completaLuoghiDisponibili}"
+										var="luogoBean" itemLabel="#{luogoBean.nomeComune}"
+										itemValue="#{luogoBean}" converter="#{luogoBeanConverter}"
+										minQueryLength="3" forceSelection="true" required="true"
+										maxResults="10" />
 								</div>
+							</div>
+							<!-- fine autocomplete luogo -->
+
+							<div class="field">
 								<label>Descrizione Locazione:</label>
 								<div class="ui form" />
 								<div class="field">
@@ -93,7 +81,7 @@
 									styleClass="ui small image bordered spaced" />
 							</div>
 							<!-- fine foto gallery -->
-							<h:panelGroup	
+							<h:panelGroup
 								rendered="#{not empty StrutturaBB.strutturaCorrente.camereInserite}">
 								<div class="ui clearing divider"></div>
 								<h4 class="ui dividing header">Camere inserite</h4>
@@ -109,33 +97,36 @@
 											</div>
 											<div class="two field">
 												<div class="field">
-													<h:outputText value="#{camera.dataInizioAffitto}"
-														p:placeholder="Data inizio affitto">
-														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-													</h:outputText>
+													<div class="field">
+														<h:outputText value="#{camera.dataInizioAffitto}"
+															p:placeholder="Data inizio affitto">
+															<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</div>
+													<div class="field">
+														<h:outputText value="#{camera.dataFineAffitto}"
+															p:placeholder="Data fine affitto">
+															<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</div>
 												</div>
-												<div class="field">
-													<h:outputText value="#{camera.dataFineAffitto}"
-														p:placeholder="Data fine affitto">
-														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-													</h:outputText>
-												</div>
-											</div>
-											<div class="two field">
-												<div class="field">
-													<h:outputText value="#{camera.pax}" />
-												</div>
-												<div class="field">
-													<h:outputText value="#{camera.prezzo}" />
-												</div>
-												<div class="field">
-													<h:outputText value="#{camera.descrizioneCamera}" />
-												</div>
-												<div class="field">
-													<h:commandButton value="Modifica" styleClass="ui button"
-														action="#{StrutturaBB.modificaCamera(camera)}" />
-													<h:commandButton value="Elimina" styleClass="ui button red"
-														action="#{StrutturaBB.eliminaCamera(camera)}" />
+												<div class="two field">
+													<div class="field">
+														<h:outputText value="#{camera.pax}" />
+													</div>
+													<div class="field">
+														<h:outputText value="#{camera.prezzo}" />
+													</div>
+													<div class="field">
+														<h:outputText value="#{camera.descrizioneCamera}" />
+													</div>
+													<div class="field">
+														<h:commandButton value="Modifica" styleClass="ui button"
+															action="#{StrutturaBB.modificaCamera(camera)}" />
+														<h:commandButton value="Elimina"
+															styleClass="ui button red"
+															action="#{StrutturaBB.eliminaCamera(camera)}" />
+													</div>
 												</div>
 											</div>
 										</div>
@@ -158,19 +149,18 @@
 										<div class="two field">
 											<div class="field">
 												<label>Data inizio affitto</label>
-												<h:inputText
+												<pf:calendar id="fromDate"
 													value="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
-													p:placeholder="Data inizio affitto">
-													<f:convertDateTime pattern="dd/MM/yyyy" />
-												</h:inputText>
+													required="true" placeholder="Data inizio affitto" readonlyInput="true">
+													<pf:ajax event="dateSelect" update="toDate" listener="#{StrutturaBB.settaDataCamera}"/>
+												</pf:calendar>
 											</div>
 											<div class="field">
-												<label>Data fine affitto</label>
-												<h:inputText
-													value="#{StrutturaBB.cameraInAggiunta.dataFineAffitto}"
-													p:placeholder="Data fine affitto">
-													<f:convertDateTime pattern="dd/MM/yyyy" />
-												</h:inputText>
+											<label>Data fine affitto</label>
+												<pf:calendar id="toDate"
+													value="#{StrutturaBB.cameraInAggiunta.dataFineAffitto}" readonlyInput="true"
+													required="true" mindate="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
+													placeholder="Data fine affitto" />
 											</div>
 										</div>
 										<div class="three field">
@@ -193,7 +183,7 @@
 									</div>
 									<h:commandButton value="Aggiungi camera"
 										action="#{StrutturaBB.aggiungiCamera}"
-										styleClass="ui orange button"/>
+										styleClass="ui orange button" />
 								</div>
 							</div>
 
@@ -277,24 +267,27 @@
 						<h:panelGroup
 							rendered="#{not empty StrutturaBB.strutturaCorrente.serviziOfferti}">
 							<h:form>
-							<div class="ui segment">
-								<h4 class="ui dividing header">Servizi aggiunti</h4>
-								<div class="fields">
-									<ui:repeat var="servizio"
-										value="#{StrutturaBB.strutturaCorrente.serviziOfferti}">
-										<div class="ui form">
-											<div class="inline fields">
-												<div class="field">
-													<div class="ui radio checkbox">
-														<h:outputText value="#{servizio.servizio.nomeServizio} | #{servizio.tipologia.prezzo} | #{servizio.note}"></h:outputText>
-														<h:commandButton action="#{StrutturaBB.eliminaDettaglioServizio(servizio)}" value="Elimina" styleClass="ui red button"/>
+								<div class="ui segment">
+									<h4 class="ui dividing header">Servizi aggiunti</h4>
+									<div class="fields">
+										<ui:repeat var="servizio"
+											value="#{StrutturaBB.strutturaCorrente.serviziOfferti}">
+											<div class="ui form">
+												<div class="inline fields">
+													<div class="field">
+														<div class="ui radio checkbox">
+															<h:outputText
+																value="#{servizio.servizio.nomeServizio} | #{servizio.tipologia.prezzo} | #{servizio.note}"></h:outputText>
+															<h:commandButton
+																action="#{StrutturaBB.eliminaDettaglioServizio(servizio)}"
+																value="Elimina" styleClass="ui red button" />
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</ui:repeat>
+										</ui:repeat>
+									</div>
 								</div>
-							</div>
 							</h:form>
 						</h:panelGroup>
 						<!-- fine pannello servizi già inseriti -->

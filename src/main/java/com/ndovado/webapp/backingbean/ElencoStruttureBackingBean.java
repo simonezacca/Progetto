@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.GestoreBean;
@@ -49,7 +50,9 @@ public class ElencoStruttureBackingBean implements Serializable {
 	}
 	
 	public String modificaStruttura(StrutturaBean sb) {
-		return null;
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("strutturaDaModificare", sb);
+		
+		return "modificaStruttura?faces-redirect=true";
 		
 	}
 	

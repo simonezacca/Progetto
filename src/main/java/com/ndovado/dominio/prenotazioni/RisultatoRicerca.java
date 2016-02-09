@@ -35,7 +35,7 @@ public class RisultatoRicerca {
 	 */
 	public void addCameraDisponibile(Camera aCamera) {
 		if (aCamera!= null) {
-			getCamereLibere().add(aCamera);
+			this.camereLibere.add(aCamera);
 		}
 	}
 	

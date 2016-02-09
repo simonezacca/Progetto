@@ -1,5 +1,7 @@
 package com.ndovado.webapp.beans.prenotazioni;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
@@ -14,7 +16,7 @@ public class RisultatoRicercaBean {
 	private StrutturaBean struttura;
 	
 	public RisultatoRicercaBean() {
-		// TODO Auto-generated constructor stub
+		camereLibere = new HashSet<CameraBean>();
 	}
 
 	/**

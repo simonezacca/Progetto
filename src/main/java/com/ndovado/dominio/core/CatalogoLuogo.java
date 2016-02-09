@@ -139,9 +139,9 @@ public class CatalogoLuogo {
 		}
 		
 		Luogo l = cl.getListaLuoghiPerNome("Chieti").get(0);
-		Struttura strutturaInLuogo = l.getStruttureInLuogo().get(0);
+//		Struttura strutturaInLuogo = l.getStruttureInLuogo().get(0);
 		
-		System.out.println(strutturaInLuogo);
+//		System.out.println(strutturaInLuogo);
 	}
 	
 	public List<Luogo> getAllLuogo() {

@@ -1,6 +1,5 @@
 package com.ndovado.dominio.core;
 
-import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.*;
 
@@ -9,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,7 +31,7 @@ public class Luogo implements IPersistente {
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -52,8 +52,9 @@ public class Luogo implements IPersistente {
 	@Column(name="provincia")
 	private String provincia;
 	
-	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<Struttura> struttureInLuogo = new ArrayList<Struttura>();
+	@OneToMany(mappedBy = "luogoStruttura",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	//@Fetch(FetchMode.SELECT)
+	private Set<Struttura> struttureInLuogo = new HashSet<Struttura>();
 
 	protected Luogo() {
 		
@@ -84,7 +85,7 @@ public class Luogo implements IPersistente {
 	/**
 	 * @return
 	 */
-	public List<Struttura> getStruttureInLuogo() {
+	public Set<Struttura> getStruttureInLuogo() {
 		return struttureInLuogo;
 	}
 
@@ -177,7 +178,7 @@ public class Luogo implements IPersistente {
 	/**
 	 * @param struttureInLuogo the struttureInLuogo to set
 	 */
-	public void setStruttureInLuogo(List<Struttura> struttureInLuogo) {
+	public void setStruttureInLuogo(Set<Struttura> struttureInLuogo) {
 		this.struttureInLuogo = struttureInLuogo;
 	}
 

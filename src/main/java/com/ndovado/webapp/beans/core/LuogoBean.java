@@ -2,7 +2,9 @@ package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 
@@ -69,7 +71,7 @@ public class LuogoBean implements Serializable, Identifiable{
 	private String CAP;
 	private String provincia;
 	
-	private List<StrutturaBean> struttureInLuogo = new ArrayList<StrutturaBean>();
+	private Set<StrutturaBean> struttureInLuogo = new HashSet<StrutturaBean>();
 	
 	public LuogoBean() {
 		// TODO Auto-generated constructor stub
@@ -142,23 +144,27 @@ public class LuogoBean implements Serializable, Identifiable{
 		this.id = idLuogo;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "LuogoBean [idLuogo=" + id + ", nomeComune=" + nomeComune + ", CAP=" + CAP + ", provincia="
+//				+ provincia + "]";
+//	}
+
 	@Override
 	public String toString() {
-		return "LuogoBean [idLuogo=" + id + ", nomeComune=" + nomeComune + ", CAP=" + CAP + ", provincia="
-				+ provincia + "]";
+		return nomeComune;
 	}
-
 	/**
 	 * @return the struttureInLuogo
 	 */
-	public List<StrutturaBean> getStruttureInLuogo() {
+	public Set<StrutturaBean> getStruttureInLuogo() {
 		return struttureInLuogo;
 	}
 
 	/**
 	 * @param struttureInLuogo the struttureInLuogo to set
 	 */
-	public void setStruttureInLuogo(List<StrutturaBean> struttureInLuogo) {
+	public void setStruttureInLuogo(Set<StrutturaBean> struttureInLuogo) {
 		this.struttureInLuogo = struttureInLuogo;
 	}
 

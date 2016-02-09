@@ -7,6 +7,7 @@ import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -16,6 +17,9 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
@@ -86,13 +90,15 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	private List<LineaPrenotazione> lineePrenotazione;
 
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "prenotazioneSaldata",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "prenotazioneSaldata",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	private List<Pagamento> pagamentiAssociati;
 	
 	/**

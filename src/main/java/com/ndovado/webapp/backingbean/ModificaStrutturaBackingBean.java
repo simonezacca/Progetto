@@ -8,8 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.AjaxBehaviorEvent;
-
+import javax.faces.context.FacesContext;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
@@ -22,91 +21,94 @@ import com.ndovado.webapp.beans.servizi.ServizioBaseBean;
 import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
 import com.ndovado.webapp.controllers.GestioneLuogoController;
 import com.ndovado.webapp.controllers.GestioneStrutturaController;
- 
-@ManagedBean(name="StrutturaBB")
+
+@ManagedBean(name = "StrutturaBB")
 @ViewScoped
-public class InserimentoStrutturaBackingBean implements Serializable {
+public class ModificaStrutturaBackingBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	// collego il bean utente contenuto in sessione  con il gestore corrente
-	@ManagedProperty(value="#{utenteBean.ruolo}")
+
+	// collego il bean utente contenuto in sessione con il gestore corrente
+	@ManagedProperty(value = "#{utenteBean.ruolo}")
 	private GestoreBean gestoreCorrente;
-	
+
 	private GestioneStrutturaController controller;
+	
 	private GestioneLuogoController luogoController;
 	
-	
+
 	private boolean addingStruttura = true;
 	private boolean completed = false;
-	
+
 	private StrutturaBean strutturaCorrente;
 	private CameraBean cameraInAggiunta;
-	
-	private List<String> provinceDisponibili;
-	private String codProvinciaCorrente;
-	private List<LuogoBean> luoghiDisponibili;
-	
+
 	private List<ServizioComuneBean> serviziComuniDisponibili;
 	private ServizioComuneBean sccorrente;
 	private DettaglioServizioBean dsbcorrente;
 	private Float prezzoDSB = new Float(0);
-	
-	
-	
-	public InserimentoStrutturaBackingBean() {
+
+	public ModificaStrutturaBackingBean() {
 		// initBB verrà invocato con il @PostConstruct
 	}
-	
+
 	// serve per il corretto funzionamento dell'injecting del ruolo bean
 	@PostConstruct
 	protected void initBB() {
-		strutturaCorrente = new StrutturaBean(gestoreCorrente);
-		cameraInAggiunta = new CameraBean();
-		luoghiDisponibili = new ArrayList<LuogoBean>();
-		
-		controller = new GestioneStrutturaController(gestoreCorrente);
 		luogoController = new GestioneLuogoController();
+		LuogoBean luogoDefault = luogoController.getListaLuogoBeanPerProvincia("CH").get(0);
 		
-		provinceDisponibili = luogoController.getListaTutteProvinceStrings();
-		serviziComuniDisponibili = controller.getElencoServizioComuneBeans();
 		
-		sccorrente = new ServizioComuneBean();
-		dsbcorrente = new DettaglioServizioBean(strutturaCorrente,sccorrente);
-		
+		// caso modifica
+		strutturaCorrente = (StrutturaBean) FacesContext.getCurrentInstance().getExternalContext().getFlash()
+				.get("strutturaDaModificare");
+		if (strutturaCorrente == null) {
+			strutturaCorrente = new StrutturaBean(gestoreCorrente);
+			strutturaCorrente.setLuogoStruttura(luogoDefault);
+		}
 
-		AppLogger.debug("Ruolo utente corrente "+gestoreCorrente);
+		cameraInAggiunta = new CameraBean();
+
+		controller = new GestioneStrutturaController(gestoreCorrente);
+		
+		serviziComuniDisponibili = controller.getElencoServizioComuneBeans();
+
+		sccorrente = new ServizioComuneBean();
+		dsbcorrente = new DettaglioServizioBean(strutturaCorrente, sccorrente);
+
+		AppLogger.debug("Ruolo utente corrente " + gestoreCorrente);
 	}
-	
+
 	public boolean isStrutturaSalvabile() {
 		return !getStrutturaCorrente().getCamereInserite().isEmpty();
 	}
-	
-	public String aggiungiCamera() {		
+
+	public String aggiungiCamera() {
 		strutturaCorrente.addCameraBean(cameraInAggiunta);
 		cameraInAggiunta = new CameraBean();
 		return null;
 	}
-	
+
 	public String modificaCamera(CameraBean camera) {
 		cameraInAggiunta = camera;
 		strutturaCorrente.getCamereInserite().remove(camera);
 		return null;
 	}
- 
+
 	public String eliminaCamera(CameraBean camera) {
-		if (camera!=null) {
+		if (camera != null) {
 			strutturaCorrente.getCamereInserite().remove(camera);
 		}
 		return null;
 	}
-	
-    
+
 	public String salvaStruttura() {
-		if (strutturaCorrente!=null) {
-			// chiamo il controllore del caso d'uso per salvare la nuova struttura
+		if (strutturaCorrente != null) {
+			// chiamo il controllore del caso d'uso per salvare la nuova
+			// struttura
 			controller.doSalvaStruttura(strutturaCorrente);
-			// imposto il flag completed a true per visualizzare il riepilogo delle informazioni
+			// imposto il flag completed a true per visualizzare il riepilogo
+			// delle informazioni
 			completed = true;
 			addingStruttura = false;
 		}
@@ -121,7 +123,8 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param addingStruttura the addingStruttura to set
+	 * @param addingStruttura
+	 *            the addingStruttura to set
 	 */
 	public void setAddingStruttura(boolean addingStruttura) {
 		this.addingStruttura = addingStruttura;
@@ -135,24 +138,11 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param completed the completed to set
+	 * @param completed
+	 *            the completed to set
 	 */
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
-	}
-
-	/**
-	 * @return the luoghiDisponibili
-	 */
-	public List<LuogoBean> getLuoghiDisponibili() {
-		return luoghiDisponibili;
-	}
-
-	/**
-	 * @param luoghiDisponibili the luoghiDisponibili to set
-	 */
-	public void setLuoghiDisponibili(List<LuogoBean> luoghiDisponibili) {
-		this.luoghiDisponibili = luoghiDisponibili;
 	}
 
 	/**
@@ -163,7 +153,8 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param gestoreCorrente the gestoreCorrente to set
+	 * @param gestoreCorrente
+	 *            the gestoreCorrente to set
 	 */
 	public void setGestoreCorrente(GestoreBean gestoreCorrente) {
 		this.gestoreCorrente = gestoreCorrente;
@@ -177,7 +168,8 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param strutturaCorrente the strutturaCorrente to set
+	 * @param strutturaCorrente
+	 *            the strutturaCorrente to set
 	 */
 	public void setStrutturaCorrente(StrutturaBean strutturaCorrente) {
 		this.strutturaCorrente = strutturaCorrente;
@@ -191,35 +183,11 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param cameraInAggiunta the cameraInAggiunta to set
+	 * @param cameraInAggiunta
+	 *            the cameraInAggiunta to set
 	 */
 	public void setCameraInAggiunta(CameraBean cameraInAggiunta) {
 		this.cameraInAggiunta = cameraInAggiunta;
-	}
-
-	/**
-	 * @return the codProvinciaCorrente
-	 */
-	public String getCodProvinciaCorrente() {
-		return codProvinciaCorrente;
-	}
-
-	/**
-	 * @param codProvinciaCorrente the codProvinciaCorrente to set
-	 */
-	public void setCodProvinciaCorrente(String codProvinciaCorrente) {
-		this.codProvinciaCorrente = codProvinciaCorrente;
-	}
-	
-	public void settaListaComuniBeans(final AjaxBehaviorEvent event) {
-		luoghiDisponibili = luogoController.getListaLuogoBeanPerProvincia(codProvinciaCorrente);
-	}
-
-	/**
-	 * @return the provinceDisponibili
-	 */
-	public List<String> getProvinceDisponibili() {
-		return provinceDisponibili;
 	}
 
 	/**
@@ -230,16 +198,18 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param serviziComuniDisponibili the serviziComuniDisponibili to set
+	 * @param serviziComuniDisponibili
+	 *            the serviziComuniDisponibili to set
 	 */
 	public void setServiziComuniDisponibili(List<ServizioComuneBean> serviziComuniDisponibili) {
 		this.serviziComuniDisponibili = serviziComuniDisponibili;
 	}
-	
+
 	public String aggiungiDettaglioServizioBase() {
-		//aggiorno il servizio collegato
+		// aggiorno il servizio collegato
 		dsbcorrente.setServizio(sccorrente);
-		// aggiungo il dettaglio servizio bean appena creato alla lista dei servizi bean offerti dalla struttura bean
+		// aggiungo il dettaglio servizio bean appena creato alla lista dei
+		// servizi bean offerti dalla struttura bean
 		strutturaCorrente.getServiziOfferti().add(dsbcorrente);
 		// creo un nuovo servizio comune
 		sccorrente = new ServizioComuneBean();
@@ -247,37 +217,38 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 		dsbcorrente = new DettaglioServizioBean(strutturaCorrente, sccorrente);
 		return null;
 	}
-	
+
 	public String aggiungiDettaglioServizioPlus() {
-		// creo una descrizione servizio bean e la associo con la struttura e il servizio comune selezionato nel listmenu
+		// creo una descrizione servizio bean e la associo con la struttura e il
+		// servizio comune selezionato nel listmenu
 		dsbcorrente.setServizio(sccorrente);
 		// setto la tipologia di servizio
-		ServizioAggiuntivoBean sab = new ServizioAggiuntivoBean(sccorrente,dsbcorrente);
+		ServizioAggiuntivoBean sab = new ServizioAggiuntivoBean(sccorrente, dsbcorrente);
 		sab.setPrezzo(prezzoDSB);
 		dsbcorrente.setTipologia(sab);
-		// aggiungo il dettaglio servizio bean appena creato alla lista dei servizi bean offerti dalla struttura bean
+		// aggiungo il dettaglio servizio bean appena creato alla lista dei
+		// servizi bean offerti dalla struttura bean
 		strutturaCorrente.getServiziOfferti().add(dsbcorrente);
-		
-		
-		//reset dsb
+
+		// reset dsb
 		// creo un nuovo servizio comune
 		sccorrente = new ServizioComuneBean();
 		// creo un nuovo dettaglio servizio bean
 		dsbcorrente = new DettaglioServizioBean(strutturaCorrente, sccorrente);
-		// azzera prezzo corrente 
+		// azzera prezzo corrente
 		prezzoDSB = new Float(0);
 		return null;
 	}
-	
+
 	public String eliminaDettaglioServizio(DettaglioServizioBean dsb) {
-		if (dsb!=null) {
-			strutturaCorrente.getServiziOfferti().remove(dsb);	
+		if (dsb != null) {
+			strutturaCorrente.getServiziOfferti().remove(dsb);
 		}
 		return null;
 	}
-	
+
 	public String modificaDettaglioServizio(DettaglioServizioBean dsb) {
-		if (dsb!=null) {
+		if (dsb != null) {
 			setDsbcorrente(dsb);
 			strutturaCorrente.getServiziOfferti().remove(dsb);
 		}
@@ -292,7 +263,8 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param dsbcorrente the dsbcorrente to set
+	 * @param dsbcorrente
+	 *            the dsbcorrente to set
 	 */
 	public void setDsbcorrente(DettaglioServizioBean dsbcorrente) {
 		this.dsbcorrente = dsbcorrente;
@@ -306,16 +278,17 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param sccorrente the sccorrente to set
+	 * @param sccorrente
+	 *            the sccorrente to set
 	 */
 	public void setSccorrente(ServizioComuneBean sccorrente) {
 		this.sccorrente = sccorrente;
 	}
-	
+
 	public List<ATipologiaServizioBean> getTipologieSevizioBeanDisponibili() {
 		List<ATipologiaServizioBean> lista = new ArrayList<ATipologiaServizioBean>();
-		ServizioBaseBean baseBean = new ServizioBaseBean(sccorrente,dsbcorrente);
-		ServizioAggiuntivoBean aggiuntivoBean = new ServizioAggiuntivoBean(sccorrente,dsbcorrente);
+		ServizioBaseBean baseBean = new ServizioBaseBean(sccorrente, dsbcorrente);
+		ServizioAggiuntivoBean aggiuntivoBean = new ServizioAggiuntivoBean(sccorrente, dsbcorrente);
 		lista.add(baseBean);
 		lista.add(aggiuntivoBean);
 		return lista;
@@ -329,10 +302,19 @@ public class InserimentoStrutturaBackingBean implements Serializable {
 	}
 
 	/**
-	 * @param prezzoDSB the prezzoDSB to set
+	 * @param prezzoDSB
+	 *            the prezzoDSB to set
 	 */
 	public void setPrezzoDSB(Float prezzoDSB) {
 		this.prezzoDSB = prezzoDSB;
 	}
 
+	
+	public List<LuogoBean> completaLuoghiDisponibili(String query) {
+		return luogoController.completaLuoghiDisponibili(query);
+	}
+	
+	public void settaDataCamera() {
+		this.cameraInAggiunta.setDataFineAffitto(this.cameraInAggiunta.getDataInizioAffitto());
+	}
 }

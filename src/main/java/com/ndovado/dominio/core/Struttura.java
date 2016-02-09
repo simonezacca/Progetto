@@ -18,6 +18,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
@@ -64,6 +66,7 @@ public class Struttura implements IPersistente {
 	 * Insieme dei servizi offerti dalla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	//@OrderBy(clause="iddettaglio_servizio")
 	private List<DettaglioServizio> serviziOfferti;
 
@@ -80,6 +83,7 @@ public class Struttura implements IPersistente {
 	 * Insieme delle camera collegate alla struttura
 	 */
 	@OneToMany(mappedBy = "struttura",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	//@OrderBy(clause="id")
 	private List<Camera> camereInserite;
 
@@ -103,7 +107,7 @@ public class Struttura implements IPersistente {
 		setCamereInserite(new ArrayList<Camera>());
 		setServiziOfferti(new ArrayList<DettaglioServizio>());
 		
-		 initTableau();
+		initTableau();
 	}
 	
 	@PostLoad

@@ -19,8 +19,8 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	private String nomeCamera;
 	private StrutturaBean struttura;
 	
-	private Date dataInizioAffitto;
-	private Date dataFineAffitto;
+	private Date dataInizioAffitto = new Date();
+	private Date dataFineAffitto = new Date();
 	private Integer pax = new Integer(1);
 	private Float prezzo = new Float(0);
 	private String descrizioneCamera;
@@ -31,6 +31,7 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	public CameraBean(StrutturaBean s) {
 		this.struttura = s;
 		s.addCameraBean(this);
+
 	}
 	
 	public void setStruttura(StrutturaBean s) {

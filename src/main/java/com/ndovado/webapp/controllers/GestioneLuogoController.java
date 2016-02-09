@@ -14,6 +14,8 @@ public class GestioneLuogoController {
 	private LuogoMapper lmapper;
 	private CatalogoLuogo clmodel; 
 	
+	private List<LuogoBean> luoghiDisponibili;
+	
 	
 	public GestioneLuogoController() {
 		initLuogoUtils();
@@ -22,6 +24,7 @@ public class GestioneLuogoController {
 	private void initLuogoUtils() {
 		lmapper = LuogoMapper.getInstance();
 		clmodel = CatalogoLuogo.getInstance();
+		luoghiDisponibili = populateAllLuoghiBeans();
 	}
 	
 	public List<LuogoBean> getListaLuogoBeanPerProvincia(String codProvincia) {
@@ -41,4 +44,34 @@ public class GestioneLuogoController {
 		List<String> strings = clmodel.getListaTutteProvinceStrings();
 		return strings;
 	}
+	
+	private List<LuogoBean> populateAllLuoghiBeans() {
+		List<LuogoBean> lbeans = new ArrayList<LuogoBean>();
+		for (Luogo lmodel : clmodel.getAllLuogo()) {
+			LuogoBean lbean = lmapper.getBeanFromModel(lmodel);
+			lbeans.add(lbean);
+		}
+		return lbeans;
+	}
+	
+	public List<LuogoBean> completaLuoghiDisponibili(String query) {
+		List<LuogoBean> newLBeans = new ArrayList<LuogoBean>();
+	
+		String s = query.toLowerCase();
+		for (LuogoBean lbean : luoghiDisponibili) {
+			String nomeLb = lbean.getNomeComune().toLowerCase();
+			if (nomeLb.startsWith(s)) {
+				newLBeans.add(lbean);
+			}
+		}
+		return newLBeans;
+	}
+
+	/**
+	 * @return the luoghiDisponibili
+	 */
+	public List<LuogoBean> getLuoghiDisponibili() {
+		return luoghiDisponibili;
+	}
+
 }

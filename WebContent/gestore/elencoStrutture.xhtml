@@ -13,7 +13,7 @@
 				<div class="ui orange divided items"></div>
 				<h2 class="ui right floated header">
 					<h:button styleClass="ui orange button"
-						value="Aggiungi nuova locazione" outcome="aggiungiStruttura" />
+						value="Aggiungi nuova locazione" outcome="modificaStruttura" />
 				</h2>
 				<div class="ui orange clearing divider"></div>
 				<div class="ui orange divided items">
@@ -43,7 +43,7 @@
 												styleClass="info basic icon" value="Visualizza"/>
 										</div>
 										<div class="ui right floated orange icon button">
-											<h:link
+											<h:commandLink
 												action="#{elencoStruttureBB.modificaStruttura(struttura)}"
 												styleClass="edit basic icon" value="Modifica"/>
 										</div>

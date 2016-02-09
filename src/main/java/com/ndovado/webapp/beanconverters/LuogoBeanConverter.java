@@ -28,7 +28,10 @@ public class LuogoBeanConverter implements Converter{
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
 		LuogoBean lb = (LuogoBean) arg2; 
-		return lb.getId().toString();
+		if (lb!=null && lb.getId()!=null) {
+			return lb.getId().toString();
+		}
+		return "";
 	}
 
 }

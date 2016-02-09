@@ -9,7 +9,7 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="loginControllerBB")
-public class LoginControllerBackingBean {
+public class LoginUtenteBackingBean {
 
 	private GestioneUtenteController controller = new GestioneUtenteController();
 	

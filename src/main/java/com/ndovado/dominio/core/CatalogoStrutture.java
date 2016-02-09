@@ -70,7 +70,7 @@ public class CatalogoStrutture {
 	 * @return
 	 */
 	public List<RisultatoRicerca> cercaSoluzioni(Luogo luogo, Date dataArrivo, Date dataPartenza, Integer npersone) {
-		List<Struttura> strutture = luogo.getStruttureInLuogo();
+		Set<Struttura> strutture = luogo.getStruttureInLuogo();
 		List<RisultatoRicerca> soluzioni = new ArrayList<RisultatoRicerca>();
 		for (Struttura s : strutture) {
 			RisultatoRicerca sd = s.getTableauPrenotazioni().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);

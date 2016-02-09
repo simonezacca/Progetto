@@ -79,9 +79,6 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * utilizzata per mantenere una cronologia dei cambiamenti sulle date,
 	 * prezzi e pax
 	 */
-	// @OneToMany(mappedBy = "cameraAssociata",cascade=CascadeType.ALL)
-	// @OrderBy(clause="id")
-	// private List<DescrizioneCamera> descrizioniCamera;
 
 	public Camera() {
 	}
@@ -259,7 +256,7 @@ public class Camera implements IPersistente, IPrenotabile {
 		result = prime * result + ((nomeCamera == null) ? 0 : nomeCamera.hashCode());
 		result = prime * result + ((pax == null) ? 0 : pax.hashCode());
 		result = prime * result + ((prezzo == null) ? 0 : prezzo.hashCode());
-		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		//result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
 		return result;
 	}
 

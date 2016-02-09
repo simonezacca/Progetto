@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/layoutGestore.xhtml">
+		<ui:define name="content">
+			<div class="eleven wide column">
+				<div class="ui white inverted header">DEDTTAGLI DELLA STRUTTURA</div>
+				<div class="ui orange segment">
+					<h3 class="ui orange dividing header"><h:outputText value="#{visualizzaStrutturaBB.strutturaCorrente.nomeStruttura}" /> </h3>
+					<div class="ui orange divided items">
+						<div class="item">
+							<div class="image">
+								<h:graphicImage library="images" name="square-image.png" />
+							</div>
+							<div class="content">
+								<div class="meta">
+									<span class="cinema"><h:outputText value="#{visualizzaStrutturaBB.strutturaCorrente.indirizzoLuogo}" /></span>
+								</div>
+								<div class="description">
+									<p><h:outputText  value="#{visualizzaStrutturaBB.strutturaCorrente.descrizioneStruttura}"/></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- visualizzo pannello se risultati ricerca contiene camere disponibili -->
+					<h:panelGroup rendered="#{not empty visualizzaStrutturaBB.RRcorrente}">
+						<!-- inizio sezione camere -->
+						<h4 class="ui orange dividing header">Camere Disponibili</h4>
+						<div class="ui orange divided items">
+							<div class="ui three cards">
+								<!-- inizio loop camere -->
+								<ui:repeat var="cameraBean" value="#{visualizzaStrutturaBB.RRcorrente.camereLibere}">
+									<div class="ui orange card">
+										<div class="ui image">
+											<h:graphicImage library="images" name="square-image.png" />
+										</div>
+										<div class="content">
+											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> </a>
+											<div class="meta">
+												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
+											</div>
+											<div class="meta">
+												<span class="date">Pax: <h:outputText value="#{cameraBean.pax}"/> </span>
+											</div>
+										</div>
+										<div class="extra content">
+											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
+											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
+											<h:commandButton value="Prenota" styleClass="ui orange label" rendered="#{utenteBean.logged}"/>
+											
+										</div>
+									</div>
+								</ui:repeat>
+								<!-- fine loop camere -->
+							</div>
+						</div>
+							<!-- fine sezione camere -->
+					</h:panelGroup>
+					
+					
+					<!-- visualizzo pannello se risultati ricerca non contiene camere disponibili 
+						la pagina funge solo da visualizzazione della struttura
+					-->
+					<h:panelGroup rendered="#{empty visualizzaStrutturaBB.RRcorrente}">
+						<!-- inizio sezione camere -->
+						<h4 class="ui orange dividing header">Camere della struttura</h4>
+						<div class="ui orange divided items">
+							<div class="ui three cards">
+								<!-- inizio loop camere -->
+								<ui:repeat var="cameraBean" value="#{visualizzaStrutturaBB.strutturaCorrente.camereInserite}">
+									<div class="ui orange card">
+										<div class="ui image">
+											<h:graphicImage library="images" name="square-image.png" />
+										</div>
+										<div class="content">
+											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> </a>
+											<div class="meta">
+												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
+											</div>
+											<div class="meta">
+												<span class="date">Pax: <h:outputText value="#{cameraBean.pax}"/> </span>
+											</div>
+										</div>
+										<div class="extra content">
+											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
+											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
+											<h:commandButton value="Prenota" styleClass="ui orange label" rendered="#{utenteBean.logged}"/>
+											
+										</div>
+									</div>
+								</ui:repeat>
+								<!-- fine loop camere -->
+							</div>
+						</div>
+							<!-- fine sezione camere -->
+					</h:panelGroup>
+					
+					
+					
+					
+					<div class="ui orange divided items">
+
+						<!-- inizio servizi base -->
+						<h4 class="ui orange dividing header">Servizi Base</h4>
+						<div class="ui orange divided items">
+							<div class="ui three">
+								<!-- inizio loop servizi base -->
+								<ui:repeat var="dettaglioServizioBean" value="#{visualizzaStrutturaBB.strutturaCorrente.serviziOfferti}">
+									<a class="ui label"><h:outputText value="#{dettaglioServizioBean.servizio.nomeServizio}"/>
+									
+									<h:panelGroup rendered="#{dettaglioServizioBean.tipologia.prezzo gt 0}">
+									<h:outputFormat value="Prezzo: {0} &euro;">
+										<f:param value="#{dettaglioServizioBean.tipologia.prezzo}" />
+									</h:outputFormat>
+									</h:panelGroup>
+									</a>
+								</ui:repeat>
+								<!-- fine loop servizi base -->
+							</div>
+						</div>
+						<!-- fine servizi base -->
+
+						<!-- inizio servizi aggiuntivi -->
+						<h4 class="ui orange dividing header">Servizi Aggiuntivi</h4>
+						<div class="ui orange divided items">
+							<div class="ui horizontal list">
+							<div class="ui checkbox">
+									<!-- inizio servizi aggiuntivi -->
+									<h:selectManyCheckbox layout="pageDirection">
+										<f:selectItem itemLabel="Servizio aggiuntivo 1" itemValue="1" />
+										<f:selectItem itemLabel="Servizio aggiuntivo 2" itemValue="2" />
+										<f:selectItem itemLabel="Servizio aggiuntivo 3" itemValue="3" />
+										<f:selectItem itemLabel="Servizio aggiuntivo 4" itemValue="4" />
+										<f:selectItem itemLabel="Servizio aggiuntivo 5" itemValue="5" />
+									</h:selectManyCheckbox>
+									<!-- fine servizi aggiuntivi -->
+							</div>
+							</div>
+						</div>
+						<!-- fine serivizi aggiuntiv -->
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
