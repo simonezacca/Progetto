@@ -14,6 +14,7 @@ public class ServizioComuneTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
 	List<ServizioComune> modelServizioComune;
+	String[] headerTable = {"ID Servizio", "Nome Servizio"};
 
 	public ServizioComuneTableModel(List<ServizioComune> nuovaLista) {
 		// Richiama il costruttore della superclasse
@@ -51,6 +52,16 @@ public class ServizioComuneTableModel extends AbstractTableModel {
 			return ((ServizioComune) (modelServizioComune.get(row))).getNomeServizio();
 		}
 		return "";
+	}
+	
+	@Override
+	public String getColumnName(int index) {
+		return headerTable[index];
+	}
+	
+	public void setDataModel(List<ServizioComune> nuovaLista) {
+		modelServizioComune = nuovaLista;
+		this.fireTableDataChanged();
 	}
 
 }

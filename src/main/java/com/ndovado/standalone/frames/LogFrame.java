@@ -1,11 +1,8 @@
 package com.ndovado.standalone.frames;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.ndovado.standalone.frames.MainFrame.ConsultaLogListener;
-import com.ndovado.standalone.frames.MainFrame.GestioneServiziListener;
+import javax.swing.JTextArea;
 
 public class LogFrame extends JFrame {
 
@@ -16,6 +13,8 @@ public class LogFrame extends JFrame {
 	
 	private String titolo = "Pannello Log";
 	private JPanel panel = new JPanel();
+	
+	private JTextArea jtLog;
 	
 	public LogFrame() {
 		
