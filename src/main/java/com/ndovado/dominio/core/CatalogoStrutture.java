@@ -73,7 +73,7 @@ public class CatalogoStrutture {
 		Set<Struttura> strutture = luogo.getStruttureInLuogo();
 		List<RisultatoRicerca> soluzioni = new ArrayList<RisultatoRicerca>();
 		for (Struttura s : strutture) {
-			RisultatoRicerca sd = s.getTableauPrenotazioni().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+			RisultatoRicerca sd = s.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
 			if (sd.esistonoRisultati()) {
 				soluzioni.add(sd);
 			}

@@ -17,6 +17,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -45,7 +46,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	private Long idPrenotazione;
+	private Long id;
 
 	/**
 	 * 
@@ -84,7 +85,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@OneToOne(cascade=CascadeType.ALL)
+//	@OneToOne(cascade=CascadeType.ALL)
+	@Transient
 	private AStatoPrenotazione statoPrenotazione;
 
 	/**
@@ -174,7 +176,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	protected void addLineaPrenotazione(LineaPrenotazione l) {
 		if (l!=null) {
 			lineePrenotazione.add(l);
-			l.setPrenotazione(this);
+			l.setPrenotazioneCorrente(this);
 		}
 	}
 
@@ -285,7 +287,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		result = prime * result + ((dataArrivo == null) ? 0 : dataArrivo.hashCode());
 		result = prime * result + ((dataOraPrenotazione == null) ? 0 : dataOraPrenotazione.hashCode());
 		result = prime * result + ((dataPartenza == null) ? 0 : dataPartenza.hashCode());
-		result = prime * result + ((idPrenotazione == null) ? 0 : idPrenotazione.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((importoTotale == null) ? 0 : importoTotale.hashCode());
 		result = prime * result + ((lineePrenotazione == null) ? 0 : lineePrenotazione.hashCode());
 		//result = prime * result + ((locatario == null) ? 0 : locatario.hashCode());
@@ -323,10 +325,10 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 				return false;
 		} else if (!dataPartenza.equals(other.dataPartenza))
 			return false;
-		if (idPrenotazione == null) {
-			if (other.idPrenotazione != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idPrenotazione.equals(other.idPrenotazione))
+		} else if (!id.equals(other.id))
 			return false;
 		if (importoTotale == null) {
 			if (other.importoTotale != null)
@@ -368,11 +370,11 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 
 	@Override
 	public Long getId() {
-		return this.idPrenotazione;
+		return this.id;
 	}
 	
 	protected void setId(Long idPrenotazione) {
-		this.idPrenotazione = idPrenotazione;
+		this.id = idPrenotazione;
 	}
 
 	/**

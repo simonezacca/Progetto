@@ -99,7 +99,7 @@ public class Camera implements IPersistente, IPrenotabile {
 		return this.id;
 	}
 
-	protected void setId(Long idCamera) {
+	public void setId(Long idCamera) {
 		this.id = idCamera;
 	}
 

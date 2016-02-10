@@ -47,7 +47,7 @@
 	<mapping>
 		<class-a>com.ndovado.dominio.core.Locatario</class-a>
 		<class-b>com.ndovado.webapp.beans.core.LocatarioBean</class-b>
-	</mapping>
+	<field-exclude><a>prenotazioni</a><b>prenotazioni</b></field-exclude></mapping>
 	<mapping>
 		<class-a>com.ndovado.dominio.core.ARuolo</class-a>
 		<class-b>com.ndovado.webapp.beans.core.ARuoloBean</class-b>
@@ -74,35 +74,51 @@
 	</mapping>
 	<mapping>
 	<class-a>com.ndovado.dominio.servizi.DettaglioServizio</class-a>
-	<class-b>com.ndovado.webapp.beans.servizi.DettaglioServizioBean
-	</class-b>
+	<class-b>com.ndovado.webapp.beans.servizi.DettaglioServizioBean</class-b>
 </mapping>
 	<mapping>
-		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione
-		</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean
-		</class-b>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean</class-b>
 	</mapping>
 	<mapping>
-		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente
-		</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean
-		</class-b>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean</class-b>
 	</mapping>
 	<mapping>
-		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata
-		</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean
-		</class-b>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean</class-b>
 	</mapping>
 	<mapping>
-		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata
-		</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean
-		</class-b>
+		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</class-a>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</class-b>
 	</mapping>
+	<mapping>
+	<class-a>com.ndovado.dominio.prenotazioni.LineaPrenotazione</class-a>
+	<class-b>com.ndovado.webapp.beans.prenotazioni.LineaPrenotazioneBean</class-b>
+	<field>
+		<a is-accessible="true">prenotazioneCorrente</a>
+		<b>prenotazioneCorrente</b>
+	</field>
+	<field>
+		<a set-method="addOggettoPrenotato" get-method="getOggettoPrenotato">oggettoPrenotato</a>
+		<b>oggettoPrenotato</b>
+		<a-hint>com.ndovado.dominio.core.Camera,com.ndovado.dominio.servizi.ServizioAggiuntivo</a-hint>
+		<b-hint>com.ndovado.webapp.beans.core.CameraBean,com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean</b-hint>
+	</field>
+</mapping>
 	<mapping>
 		<class-a>com.ndovado.dominio.prenotazioni.Prenotazione</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean
-		</class-b>
-	</mapping></mappings>
+		<class-b>com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean</class-b>
+		<field>
+			<a is-accessible="true">dataOraPrenotazione</a>
+			<b>dataOraPrenotazione</b>
+		</field>
+		<field>
+			<a is-accessible="true">lineePrenotazione</a>
+			<b>lineePrenotazione</b>
+		</field>
+		<field>
+			<a is-accessible="true">importoTotale</a>
+			<b>importoTotale</b>
+		</field>
+	<field-exclude><a>pagamentiAssociati</a><b>pagamentiAssociati</b></field-exclude><field-exclude><a>statoPrenotazione</a><b>statoPrenotazione</b></field-exclude></mapping><mapping><class-a>com.ndovado.dominio.pagamenti.Pagamento</class-a><class-b>com.ndovado.webapp.beans.pagamenti.PagamentoBean</class-b></mapping></mappings>

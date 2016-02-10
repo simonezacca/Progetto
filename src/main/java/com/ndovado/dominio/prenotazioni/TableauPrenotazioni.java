@@ -106,6 +106,11 @@ public class TableauPrenotazioni {
 		Prenotazione p = pdao.get(idPrenotazione);
 		return p;
 	}
+	
+	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) {
+		pdao.saveOrUpdate(pmodel);
+		return pmodel;
+	}
 
 //	/**
 //	 * @param DataArrivo 
@@ -270,7 +275,7 @@ public class TableauPrenotazioni {
 		
 		String queryElencoCamere = "select p.* from prenotazione p "
 				+ "join linea_prenotazione lp "
-				+ "on p.idPrenotazione = lp.prenotazioneCorrente_idPrenotazione "
+				+ "on p.id = lp.prenotazioneCorrente_id "
 				+ "join camera c	on c.id = lp.oggetto_id "
 				+ "where c.id = "+c.getId().toString()+" and lp.tipo_oggetto = 1;";
 		

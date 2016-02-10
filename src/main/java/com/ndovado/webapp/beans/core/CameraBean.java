@@ -15,7 +15,7 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Long id = null;
+	private Long id;
 	private String nomeCamera;
 	private StrutturaBean struttura;
 	
@@ -121,6 +121,7 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	/**
 	 * @return the prezzo
 	 */
+	@Override
 	public Float getPrezzo() {
 		return prezzo;
 	}
@@ -144,5 +145,10 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	 */
 	public void setDescrizioneCamera(String descrizioneCamera) {
 		this.descrizioneCamera = descrizioneCamera;
+	}
+
+	@Override
+	public String getNomeOggettoPrenotabile() {
+		return this.nomeCamera+" - Pax: "+this.pax;
 	}
 }

@@ -13,6 +13,9 @@
 			<div class="container">
 				<div class="ui segment">
 					<h:panelGroup rendered="#{not StrutturaBB.addingStruttura}">
+						<h2 class="ui left floated header">
+							<h:link value="Annulla" outcome="#{utenteBean.homePageName}"/>
+						</h2>
 						<h2 class="ui right floated header">
 							<button class="ui button">Aggiungi nuova struttura</button>
 						</h2>
@@ -144,7 +147,7 @@
 											<label>Nome della camera</label>
 											<h:inputText
 												value="#{StrutturaBB.cameraInAggiunta.nomeCamera}"
-												p:placeholder="Nome della camera" />
+												p:placeholder="Nome della camera" required="true"/>
 										</div>
 										<div class="two field">
 											<div class="field">
@@ -167,17 +170,17 @@
 											<div class="field">
 												<label>Numero pax di persone</label>
 												<h:inputText value="#{StrutturaBB.cameraInAggiunta.pax}"
-													p:placeholder="Numero pax" />
+													p:placeholder="Numero pax" required="true"/>
 											</div>
 											<div class="field">
 												<label>Descrizione camera</label>
 												<h:inputTextarea
-													value="#{StrutturaBB.cameraInAggiunta.descrizioneCamera}" />
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCamera}" required="true"/>
 											</div>
 											<label>Prezzo camera</label>
 											<div class="ui right labeled input">
 												<div class="ui label">&euro;</div>
-												<h:inputText value="#{StrutturaBB.cameraInAggiunta.prezzo}" />
+												<h:inputText value="#{StrutturaBB.cameraInAggiunta.prezzo}"  required="true"/>
 											</div>
 										</div>
 									</div>

@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -20,8 +19,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OrderBy;
-
 import com.ndovado.dominio.prenotazioni.TableauPrenotazioni;
 import com.ndovado.dominio.servizi.DettaglioServizio;
 import com.ndovado.dominio.servizi.ServizioComune;
@@ -230,12 +227,6 @@ public class Struttura implements IPersistente {
 		return serviziOfferti;
 	}
 
-	/**
-	 * @return
-	 */
-	public TableauPrenotazioni getTableauPrenotazioni() {
-		return this.getTableau();
-	}
 
 
 	/** Ritorna il nome della struttura

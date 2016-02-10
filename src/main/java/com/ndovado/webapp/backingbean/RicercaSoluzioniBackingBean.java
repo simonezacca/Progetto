@@ -197,5 +197,12 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 		
 		return "visualizzaStruttura?faces-redirect=true";
 	}
+	
+	public String visualizzaStrutturaDaRisultatoRicerca(RisultatoRicercaBean rr) {
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("RRcorrente", rr);
+		
+		return "visualizzaStruttura?faces-redirect=true";
+	}
+
 
 }

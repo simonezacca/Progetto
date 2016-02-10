@@ -1,5 +1,6 @@
 package com.ndovado.webapp.backingbean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,9 +15,14 @@ import com.ndovado.webapp.controllers.GestionePrenotazioneController;
 
 @ManagedBean(name="elencoPrenotazioniUtenteBB")
 @ViewScoped
-public class ElencoPrenotazioniUtenteBackingBean {
+public class ElencoPrenotazioniUtenteBackingBean implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private GestionePrenotazioneController controller;
 	
 	@ManagedProperty(value="#{utenteBean}")
@@ -46,6 +52,20 @@ public class ElencoPrenotazioniUtenteBackingBean {
 	 */
 	public void setElencoPrenotazioni(List<PrenotazioneBean> elencoPrenotazioni) {
 		this.elencoPrenotazioni = elencoPrenotazioni;
+	}
+
+	/**
+	 * @return the utenteCorrente
+	 */
+	public UtenteBean getUtenteCorrente() {
+		return utenteCorrente;
+	}
+
+	/**
+	 * @param utenteCorrente the utenteCorrente to set
+	 */
+	public void setUtenteCorrente(UtenteBean utenteCorrente) {
+		this.utenteCorrente = utenteCorrente;
 	}
 
 }

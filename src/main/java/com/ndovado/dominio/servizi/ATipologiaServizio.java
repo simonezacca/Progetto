@@ -1,5 +1,6 @@
 package com.ndovado.dominio.servizi;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,11 +23,11 @@ public abstract class ATipologiaServizio {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	protected Long id;
+	private Long id;
 	
 	protected Float prezzo = new Float(0);
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.MERGE)
 	protected DettaglioServizio dettaglioServizio;
 	
 	/**
@@ -59,5 +60,19 @@ public abstract class ATipologiaServizio {
 	
 	@Override
 	public abstract String toString();
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }

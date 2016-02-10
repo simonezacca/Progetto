@@ -9,6 +9,7 @@
 <h:body>
 	<ui:composition template="/templates/layoutGestore.xhtml">
 		<ui:define name="content">
+			<h:form>
 			<div class="eleven wide column">
 				<div class="ui white inverted header">DEDTTAGLI DELLA STRUTTURA</div>
 				<div class="ui orange segment">
@@ -42,7 +43,7 @@
 											<h:graphicImage library="images" name="square-image.png" />
 										</div>
 										<div class="content">
-											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> </a>
+											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> id: <h:outputText value="#{cameraBean.id}"/> </a>
 											<div class="meta">
 												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
 											</div>
@@ -53,8 +54,10 @@
 										<div class="extra content">
 											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
 											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
-											<h:commandButton value="Prenota" styleClass="ui orange label" rendered="#{utenteBean.logged}"/>
-											
+											<h:commandButton value="Prenota" styleClass="ui orange label"
+												rendered="#{utenteBean.logged}" 
+												action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(cameraBean)}"/>
+
 										</div>
 									</div>
 								</ui:repeat>
@@ -80,7 +83,7 @@
 											<h:graphicImage library="images" name="square-image.png" />
 										</div>
 										<div class="content">
-											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> </a>
+											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> id: <h:outputText value="#{cameraBean.id}"/> </a>
 											<div class="meta">
 												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
 											</div>
@@ -91,8 +94,9 @@
 										<div class="extra content">
 											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
 											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
-											<h:commandButton value="Prenota" styleClass="ui orange label" rendered="#{utenteBean.logged}"/>
-											
+											<h:panelGroup rendered="#{not carrelloPrenotazioneBean.isOggettoPrenotato(cameraBean)}">
+											<h:commandButton value="Prenota" styleClass="ui orange label" rendered="#{utenteBean.logged}" action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(cameraBean)}"/>
+											</h:panelGroup>
 										</div>
 									</div>
 								</ui:repeat>
@@ -101,7 +105,7 @@
 						</div>
 							<!-- fine sezione camere -->
 					</h:panelGroup>
-					
+					<h:link outcome="locatario/carrelloPrenotazione" value="Vai al carrello" rendered="#{not empty carrelloPrenotazioneBean.prenotazioneCorrente.lineePrenotazione}"/>
 					
 					
 					
@@ -116,9 +120,10 @@
 									<a class="ui label"><h:outputText value="#{dettaglioServizioBean.servizio.nomeServizio}"/>
 									
 									<h:panelGroup rendered="#{dettaglioServizioBean.tipologia.prezzo gt 0}">
-									<h:outputFormat value="Prezzo: {0} &euro;">
+									<h:outputFormat value=" Prezzo: {0} &euro;">
 										<f:param value="#{dettaglioServizioBean.tipologia.prezzo}" />
 									</h:outputFormat>
+									<h:commandLink value="Aggiungi" action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(dettaglioServizioBean.tipologia)}"/>
 									</h:panelGroup>
 									</a>
 								</ui:repeat>
@@ -148,6 +153,8 @@
 					</div>
 				</div>
 			</div>
+			
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

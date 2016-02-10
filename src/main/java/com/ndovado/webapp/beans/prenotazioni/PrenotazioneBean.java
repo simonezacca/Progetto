@@ -1,7 +1,9 @@
 package com.ndovado.webapp.beans.prenotazioni;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -21,9 +23,18 @@ public class PrenotazioneBean implements Serializable{
 	private Date dataArrivo;
 	private Date dataOraPrenotazione;
 	private Date dataPartenza;
-	private Long idPrenotazione;
+	private Long id = null;
 	private Float importoTotale;
 	private List<LineaPrenotazioneBean> lineePrenotazione;
+	@Override
+	public String toString() {
+		return "PrenotazioneBean [codicePrenotazione=" + codicePrenotazione + ", dataArrivo=" + dataArrivo
+				+ ", dataOraPrenotazione=" + dataOraPrenotazione + ", dataPartenza=" + dataPartenza + ", id=" + id
+				+ ", importoTotale=" + importoTotale + ", lineePrenotazione=" + lineePrenotazione + ", locatario="
+				+ locatario + ", notePrenotazione=" + notePrenotazione + ", pagamentiAssociati=" + pagamentiAssociati
+				+ ", statoPrenotazione=" + statoPrenotazione + "]";
+	}
+
 	private LocatarioBean locatario;
 	private String notePrenotazione;
 	private List<PagamentoBean> pagamentiAssociati;
@@ -31,8 +42,45 @@ public class PrenotazioneBean implements Serializable{
 	
 	
 	public PrenotazioneBean() {
-		// TODO Auto-generated constructor stub
+		dataArrivo = new Date();
+		dataPartenza = new Date();
+		dataOraPrenotazione = new Date();
+		lineePrenotazione = new ArrayList<LineaPrenotazioneBean>();
+		pagamentiAssociati = new ArrayList<PagamentoBean>();
+		importoTotale = ricalcolaImportoTotale();
 	}
+	
+	private Float ricalcolaImportoTotale() {
+		Float newTotale = new Float(0);
+		for (LineaPrenotazioneBean lpb : lineePrenotazione) {
+			newTotale += ((IPrenotabileBean) lpb.getOggettoPrenotato()).getPrezzo();
+		}
+		return newTotale;
+	}
+	
+	public void addOggettoPrenotabile(IPrenotabileBean op) {
+		LineaPrenotazioneBean lpb = new LineaPrenotazioneBean();
+		lpb.setOggettoPrenotato(op);
+		lpb.setPrenotazioneCorrente(this);
+		
+		lineePrenotazione.add(lpb);
+		importoTotale = ricalcolaImportoTotale();
+	}
+	
+	public void removeOggettoPrenotabile(IPrenotabileBean op) {
+		Iterator<LineaPrenotazioneBean> i = lineePrenotazione.iterator();
+		while (i.hasNext()) {
+			LineaPrenotazioneBean lpb = (LineaPrenotazioneBean) i.next();
+			IPrenotabileBean opCorrente = lpb.getOggettoPrenotato();
+			if (op.equals(opCorrente)) {
+				// rimuovo la linea prenotazione dalla lista delle linee prenotazioni
+				i.remove();
+			}
+		}
+		importoTotale = ricalcolaImportoTotale();
+	}
+	
+	
 	/**
 	 * @return the codicePrenotazione
 	 */
@@ -85,13 +133,13 @@ public class PrenotazioneBean implements Serializable{
 	 * @return the idPrenotazione
 	 */
 	public Long getIdPrenotazione() {
-		return idPrenotazione;
+		return id;
 	}
 	/**
 	 * @param idPrenotazione the idPrenotazione to set
 	 */
 	public void setIdPrenotazione(Long idPrenotazione) {
-		this.idPrenotazione = idPrenotazione;
+		this.id = idPrenotazione;
 	}
 	/**
 	 * @return the importoTotale
@@ -164,6 +212,18 @@ public class PrenotazioneBean implements Serializable{
 	 */
 	public void setStatoPrenotazione(AStatoPrenotazioneBean statoPrenotazione) {
 		this.statoPrenotazione = statoPrenotazione;
+	}
+	
+	public Boolean contieneOggettoPrenotabile(IPrenotabileBean op) {
+		Iterator<LineaPrenotazioneBean> i = lineePrenotazione.iterator();
+		while (i.hasNext()) {
+			LineaPrenotazioneBean lpb = (LineaPrenotazioneBean) i.next();
+			IPrenotabileBean opCorrente = lpb.getOggettoPrenotato();
+			if (op.equals(opCorrente)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 
