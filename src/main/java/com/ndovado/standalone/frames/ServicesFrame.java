@@ -27,10 +27,8 @@ public class ServicesFrame extends JFrame {
 	/**
 	 * 
 	 */
-	private String titolo = "Pannello Gestione Servizi";
-	private JPanel panel = new JPanel();
-	
-	private ServizioComune servizioSelezionato = null;
+	private static String titolo = "Pannello Gestione Servizi";
+//	private JPanel panel = new JPanel();
 	
 	
 	// pannello superiore
@@ -106,9 +104,10 @@ public class ServicesFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ServizioComune newServizio =  aggiungiServizioDialog();
-				controller.salvaServizioComune(newServizio);
-				aggiornaModelTabellaServizi();
-				
+				if (newServizio.getNomeServizio().length()>0) {
+					controller.salvaServizioComune(newServizio);
+					aggiornaModelTabellaServizi();
+				}				
 			}
 		});
 		
@@ -126,7 +125,25 @@ public class ServicesFrame extends JFrame {
 			}
 		});
 		
-		
+		// aggancio action listener al bottone modifica
+		btnRemServizio.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ServizioComune sToRemove = getCurrentSelectedServizio();
+				int risposta = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare il servizio: "+sToRemove.getNomeServizio(), "Elimina servizio", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if (risposta==JOptionPane.OK_OPTION) {
+					try {
+						controller.rimuoviServizioComune(sToRemove);
+						AppLogger.debug("Servizio rimosso: "+sToRemove.getNomeServizio());
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Errore: Impossibile rimuovere il servizio perchè associato ad una o più strutture","Errore",JOptionPane.ERROR_MESSAGE);
+						AppLogger.error("Errore eliminazione servizio: "+e.getMessage());
+					}
+					aggiornaModelTabellaServizi();
+				}
+			}
+		});
 		
 	}
 	
@@ -134,7 +151,6 @@ public class ServicesFrame extends JFrame {
 		String idServizioString = tblServizi.getValueAt(tblServizi.getSelectedRow(), 0).toString();
 		Long idServizio = Long.parseLong(idServizioString);
 		return controller.getServizioComuneById(idServizio);
-		
 	}
 	
 	private ServizioComune modificaServizioDialog(ServizioComune oldServizio) {
@@ -177,9 +193,10 @@ public class ServicesFrame extends JFrame {
 	}
 
 	public ServicesFrame() {
-		JFrame servicesFrame = new JFrame(titolo);
-		servicesFrame.setSize(800, 600);
-		servicesFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super(titolo);
+//		JFrame servicesFrame = new JFrame(titolo);
+		this.setSize(800, 600);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		initGUI();
 		initActionListenerButtons();

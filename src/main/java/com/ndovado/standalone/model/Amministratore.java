@@ -1,6 +1,13 @@
 package com.ndovado.standalone.model;
 
-public class Amministratore {
+import java.io.Serializable;
+
+public class Amministratore implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		return "Amministratore [username=" + username + ", password=" + password + "]";
@@ -23,6 +30,10 @@ public class Amministratore {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Boolean isValid() {
+		return username.length()>0 && password.length()>0;
 	}
 
 }

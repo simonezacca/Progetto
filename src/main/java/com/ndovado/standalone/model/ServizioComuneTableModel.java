@@ -46,10 +46,12 @@ public class ServizioComuneTableModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		if (col==0) {
-			return ((ServizioComune) (modelServizioComune.get(row))).getId();
-		} else if (col==1) {
-			return ((ServizioComune) (modelServizioComune.get(row))).getNomeServizio();
+		if (row>=0) {
+			if (col==0) {
+				return ((ServizioComune) (modelServizioComune.get(row))).getId();
+			} else if (col==1) {
+				return ((ServizioComune) (modelServizioComune.get(row))).getNomeServizio();
+			}
 		}
 		return "";
 	}
