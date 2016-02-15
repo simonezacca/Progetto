@@ -2,117 +2,146 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
->
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 </h:head>
 <h:body>
-<ui:composition template="/templates/layoutUtente.xhtml">
-<f:viewParam name="idPrenotazione" />
-<ui:define name="content">
+	<ui:composition template="/templates/layoutUtente.xhtml">
+		<ui:define name="content">
 
-<div class="container" style = "width:75%; margin-bottom:5%">
-      <div class="ui segment">
-        <div class="ui two column doubling stackable grid container">
-          <div class="column">
-          <div class="ui segment">
-          <p>
-            <div class="image">
-              <h:graphicImage library="images" name="square-image.png"/>
-            </div>
-          </p>
-          </div>
-          </div>
-          <div class="column">
-            <div class="ui segment">
-            <p>Nome Struttura</p>
-            <p>>Descrizione Locazione</p>
-          </div>
-          </div>
-        </div>
-        <div class="ui three column doubling stackable grid container">
-            <div class="column">
-             <div class="ui segment">
-              <p><h3 class="ui header" align="center">Camere Prenotate</h3></p>
-              <p><div class="ui bulleted list">
-                    <div class="item">Camera 1</div>
-                    <div class="item">Camera 2</div>
-                    <div class="item">Camera 3</div>
-                 </div>
-              </p>
-             </div>
-            </div>
-          <div class="column">
-            <div class="ui segment">
-            <p><h3 class="ui header" align="center">Servizi Base</h3></p>
-              <p><div class="ui bulleted list">
-                <div class="item">Servizio Base 1</div>
-                <div class="item">Servizio Base 2</div>
-                <div class="item">Servizio Base 3</div>
-              </div>
-              </p>
-            </div>
-          </div>
-          <div class="column">
-            <div class="ui segment">
-            <p><h3 class="ui header" align="center">Servizio Aggiuntivo</h3></p>
-              <p><div class="ui bulleted list">
-                  <div class="item">Servizio Aggiuntivo 1</div>
-                  <div class="item">Servizio Aggiuntivo 2</div>
-                  <div class="item">Servizio Aggiuntivo 3</div>
-                </div>
-              </p>
-            </div>
-          </div>
-         </div>
-    	<div class="ui two column doubling stackable grid container">
-      <div class="column">
-        <div class="ui segment">
-            <p><h3 class="ui header" align="center">Date</h3></p>
-            <p>
-              <div class="ui statistics">
-                <div class="statistic">
-                  <div class="value">
-                      20/01/2016
-                  </div>
-                  <div class="label">
-                    CheckIn
-                  </div>
-              </div>
-          </div>
-          </p>
-            <p>
-            <div class="ui statistics">  
-            <div class="statistic">
-                  <div class="value">
-                        26/01/2016
-                  </div>
-                  <div class="label">
-                      CheckOut
-                  </div>
-                </div>
-                 </div>
-                </p>
-          </div>
-        </div>
-      <div class="column">
-         <div class="ui segment">
-            <p><h3 class="ui header" align="center">Importo Totale:  </h3></p>
-            <p><div class="ui statistics">
-                    <div class="statistic">
-                    <div class="value">
-                        200€
-                    </div>
-                    </div>
-                </div>
-            </p>
-         </div>
-      </div>
-    </div>
-</div>	
-</div>
+			<h:form>
+				<div class="container" style="width: 66%; margin-bottom: 5%">
+					<div id="ridimensionaimmagine">
+						<div class="ui orange segment">
+							<h3 class="ui left orange dividing header">VISUALIZZA
+								PRENOTAZIONE</h3>
+							<!-- Aggiungere Container-->
+							<div class="ui orange segment">
+								<div class="ui two column doubling stackable grid container">
+									<div class="column">
+										<div class="image">
+											<h:graphicImage library="images" name="sqare-image.png" />
+										</div>
+									</div>
+									<div class="column">
+										<h3 class="ui orange header">NOME STRUTTURA</h3>
+										<div class="description">Lorem ipsum dolor sit amet,
+											consectetur adipiscing elit, sed do eiusmod tempor incididunt
+											ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+											ea commodo consequat. Duis aute irure dolor in reprehenderit
+											in voluptate velit esse cillum dolore eu fugiat nulla
+											pariatur. Excepteur sint occaecat cupidatat non proident,
+											sunt in culpa qui officia deserunt mollit anim id est
+											laborum.</div>
+										<div class="ui segment">
+											<div class="ui two column doubling stackable grid container">
+												<div class="column">
+													<h3 class="ui orange header">CHECK IN/OUT</h3>
+													<div class="ui statistics">
+														<div class="statistic">
+															<div class="value">
+																<h:outputText
+																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataArrivo}">
+																	<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</div>
+															<div class="label">CheckIn</div>
+														</div>
+													</div>
+													<div class="ui statistics">
+														<div class="statistic">
+															<div class="value">
+																<h:outputText
+																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataPartenza}">
+																	<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</div>
+															<div class="label">CheckOut</div>
+														</div>
+													</div>
+												</div>
+												<div class="column">
+													<div class="ui statistics">
+														<h3 class="ui orange header" align="right">Prezzo:</h3>
+														<div class="statistic" style="float: right">
+															<div class="value">
+																<h:outputText
+																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.importoTotale}" />
+																&euro;
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 
-</ui:define>
-</ui:composition>
+									</div>
+								</div>
+								<!-- fine sezione genereale -->
+
+								<!-- inizio sezione dettagli -->
+
+								<div class="ui three column doubling stackable grid container">
+									<div class="column">
+										<div class="ui orange segment">
+											Notti soggiorno:
+											<h:outputText
+												value="#{modificaPrenotazioneBB.prenotazioneCorrente.nottiSoggiorno}" />
+											<h3 class="ui orange header" align="center">Camere
+												Prenotate</h3>
+											<div class="ui bulleted list">
+												<ui:repeat var="cameraBean"
+													value="#{modificaPrenotazioneBB.prenotazioneCorrente.camereInPrenotazione}">
+													<div class="item">
+														<h:outputText value="#{cameraBean.nomeCamera}" />
+														| Prezzo
+														<h:outputText value="#{cameraBean.prezzo}" />
+														&euro;
+													</div>
+												</ui:repeat>
+											</div>
+										</div>
+									</div>
+									<div class="column">
+										<div class="ui orange segment">
+											<h3 class="ui orange header" align="center">Servizi
+												Aggiuntivi</h3>
+											<div class="ui bulleted list">
+												<ui:repeat var="servizioAggiuntivoBean"
+													value="#{modificaPrenotazioneBB.prenotazioneCorrente.serviziAggiuntiviInPrenotazione}">
+													<div class="item">
+														<h:outputText
+															value="#{servizioAggiuntivoBean.nomeOggettoPrenotabile}" />
+														| Prezzo
+														<h:outputText value="#{servizioAggiuntivoBean.prezzo}" />
+														&euro;
+													</div>
+												</ui:repeat>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- fine sezione dettagli -->
+
+								<!-- inizio sezione note -->
+								<div class="ui three column doubling stackable grid container">
+									Note:
+									<h:inputTextarea
+										value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}" />
+								</div>
+								<h:commandButton value="Salva note" action="#{modificaPrenotazioneBB.doAggiornaPrenotazione}" />
+								
+								<h:panelGroup rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
+								Prenotazione cancellabile
+								</h:panelGroup>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -28,7 +28,7 @@
 	</mapping>
 
 
-	<mapping>
+	<mapping><class-a>com.ndovado.dominio.core.FAQStruttura</class-a><class-b>com.ndovado.webapp.beans.core.FAQStrutturaBean</class-b></mapping><mapping>
 		<class-a>com.ndovado.dominio.core.Struttura</class-a>
 		<class-b>com.ndovado.webapp.beans.core.StrutturaBean</class-b>
 
@@ -152,7 +152,7 @@
 		<a-hint>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</a-hint>
 		<b-hint>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</b-hint>
 	</field>
-</mapping>
+<field><a get-method="isCancellabile">cancellabile</a><b get-method="getCancellabile" is-accessible="true">cancellabile</b></field></mapping>
 	<mapping>
 	<class-a>com.ndovado.dominio.pagamenti.Pagamento</class-a>
 	<class-b>com.ndovado.webapp.beans.pagamenti.PagamentoBean</class-b>

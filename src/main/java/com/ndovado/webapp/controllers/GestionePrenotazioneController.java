@@ -38,6 +38,8 @@ public class GestionePrenotazioneController {
 		List<Prenotazione> pmodels = q.list();
 		for (Prenotazione prenotazione : pmodels) {
 			PrenotazioneBean pbean = pmapper.getBeanFromModel(prenotazione);
+			
+			// settare il flag per la cancellazione
 			pbeans.add(pbean);
 		}
 		session.close();
@@ -55,6 +57,13 @@ public class GestionePrenotazioneController {
 		
 		return pbean;
 		
+	}
+	
+	public PrenotazioneBean doAggiornaPrenotazione(PrenotazioneBean pbean) {
+		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
+		pdao.saveOrUpdate(pmodel);
+		pbean = pmapper.getBeanFromModel(pmodel);
+		return pbean;
 	}
 
 }

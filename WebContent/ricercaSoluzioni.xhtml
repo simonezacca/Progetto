@@ -96,6 +96,9 @@
 											<h:panelGroup
 												rendered="#{not empty ricercaSoluzioniBB.risultatiRicerca}">
 												<!-- visualizzare solo se l'elenco corrente dei risultati ricerca è popolato -->
+												<h:commandButton value="Confronta locazioni" disabled="true" styleClass="ui orange button">
+												
+												</h:commandButton>
 												<ui:repeat var="risultatoRicercaBean"
 													value="#{ricercaSoluzioniBB.risultatiRicerca}">
 													<div class="item">
@@ -105,7 +108,9 @@
 														<div class="content">
 															<h:link
 																value="#{risultatoRicercaBean.struttura.nomeStruttura}"
-																styleClass="header" />
+																styleClass="header" /><br />
+																<label>Seleziona la struttura per il confronto (max 2 strutture)</label>
+																<h:selectBooleanCheckbox label="Seleziona per confronto"></h:selectBooleanCheckbox>
 															<div class="meta">
 																<span class="cinema"> <h:outputFormat
 																		value="{0} - {1} ({2})">

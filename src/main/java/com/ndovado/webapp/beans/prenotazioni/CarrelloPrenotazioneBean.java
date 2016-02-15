@@ -35,6 +35,7 @@ public class CarrelloPrenotazioneBean implements Serializable{
 	public CarrelloPrenotazioneBean() {
 		// creo una nuova prenotazione bean
 		prenotazioneCorrente = new PrenotazioneBean();
+		
 	}
 	
 	@PostConstruct
@@ -100,6 +101,7 @@ public class CarrelloPrenotazioneBean implements Serializable{
 			}
 			AppLogger.debug("Aggiungo oggetto prenotabile: "+op.getNomeOggettoPrenotabile());
 			prenotazioneCorrente.addOggettoPrenotabile(op);
+			prenotazioneCorrente.setStutturaAssociatata(strutturaCorrente);
 		}
 	}
 	

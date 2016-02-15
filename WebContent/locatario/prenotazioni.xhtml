@@ -8,68 +8,63 @@
 <h:body>
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
-			<div class="container" style="width: 69%">
-				<div class="ui segment">
-					<div class="ui left floated header">Le Mie Prenotazioni</div>
-					<div class="ui clearing divider"></div>
-					<div class="ui divided items">
-						<ui:repeat var="prenotazioneBean"
-							value="#{elencoPrenotazioniUtenteBB.elencoPrenotazioni}">
-							<div class="item">
-								<div class="image">
-									<h:graphicImage library="images" name="square-image.png" />
-								</div>
-								<div class="content">
-									<a class="header"><h:outputText value="Nome struttura"/> </a>
-									<div class="meta">
-										<p>
-											<span class="cinema">Stato: <h:outputText
-													value="#{prenotazioneBean.statoPrenotazione}" />
-											</span>
-										</p>
-										<p>
-											<span class="cinema">Importo: <h:outputText
-													value="#{prenotazioneBean.importoTotale}" /> &euro;</span>
-										</p>
-										<p>
-											<span class="cinema">CHECK IN: <h:outputText
-													value="#{prenotazioneBean.dataArrivo}" >
-													<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-													</h:outputText></span>
-										</p>
-										<p>
-											<span class="cinema">CHECK OUT: <h:outputText
-													value="#{prenotazioneBean.dataPartenza}" >
-													<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-													</h:outputText>
-											</span>
-										</p>
+			<h:form>
+				<div class="container" style="width: 69%">
+					<div class="ui segment">
+						<div class="ui left floated header">Le Mie Prenotazioni</div>
+						<div class="ui clearing divider"></div>
+						<div class="ui divided items">
+							<ui:repeat var="prenotazioneBean"
+								value="#{elencoPrenotazioniUtenteBB.elencoPrenotazioni}">
+								<div class="item">
+									<div class="image">
+										<h:graphicImage library="images" name="square-image.png" />
 									</div>
-									<div class="extra">
-										<h:link outcome="riepilogoPrenotazione">
+									<div class="content">
+										<a class="header"><h:outputText value="Nome struttura" />
+										</a>
+										<div class="meta">
+											<p>
+												<span class="cinema">Stato: <h:outputText
+														value="#{prenotazioneBean.statoPrenotazione}" />
+												</span>
+											</p>
+											<p>
+												<span class="cinema">Importo: <h:outputText
+														value="#{prenotazioneBean.importoTotale}" /> &euro;
+												</span>
+											</p>
+											<p>
+												<span class="cinema">CHECK IN: <h:outputText
+														value="#{prenotazioneBean.dataArrivo}">
+														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText></span>
+											</p>
+											<p>
+												<span class="cinema">CHECK OUT: <h:outputText
+														value="#{prenotazioneBean.dataPartenza}">
+														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText>
+												</span>
+											</p>
+										</div>
+										<div class="extra">
 											<div class="ui right floated orange icon button">
-												<i class="info basic icon"></i>
+												<h:commandLink value="Visualizza"
+													action="#{elencoPrenotazioniUtenteBB.modificaPrenotazione(prenotazioneBean)}"
+													styleClass="info basic icon" />
 											</div>
-											<f:param name="idPrenotazione" value="id" />
-										</h:link>
-										<h:link>
-											<div class="ui right floated orange icon button">
-												<i class="edit basic icon"></i>
-											</div>
-										</h:link>
-										<h:link>
 											<div class="ui right floated orange icon button">
 												<i class="delete basic icon"></i>
 											</div>
-										</h:link>
-
+										</div>
 									</div>
 								</div>
-							</div>
-						</ui:repeat>
+							</ui:repeat>
+						</div>
 					</div>
 				</div>
-			</div>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

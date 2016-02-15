@@ -74,6 +74,24 @@
 										value="#{StrutturaBB.strutturaCorrente.descrizioneStruttura}" required="true"/>
 								</div>
 							</div>
+							
+							<div class="field">
+								<label>Giorni minimi per cancellazione:</label>
+								<div class="ui form" />
+								<div class="field">
+									<h:inputText value="#{StrutturaBB.strutturaCorrente.giorniPerCancellazione}" required="true" />
+								</div>
+							</div>
+							
+							<div class="field">
+								<h:panelGroup>
+								<ui:repeat var="FAQStrutturaBean" value="#{StrutturaBB.strutturaCorrente.elencoFAQ}">
+								Domanda: <h:outputText value="#{FAQStrutturaBean.domanda}"></h:outputText><br/>
+								<label>Risposta: </label> <h:inputText value="#{FAQStrutturaBean.risposta}"/>
+								</ui:repeat>
+								</h:panelGroup>
+							</div>
+							
 
 							<!-- inizio foto gallery -->
 							<h4 class="ui dividing header">Photogallery</h4>

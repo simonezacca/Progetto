@@ -17,10 +17,16 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
+import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
@@ -112,7 +118,16 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	
 	@Column(name="note")
 	private String notePrenotazione;
+	
+	@Column(name="nottiSoggiorno")
+	private Integer nottiSoggiorno;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn
+	private Struttura stutturaAssociatata;
 
+	@Transient
+	private Boolean cancellabile;
 	
 	public Prenotazione() {
 		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
@@ -451,6 +466,47 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 				+ ", dataPartenza=" + dataPartenza
 				+ ", notePrenotazione=" + notePrenotazione + "]";
 	}
+
+	/**
+	 * @return the nottiSoggiorno
+	 */
+	public Integer getNottiSoggiorno() {
+		return nottiSoggiorno;
+	}
+
+	/**
+	 * @param nottiSoggiorno the nottiSoggiorno to set
+	 */
+	public void setNottiSoggiorno(Integer nottiSoggiorno) {
+		this.nottiSoggiorno = nottiSoggiorno;
+	}
+
+	/**
+	 * @return the stutturaAssociatata
+	 */
+	public Struttura getStutturaAssociatata() {
+		return stutturaAssociatata;
+	}
+
+	/**
+	 * @param stutturaAssociatata the stutturaAssociatata to set
+	 */
+	public void setStutturaAssociatata(Struttura stutturaAssociatata) {
+		this.stutturaAssociatata = stutturaAssociatata;
+	}
+
+	public Boolean isCancellabile() {
+		Integer giorniPerCancellazione = stutturaAssociatata.getGiorniPerCancellazione();
+		LocalDate oggi = new LocalDate();
+		LocalDate dataArrivo = new LocalDate(this.dataArrivo.getTime());
+		
+		Period diff = new Period(dataArrivo, oggi);
+		Integer numGiorni = diff.getDays();
+		
+		this.cancellabile = numGiorni>=giorniPerCancellazione;
+		
+		return  this.cancellabile;
+	} 
 
 	
 

@@ -16,6 +16,7 @@
   <mapping class="com.ndovado.dominio.core.Camera"/>
   <mapping class="com.ndovado.dominio.core.Luogo"/>
   <mapping class="com.ndovado.dominio.core.Struttura"/>
+  <mapping class="com.ndovado.dominio.core.FAQStruttura"/>
   <mapping class="com.ndovado.dominio.core.Utente"/>
   <mapping class="com.ndovado.dominio.prenotazioni.LineaPrenotazione"/>
   <mapping class="com.ndovado.dominio.prenotazioni.Prenotazione"/>

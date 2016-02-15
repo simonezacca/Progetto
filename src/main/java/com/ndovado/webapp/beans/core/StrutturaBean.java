@@ -31,6 +31,10 @@ public class StrutturaBean implements Serializable, Identifiable {
 	private GestoreBean gestore;
 	
 	private Object tableau;
+	private Integer giorniPerCancellazione = new Integer(1);
+	
+	private List<FAQStrutturaBean> elencoFAQ;
+	
 	private List<DettaglioServizioBean> serviziOfferti;
 	
 	public StrutturaBean() {
@@ -41,12 +45,28 @@ public class StrutturaBean implements Serializable, Identifiable {
 		this.gestore = gestore;
 		AppLogger.debug("Imposto gestore per StrutturaBean:"+gestore);
 		initLists();
+		initFAQs();
 	}
 	
 	
 	private void initLists() {
 		setCamereInserite(new ArrayList<CameraBean>());
 		setServiziOfferti(new ArrayList<DettaglioServizioBean>());
+		this.elencoFAQ = new ArrayList<FAQStrutturaBean>();
+	}
+	
+	private void initFAQs() {
+		FAQStrutturaBean faq = new FAQStrutturaBean(this);
+		faq.setDomanda("Domanda 1?");
+		this.elencoFAQ.add(faq);
+		
+		faq = new FAQStrutturaBean(this);
+		faq.setDomanda("Domanda 2?");
+		this.elencoFAQ.add(faq);
+		
+		faq = new FAQStrutturaBean(this);
+		faq.setDomanda("Domanda 3?");
+		this.elencoFAQ.add(faq);
 	}
 	/**
 	 * @param idStruttura the idStruttura to set
@@ -269,6 +289,34 @@ public class StrutturaBean implements Serializable, Identifiable {
 	 */
 	public void setServiziOfferti(List<DettaglioServizioBean> serviziOfferti) {
 		this.serviziOfferti = serviziOfferti;
+	}
+
+	/**
+	 * @return the giorniPerCancellazione
+	 */
+	public Integer getGiorniPerCancellazione() {
+		return giorniPerCancellazione;
+	}
+
+	/**
+	 * @param giorniPerCancellazione the giorniPerCancellazione to set
+	 */
+	public void setGiorniPerCancellazione(Integer giorniPerCancellazione) {
+		this.giorniPerCancellazione = giorniPerCancellazione;
+	}
+
+	/**
+	 * @return the elencoFAQ
+	 */
+	public List<FAQStrutturaBean> getElencoFAQ() {
+		return elencoFAQ;
+	}
+
+	/**
+	 * @param elencoFAQ the elencoFAQ to set
+	 */
+	public void setElencoFAQ(List<FAQStrutturaBean> elencoFAQ) {
+		this.elencoFAQ = elencoFAQ;
 	}
 		
 	

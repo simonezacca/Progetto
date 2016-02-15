@@ -13,9 +13,11 @@ import org.joda.time.Period;
 
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.LocatarioBean;
+import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
 import com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean;
 import com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean;
+import com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean;
 
 @ManagedBean(name="prenotazioneBean")
 public class PrenotazioneBean implements Serializable{
@@ -45,6 +47,11 @@ public class PrenotazioneBean implements Serializable{
 	private PagamentoBean pagamentoAssociato;
 	private AStatoPrenotazioneBean statoPrenotazione;
 	
+	private Boolean cancellabile = true;
+	private Integer nottiSoggiorno;
+	
+	private StrutturaBean stutturaAssociatata;
+	
 	
 	public PrenotazioneBean() {
 		dataArrivo = new Date();
@@ -62,6 +69,7 @@ public class PrenotazioneBean implements Serializable{
 		LocalDate dataPartenzaJ = new LocalDate(dataPartenza.getTime());
 		Period diff = new Period(dataArrivoJ, dataPartenzaJ);
 		Integer numNotti = diff.getDays();
+		this.nottiSoggiorno = numNotti;
 		Float newTotale = new Float(0);
 		for (LineaPrenotazioneBean lpb : lineePrenotazione) {
 			IPrenotabileBean oggettoPrenotato = lpb.getOggettoPrenotato();
@@ -244,6 +252,63 @@ public class PrenotazioneBean implements Serializable{
 		}
 		return false;
 	}
+
+	/**
+	 * @return the cancellabile
+	 */
+	public Boolean getCancellabile() {
+		return cancellabile;
+	}
 	
+	public List<CameraBean> getCamereInPrenotazione() {
+		List<CameraBean> camere = new ArrayList<CameraBean>();
+		for (LineaPrenotazioneBean lineaPrenotazioneBean : lineePrenotazione) {
+			IPrenotabileBean oggettoPrenotato = lineaPrenotazioneBean.getOggettoPrenotato();
+			if (oggettoPrenotato instanceof CameraBean) {
+				camere.add((CameraBean) oggettoPrenotato);
+			}
+		}
+		return camere;
+	}
+	
+	public List<ServizioAggiuntivoBean> getServiziAggiuntiviInPrenotazione() {
+		List<ServizioAggiuntivoBean> servizi = new ArrayList<ServizioAggiuntivoBean>();
+		for (LineaPrenotazioneBean lineaPrenotazioneBean : lineePrenotazione) {
+			IPrenotabileBean oggettoPrenotato = lineaPrenotazioneBean.getOggettoPrenotato();
+			if (oggettoPrenotato instanceof ServizioAggiuntivoBean) {
+				servizi.add((ServizioAggiuntivoBean) oggettoPrenotato);
+			}
+		}
+		return servizi;
+	}
+
+	/**
+	 * @return the nottiSoggiorno
+	 */
+	public Integer getNottiSoggiorno() {
+		return nottiSoggiorno;
+	}
+
+	/**
+	 * @param nottiSoggiorno the nottiSoggiorno to set
+	 */
+	public void setNottiSoggiorno(Integer nottiSoggiorno) {
+		this.nottiSoggiorno = nottiSoggiorno;
+	}
+
+	/**
+	 * @return the stutturaAssociatata
+	 */
+	public StrutturaBean getStutturaAssociatata() {
+		return stutturaAssociatata;
+	}
+
+	/**
+	 * @param stutturaAssociatata the stutturaAssociatata to set
+	 */
+	public void setStutturaAssociatata(StrutturaBean stutturaAssociatata) {
+		this.stutturaAssociatata = stutturaAssociatata;
+	}
+
 
 }

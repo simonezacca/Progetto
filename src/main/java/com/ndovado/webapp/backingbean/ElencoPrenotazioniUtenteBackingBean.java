@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.ndovado.webapp.beans.core.LocatarioBean;
 import com.ndovado.webapp.beans.core.UtenteBean;
@@ -66,6 +67,13 @@ public class ElencoPrenotazioniUtenteBackingBean implements Serializable{
 	 */
 	public void setUtenteCorrente(UtenteBean utenteCorrente) {
 		this.utenteCorrente = utenteCorrente;
+	}
+	
+	public String modificaPrenotazione(PrenotazioneBean pbean) {
+		// inietto nel flash context la prenotazione bean da passare al modificaPrenotazioneBB
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("prenotazioneDaVisualizzare", pbean);
+		// redirect alla pagine di visualizzazione e modifica prenotazione
+		return "riepilogoPrenotazione?faces-redirect=true";
 	}
 
 }

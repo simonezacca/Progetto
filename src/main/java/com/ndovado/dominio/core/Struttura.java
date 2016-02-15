@@ -73,7 +73,11 @@ public class Struttura implements IPersistente {
 	@Transient
 	private TableauPrenotazioni tableau;
 	
+	@Column(name="giorniPerCancellazione")
+	private Integer giorniPerCancellazione;
 	
+	@OneToMany(mappedBy="strutturaAssociata", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<FAQStruttura> elencoFAQ;
 
 	/**
 	 * Insieme delle camera collegate alla struttura
@@ -101,8 +105,10 @@ public class Struttura implements IPersistente {
 	 */
 	public Struttura() {
 		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
-		setCamereInserite(new ArrayList<Camera>());
-		setServiziOfferti(new ArrayList<DettaglioServizio>());
+		
+		this.camereInserite = new ArrayList<Camera>();
+		this.serviziOfferti = new ArrayList<DettaglioServizio>();
+		this.elencoFAQ = new ArrayList<FAQStruttura>();
 		
 		initTableau();
 	}
@@ -425,6 +431,34 @@ public class Struttura implements IPersistente {
 	 */
 	public void setIndirizzoLuogo(String indirizzoLuogo) {
 		this.indirizzoLuogo = indirizzoLuogo;
+	}
+
+	/**
+	 * @return the giorniPerCancellazione
+	 */
+	public Integer getGiorniPerCancellazione() {
+		return giorniPerCancellazione;
+	}
+
+	/**
+	 * @param giorniPerCancellazione the giorniPerCancellazione to set
+	 */
+	public void setGiorniPerCancellazione(Integer giorniPerCancellazione) {
+		this.giorniPerCancellazione = giorniPerCancellazione;
+	}
+
+	/**
+	 * @return the elencoFAQ
+	 */
+	public List<FAQStruttura> getElencoFAQ() {
+		return elencoFAQ;
+	}
+
+	/**
+	 * @param elencoFAQ the elencoFAQ to set
+	 */
+	public void setElencoFAQ(List<FAQStruttura> elencoFAQ) {
+		this.elencoFAQ = elencoFAQ;
 	} 
 	
 	
