@@ -18,7 +18,7 @@ public class LineaPrenotazioneBean implements Serializable {
 	private PrenotazioneBean prenotazioneCorrente;
 	
 	public LineaPrenotazioneBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	/**
 	 * @return the id

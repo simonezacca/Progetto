@@ -7,10 +7,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
-
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
@@ -18,8 +15,7 @@ import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 import com.ndovado.webapp.controllers.GestioneLuogoController;
 import com.ndovado.webapp.controllers.GestioneRicercaSoluzioneController;
 
-@ManagedBean(name = "ricercaSoluzioniBB", eager = true)
-//@ViewScoped
+@ManagedBean(name = "ricercaSoluzioniBB",eager=true)
 @SessionScoped
 public class RicercaSoluzioniBackingBean implements Serializable {
 
@@ -48,7 +44,7 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 		dataPartenza = new Date();
 
 		luogoController = new GestioneLuogoController();
-		provinceDisponibili = luogoController.getListaTutteProvinceStrings();
+		//provinceDisponibili = luogoController.getListaTutteProvinceStrings();
 
 		ricercaController = new GestioneRicercaSoluzioneController();
 

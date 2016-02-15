@@ -4,9 +4,9 @@ import com.ndovado.dominio.core.Struttura;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 
-public class StrutturaMapper extends GenericMapper<StrutturaBean, Struttura> {
+public class StrutturaMapper extends AGenericMapper<StrutturaBean, Struttura> {
 
-	private static StrutturaMapper instance;
+	private static volatile StrutturaMapper instance;
 	
 	protected StrutturaMapper() {
 		super();
@@ -14,7 +14,10 @@ public class StrutturaMapper extends GenericMapper<StrutturaBean, Struttura> {
 	
 	public static StrutturaMapper getInstance() {
 		if (instance==null) {
-			instance = new StrutturaMapper();
+			synchronized (StrutturaMapper.class) {
+				if (instance==null)
+					instance = new StrutturaMapper();
+			}
 		}
 		return instance;
 	}

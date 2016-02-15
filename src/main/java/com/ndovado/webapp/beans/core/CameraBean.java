@@ -151,4 +151,6 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	public String getNomeOggettoPrenotabile() {
 		return this.nomeCamera+" - Pax: "+this.pax;
 	}
+	
+	
 }

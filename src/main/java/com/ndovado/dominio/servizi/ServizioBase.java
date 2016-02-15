@@ -3,6 +3,8 @@ package com.ndovado.dominio.servizi;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import com.ndovado.tecservices.loggers.AppLogger;
+
 /**
  * 
  */
@@ -21,7 +23,8 @@ public class ServizioBase extends ATipologiaServizio {
 	}
 	
 	public ServizioBase() {
-		// TODO Auto-generated constructor stub
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
+		
 	}
 	
 	@Override

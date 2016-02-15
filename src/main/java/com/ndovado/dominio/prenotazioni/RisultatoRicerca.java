@@ -4,11 +4,16 @@ import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.tecservices.loggers.AppLogger;
 
 /**
  * 
  */
 public class RisultatoRicerca {
+	
+	public RisultatoRicerca() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
+	}
 
 	/**
 	 * Default constructor

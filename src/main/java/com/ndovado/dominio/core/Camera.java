@@ -1,11 +1,11 @@
 package com.ndovado.dominio.core;
 
-import static javax.persistence.GenerationType.IDENTITY;
 import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -13,13 +13,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Proxy;
+
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Modella l'entità di dominio Camera
  */
 @Entity
+@Proxy(lazy=false,proxyClass=Camera.class)
 @Table(name = "camera")
 public class Camera implements IPersistente, IPrenotabile {
 
@@ -32,16 +36,8 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	/**
-	 * Riferimento ad un'istanza di <code>DescrizioneCameraz</code>
-	 */
-	// @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER,
-	// mappedBy="cameraAssociata")
-	// @PrimaryKeyJoinColumn(name="descrizioneCorrente_id")
-	// private DescrizioneCamera descrizioneCorrente;
 
 	/**
 	 * Nome della camera
@@ -81,6 +77,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	 */
 
 	public Camera() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
 	/**
@@ -194,9 +191,6 @@ public class Camera implements IPersistente, IPrenotabile {
 		if (s != null) {
 			// imposto la struttura s come struttura della camera
 			this.struttura = s;
-			// aggiungo la camera corrente all'elenco delle camere collegate
-			// alla struttura s
-			// s.addCamera(this);
 		}
 	}
 

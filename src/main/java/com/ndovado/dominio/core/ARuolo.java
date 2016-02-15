@@ -29,7 +29,7 @@ public abstract class ARuolo{
 	 */
 	//@OneToOne(mappedBy="ruolo")
 	@OneToOne
-	private Utente utente;
+	protected Utente utente;
 
 	/**
 	 * Default constructor

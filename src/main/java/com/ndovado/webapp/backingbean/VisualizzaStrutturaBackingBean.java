@@ -3,7 +3,6 @@ package com.ndovado.webapp.backingbean;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -12,7 +11,6 @@ import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 
 @ManagedBean(name="visualizzaStrutturaBB")
 @ViewScoped
-//@SessionScoped
 public class VisualizzaStrutturaBackingBean implements Serializable {
 
 	/**

@@ -4,9 +4,9 @@ import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 
-public class PrenotazioneMapper extends GenericMapper<PrenotazioneBean, Prenotazione> {
+public class PrenotazioneMapper extends AGenericMapper<PrenotazioneBean, Prenotazione> {
 
-	private static PrenotazioneMapper instance;
+	private static volatile PrenotazioneMapper instance;
 	
 	private PrenotazioneMapper() {
 		super();
@@ -14,7 +14,10 @@ public class PrenotazioneMapper extends GenericMapper<PrenotazioneBean, Prenotaz
 	
 	public static PrenotazioneMapper getInstance() {
 		if (instance==null) {
-			instance = new PrenotazioneMapper();
+			synchronized (PrenotazioneMapper.class) {
+				if (instance==null)
+					instance = new PrenotazioneMapper();
+			}
 		}
 		return instance;
 	}

@@ -3,10 +3,11 @@ package com.ndovado.dominio.core;
 import java.util.*;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -26,6 +27,7 @@ public class Gestore extends ARuolo implements IPersistente {
 
 	
 	public Gestore() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 		setStruttureGestite(new ArrayList<Struttura>());
 	}
 
@@ -34,6 +36,9 @@ public class Gestore extends ARuolo implements IPersistente {
 	 */
 	@OneToMany(cascade=CascadeType.ALL,mappedBy = "gestore")
 	private List<Struttura> struttureGestite;
+	
+	@Column(name="coordinatePagamento")
+	private String coordinatePagamento;
 
 	@Override
 	public int hashCode() {
@@ -103,6 +108,20 @@ public class Gestore extends ARuolo implements IPersistente {
 	 */
 	public void setStruttureGestite(List<Struttura> struttureGestite) {
 		this.struttureGestite = struttureGestite;
+	}
+
+	/**
+	 * @return the coordinatePagamento
+	 */
+	public String getCoordinatePagamento() {
+		return coordinatePagamento;
+	}
+
+	/**
+	 * @param coordinatePagamento the coordinatePagamento to set
+	 */
+	public void setCoordinatePagamento(String coordinatePagamento) {
+		this.coordinatePagamento = coordinatePagamento;
 	}
 
 }

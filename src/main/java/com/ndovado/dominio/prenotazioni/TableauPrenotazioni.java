@@ -29,7 +29,8 @@ public class TableauPrenotazioni {
 
 	private static PrenotazioneDAO pdao = new PrenotazioneDAO();
 
-	protected TableauPrenotazioni() {
+	public TableauPrenotazioni() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class TableauPrenotazioni {
 			tp.doTest(tp, 7, "29/01/2016", "30/01/2016", 5);
 			tp.doTest(tp, 8, "25/01/2016", "26/01/2016", 2);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -280,6 +281,7 @@ public class TableauPrenotazioni {
 				+ "where c.id = "+c.getId().toString()+" and lp.tipo_oggetto = 1;";
 		
 		TreeSet<Prenotazione> insiemePrenotazioni = new TreeSet<Prenotazione>();
+		@SuppressWarnings("static-access")
 		SessionFactory sf = pdao.getSessionFactory();
 		Session session = sf.openSession();
 		
@@ -299,6 +301,7 @@ public class TableauPrenotazioni {
 		return "TableauPrenotazioni [struttura=" + struttura + ", elencoPrenotazioni=" + elencoPrenotazioni + "]";
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void doTest(TableauPrenotazioni tp,Integer ntest, String daString, String aString, Integer npersone) throws ParseException {
 		
 		DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");

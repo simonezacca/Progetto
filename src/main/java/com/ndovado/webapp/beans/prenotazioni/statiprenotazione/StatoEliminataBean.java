@@ -12,4 +12,7 @@ public class StatoEliminataBean extends AStatoPrenotazioneBean {
 		return "Stato eliminata";
 	}
 
+	public StatoEliminataBean() {
+		// TODO Auto-generated constructor stub
+	}
 }

@@ -1,7 +1,6 @@
 package com.ndovado.webapp.beans.prenotazioni;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.faces.bean.ManagedBean;

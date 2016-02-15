@@ -24,7 +24,7 @@ public class AuthenticationFilter implements Filter {
      * Default constructor. 
      */
     public AuthenticationFilter() {
-        // TODO Auto-generated constructor stub
+       
     }
 
 	/**

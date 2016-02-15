@@ -1,7 +1,5 @@
 package com.ndovado.dominio.core;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -9,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -42,7 +41,7 @@ public class Struttura implements IPersistente {
 	 * Identificativo di tipo <code>Integer</code> utilizzato per il mapping ORM
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -101,6 +100,7 @@ public class Struttura implements IPersistente {
 	 * Costruttore di default
 	 */
 	public Struttura() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 		setCamereInserite(new ArrayList<Camera>());
 		setServiziOfferti(new ArrayList<DettaglioServizio>());
 		

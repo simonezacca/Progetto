@@ -1,7 +1,5 @@
 package com.ndovado.dominio.prenotazioni;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -9,24 +7,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -45,7 +43,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -85,8 +83,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-//	@OneToOne(cascade=CascadeType.ALL)
-	@Transient
+	@OneToOne(mappedBy="prenotazione",cascade=CascadeType.ALL,fetch=FetchType.EAGER, orphanRemoval=true)
+	@PrimaryKeyJoinColumn
 	private AStatoPrenotazione statoPrenotazione;
 
 	/**
@@ -94,14 +92,16 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 */
 	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
+	//@OrderColumn
+	@OrderBy("id ASC")
 	private List<LineaPrenotazione> lineePrenotazione;
 
 	/**
 	 * 
 	 */
-	@OneToMany(mappedBy = "prenotazioneSaldata",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@Fetch(FetchMode.SELECT)
-	private List<Pagamento> pagamentiAssociati;
+	@OneToOne(mappedBy="prenotazioneSaldata",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	private Pagamento pagamentoAssociato;
 	
 	/**
 	 * 
@@ -113,8 +113,10 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	@Column(name="note")
 	private String notePrenotazione;
 
-	@SuppressWarnings("unused")
-	private Prenotazione() {}
+	
+	public Prenotazione() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
+	}
 
 	/**
 	 * Default constructor
@@ -124,7 +126,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 			this.locatario = l;
 			l.addPrenotazione(this);
 		}
-		pagamentiAssociati = new ArrayList<Pagamento>();
+		//pagamentoAssociato = new Pagamento();
 		lineePrenotazione = new ArrayList<LineaPrenotazione>();
 	}
 
@@ -187,7 +189,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		// instanzio un nuovo pagamento e lo associo alla prenotazione corrente
 		Pagamento p = new Pagamento(this);
 		// aggiungo il pagamento istanziato all'insieme dei pagamenti associati alla prenotazione corrente
-		this.pagamentiAssociati.add(p);
+		this.pagamentoAssociato = p;
 		return p;
 	}
 	
@@ -224,9 +226,9 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * @param aStato
 	 */
 	public void setStatoPrenotazione(AStatoPrenotazione aStato) {
-		if (aStato!=null) {
+//		if (aStato!=null) {
 			this.statoPrenotazione = aStato;
-		}
+//		}
 	}
 
 	/**
@@ -279,6 +281,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		return null;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -290,8 +294,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((importoTotale == null) ? 0 : importoTotale.hashCode());
 		result = prime * result + ((lineePrenotazione == null) ? 0 : lineePrenotazione.hashCode());
-		//result = prime * result + ((locatario == null) ? 0 : locatario.hashCode());
-		result = prime * result + ((pagamentiAssociati == null) ? 0 : pagamentiAssociati.hashCode());
+		result = prime * result + ((notePrenotazione == null) ? 0 : notePrenotazione.hashCode());
+		result = prime * result + ((pagamentoAssociato == null) ? 0 : pagamentoAssociato.hashCode());
 		result = prime * result + ((statoPrenotazione == null) ? 0 : statoPrenotazione.hashCode());
 		return result;
 	}
@@ -340,15 +344,15 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 				return false;
 		} else if (!lineePrenotazione.equals(other.lineePrenotazione))
 			return false;
-		if (locatario == null) {
-			if (other.locatario != null)
+		if (notePrenotazione == null) {
+			if (other.notePrenotazione != null)
 				return false;
-		} else if (!locatario.equals(other.locatario))
+		} else if (!notePrenotazione.equals(other.notePrenotazione))
 			return false;
-		if (pagamentiAssociati == null) {
-			if (other.pagamentiAssociati != null)
+		if (pagamentoAssociato == null) {
+			if (other.pagamentoAssociato != null)
 				return false;
-		} else if (!pagamentiAssociati.equals(other.pagamentiAssociati))
+		} else if (!pagamentoAssociato.equals(other.pagamentoAssociato))
 			return false;
 		if (statoPrenotazione == null) {
 			if (other.statoPrenotazione != null)
@@ -373,7 +377,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		return this.id;
 	}
 	
-	protected void setId(Long idPrenotazione) {
+	public void setId(Long idPrenotazione) {
 		this.id = idPrenotazione;
 	}
 
@@ -390,5 +394,64 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	public void setNotePrenotazione(String notePrenotazione) {
 		this.notePrenotazione = notePrenotazione;
 	}
+
+	/**
+	 * @return the pagamentoAssociato
+	 */
+	public Pagamento getPagamentoAssociato() {
+		return pagamentoAssociato;
+	}
+
+	/**
+	 * @param pagamentoAssociato the pagamentoAssociato to set
+	 */
+	public void setPagamentoAssociato(Pagamento pagamentoAssociato) {
+		this.pagamentoAssociato = pagamentoAssociato;
+	}
+
+	/**
+	 * @return the lineePrenotazione
+	 */
+	public List<LineaPrenotazione> getLineePrenotazione() {
+		return lineePrenotazione;
+	}
+
+	/**
+	 * @param lineePrenotazione the lineePrenotazione to set
+	 */
+	public void setLineePrenotazione(List<LineaPrenotazione> lineePrenotazione) {
+		this.lineePrenotazione = lineePrenotazione;
+	}
+
+	/**
+	 * @return the dataOraPrenotazione
+	 */
+	public Date getDataOraPrenotazione() {
+		return dataOraPrenotazione;
+	}
+
+	/**
+	 * @param dataOraPrenotazione the dataOraPrenotazione to set
+	 */
+	public void setDataOraPrenotazione(Date dataOraPrenotazione) {
+		this.dataOraPrenotazione = dataOraPrenotazione;
+	}
+
+	/**
+	 * @param importoTotale the importoTotale to set
+	 */
+	public void setImportoTotale(Float importoTotale) {
+		this.importoTotale = importoTotale;
+	}
+
+	@Override
+	public String toString() {
+		return "Prenotazione [id=" + id + ", dataOraPrenotazione=" + dataOraPrenotazione + ", importoTotale="
+				+ importoTotale + ", codicePrenotazione=" + codicePrenotazione + ", dataArrivo=" + dataArrivo
+				+ ", dataPartenza=" + dataPartenza
+				+ ", notePrenotazione=" + notePrenotazione + "]";
+	}
+
+	
 
 }

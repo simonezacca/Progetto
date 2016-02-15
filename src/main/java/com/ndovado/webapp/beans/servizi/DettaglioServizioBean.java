@@ -1,12 +1,18 @@
 package com.ndovado.webapp.beans.servizi;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 
 import com.ndovado.webapp.beans.core.StrutturaBean;
 
 @ManagedBean(name="dettaglioServizioBean")
-public class DettaglioServizioBean {
+public class DettaglioServizioBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id = null;
 	private String note;
 	private ServizioComuneBean servizio;
@@ -14,7 +20,7 @@ public class DettaglioServizioBean {
 	private ATipologiaServizioBean tipologia;
 	
 	public DettaglioServizioBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public DettaglioServizioBean(StrutturaBean sb, ServizioComuneBean scb) {

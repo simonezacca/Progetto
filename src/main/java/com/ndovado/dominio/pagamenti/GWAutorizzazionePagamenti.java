@@ -1,10 +1,15 @@
 package com.ndovado.dominio.pagamenti;
 
+import java.util.Date;
+import java.util.Random;
+
 /**
  * 
  */
 public class GWAutorizzazionePagamenti {
 
+	
+	Random generator = new Random();
 	/**
 	 * Default constructor
 	 */
@@ -14,25 +19,39 @@ public class GWAutorizzazionePagamenti {
 	/**
 	 * 
 	 */
-	private static GWAutorizzazionePagamenti istance;
+	private static volatile GWAutorizzazionePagamenti istance;
 
 	/**
 	 * @return
 	 */
 	public static GWAutorizzazionePagamenti getIstance() {
 		if (istance==null) {
-			istance = new GWAutorizzazionePagamenti();
+			synchronized (GWAutorizzazionePagamenti.class) {
+				if (istance==null)
+					istance = new GWAutorizzazionePagamenti();
+			}
 		}
 		return istance;
 	}
 
-	/**
-	 * @param aPagamento 
-	 * @return
-	 */
-	public static Boolean AutorizzaPagamento(Pagamento aPagamento) {
-		// TODO implement here
-		return null;
+	public Pagamento creaRichiestaAuthPagamento(Pagamento pToAuth) {
+		if (isAuthorizable()) {
+			pToAuth.setAutorizzato(true);
+			pToAuth.setDataOraPagamento(new Date());
+			pToAuth.setIdTransazione("pippo");
+		} else {
+			pToAuth.setAutorizzato(false);
+		}
+		return pToAuth;
+	}
+	
+	private Boolean isAuthorizable() {
+		Boolean result = true;
+//		Integer num = generator.nextInt(100);
+//		if (num>=1) {
+//			result = true;
+//		}
+		return result;
 	}
 
 }

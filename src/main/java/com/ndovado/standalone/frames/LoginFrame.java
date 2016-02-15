@@ -26,7 +26,6 @@ public class LoginFrame extends JFrame {
 	
 	
 	private final static String titolo = "Login";
-	private final JLabel infoLabel = new JLabel("Effettua il Login");
 	private final JPanel panel = new JPanel();
 	
 	// componenti grafici
@@ -53,6 +52,7 @@ public class LoginFrame extends JFrame {
 
 		this.setVisible(true);
 	}
+
 
 	private void placeComponents(JPanel panel) {
 
@@ -96,6 +96,7 @@ public class LoginFrame extends JFrame {
 		this.setLocation(dim.width/2-this.getWidth()/2, dim.height/2-this.getHeight()/2);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void updateAdminFields() {
 		adminLocale.setUsername(userText.getText());
 		adminLocale.setPassword(passwordText.getText());
@@ -110,10 +111,11 @@ public class LoginFrame extends JFrame {
 				updateAdminFields();
 				AppLogger.debug("Verifico coppia credenziali login");
 				if (controller.verificaCoppiaLogin(adminLocale.getUsername(), adminLocale.getPassword())) {
-					// TODO chiudere all'apertura
-					//this.setVisible(false);
-					@SuppressWarnings("unused")
+					
+					close();
 					MainFrame mframe = new MainFrame();
+					mframe.setVisible(true);
+					
 				} else {
 					String title = "Login fallito";
 					String message = "Credenziali di accesso non valide!";
@@ -131,6 +133,12 @@ public class LoginFrame extends JFrame {
 			}
 		});
 	}
+	
+	public void close(){
+		
+		this.setVisible(false);
+	}
+	
 
 }
 

@@ -1,15 +1,24 @@
 package com.ndovado.dominio.servizi;
 
-
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.Proxy;
+
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
+import com.ndovado.tecservices.loggers.AppLogger;
 
 /**
  * 
  */
 @Entity
+@Proxy(lazy=false,proxyClass=ServizioAggiuntivo.class)
 public class ServizioAggiuntivo extends ATipologiaServizio implements IPrenotabile {
+
+	public ServizioAggiuntivo() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
+		this.dettaglioServizio = null;
+
+	}
 
 	/**
 	 * Default constructor
@@ -21,19 +30,16 @@ public class ServizioAggiuntivo extends ATipologiaServizio implements IPrenotabi
 
 	public String getNomeOggettoPrenotabile() {
 		return this.dettaglioServizio.getServizio().getNomeServizio();
-		//return this.getServizio().getNomeServizio();
+		// return this.getServizio().getNomeServizio();
 	}
-	
+
 	public void setPrezzo(Float prezzo) {
 		this.prezzo = prezzo;
-	}
-	public ServizioAggiuntivo() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
-		return "Servizio aggiuntivo: "+getNomeOggettoPrenotabile();
+		return "Servizio aggiuntivo: " + getNomeOggettoPrenotabile();
 	}
 
 }

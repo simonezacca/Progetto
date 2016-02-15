@@ -2,7 +2,6 @@ package com.ndovado.standalone.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -101,7 +100,7 @@ public class LogFrame extends JFrame {
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Errore: File log non esistente","Errore",JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			JOptionPane.showMessageDialog(null, "Errore durante il caricamento del file di log","Errore",JOptionPane.ERROR_MESSAGE);
 		} 
 	}

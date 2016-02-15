@@ -1,5 +1,6 @@
 package com.ndovado.webapp.beans.prenotazioni;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +17,12 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 
 @ManagedBean(name="carrelloPrenotazioneBean")
 @SessionScoped
-public class CarrelloPrenotazioneBean {
+public class CarrelloPrenotazioneBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private StrutturaBean strutturaCorrente;
 	private PrenotazioneBean prenotazioneCorrente;
 	
@@ -115,7 +120,8 @@ public class CarrelloPrenotazioneBean {
 	
 	public String svuotaCarrello() {
 		prenotazioneCorrente = new PrenotazioneBean();
-		return "/ndovado/index.xhtml";
+		strutturaCorrente = null;
+		return "/ndovado/";
 	}
 
 	/**

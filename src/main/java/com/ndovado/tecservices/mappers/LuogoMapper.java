@@ -4,9 +4,9 @@ import com.ndovado.dominio.core.Luogo;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.LuogoBean;
 
-public class LuogoMapper extends GenericMapper<LuogoBean, Luogo> {
+public class LuogoMapper extends AGenericMapper<LuogoBean, Luogo> {
 
-	private static LuogoMapper instance;
+	private static volatile LuogoMapper instance;
 	
 	protected LuogoMapper() {
 		super();
@@ -14,7 +14,10 @@ public class LuogoMapper extends GenericMapper<LuogoBean, Luogo> {
 	
 	public static LuogoMapper getInstance() {
 		if (instance==null) {
-			instance = new LuogoMapper();
+			synchronized (LuogoMapper.class) {
+				if (instance==null)
+					instance = new LuogoMapper();
+			}
 		}
 		return instance;
 	}

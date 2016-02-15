@@ -20,22 +20,17 @@ public class CatalogoStrutture {
 	 */
 	protected CatalogoStrutture() {
 		AppLogger.debug("Instazione set per elenco strutture.");
-//		populateSetStrutture();
 	}
-	
-//	private void populateSetStrutture() {
-//		elencoStrutture = sdao.getAll();
-//		AppLogger.debug("Lista popolata con "+elencoStrutture.size()+" strutture.");
-//	}
 
 	/**
 	 * 
 	 */
-	private static CatalogoStrutture instance = null;
+	private static volatile CatalogoStrutture instance = null;
 
 	/**
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private static List<Struttura> elencoStrutture = new ArrayList<Struttura>();
 
 	/**
@@ -43,7 +38,10 @@ public class CatalogoStrutture {
 	 */
 	public static CatalogoStrutture getInstance() {
 		if (instance==null) {
-			instance = new CatalogoStrutture();
+			synchronized (CatalogoStrutture.class) {
+				if (instance==null)
+					instance = new CatalogoStrutture();
+			}
 		}
 		return instance;
 	}
@@ -54,12 +52,6 @@ public class CatalogoStrutture {
 	 */
 	public Struttura selezionaStruttura(Long idStruttura) {
 		return sdao.get(idStruttura);
-//		for (Struttura s : elencoStrutture) {
-//			if (s.getId().equals(idStruttura)) {
-//				return s;
-//			}
-//		}
-//		return null;
 	}
 
 	/**
@@ -86,8 +78,6 @@ public class CatalogoStrutture {
 	 */
 	public Struttura creaNuovaStruttura() {
 		Struttura s = new Struttura();
-		// aggiungo s all'elenco delle strutture esistenti
-		//elencoStrutture.add(s);
 		return s;
 	}
 	
@@ -96,43 +86,26 @@ public class CatalogoStrutture {
 		s.getGestore().rimuoviGestioneStruttura(s);
 		
 		sdao.delete(s.getId());
-		
-//		if (elencoStrutture.contains(s)) {
-//			// rimuovo tutte le associazioni con s prima della rimozione dal catalogo strutture
-//			s.getLuogoStruttura().removeStruttura(s);
-//			s.getGestore().rimuoviGestioneStruttura(s);
-//			// infine elimino la struttura dal catalogo
-//			elencoStrutture.remove(s);
-//			// rimuovo la struttura dal DB
-//			sdao.delete(s.getId());
-//		}
 	}
 	
 	public void salvaOAggiornaStruttura(Struttura smodel) {
 		if (smodel!=null) {
 			// salvo per la prima volta o aggiorno il model struttura su db
 			sdao.saveOrUpdate(smodel);
-			// aggiungo il model struttura alla lista delle strutture in elenco
-//			AppLogger.debug("Aggiungo struttura salvata nel catalogo strutture");
-//			elencoStrutture.add(smodel);
 		}
 	} 
 	
 	public List<Struttura> getElencoStruttureByGestore(Gestore gmodel) {
 		
+		@SuppressWarnings("static-access")
 		Session session = sdao.getSessionFactory().openSession();
 		Query q = session.createQuery("from Struttura s where s.gestore = :gestore");
 		q.setParameter("gestore", gmodel);
 		
+		@SuppressWarnings("unchecked")
 		List<Struttura> smodels = q.list();
 		session.close();
 		return smodels;
-//		for (Struttura struttura : elencoStrutture) {
-//			if (struttura.getGestore().getId().equals(gmodel.getId())) {
-//				smodels.add(struttura);
-//			}
-//		}
-//		return smodels;
 	}
 	
 

@@ -20,7 +20,7 @@ public class GestioneRicercaSoluzioneController {
 	private RisultatoRicercaMapper rrmapper = RisultatoRicercaMapper.getInstance();
 	
 	public GestioneRicercaSoluzioneController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public List<RisultatoRicercaBean> doGetSoluzioniDisponibili(LuogoBean lb, Date dataArrivo, Date dataPartenza, Integer nPersone) {

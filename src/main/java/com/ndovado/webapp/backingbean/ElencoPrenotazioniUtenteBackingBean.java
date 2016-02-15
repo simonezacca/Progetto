@@ -36,7 +36,7 @@ public class ElencoPrenotazioniUtenteBackingBean implements Serializable{
 	}
 	
 	@PostConstruct
-	protected void postCostruct() {
+	public void postCostruct() {
 		locatarioCorrente = (LocatarioBean) utenteCorrente.getRuolo();
 		elencoPrenotazioni = controller.getElencoPrenotazioniBeansByLocatario(locatarioCorrente);
 	}

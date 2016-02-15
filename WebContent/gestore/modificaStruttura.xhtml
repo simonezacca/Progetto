@@ -20,10 +20,10 @@
 							<button class="ui button">Aggiungi nuova struttura</button>
 						</h2>
 					</h:panelGroup>
-					<h3 class="ui header" align="center">Aggiungi nuova struttura</h3>
+					<h3 class="ui header" align="center">Gestione struttura</h3>
 
 					<!-- inizio pannello messaggi errore -->
-					<h:panelGroup rendered="#{not empty facesContext.messageList}">
+					<h:panelGroup rendered="false">
 						<div class="ui error message">
 							<i class="close icon"></i>
 							<div class="header">Sono presenti degli errori:</div>
@@ -34,19 +34,21 @@
 					<!-- fine pannello messaggi errore -->
 
 					<h:panelGroup rendered="#{StrutturaBB.addingStruttura}">
-						<h:form styleClass="ui form">
+						<h:form styleClass="ui form" id="formGeneraleStruttura">
 							<h4 class="ui dividing header">Dati Generali</h4>
 							<div class="field">
 								<div class="two fields">
 									<div class="field">
 										<label>Nome struttura</label>
-										<h:inputText p:placeholder="Nome struttura"
-											value="#{StrutturaBB.strutturaCorrente.nomeStruttura}" />
+										<h:inputText id="inputNomeStruttura" p:placeholder="Nome struttura"
+											value="#{StrutturaBB.strutturaCorrente.nomeStruttura}" required="true"/>
+										<h:message for="inputNomeStruttura" errorStyle="ui error message"></h:message>
 									</div>
 									<div class="field">
 										<label>Indirizzo</label>
-										<h:inputText p:placeholder="Indirizzo struttura"
-											value="#{StrutturaBB.strutturaCorrente.indirizzoLuogo}" />
+										<h:inputText id="inputIndirizzoStruttura" p:placeholder="Indirizzo struttura"
+											value="#{StrutturaBB.strutturaCorrente.indirizzoLuogo}" required="true" />
+										<h:message for="inputIndirizzoStruttura" errorStyle="ui error message"></h:message>
 									</div>
 								</div>
 							</div>
@@ -69,7 +71,7 @@
 								<div class="ui form" />
 								<div class="field">
 									<h:inputTextarea
-										value="#{StrutturaBB.strutturaCorrente.descrizioneStruttura}" />
+										value="#{StrutturaBB.strutturaCorrente.descrizioneStruttura}" required="true"/>
 								</div>
 							</div>
 
@@ -118,7 +120,7 @@
 														<h:outputText value="#{camera.pax}" />
 													</div>
 													<div class="field">
-														<h:outputText value="#{camera.prezzo}" />
+														Prezzo per notte: <h:outputText value="#{camera.prezzo}" />
 													</div>
 													<div class="field">
 														<h:outputText value="#{camera.descrizioneCamera}" />
@@ -140,14 +142,18 @@
 							<!-- inizio sezione aggiunta camera -->
 							<div class="field">
 								<div class="ui clearing divider"></div>
+								<h:form>
 								<div class="ui segment">
 									<h4 class="ui dividing header">Aggiungi Camera</h4>
 									<div class="three fields">
 										<div class="field">
 											<label>Nome della camera</label>
-											<h:inputText
+											<h:inputText id="inputNomeCameraAggiunte"
 												value="#{StrutturaBB.cameraInAggiunta.nomeCamera}"
-												p:placeholder="Nome della camera" required="true"/>
+												p:placeholder="Nome della camera" required="true">
+												<f:validateLength minimum="1" />
+											</h:inputText>
+											<h:message id="inputNomeCameraAggiunteErrMsg" for="inputNomeCameraAggiunte"></h:message>
 										</div>
 										<div class="two field">
 											<div class="field">
@@ -169,25 +175,30 @@
 										<div class="three field">
 											<div class="field">
 												<label>Numero pax di persone</label>
-												<h:inputText value="#{StrutturaBB.cameraInAggiunta.pax}"
-													p:placeholder="Numero pax" required="true"/>
+												<h:inputText id="inputNumeroPax" value="#{StrutturaBB.cameraInAggiunta.pax}"
+													p:placeholder="Numero pax" required="true"></h:inputText>
+												<h:message id="inputNumeroPaxErrMsg" for="inputNumeroPax"></h:message>
 											</div>
 											<div class="field">
 												<label>Descrizione camera</label>
-												<h:inputTextarea
+												<h:inputTextarea id="inputDescrizioneCameraAggiunta"
 													value="#{StrutturaBB.cameraInAggiunta.descrizioneCamera}" required="true"/>
+												<h:message id="inputDescrizioneCameraAggiuntaErrMsg" for="inputDescrizioneCameraAggiunta"></h:message>
 											</div>
-											<label>Prezzo camera</label>
+											<label>Prezzo camera per notte</label>
 											<div class="ui right labeled input">
 												<div class="ui label">&euro;</div>
-												<h:inputText value="#{StrutturaBB.cameraInAggiunta.prezzo}"  required="true"/>
+												<h:inputText id="inputPrezzoPerNotte" value="#{StrutturaBB.cameraInAggiunta.prezzo}"  required="true"/>
+												<h:message id="inputPrezzoPerNotteErrMsg" for="inputPrezzoPerNotte"></h:message>
 											</div>
 										</div>
 									</div>
-									<h:commandButton value="Aggiungi camera"
-										action="#{StrutturaBB.aggiungiCamera}"
-										styleClass="ui orange button" />
-								</div>
+										<h:commandButton value="Aggiungi camera"
+											action="#{StrutturaBB.aggiungiCamera}"
+											styleClass="ui orange button">
+										</h:commandButton>
+									</div>
+								</h:form>
 							</div>
 
 						</h:form>

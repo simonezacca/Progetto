@@ -2,16 +2,18 @@ package com.ndovado.standalone.frames;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private String titolo = "Pannello Principale";
+	private static String titolo = "Pannello Principale";
 	private JPanel panel = new JPanel();
 
 	private JButton btnGestioneServizi;
@@ -19,14 +21,17 @@ public class MainFrame extends JFrame {
 
 	public MainFrame() {
 
-		JFrame mainFrame = new JFrame(titolo);
-		mainFrame.setSize(800, 600);
-		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		mainFrame.getContentPane().add(panel);
+		super(titolo);
+		this.setSize(800, 600);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.getContentPane().add(panel);
 		placeComponents(panel);
+		close();
 
-		mainFrame.setVisible(true);
+		this.setVisible(true);
 	}
+	
+
 
 	private void placeComponents(JPanel panel) {
 		panel.setLayout(null);
@@ -65,4 +70,18 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	public void close(){
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent windowEvent) {
+		    	Integer risposta = JOptionPane.showConfirmDialog(null, "Sei sicuro di voler chiudere l'applicazione?", "Stai per chiudere l'applicazione", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+		        if ( risposta == JOptionPane.YES_OPTION) {
+		        	 LoginFrame loginFrame = new LoginFrame();
+				     loginFrame.setVisible(true);
+		        	}
+			   
+		    }
+		});
+	}
 }

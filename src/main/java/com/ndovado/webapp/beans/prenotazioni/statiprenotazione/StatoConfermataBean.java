@@ -12,4 +12,7 @@ public class StatoConfermataBean extends AStatoPrenotazioneBean {
 		return "Stato confermata";
 	}
 
+	public StatoConfermataBean() {
+		// TODO Auto-generated constructor stub
+	}
 }

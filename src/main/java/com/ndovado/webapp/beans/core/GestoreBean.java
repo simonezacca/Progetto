@@ -8,6 +8,8 @@ public class GestoreBean extends ARuoloBean {
 	private final Long idRadio = new Long(1);
 	private final String nameRadio = "Gestore";
 	
+	private String coordinatePagamento;
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -63,6 +65,22 @@ public class GestoreBean extends ARuoloBean {
 	 */
 	public String getNameradio() {
 		return nameRadio;
+	}
+	
+	public GestoreBean() {
+		// TODO Auto-generated constructor stub
+	}
+	/**
+	 * @return the coordinatePagamento
+	 */
+	public String getCoordinatePagamento() {
+		return coordinatePagamento;
+	}
+	/**
+	 * @param coordinatePagamento the coordinatePagamento to set
+	 */
+	public void setCoordinatePagamento(String coordinatePagamento) {
+		this.coordinatePagamento = coordinatePagamento;
 	}
 	
 }

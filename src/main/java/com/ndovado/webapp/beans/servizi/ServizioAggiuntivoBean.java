@@ -8,7 +8,7 @@ import com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean;
 public class ServizioAggiuntivoBean extends ATipologiaServizioBean implements IPrenotabileBean {
 
 	public ServizioAggiuntivoBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public ServizioAggiuntivoBean(ServizioComuneBean scb, DettaglioServizioBean dsb) {

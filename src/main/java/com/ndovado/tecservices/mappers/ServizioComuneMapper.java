@@ -4,9 +4,9 @@ import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
 
-public class ServizioComuneMapper extends GenericMapper<ServizioComuneBean, ServizioComune> {
+public class ServizioComuneMapper extends AGenericMapper<ServizioComuneBean, ServizioComune> {
 
-	private static ServizioComuneMapper instance;
+	private static volatile ServizioComuneMapper instance;
 	
 	protected ServizioComuneMapper() {
 		super();
@@ -14,7 +14,10 @@ public class ServizioComuneMapper extends GenericMapper<ServizioComuneBean, Serv
 	
 	public static ServizioComuneMapper getInstance() {
 		if (instance==null) {
-			instance = new ServizioComuneMapper();
+			synchronized (ServizioComuneMapper.class) {
+				if (instance==null)
+					instance = new ServizioComuneMapper();
+			}
 		}
 		return instance;
 	}

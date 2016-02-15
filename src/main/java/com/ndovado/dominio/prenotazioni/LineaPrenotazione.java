@@ -1,10 +1,9 @@
 package com.ndovado.dominio.prenotazioni;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,19 +16,19 @@ import org.hibernate.annotations.Any;
 import org.hibernate.annotations.AnyMetaDef;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.MetaValue;
+import org.hibernate.annotations.Proxy;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
  * Implementare i metodi equals() and hasCode()
  */
 @Entity
+@Proxy(lazy=false)
 @Table(name="linea_prenotazione")
 public class LineaPrenotazione implements IPersistente {
 
@@ -42,7 +41,7 @@ public class LineaPrenotazione implements IPersistente {
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -57,21 +56,20 @@ public class LineaPrenotazione implements IPersistente {
 	 */
 	
 	@Any(metaColumn = @Column(name = "tipo_oggetto"),fetch=FetchType.EAGER)
-	//@ManyToAny(metaColumn = @Column(name = "tipo_oggetto"),fetch=FetchType.EAGER)
 	@AnyMetaDef(idType = "long", metaType = "integer", metaValues = {
 	    @MetaValue(value = "1", targetEntity = Camera.class),
 	    @MetaValue(value = "2", targetEntity = ServizioAggiuntivo.class)
 	})
 	@Cascade(CascadeType.MERGE)
 	@JoinColumn(name="oggetto_id")
-	//@Fetch(FetchMode.SELECT)
 	private IPrenotabile oggettoPrenotato;
 
 	/**
 	 * Default constructor
 	 */
-	@SuppressWarnings("unused")
-	private LineaPrenotazione() {
+	
+	public LineaPrenotazione() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
 	public LineaPrenotazione(Prenotazione prenotazione) {
@@ -115,14 +113,27 @@ public class LineaPrenotazione implements IPersistente {
 		return this.id;
 	}
 	
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
-	protected void setPrenotazioneCorrente(Prenotazione p) {
+	public void setPrenotazioneCorrente(Prenotazione p) {
 		if (p!=null) {
 			this.prenotazioneCorrente = p;
 		}
+	}
+
+	/**
+	 * @param oggettoPrenotato the oggettoPrenotato to set
+	 */
+	public void setOggettoPrenotato(IPrenotabile oggettoPrenotato) {
+		this.oggettoPrenotato = oggettoPrenotato;
+	}
+
+	@Override
+	public String toString() {
+		return "LineaPrenotazione [id=" + id + ", oggettoPrenotato="
+				+ oggettoPrenotato + "]";
 	}
 
 	@Override
@@ -130,6 +141,7 @@ public class LineaPrenotazione implements IPersistente {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((oggettoPrenotato == null) ? 0 : oggettoPrenotato.hashCode());
 		result = prime * result + ((prenotazioneCorrente == null) ? 0 : prenotazioneCorrente.hashCode());
 		return result;
 	}
@@ -147,6 +159,11 @@ public class LineaPrenotazione implements IPersistente {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (oggettoPrenotato == null) {
+			if (other.oggettoPrenotato != null)
+				return false;
+		} else if (!oggettoPrenotato.equals(other.oggettoPrenotato))
 			return false;
 		if (prenotazioneCorrente == null) {
 			if (other.prenotazioneCorrente != null)

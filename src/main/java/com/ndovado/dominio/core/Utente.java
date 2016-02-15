@@ -1,19 +1,18 @@
 package com.ndovado.dominio.core;
 
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -42,7 +41,7 @@ public class Utente implements IPersistente {
 	 */
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -75,7 +74,6 @@ public class Utente implements IPersistente {
 
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="utente")
 	// utente è entità principale
-	//@Embedded
 	private ARuolo ruolo;
 
 
@@ -83,6 +81,7 @@ public class Utente implements IPersistente {
 	 * Costrutto di default
 	 */
 	public Utente() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 	/**
 	 * Costruttore paramentrico

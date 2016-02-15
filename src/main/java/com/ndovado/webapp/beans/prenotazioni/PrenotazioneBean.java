@@ -8,9 +8,14 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+
+import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.LocatarioBean;
 import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
 import com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean;
+import com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean;
 
 @ManagedBean(name="prenotazioneBean")
 public class PrenotazioneBean implements Serializable{
@@ -31,13 +36,13 @@ public class PrenotazioneBean implements Serializable{
 		return "PrenotazioneBean [codicePrenotazione=" + codicePrenotazione + ", dataArrivo=" + dataArrivo
 				+ ", dataOraPrenotazione=" + dataOraPrenotazione + ", dataPartenza=" + dataPartenza + ", id=" + id
 				+ ", importoTotale=" + importoTotale + ", lineePrenotazione=" + lineePrenotazione + ", locatario="
-				+ locatario + ", notePrenotazione=" + notePrenotazione + ", pagamentiAssociati=" + pagamentiAssociati
+				+ locatario + ", notePrenotazione=" + notePrenotazione + ", pagamentiAssociati=" + pagamentoAssociato
 				+ ", statoPrenotazione=" + statoPrenotazione + "]";
 	}
 
 	private LocatarioBean locatario;
 	private String notePrenotazione;
-	private List<PagamentoBean> pagamentiAssociati;
+	private PagamentoBean pagamentoAssociato;
 	private AStatoPrenotazioneBean statoPrenotazione;
 	
 	
@@ -46,14 +51,27 @@ public class PrenotazioneBean implements Serializable{
 		dataPartenza = new Date();
 		dataOraPrenotazione = new Date();
 		lineePrenotazione = new ArrayList<LineaPrenotazioneBean>();
-		pagamentiAssociati = new ArrayList<PagamentoBean>();
+		//pagamentoAssociato = new PagamentoBean();
 		importoTotale = ricalcolaImportoTotale();
+		statoPrenotazione = new StatoPendenteBean();
 	}
 	
 	private Float ricalcolaImportoTotale() {
+	
+		LocalDate dataArrivoJ = new  LocalDate(dataArrivo.getTime());
+		LocalDate dataPartenzaJ = new LocalDate(dataPartenza.getTime());
+		Period diff = new Period(dataArrivoJ, dataPartenzaJ);
+		Integer numNotti = diff.getDays();
 		Float newTotale = new Float(0);
 		for (LineaPrenotazioneBean lpb : lineePrenotazione) {
-			newTotale += ((IPrenotabileBean) lpb.getOggettoPrenotato()).getPrezzo();
+			IPrenotabileBean oggettoPrenotato = lpb.getOggettoPrenotato();
+			Float prezzoOggettoPrenotato = oggettoPrenotato.getPrezzo();
+			
+			if (oggettoPrenotato instanceof CameraBean) {
+				// moltiplico il prezzo per notte per il numero di notti
+				prezzoOggettoPrenotato *= numNotti;
+			}
+			newTotale += prezzoOggettoPrenotato;
 		}
 		return newTotale;
 	}
@@ -132,13 +150,13 @@ public class PrenotazioneBean implements Serializable{
 	/**
 	 * @return the idPrenotazione
 	 */
-	public Long getIdPrenotazione() {
+	public Long getId() {
 		return id;
 	}
 	/**
 	 * @param idPrenotazione the idPrenotazione to set
 	 */
-	public void setIdPrenotazione(Long idPrenotazione) {
+	public void setId(Long idPrenotazione) {
 		this.id = idPrenotazione;
 	}
 	/**
@@ -192,14 +210,15 @@ public class PrenotazioneBean implements Serializable{
 	/**
 	 * @return the pagamentiAssociati
 	 */
-	public List<PagamentoBean> getPagamentiAssociati() {
-		return pagamentiAssociati;
+	public PagamentoBean getPagamentoAssociato() {
+		return pagamentoAssociato;
 	}
 	/**
 	 * @param pagamentiAssociati the pagamentiAssociati to set
 	 */
-	public void setPagamentiAssociati(List<PagamentoBean> pagamentiAssociati) {
-		this.pagamentiAssociati = pagamentiAssociati;
+	public void setPagamentoAssociato(PagamentoBean pagamentoAssociato) {
+		this.pagamentoAssociato = pagamentoAssociato;
+		pagamentoAssociato.setPrenotazioneSaldata(this);
 	}
 	/**
 	 * @return the statoPrenotazione

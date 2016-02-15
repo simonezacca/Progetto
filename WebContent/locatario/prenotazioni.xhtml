@@ -20,7 +20,7 @@
 									<h:graphicImage library="images" name="square-image.png" />
 								</div>
 								<div class="content">
-									<a class="header">Nome Albergo</a>
+									<a class="header"><h:outputText value="Nome struttura"/> </a>
 									<div class="meta">
 										<p>
 											<span class="cinema">Stato: <h:outputText
@@ -28,16 +28,20 @@
 											</span>
 										</p>
 										<p>
-											<span class="cinema"><h:outputText
-													value="#{prenotazioneBean.importoTotale}" />Importo: 50€</span>
+											<span class="cinema">Importo: <h:outputText
+													value="#{prenotazioneBean.importoTotale}" /> &euro;</span>
 										</p>
 										<p>
 											<span class="cinema">CHECK IN: <h:outputText
-													value="#{prenotazioneBean.dataArrivo}" /></span>
+													value="#{prenotazioneBean.dataArrivo}" >
+													<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText></span>
 										</p>
 										<p>
 											<span class="cinema">CHECK OUT: <h:outputText
-													value="#{prenotazioneBean.dataPartenza}" />
+													value="#{prenotazioneBean.dataPartenza}" >
+													<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+													</h:outputText>
 											</span>
 										</p>
 									</div>

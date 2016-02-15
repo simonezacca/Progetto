@@ -8,7 +8,7 @@
   <property name="hibernate.connection.url">jdbc:mysql://localhost:8889/ndovado</property>
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-  <property name="hibernate.show_sql">false</property>
+  <property name="hibernate.show_sql">true</property>
   <property name="hibernate.hbm2ddl.auto">update</property>
   <mapping class="com.ndovado.dominio.core.ARuolo"/>
   <mapping class="com.ndovado.dominio.core.Gestore"/>
@@ -17,16 +17,17 @@
   <mapping class="com.ndovado.dominio.core.Luogo"/>
   <mapping class="com.ndovado.dominio.core.Struttura"/>
   <mapping class="com.ndovado.dominio.core.Utente"/>
-  <mapping class="com.ndovado.dominio.pagamenti.Pagamento"/>
   <mapping class="com.ndovado.dominio.prenotazioni.LineaPrenotazione"/>
   <mapping class="com.ndovado.dominio.prenotazioni.Prenotazione"/>
-  <mapping class="com.ndovado.dominio.prenotazioni.TableauPrenotazioni"/>
+  <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata"/>
+  <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata"/>
+  <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente"/>
+  <mapping class="com.ndovado.dominio.prenotazioni.IPrenotabile"/>
   <mapping class="com.ndovado.dominio.servizi.ATipologiaServizio"/>
   <mapping class="com.ndovado.dominio.servizi.DettaglioServizio"/>
   <mapping class="com.ndovado.dominio.servizi.ServizioComune"/>
   <mapping class="com.ndovado.dominio.servizi.ServizioBase"/>
   <mapping class="com.ndovado.dominio.servizi.ServizioAggiuntivo"/>
-  <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione"/>
-  <mapping class="com.ndovado.dominio.prenotazioni.IPrenotabile"/>
+  <mapping class="com.ndovado.dominio.pagamenti.Pagamento"/>
  </session-factory>
 </hibernate-configuration>

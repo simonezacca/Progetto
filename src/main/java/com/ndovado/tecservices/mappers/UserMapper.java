@@ -4,9 +4,9 @@ import com.ndovado.dominio.core.Utente;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.UtenteBean;
 
-public class UserMapper extends GenericMapper<UtenteBean, Utente> {
+public class UserMapper extends AGenericMapper<UtenteBean, Utente> {
 
-	private static UserMapper instance;
+	private static volatile UserMapper instance;
 	
 	protected UserMapper() {
 		super();
@@ -14,7 +14,10 @@ public class UserMapper extends GenericMapper<UtenteBean, Utente> {
 	
 	public static UserMapper getInstance() {
 		if (instance==null) {
-			instance = new UserMapper();
+			synchronized (UserMapper.class) {
+				if (instance==null)
+					instance = new UserMapper();
+			}
 		}
 		return instance;
 	}

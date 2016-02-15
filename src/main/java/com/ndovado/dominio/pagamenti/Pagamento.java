@@ -8,13 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -34,7 +35,7 @@ public class Pagamento implements IPersistente {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idPagamento;
+	private Long id;
 
 	/**
 	 * 
@@ -46,23 +47,45 @@ public class Pagamento implements IPersistente {
 	/**
 	 * 
 	 */
-	@Column(name = "id_transazion")
+	@Column(name = "id_transazione")
 	private String idTransazione;
 
 	/**
 	 * 
 	 */
-	
-	@ManyToOne
-	@PrimaryKeyJoinColumn
+
+	@OneToOne(optional=false)
+	//@PrimaryKeyJoinColumn
 	private Prenotazione prenotazioneSaldata;
+	
+	@Column(name="numeroCC")
+	private String numeroCC;
+	
+	@Column(name="meseScadenza")
+	private Integer meseScadenza;
+	
+	@Column(name="annoScadenza")
+	private Integer annoScadenza;
+	
+	@Column(name="circuito")
+	private String circuito;
+	
+	@Transient
+	private Boolean autorizzato = false;
+	
+	@Column(name="pagamentoVerso")
+	private String pagamentoVerso;
+	
 
 	/**
 	 * Default constructor
 	 */
-	@SuppressWarnings("unused")
-	private Pagamento() {
+	public Pagamento() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
+	
+	
+	
 	/**
 	 * 
 	 * @param aPrenotazione
@@ -105,13 +128,13 @@ public class Pagamento implements IPersistente {
 	 * @return the idPagamento
 	 */
 	public Long getId() {
-		return idPagamento;
+		return id;
 	}
 	/**
 	 * @param idPagamento the idPagamento to set
 	 */
-	protected void setId(Long idPagamento) {
-		this.idPagamento = idPagamento;
+	public void setId(Long idPagamento) {
+		this.id = idPagamento;
 	}
 	/**
 	 * @param dataOraPagamento the dataOraPagamento to set
@@ -140,9 +163,9 @@ public class Pagamento implements IPersistente {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataOraPagamento == null) ? 0 : dataOraPagamento.hashCode());
-		result = prime * result + ((idPagamento == null) ? 0 : idPagamento.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((idTransazione == null) ? 0 : idTransazione.hashCode());
-		result = prime * result + ((prenotazioneSaldata == null) ? 0 : prenotazioneSaldata.hashCode());
+		//result = prime * result + ((prenotazioneSaldata == null) ? 0 : prenotazioneSaldata.hashCode());
 		return result;
 	}
 	@Override
@@ -159,10 +182,10 @@ public class Pagamento implements IPersistente {
 				return false;
 		} else if (!dataOraPagamento.equals(other.dataOraPagamento))
 			return false;
-		if (idPagamento == null) {
-			if (other.idPagamento != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idPagamento.equals(other.idPagamento))
+		} else if (!id.equals(other.id))
 			return false;
 		if (idTransazione == null) {
 			if (other.idTransazione != null)
@@ -175,6 +198,114 @@ public class Pagamento implements IPersistente {
 		} else if (!prenotazioneSaldata.equals(other.prenotazioneSaldata))
 			return false;
 		return true;
+	}
+
+
+
+	/**
+	 * @return the numeroCC
+	 */
+	public String getNumeroCC() {
+		return numeroCC;
+	}
+
+
+
+	/**
+	 * @param numeroCC the numeroCC to set
+	 */
+	public void setNumeroCC(String numeroCC) {
+		this.numeroCC = numeroCC;
+	}
+
+
+
+	/**
+	 * @return the meseScadenza
+	 */
+	public Integer getMeseScadenza() {
+		return meseScadenza;
+	}
+
+
+
+	/**
+	 * @param meseScadenza the meseScadenza to set
+	 */
+	public void setMeseScadenza(Integer meseScadenza) {
+		this.meseScadenza = meseScadenza;
+	}
+
+
+
+	/**
+	 * @return the annoScadenza
+	 */
+	public Integer getAnnoScadenza() {
+		return annoScadenza;
+	}
+
+
+
+	/**
+	 * @param annoScadenza the annoScadenza to set
+	 */
+	public void setAnnoScadenza(Integer annoScadenza) {
+		this.annoScadenza = annoScadenza;
+	}
+
+
+
+	/**
+	 * @return the circuito
+	 */
+	public String getCircuito() {
+		return circuito;
+	}
+
+
+
+	/**
+	 * @param circuito the circuito to set
+	 */
+	public void setCircuito(String circuito) {
+		this.circuito = circuito;
+	}
+
+
+
+	/**
+	 * @return the autorizzato
+	 */
+	public Boolean isAutorizzato() {
+		return autorizzato;
+	}
+
+
+
+	/**
+	 * @param autorizzato the autorizzato to set
+	 */
+	public void setAutorizzato(Boolean autorizzato) {
+		this.autorizzato = autorizzato;
+	}
+
+
+
+	/**
+	 * @return the pagamentoVerso
+	 */
+	public String getPagamentoVerso() {
+		return pagamentoVerso;
+	}
+
+
+
+	/**
+	 * @param pagamentoVerso the pagamentoVerso to set
+	 */
+	public void setPagamentoVerso(String pagamentoVerso) {
+		this.pagamentoVerso = pagamentoVerso;
 	}
 
 }

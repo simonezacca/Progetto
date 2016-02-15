@@ -2,6 +2,8 @@ package com.ndovado.dominio.prenotazioni.statiprenotazione;
 
 import javax.persistence.Entity;
 
+import com.ndovado.tecservices.loggers.AppLogger;
+
 /**
  * 
  */
@@ -12,6 +14,7 @@ public class StatoConfermata extends AStatoPrenotazione {
 	 * Default constructor
 	 */
 	public StatoConfermata() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
 	/**

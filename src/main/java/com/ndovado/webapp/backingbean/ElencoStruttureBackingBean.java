@@ -31,7 +31,7 @@ public class ElencoStruttureBackingBean implements Serializable {
 	private GestioneStrutturaController controller;
 			
 	public ElencoStruttureBackingBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	@PostConstruct

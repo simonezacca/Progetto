@@ -1,13 +1,13 @@
 package com.ndovado.dominio.servizi;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -33,7 +33,7 @@ public class ServizioComune implements IPersistente {
 	 * 
 	 */
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
@@ -43,7 +43,8 @@ public class ServizioComune implements IPersistente {
 	private String nomeServizio;
 
 	// necessario per hibernate
-	protected ServizioComune() {
+	public ServizioComune() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 		
 	}
 	/**

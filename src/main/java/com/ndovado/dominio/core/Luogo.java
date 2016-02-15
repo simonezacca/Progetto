@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
@@ -56,8 +57,8 @@ public class Luogo implements IPersistente {
 	//@Fetch(FetchMode.SELECT)
 	private Set<Struttura> struttureInLuogo = new HashSet<Struttura>();
 
-	protected Luogo() {
-		
+	public Luogo() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 	/**
 	 * Default constructor

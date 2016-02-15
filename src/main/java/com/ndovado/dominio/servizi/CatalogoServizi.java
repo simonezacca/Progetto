@@ -2,11 +2,8 @@ package com.ndovado.dominio.servizi;
 
 import java.util.*;
 
-import org.apache.taglibs.standard.tag.common.fmt.SetTimeZoneSupport;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.ServizioComuneDAO;
 
@@ -19,14 +16,13 @@ public class CatalogoServizi {
 
 	private static ServizioComuneDAO scdao = new ServizioComuneDAO();
 	private List<ServizioComune> serviziDisponibili;
-	private static CatalogoServizi instance;
+	private static volatile CatalogoServizi instance;
 	
 	/**
 	 * Default constructor
 	 */
-	private CatalogoServizi() {
+	public CatalogoServizi() {
 		initList();
-//		populateList();
 	}
 	
 	private void initList() {
@@ -34,21 +30,6 @@ public class CatalogoServizi {
 			serviziDisponibili = new ArrayList<ServizioComune>();
 		}
 	}
-	
-//	@SuppressWarnings("unchecked")
-//	private void populateList() {
-//		AppLogger.debug("Popolo lista servizi da DB");
-//		SessionFactory sf = scdao.getSessionFactory();
-//		Session session = sf.openSession();
-//		
-//		Query q = session.createQuery("from ServizioComune");
-//		
-//		this.serviziDisponibili = q.list();
-//		session.close();
-//		AppLogger.debug("Lista popolata con "+serviziDisponibili.size()+" elementi.");
-//	}
-	
-	
 
 
 	/**
@@ -56,7 +37,10 @@ public class CatalogoServizi {
 	 */
 	public static CatalogoServizi getInstance() {
 		if (instance==null) {
-			instance = new CatalogoServizi();
+			synchronized (CatalogoServizi.class) {
+				if (instance==null)
+					instance = new CatalogoServizi();
+			}
 		}
 		return instance;
 	}
@@ -67,12 +51,6 @@ public class CatalogoServizi {
 	 */
 	public ServizioComune getServizioById(Long idServizio) {
 		return scdao.get(idServizio);
-//		for (ServizioComune servizio : getServiziDisponibili()) {
-//			if (servizio.getId() == idServizio) {
-//				return servizio;
-//			}
-//		}
-//		return null;
 	}
 
 	/**
@@ -82,20 +60,15 @@ public class CatalogoServizi {
 	
 	public List<ServizioComune> getListaServiziPerNome(String nome) {
 		
+		@SuppressWarnings("static-access")
 		Session session = scdao.getSessionFactory().openSession();
 		Query q = session.createQuery("from ServizioComune sc where sc.nomeServizio like :nome");
 		q.setParameter("nome", "%"+nome+"%");
 
+		@SuppressWarnings("unchecked")
 		List<ServizioComune> elencoRisultati = q.list();
 		session.close();
 		return elencoRisultati;
-		
-//		for (ServizioComune servizioComune : getServiziDisponibili()) {
-//			if (servizioComune.getNomeServizio().contains(nome)) {
-//				elencoRisultati.add(servizioComune);
-//			}
-//		}
-//		return elencoRisultati;
 	}
 	
 	/**
@@ -107,8 +80,6 @@ public class CatalogoServizi {
 		ServizioComune sc = new ServizioComune(aNomeServizio);
 		// persisto il servizio comune su DB
 		scdao.saveOrUpdate(sc);
-		//aggiungo il nuovo servizio alla lista
-		//getServiziDisponibili().add(sc);
 		return sc;
 	}
 	
@@ -116,8 +87,6 @@ public class CatalogoServizi {
 		if(s!=null) {
 			// rimuovo il servizio dal DB
 			scdao.delete(s.getId());
-			// rimuovo il servizio dalla lista in memoria
-			//serviziDisponibili.remove(s);
 		}
 	} 
 	
@@ -143,7 +112,6 @@ public class CatalogoServizi {
 	 */
 	public List<ServizioComune> getServiziDisponibili() {
 		return scdao.getAll();
-//		return serviziDisponibili;
 	}
 
 	/**

@@ -1,12 +1,10 @@
 package com.ndovado.dominio.servizi;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,7 +26,7 @@ public class DettaglioServizio {
 
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@OneToOne
@@ -45,6 +43,7 @@ public class DettaglioServizio {
 	private ATipologiaServizio tipologia;
 	
 	public DettaglioServizio() {
+		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
 	public DettaglioServizio(Struttura st, ServizioComune sc) {

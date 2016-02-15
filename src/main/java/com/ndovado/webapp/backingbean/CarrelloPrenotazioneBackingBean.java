@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import com.ndovado.webapp.beans.core.StrutturaBean;
+import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
 import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 import com.ndovado.webapp.controllers.GestionePrenotazioneController;
@@ -27,8 +28,20 @@ public class CarrelloPrenotazioneBackingBean {
 		StrutturaBean sbean = carrello.getStrutturaCorrente();
 		PrenotazioneBean pbean = carrello.getPrenotazioneCorrente();
 		
-		controller.doSalvaPrenotazione(sbean, pbean);
-		return "pagamentoPrenotazione";
+		pbean = controller.doSalvaPrenotazione(sbean, pbean);
+		// aggiorno con la prenotazione persistita su db
+		
+		// ottengo le coordinate per il pagamento al gestore
+		String coordinateGestore = sbean.getGestore().getCoordinatePagamento();
+		// creo un nuovo pagamento e imposto le coordinate del gestore
+		PagamentoBean pagbean = new PagamentoBean();
+		pagbean.setPagamentoVerso(coordinateGestore);
+		
+		// associo il pagamento appena creato alla prenotazione corrente
+		pbean.setPagamentoAssociato(pagbean);
+		carrello.setPrenotazioneCorrente(pbean);
+		//carrello.svuotaCarrello();
+		return "pagamentoPrenotazione?faces-redirect=true";
 	}
 
 	/**

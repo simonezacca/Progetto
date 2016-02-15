@@ -10,7 +10,56 @@
 <h:body>
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
-		Pagamento prenotazione
+			<h:form>
+				<div class="eleven wide column">
+					<div class="ui white inverted header">EFFETTUA IL PAGAMENTO</div>
+					<div class="ui orange segment">
+						<h4 class="ui orange dividing header">Seleziona il circuito
+							con cui desideri effettuare il pagamento:</h4>
+						<h5 class="ui black header">
+							Saldo Totale: <strong> <h:outputText
+									value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}" />
+								&euro;
+							</strong>
+						</h5>
+
+						<div class="cartadicredito" style="margin-top: 20px;">
+							<div class="ui segment orange">
+								<h4 class="ui orange dividing header">Inserisci i dati per
+									effettuare il pagamento:</h4>
+								<div class="ui input">
+									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.numeroCC}"
+										p:placeholder="Numero di carta" required="true" />
+								</div>
+								<div class="ui input">
+									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.meseScadenza}"
+										p:placeholder="Mese scadenza (MM)" size="2" required="true" maxlength="2"/>
+									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.annoScadenza}"
+										p:placeholder="Anno scadenza (YYYY)" size="4" required="true" maxlength="4"/>
+								</div>
+								<div class="ui input">
+									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.ccv}"
+										p:placeholder="Codice di sicurezza" size="3" required="true" maxlength="3"/>
+								</div>
+								<label>Circuito:</label>
+								
+								<h:selectOneMenu value="#{effettuaPagamentoBB.pagamentoCorrente.circuito}"
+									required="true" styleClass="ui selection fluid dropdown">
+									<f:selectItems value="#{pagamentoBean.circuitiDisponibili}"
+										var="circuito" itemLabel="#{circuito}"
+										itemValue="#{circuito}" 
+										/>
+								</h:selectOneMenu>
+								
+								<div id="pulsante">
+									<h:commandButton value="Paga" styleClass="ui orange button"
+										action="#{effettuaPagamentoBB.effettuaPagamento}"></h:commandButton>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

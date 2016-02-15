@@ -4,7 +4,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
-import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.ARuoloBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LocatarioBean;
@@ -12,8 +11,6 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="registrazioneUtenteBB")
-//@Named("registrazioneUtenteBB")
-//@RequestScoped
 @RequestScoped
 public class RegistrazioneUtenteBackingBean {
 
@@ -21,7 +18,7 @@ public class RegistrazioneUtenteBackingBean {
 	private static ARuoloBean[] ruoli;
 	
 	public RegistrazioneUtenteBackingBean() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	static {
@@ -35,7 +32,6 @@ public class RegistrazioneUtenteBackingBean {
 	}	
 	
 	@ManagedProperty(value="#{utenteBean}")
-	//@Inject
 	private UtenteBean utenteCorrente;
 	
 	/**

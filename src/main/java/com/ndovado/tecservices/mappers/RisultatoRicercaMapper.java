@@ -3,17 +3,20 @@ package com.ndovado.tecservices.mappers;
 import com.ndovado.dominio.prenotazioni.RisultatoRicerca;
 import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 
-public class RisultatoRicercaMapper extends GenericMapper<RisultatoRicercaBean, RisultatoRicerca> {
+public class RisultatoRicercaMapper extends AGenericMapper<RisultatoRicercaBean, RisultatoRicerca> {
 
-	private static RisultatoRicercaMapper instance;
+	private static volatile RisultatoRicercaMapper instance;
 	
 	public RisultatoRicercaMapper() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public static RisultatoRicercaMapper getInstance() {
 		if (instance==null) {
-			instance = new RisultatoRicercaMapper();
+			synchronized (RisultatoRicercaMapper.class) {
+				if (instance==null)
+					instance = new RisultatoRicercaMapper();
+			}
 		}
 		return instance;
 	}

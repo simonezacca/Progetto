@@ -11,5 +11,9 @@ public class StatoPendenteBean extends AStatoPrenotazioneBean {
 	public String toString() {
 		return "Stato pendente";
 	}
+	
+	public StatoPendenteBean() {
+		// TODO Auto-generated constructor stub
+	}
 
 }

@@ -11,7 +11,6 @@ import com.ndovado.tecservices.mappers.LuogoMapper;
 import com.ndovado.webapp.beans.core.LuogoBean;
 
 @ManagedBean(name="luogoBeanConverter")
-//@FacesConverter("com.ndovado.webapp.beanconverters.userroleconveter")
 public class LuogoBeanConverter implements Converter{
 
 	private CatalogoLuogo clmodel = CatalogoLuogo.getInstance();
