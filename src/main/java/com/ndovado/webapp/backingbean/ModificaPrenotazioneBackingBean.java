@@ -6,7 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-
+import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 import com.ndovado.webapp.controllers.GestionePrenotazioneController;
 
@@ -23,16 +23,21 @@ public class ModificaPrenotazioneBackingBean implements Serializable {
 	private PrenotazioneBean prenotazioneCorrente;
 	
 	public ModificaPrenotazioneBackingBean() {
-		// caso modifica
-		prenotazioneCorrente = (PrenotazioneBean) FacesContext.getCurrentInstance().getExternalContext().getFlash()
-				.get("prenotazioneDaVisualizzare");
+		prenotazioneCorrente = (PrenotazioneBean) JSFHelper.get("prenotazioneDaVisualizzare");
+		if (prenotazioneCorrente==null) {
+			JSFHelper.redirectTo("/locatario/index.xhtml");
+		}
 	}
 	
-	public String doAggiornaPrenotazione() {
+	public String aggiornaPrenotazione() {
 		controller.doAggiornaPrenotazione(prenotazioneCorrente);
-		return "prenotazioni";
+		return null;
 	}
 
+	public String cancellaPrenotazione() {
+		controller.doCancellaPrenotazione(prenotazioneCorrente);
+		return "prenotazioni";
+	}
 	/**
 	 * @return the prenotazioneCorrente
 	 */

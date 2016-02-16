@@ -112,6 +112,10 @@ public class TableauPrenotazioni {
 		pdao.saveOrUpdate(pmodel);
 		return pmodel;
 	}
+	
+	public void cancellaPrenotazione(Prenotazione pmodel) {
+		pdao.delete(pmodel.getId());
+	}
 
 //	/**
 //	 * @param DataArrivo 

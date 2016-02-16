@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="/templates/layoutUtente.xhtml">
+		<ui:define name="content">
+			<div class="container">
+				<div class="ui grid container">
+					<div class="row">
+						<div class="column">
+							<div class="ui two column grid">
+								<ui:repeat var="risultatoRicercaBean"
+									value="#{confrontoStruttureBB.listaPerRicerca}">
+									<h:form>
+										<!-- inizio loop strutture -->
+										<div class="eight wide column">
+											<div class="ui white inverted header">
+												<h:outputText
+													value="#{risultatoRicercaBean.struttura.nomeStruttura}" />
+											</div>
+											<div class="ui orange segment">
+												<h4 class="ui orange dividing header">Camere
+													Disponibili</h4>
+												<div class="ui orange divided items">
+													<div class="ui three cards">
+														<!-- inizio loop camere -->
+														<ui:repeat var="cameraBean"
+															value="#{risultatoRicercaBean.camereLibere.toArray()}">
+															<div class="ui orange card">
+																<div class="ui image">
+																	<h:graphicImage library="images"
+																		name="square-image.png" />
+																</div>
+																<div class="content">
+																	<a class="header"> <h:outputText
+																			value="#{cameraBean.nomeCamera}" />
+																	</a>
+																	<div class="meta">
+																		<span class="date"> <h:outputText
+																				value="#{cameraBean.descrizioneCamera}" />
+																		</span>
+																	</div>
+																</div>
+																<div class="extra content">
+																	<label>Pax: </label>
+																	<h:outputText value="#{cameraBean.pax}" />
+																</div>
+																<div class="extra content">
+																	<a class="ui large tag label"> <h:outputText
+																			value="#{cameraBean.prezzo}" /> &euro;
+																	</a>
+																</div>
+															</div>
+														</ui:repeat>
+														<!-- fine loop camere -->
+													</div>
+													<!-- inizio servizi base -->
+													<h4 class="ui orange dividing header">Servizi</h4>
+													<div class="ui orange divided items">
+														<div class="ui three">
+															<!-- inizio loop servizi base -->
+															<ui:repeat var="dettaglioServizioBean" value="#{risultatoRicercaBean.struttura.serviziOfferti}">
+																<a class="ui label"><h:outputText value="#{dettaglioServizioBean.servizio.nomeServizio}"/>
+																
+																<h:panelGroup rendered="#{dettaglioServizioBean.tipologia.prezzo gt 0}">
+																<h:outputFormat value=" Prezzo: {0} &euro;">
+																	<f:param value="#{dettaglioServizioBean.tipologia.prezzo}" />
+																</h:outputFormat>
+																</h:panelGroup>
+																</a>
+															</ui:repeat>
+															<!-- fine loop servizi base -->
+														</div>
+													</div>
+													<!-- fine servizi base -->
+													<div class="ui inverted orange button">
+														<h:commandButton value="Seleziona"
+															action="#{confrontoStruttureBB.selezionaStruttura(risultatoRicercaBean)}" styleClass="ui orange button" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</h:form>
+								</ui:repeat>
+								<!-- fine loop strutture -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

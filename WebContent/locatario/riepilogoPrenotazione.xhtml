@@ -20,20 +20,12 @@
 								<div class="ui two column doubling stackable grid container">
 									<div class="column">
 										<div class="image">
-											<h:graphicImage library="images" name="sqare-image.png" />
+											<h:graphicImage library="images" name="square-image.png" />
 										</div>
 									</div>
 									<div class="column">
-										<h3 class="ui orange header">NOME STRUTTURA</h3>
-										<div class="description">Lorem ipsum dolor sit amet,
-											consectetur adipiscing elit, sed do eiusmod tempor incididunt
-											ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-											quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-											ea commodo consequat. Duis aute irure dolor in reprehenderit
-											in voluptate velit esse cillum dolore eu fugiat nulla
-											pariatur. Excepteur sint occaecat cupidatat non proident,
-											sunt in culpa qui officia deserunt mollit anim id est
-											laborum.</div>
+										<h3 class="ui orange header"> <h:outputText value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.nomeStruttura}" /></h3>
+										<div class="description"> <h:outputText value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.descrizioneStruttura}"/> </div>
 										<div class="ui segment">
 											<div class="ui two column doubling stackable grid container">
 												<div class="column">
@@ -130,10 +122,12 @@
 									<h:inputTextarea
 										value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}" />
 								</div>
-								<h:commandButton value="Salva note" action="#{modificaPrenotazioneBB.doAggiornaPrenotazione}" />
+								<br/><br/>
+								<h:commandButton value="Salva note" action="#{modificaPrenotazioneBB.aggiornaPrenotazione}" styleClass="ui orange button"/>
+								<!-- fine sezione note -->
 								
 								<h:panelGroup rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
-								Prenotazione cancellabile
+								<h:commandButton value="Cancella prenotazione" action="#{modificaPrenotazioneBB.cancellaPrenotazione}" styleClass="ui button red"/>
 								</h:panelGroup>
 							</div>
 						</div>

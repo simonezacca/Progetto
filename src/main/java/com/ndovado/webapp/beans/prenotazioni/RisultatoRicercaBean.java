@@ -14,6 +14,37 @@ public class RisultatoRicercaBean {
 	private Set<CameraBean> camereLibere;
 	private StrutturaBean struttura;
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((camereLibere == null) ? 0 : camereLibere.hashCode());
+		result = prime * result + ((struttura == null) ? 0 : struttura.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof RisultatoRicercaBean))
+			return false;
+		RisultatoRicercaBean other = (RisultatoRicercaBean) obj;
+		if (camereLibere == null) {
+			if (other.camereLibere != null)
+				return false;
+		} else if (!camereLibere.equals(other.camereLibere))
+			return false;
+		if (struttura == null) {
+			if (other.struttura != null)
+				return false;
+		} else if (!struttura.equals(other.struttura))
+			return false;
+		return true;
+	}
+
 	public RisultatoRicercaBean() {
 		camereLibere = new HashSet<CameraBean>();
 	}

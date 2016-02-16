@@ -500,13 +500,17 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		LocalDate oggi = new LocalDate();
 		LocalDate dataArrivo = new LocalDate(this.dataArrivo.getTime());
 		
-		Period diff = new Period(dataArrivo, oggi);
-		Integer numGiorni = diff.getDays();
+		Period diff = new Period(oggi, dataArrivo);
+		Integer numGiorni = diff.toStandardDays().getDays();
 		
 		this.cancellabile = numGiorni>=giorniPerCancellazione;
 		
 		return  this.cancellabile;
 	} 
+	
+	public void setCancellabile(Boolean cancellabile) {
+		this.cancellabile = cancellabile;
+	}
 
 	
 

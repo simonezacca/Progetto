@@ -3,11 +3,14 @@ package com.ndovado.webapp.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
@@ -34,6 +37,8 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 
 	private List<RisultatoRicercaBean> risultatiRicerca;
 	private GestioneRicercaSoluzioneController ricercaController;
+	
+	private List<RisultatoRicercaBean> listaPerConfronto;
 
 	private boolean primaRicerca = true;
 
@@ -49,6 +54,8 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 		ricercaController = new GestioneRicercaSoluzioneController();
 
 		luogoCorrente = luogoController.getListaLuogoBeanPerProvincia("CH").get(0);
+		
+		listaPerConfronto = new ArrayList<RisultatoRicercaBean>();
 
 	}
 
@@ -189,15 +196,34 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	}
 	
 	public String visualizzaStruttura(StrutturaBean sb) {
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("strutturaCorrente", sb);
-		
+		JSFHelper.put("strutturaCorrente", sb);
 		return "visualizzaStruttura?faces-redirect=true";
 	}
 	
 	public String visualizzaStrutturaDaRisultatoRicerca(RisultatoRicercaBean rr) {
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("RRcorrente", rr);
-		
+		JSFHelper.put("RRcorrente", rr);
 		return "visualizzaStruttura?faces-redirect=true";
+	}
+	
+	public String addStrutturaPerConfronto(RisultatoRicercaBean rrbean) {
+		// aggiungo il rrbean alla lista per il confronto
+		this.listaPerConfronto.add(rrbean);
+		if (this.listaPerConfronto.size()==2) {
+			// aggiungo la lista al falsh context
+			List<RisultatoRicercaBean> nuovaLista = new ArrayList<RisultatoRicercaBean>();
+			nuovaLista.addAll(listaPerConfronto);
+			JSFHelper.put("listaPerConfronto", nuovaLista);
+			// azzero la lista nel backing bean
+			this.listaPerConfronto.clear();
+			// redirect a pagina confronto
+			return "/locatario/confrontoStrutture.xhtml?faces-redirect=true";
+			//JSFHelper.redirectTo("confrontoStrutture.xhtml");
+		}
+		return null;
+	}
+	
+	public Boolean isStrutturaInConfronto(RisultatoRicercaBean rrbean) {
+		return this.listaPerConfronto.contains(rrbean);
 	}
 
 

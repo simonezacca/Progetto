@@ -54,9 +54,14 @@ public class GestionePrenotazioneController {
 		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
 		pmodel = smodel.getTableau().salvaOAggiornaPrenotazione(pmodel);
 		pbean = pmapper.getBeanFromModel(pmodel);
-		
 		return pbean;
+	}
+	
+	public void doCancellaPrenotazione(PrenotazioneBean pbean) {
+		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
+		Struttura smodel = pmodel.getStutturaAssociatata();
 		
+		smodel.getTableau().cancellaPrenotazione(pmodel);
 	}
 	
 	public PrenotazioneBean doAggiornaPrenotazione(PrenotazioneBean pbean) {

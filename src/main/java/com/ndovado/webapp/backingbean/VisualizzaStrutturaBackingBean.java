@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 
@@ -24,15 +25,14 @@ public class VisualizzaStrutturaBackingBean implements Serializable {
 	
 	public VisualizzaStrutturaBackingBean() {
 		
-		RRcorrente = (RisultatoRicercaBean) FacesContext.getCurrentInstance().getExternalContext().getFlash()
-				.get("RRcorrente");
+		RRcorrente = (RisultatoRicercaBean) JSFHelper.get("RRcorrente");
 		if (RRcorrente!=null) {
 			strutturaCorrente = RRcorrente.getStruttura();
 		} else if (strutturaCorrente==null){
-			strutturaCorrente = (StrutturaBean) FacesContext.getCurrentInstance().getExternalContext().getFlash()
-					.get("strutturaCorrente");
+			strutturaCorrente = (StrutturaBean) JSFHelper.get("strutturaCorrente");
+		} else {
+			JSFHelper.redirectTo("/index");
 		}
-
 	}
 	
 	
