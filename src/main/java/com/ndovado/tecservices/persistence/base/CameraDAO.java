@@ -7,4 +7,5 @@ public class CameraDAO extends GenericDAO<Camera> {
 	public CameraDAO() {
 		super(Camera.class);
 	}
+	
 }

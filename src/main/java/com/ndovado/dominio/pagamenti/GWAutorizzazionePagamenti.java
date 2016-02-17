@@ -3,6 +3,9 @@ package com.ndovado.dominio.pagamenti;
 import java.util.Date;
 import java.util.Random;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
 /**
  * 
  */
@@ -37,7 +40,7 @@ public class GWAutorizzazionePagamenti {
 	public Pagamento creaRichiestaAuthPagamento(Pagamento pToAuth) {
 		if (isAuthorizable()) {
 			pToAuth.setAutorizzato(true);
-			pToAuth.setDataOraPagamento(new Date());
+			pToAuth.setDataOraPagamento(new LocalDateTime());
 			pToAuth.setIdTransazione("pippo");
 		} else {
 			pToAuth.setAutorizzato(false);

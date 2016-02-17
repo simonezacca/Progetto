@@ -37,13 +37,13 @@
 											<p>
 												<span class="cinema">CHECK IN: <h:outputText
 														value="#{prenotazioneBean.dataArrivo}">
-														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+														<f:converter converterId="LocalDateConverter"></f:converter>
 													</h:outputText></span>
 											</p>
 											<p>
 												<span class="cinema">CHECK OUT: <h:outputText
 														value="#{prenotazioneBean.dataPartenza}">
-														<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+														<f:converter converterId="LocalDateConverter"></f:converter>
 													</h:outputText>
 												</span>
 											</p>

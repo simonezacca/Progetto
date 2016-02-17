@@ -1,8 +1,6 @@
 package com.ndovado.dominio.prenotazioni;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
@@ -17,6 +15,7 @@ import javax.persistence.Transient;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.joda.time.LocalDate;
 
 /**
  * 
@@ -28,6 +27,8 @@ public class TableauPrenotazioni {
 	 */
 
 	private static PrenotazioneDAO pdao = new PrenotazioneDAO();
+	
+	private Boolean test= false;
 
 	public TableauPrenotazioni() {
 		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
@@ -109,7 +110,14 @@ public class TableauPrenotazioni {
 	}
 	
 	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) {
-		pdao.saveOrUpdate(pmodel);
+		if (test) {
+			// salvo solo nella mappa in ram
+			
+		} else {
+			// salvo solo nel DB
+			pdao.saveOrUpdate(pmodel);
+		}
+		
 		return pmodel;
 	}
 	
@@ -148,7 +156,7 @@ public class TableauPrenotazioni {
 	 * @param DataPartenza 
 	 * @return
 	 */
-	public RisultatoRicerca getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
+	public RisultatoRicerca getSoluzioniDisponibili(LocalDate DataArrivo, LocalDate DataPartenza,Integer npersone) {
 		// numero massimo di persone che possono alloggiare nella struttura
 		Integer totPax = 0;
 		RisultatoRicerca rr = new RisultatoRicerca(struttura);
@@ -173,10 +181,10 @@ public class TableauPrenotazioni {
 	 * @param dp 
 	 * @return
 	 */
-	private Boolean isCameraDisponibile(final Camera c, Date da, Date dp) {
+	private Boolean isCameraDisponibile(final Camera c, LocalDate da, LocalDate dp) {
 		// controllare prima che nella descrizione camera corrente
 		// sia disponibile il periodo di prenotazione
-		if(c.getDataInizioAffitto().after(da) || c.getDataFineAffitto().before(dp) )
+		if(c.getDataInizioAffitto().isAfter(da) || c.getDataFineAffitto().isBefore(dp) )
 			return false;
 		
 		Boolean risultato = false;
@@ -209,9 +217,9 @@ public class TableauPrenotazioni {
 	 */
 	protected Set<Prenotazione> getElencoPrenotazioniFuturePerCamera(Camera c) {
 		TreeSet<Prenotazione> s = (TreeSet<Prenotazione>) getElencoPrenotazioniPerCamera(c);
-		Date oggi = new Date();
+		LocalDate oggi = new LocalDate();
 		for (Prenotazione p : s)
-			if (p.getDataPartenza().after(oggi))
+			if (p.getDataPartenza().isAfter(oggi))
 				return s.tailSet(p);
 		return new TreeSet<Prenotazione>(); // ritorno insieme vuoto in caso di mancanza prenotazioni future
 	}
@@ -269,6 +277,11 @@ public class TableauPrenotazioni {
 	
 	@SuppressWarnings("unchecked")
 	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCamera(Camera c) {
+		// caso test junit senza persistenza su DB
+		if (test) {
+			return getInsiemePrenotazioniPerCameraDaMap(c);
+		}
+		// --------------------------------------------------
 		//	Query esempio
 				
 		//	select p.* from Prenotazione p
@@ -299,27 +312,24 @@ public class TableauPrenotazioni {
 		
 		return insiemePrenotazioni;
 	}
+	
+	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCameraDaMap(Camera c) {
+		if (elencoPrenotazioni.containsKey(c)) {
+			return elencoPrenotazioni.get(c);
+		}
+		return new TreeSet<Prenotazione>();
+	}
 
 	@Override
 	public String toString() {
 		return "TableauPrenotazioni [struttura=" + struttura + ", elencoPrenotazioni=" + elencoPrenotazioni + "]";
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void doTest(TableauPrenotazioni tp,Integer ntest, String daString, String aString, Integer npersone) throws ParseException {
 		
-		DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
-		Date dataCI = formatter.parse(daString);
-		Date dataCO = formatter.parse(aString);
+		LocalDate dataCI = new LocalDate(daString);
+		LocalDate dataCO = new LocalDate(aString);
 
-		dataCI.setHours(0);
-		dataCI.setMinutes(0);
-		dataCI.setSeconds(0);
-		
-		dataCO.setHours(0);
-		dataCO.setMinutes(0);
-		dataCO.setSeconds(0);		
-		
 
 		AppLogger.debug("TEST NUMERO "+ntest);
 		RisultatoRicerca rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);

@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.joda.time.LocalDate;
+
 import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.LuogoBean;
@@ -31,8 +33,8 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	private String codProvinciaCorrente;
 
 	private LuogoBean luogoCorrente;
-	private Date dataArrivo;
-	private Date dataPartenza;
+	private LocalDate dataArrivo;
+	private LocalDate dataPartenza;
 	private Integer numPersone = new Integer(1);
 
 	private List<RisultatoRicercaBean> risultatiRicerca;
@@ -45,8 +47,8 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	public RicercaSoluzioniBackingBean() {
 		luogoCorrente = new LuogoBean();
 		risultatiRicerca = new ArrayList<RisultatoRicercaBean>();
-		dataArrivo = new Date();
-		dataPartenza = new Date();
+		dataArrivo = new LocalDate();
+		dataPartenza = dataArrivo.plusDays(1);
 
 		luogoController = new GestioneLuogoController();
 		//provinceDisponibili = luogoController.getListaTutteProvinceStrings();
@@ -77,7 +79,7 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	/**
 	 * @return the dataArrivo
 	 */
-	public Date getDataArrivo() {
+	public LocalDate getDataArrivo() {
 		return dataArrivo;
 	}
 
@@ -85,14 +87,14 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	 * @param dataArrivo
 	 *            the dataArrivo to set
 	 */
-	public void setDataArrivo(Date dataArrivo) {
+	public void setDataArrivo(LocalDate dataArrivo) {
 		this.dataArrivo = dataArrivo;
 	}
 
 	/**
 	 * @return the dataPartenza
 	 */
-	public Date getDataPartenza() {
+	public LocalDate getDataPartenza() {
 		return dataPartenza;
 	}
 
@@ -100,7 +102,7 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	 * @param dataPartenza
 	 *            the dataPartenza to set
 	 */
-	public void setDataPartenza(Date dataPartenza) {
+	public void setDataPartenza(LocalDate dataPartenza) {
 		this.dataPartenza = dataPartenza;
 	}
 

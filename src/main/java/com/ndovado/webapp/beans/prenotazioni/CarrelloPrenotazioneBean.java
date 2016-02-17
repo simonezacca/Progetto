@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+import org.joda.time.LocalDate;
+
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.backingbean.RicercaSoluzioniBackingBean;
 import com.ndovado.webapp.beans.core.CameraBean;
@@ -45,8 +47,8 @@ public class CarrelloPrenotazioneBean implements Serializable{
 		// lego la prenotazione bean al locatario bean
 		prenotazioneCorrente.setLocatario(lb);
 		
-		Date dataArrivo = ricercaSoluzioniBB.getDataArrivo();
-		Date dataPartenza = ricercaSoluzioniBB.getDataPartenza();
+		LocalDate dataArrivo = ricercaSoluzioniBB.getDataArrivo();
+		LocalDate dataPartenza = ricercaSoluzioniBB.getDataPartenza();
 			
 		prenotazioneCorrente.setDataArrivo(dataArrivo);
 		prenotazioneCorrente.setDataPartenza(dataPartenza);

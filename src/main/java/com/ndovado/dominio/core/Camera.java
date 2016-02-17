@@ -14,6 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 
 import com.ndovado.dominio.prenotazioni.IPrenotabile;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -55,11 +57,13 @@ public class Camera implements IPersistente, IPrenotabile {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_inizio_affitto")
-	private Date dataInizioAffitto;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate dataInizioAffitto;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_fine_affitto")
-	private Date dataFineAffitto;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate dataFineAffitto;
 
 	@Column(name = "pax")
 	private Integer pax = new Integer(1);
@@ -140,10 +144,10 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * @param aDataFineAffitto
 	 *            data di fine disponibilità al soggiorno
 	 */
-	public void setDataIntervalloAffitto(Date aDataInizioAffitto, Date aDataFineAffitto) {
+	public void setDataIntervalloAffitto(LocalDate aDataInizioAffitto, LocalDate aDataFineAffitto) {
 		if (aDataInizioAffitto != null && aDataFineAffitto != null) {
 			// controllo che l'ordine delle date sia corretto
-			if (aDataInizioAffitto.before(aDataFineAffitto)) {
+			if (aDataInizioAffitto.isBefore(aDataFineAffitto)) {
 				// aggiorno i valori per il riferimento corrente a descrizione
 				// camera
 				this.dataInizioAffitto = aDataInizioAffitto;
@@ -212,7 +216,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	/**
 	 * @return the dataInizioAffitto
 	 */
-	public Date getDataInizioAffitto() {
+	public LocalDate getDataInizioAffitto() {
 		return dataInizioAffitto;
 	}
 
@@ -220,14 +224,14 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * @param dataInizioAffitto
 	 *            the dataInizioAffitto to set
 	 */
-	public void setDataInizioAffitto(Date dataInizioAffitto) {
+	public void setDataInizioAffitto(LocalDate dataInizioAffitto) {
 		this.dataInizioAffitto = dataInizioAffitto;
 	}
 
 	/**
 	 * @return the dataFineAffitto
 	 */
-	public Date getDataFineAffitto() {
+	public LocalDate getDataFineAffitto() {
 		return dataFineAffitto;
 	}
 
@@ -235,7 +239,7 @@ public class Camera implements IPersistente, IPrenotabile {
 	 * @param dataFineAffitto
 	 *            the dataFineAffitto to set
 	 */
-	public void setDataFineAffitto(Date dataFineAffitto) {
+	public void setDataFineAffitto(LocalDate dataFineAffitto) {
 		this.dataFineAffitto = dataFineAffitto;
 	}
 

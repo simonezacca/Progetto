@@ -14,6 +14,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
@@ -42,7 +46,8 @@ public class Pagamento implements IPersistente {
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_ora_pagamento")
-	private Date dataOraPagamento;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime dataOraPagamento;
 
 	/**
 	 * 
@@ -98,14 +103,14 @@ public class Pagamento implements IPersistente {
 	/**
 	 * @return
 	 */
-	public Date getDataOraPagamento() {
+	public LocalDateTime getDataOraPagamento() {
 		return this.dataOraPagamento;
 	}
 
 	/**
 	 * @param aDataOraPagamento
 	 */
-	public void setDataPagamento(Date aDataPagamento) {
+	public void setDataPagamento(LocalDateTime aDataPagamento) {
 		this.dataOraPagamento = aDataPagamento;
 	}
 
@@ -139,7 +144,7 @@ public class Pagamento implements IPersistente {
 	/**
 	 * @param dataOraPagamento the dataOraPagamento to set
 	 */
-	public void setDataOraPagamento(Date dataOraPagamento) {
+	public void setDataOraPagamento(LocalDateTime dataOraPagamento) {
 		if (dataOraPagamento!=null) {
 			this.dataOraPagamento = dataOraPagamento;	
 		}

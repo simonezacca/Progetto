@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 
+import org.joda.time.LocalDate;
+
 import com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean;
 
 @ManagedBean(name="cameraBean")
@@ -19,8 +21,8 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	private String nomeCamera;
 	private StrutturaBean struttura;
 	
-	private Date dataInizioAffitto = new Date();
-	private Date dataFineAffitto = new Date();
+	private LocalDate dataInizioAffitto = new LocalDate();
+	private LocalDate dataFineAffitto = dataInizioAffitto.plusDays(1);
 	private Integer pax = new Integer(1);
 	private Float prezzo = new Float(0);
 	private String descrizioneCamera;
@@ -79,28 +81,28 @@ public class CameraBean implements Serializable, Identifiable, IPrenotabileBean 
 	/**
 	 * @return the dataInizioAffitto
 	 */
-	public Date getDataInizioAffitto() {
+	public LocalDate getDataInizioAffitto() {
 		return dataInizioAffitto;
 	}
 
 	/**
 	 * @param dataInizioAffitto the dataInizioAffitto to set
 	 */
-	public void setDataInizioAffitto(Date dataInizioAffitto) {
+	public void setDataInizioAffitto(LocalDate dataInizioAffitto) {
 		this.dataInizioAffitto = dataInizioAffitto;
 	}
 
 	/**
 	 * @return the dataFineAffitto
 	 */
-	public Date getDataFineAffitto() {
+	public LocalDate getDataFineAffitto() {
 		return dataFineAffitto;
 	}
 
 	/**
 	 * @param dataFineAffitto the dataFineAffitto to set
 	 */
-	public void setDataFineAffitto(Date dataFineAffitto) {
+	public void setDataFineAffitto(LocalDate dataFineAffitto) {
 		this.dataFineAffitto = dataFineAffitto;
 	}
 

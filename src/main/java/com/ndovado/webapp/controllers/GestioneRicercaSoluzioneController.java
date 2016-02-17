@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import com.ndovado.dominio.core.CatalogoLuogo;
 import com.ndovado.dominio.core.CatalogoStrutture;
 import com.ndovado.dominio.core.Luogo;
@@ -23,7 +25,7 @@ public class GestioneRicercaSoluzioneController {
 		
 	}
 	
-	public List<RisultatoRicercaBean> doGetSoluzioniDisponibili(LuogoBean lb, Date dataArrivo, Date dataPartenza, Integer nPersone) {
+	public List<RisultatoRicercaBean> doGetSoluzioniDisponibili(LuogoBean lb, LocalDate dataArrivo, LocalDate dataPartenza, Integer nPersone) {
 		AppLogger.debug("doGetSoluzioniDisponibili()");
 		List<RisultatoRicercaBean> rrbeans = new ArrayList<RisultatoRicercaBean>();
 		Luogo lmodel = clmodel.getLuogoById(lb.getId());

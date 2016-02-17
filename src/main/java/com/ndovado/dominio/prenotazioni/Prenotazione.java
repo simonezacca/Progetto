@@ -21,7 +21,9 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
 
 import com.ndovado.dominio.core.Camera;
@@ -57,8 +59,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_ora_prenotazione")
-	private Date dataOraPrenotazione;
-
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	private LocalDateTime dataOraPrenotazione;
 	/**
 	 * 
 	 */
@@ -76,14 +78,16 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_arrivo")
-	private Date dataArrivo;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate dataArrivo;
 
 	/**
 	 * 
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_partenza")
-	private Date dataPartenza;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate dataPartenza;
 
 
 	/**
@@ -249,14 +253,14 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * @return
 	 */
-	public Date getDataArrivo() {
+	public LocalDate getDataArrivo() {
 		return this.dataArrivo;
 	}
 
 	/**
 	 * @param aDate
 	 */
-	public void setDataArrivo(Date aDate) {
+	public void setDataArrivo(LocalDate aDate) {
 		if (aDate!=null) {
 			this.dataArrivo = aDate;
 		}
@@ -265,14 +269,14 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * @return
 	 */
-	public Date getDataPartenza() {
+	public LocalDate getDataPartenza() {
 		return this.dataPartenza;
 	}
 
 	/**
 	 * @param aDate
 	 */
-	public void setDataPartenza(Date aDate) {
+	public void setDataPartenza(LocalDate aDate) {
 		if (aDate!=null) {
 			this.dataPartenza = aDate;
 		}
@@ -283,9 +287,9 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * @param dp 
 	 * @return
 	 */
-	protected Boolean isDateSovrapposte(Date dataArrivo, Date dataPartenza) {
-
-		return this.dataArrivo.before(dataPartenza) && dataArrivo.before(this.dataPartenza);
+	protected Boolean isDateSovrapposte(LocalDate dataArrivo, LocalDate dataPartenza) {
+		return this.dataArrivo.isBefore(dataPartenza) && dataArrivo.isBefore(this.dataPartenza);
+//		/return this.dataArrivo.before(dataPartenza) && dataArrivo.before(this.dataPartenza);
 	}
 
 	/**
@@ -381,7 +385,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		if (this.dataArrivo.equals(o.getDataArrivo())) {
 			return 0;
 		}
-		else if (this.dataArrivo.before(o.getDataArrivo())) {
+		else if (this.dataArrivo.isBefore(o.getDataArrivo())) {
 			return -1;
 		}
 		else return 1;
@@ -441,14 +445,14 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * @return the dataOraPrenotazione
 	 */
-	public Date getDataOraPrenotazione() {
+	public LocalDateTime getDataOraPrenotazione() {
 		return dataOraPrenotazione;
 	}
 
 	/**
 	 * @param dataOraPrenotazione the dataOraPrenotazione to set
 	 */
-	public void setDataOraPrenotazione(Date dataOraPrenotazione) {
+	public void setDataOraPrenotazione(LocalDateTime dataOraPrenotazione) {
 		this.dataOraPrenotazione = dataOraPrenotazione;
 	}
 
@@ -498,9 +502,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	public Boolean isCancellabile() {
 		Integer giorniPerCancellazione = stutturaAssociatata.getGiorniPerCancellazione();
 		LocalDate oggi = new LocalDate();
-		LocalDate dataArrivo = new LocalDate(this.dataArrivo.getTime());
 		
-		Period diff = new Period(oggi, dataArrivo);
+		Period diff = new Period(oggi, this.dataArrivo);
 		Integer numGiorni = diff.toStandardDays().getDays();
 		
 		this.cancellabile = numGiorni>=giorniPerCancellazione;

@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.joda.time.LocalDate;
 
 import com.ndovado.dominio.prenotazioni.RisultatoRicerca;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -61,7 +62,7 @@ public class CatalogoStrutture {
 	 * @param npersone 
 	 * @return
 	 */
-	public List<RisultatoRicerca> cercaSoluzioni(Luogo luogo, Date dataArrivo, Date dataPartenza, Integer npersone) {
+	public List<RisultatoRicerca> cercaSoluzioni(Luogo luogo, LocalDate dataArrivo, LocalDate dataPartenza, Integer npersone) {
 		Set<Struttura> strutture = luogo.getStruttureInLuogo();
 		List<RisultatoRicerca> soluzioni = new ArrayList<RisultatoRicerca>();
 		for (Struttura s : strutture) {

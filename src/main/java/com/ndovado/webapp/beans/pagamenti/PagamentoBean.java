@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 
 @ManagedBean(name = "pagamentoBean")
@@ -15,7 +18,7 @@ public class PagamentoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Date dataOraPagamento;
+	private LocalDateTime dataOraPagamento;
 	private String idTransazione;
 	private PrenotazioneBean prenotazioneSaldata;
 	private String numeroCC;
@@ -55,11 +58,11 @@ public class PagamentoBean implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDataOraPagamento() {
+	public LocalDateTime getDataOraPagamento() {
 		return dataOraPagamento;
 	}
 
-	public void setDataOraPagamento(Date dataOraPagamento) {
+	public void setDataOraPagamento(LocalDateTime dataOraPagamento) {
 		this.dataOraPagamento = dataOraPagamento;
 	}
 

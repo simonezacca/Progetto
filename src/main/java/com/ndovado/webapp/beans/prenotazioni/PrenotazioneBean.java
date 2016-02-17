@@ -9,6 +9,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
 
 import com.ndovado.webapp.beans.core.CameraBean;
@@ -27,9 +28,9 @@ public class PrenotazioneBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codicePrenotazione;
-	private Date dataArrivo;
-	private Date dataOraPrenotazione;
-	private Date dataPartenza;
+	private LocalDate dataArrivo;
+	private LocalDateTime dataOraPrenotazione;
+	private LocalDate dataPartenza;
 	private Long id = null;
 	private Float importoTotale;
 	private List<LineaPrenotazioneBean> lineePrenotazione;
@@ -54,9 +55,9 @@ public class PrenotazioneBean implements Serializable{
 	
 	
 	public PrenotazioneBean() {
-		dataArrivo = new Date();
-		dataPartenza = new Date();
-		dataOraPrenotazione = new Date();
+		dataArrivo = new LocalDate();
+		dataPartenza = dataArrivo.plusDays(1);
+		dataOraPrenotazione = new LocalDateTime();
 		lineePrenotazione = new ArrayList<LineaPrenotazioneBean>();
 		//pagamentoAssociato = new PagamentoBean();
 		importoTotale = ricalcolaImportoTotale();
@@ -65,9 +66,7 @@ public class PrenotazioneBean implements Serializable{
 	
 	private Float ricalcolaImportoTotale() {
 	
-		LocalDate dataArrivoJ = new  LocalDate(dataArrivo.getTime());
-		LocalDate dataPartenzaJ = new LocalDate(dataPartenza.getTime());
-		Period diff = new Period(dataArrivoJ, dataPartenzaJ);
+		Period diff = new Period(this.dataArrivo, this.dataPartenza);
 		Integer numNotti = diff.getDays();
 		this.nottiSoggiorno = numNotti;
 		Float newTotale = new Float(0);
@@ -122,37 +121,37 @@ public class PrenotazioneBean implements Serializable{
 	/**
 	 * @return the dataArrivo
 	 */
-	public Date getDataArrivo() {
+	public LocalDate getDataArrivo() {
 		return dataArrivo;
 	}
 	/**
 	 * @param dataArrivo the dataArrivo to set
 	 */
-	public void setDataArrivo(Date dataArrivo) {
+	public void setDataArrivo(LocalDate dataArrivo) {
 		this.dataArrivo = dataArrivo;
 	}
 	/**
 	 * @return the dataOraPrenotazione
 	 */
-	public Date getDataOraPrenotazione() {
+	public LocalDateTime getDataOraPrenotazione() {
 		return dataOraPrenotazione;
 	}
 	/**
 	 * @param dataOraPrenotazione the dataOraPrenotazione to set
 	 */
-	public void setDataOraPrenotazione(Date dataOraPrenotazione) {
+	public void setDataOraPrenotazione(LocalDateTime dataOraPrenotazione) {
 		this.dataOraPrenotazione = dataOraPrenotazione;
 	}
 	/**
 	 * @return the dataPartenza
 	 */
-	public Date getDataPartenza() {
+	public LocalDate getDataPartenza() {
 		return dataPartenza;
 	}
 	/**
 	 * @param dataPartenza the dataPartenza to set
 	 */
-	public void setDataPartenza(Date dataPartenza) {
+	public void setDataPartenza(LocalDate dataPartenza) {
 		this.dataPartenza = dataPartenza;
 	}
 	/**

@@ -2,15 +2,20 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-<!--  <configuration>
+<configuration>
 	<custom-converters> 
 		<converter
-			type="com.ndovado.tecservices.mappers.converters.IPrenotabileBeanConverter">
-			<class-a>com.ndovado.dominio.prenotazioni.IPrenotabile</class-a>
-			<class-b>com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean</class-b>
+			type="com.ndovado.tecservices.mappers.converters.LocalDateConveter">
+			<class-a>org.joda.time.LocalDate</class-a>
+			<class-b>org.joda.time.LocalDate</class-b>
+		</converter>
+		<converter
+			type="com.ndovado.tecservices.mappers.converters.LocalDateTimeConveter">
+			<class-a>org.joda.time.LocalDateTime</class-a>
+			<class-b>org.joda.time.LocalDateTime</class-b>
 		</converter>
 	</custom-converters>
-</configuration>-->
+</configuration>
  
 	<mapping>
 	<class-a>com.ndovado.dominio.core.Utente</class-a>
@@ -152,7 +157,13 @@
 		<a-hint>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</a-hint>
 		<b-hint>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</b-hint>
 	</field>
-<field><a get-method="isCancellabile" set-method="setCancellabile">cancellabile</a><b get-method="getCancellabile" is-accessible="true">cancellabile</b></field></mapping>
+	<field>
+		<a get-method="isCancellabile" set-method="setCancellabile">cancellabile</a>
+		<b get-method="getCancellabile" is-accessible="true">cancellabile</b>
+	</field>
+	
+	
+	</mapping>
 	<mapping>
 	<class-a>com.ndovado.dominio.pagamenti.Pagamento</class-a>
 	<class-b>com.ndovado.webapp.beans.pagamenti.PagamentoBean</class-b>
