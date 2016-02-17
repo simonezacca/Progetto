@@ -194,7 +194,7 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	}
 
 	public void settaDataPartenza() {
-		this.dataPartenza = this.dataArrivo;
+		this.dataPartenza = this.dataArrivo.plusDays(1);
 	}
 	
 	public String visualizzaStruttura(StrutturaBean sb) {

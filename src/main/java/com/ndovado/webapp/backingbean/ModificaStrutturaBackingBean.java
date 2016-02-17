@@ -9,6 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+import org.joda.time.LocalDate;
+
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
@@ -315,6 +318,7 @@ public class ModificaStrutturaBackingBean implements Serializable {
 	}
 	
 	public void settaDataCamera() {
-		this.cameraInAggiunta.setDataFineAffitto(this.cameraInAggiunta.getDataInizioAffitto());
+		LocalDate dataInizio = this.cameraInAggiunta.getDataInizioAffitto();
+		this.cameraInAggiunta.setDataFineAffitto(dataInizio.plusDays(1));
 	}
 }

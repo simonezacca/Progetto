@@ -1,31 +1,20 @@
 package com.ndovado.dominio.prenotazioni;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Locatario;
-import com.ndovado.dominio.core.Luogo;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
-import com.ndovado.tecservices.persistence.base.LuogoDAO;
-import com.ndovado.tecservices.persistence.base.StrutturaDAO;
-import com.ndovado.tecservices.persistence.base.UtenteDAO;
-
 //import static
 import static org.junit.Assert.*;
 
 public class TableauPrenotazioniTest {
-	
-	private static LuogoDAO ldao = new LuogoDAO();
-	private static UtenteDAO udao = new UtenteDAO();
-	private static StrutturaDAO sdao = new StrutturaDAO();
+
 	
 	private static Struttura stest;
 	private static Utente ulocatario;
@@ -35,8 +24,7 @@ public class TableauPrenotazioniTest {
 	private static Utente initUtenteLocatario() {
 		ulocatario = new Utente("testUser", "testUser");
 		ulocatario.setRuolo(new Locatario());
-		
-		udao.saveOrUpdate(ulocatario);
+
 		
 		return ulocatario;
 	}
@@ -44,26 +32,29 @@ public class TableauPrenotazioniTest {
 	private static Prenotazione creaPrenotazione(Locatario l, LocalDate daData, LocalDate aData, Camera c) {
 		Prenotazione p = new Prenotazione(l);
 		p.setDataArrivo(daData);
-		p.setDataPartenza(daData);
+		p.setDataPartenza(aData);
 		p.addCamera(c);
 		
 		return p;
 	} 
 	
 	private static Struttura initStruttura() {
-		Luogo l = ldao.get(new Long(2));
+		
 		
 		ugestore = new Utente("testGestore", "testGestore");
 		ugestore.setMail("gestore");
 		ugestore.setPassword("gestore");
 		ugestore.setRuolo(new Gestore());
 		
-		udao.saveOrUpdate(ugestore);
 		
 		Struttura stest = new Struttura();
+		
+		// imposto il test per salvare le prenotazioni solo in RAM e non su Db
+		stest.getTableau().setTest(true);
+		
+		
 		stest.setNomeStruttura("Struttura test 1");
 		stest.setGestore((Gestore) ugestore.getRuolo());
-		stest.setLuogoStruttura(l);
 		
 		LocalDate dataInizio = new LocalDate("2016-01-01");
 		LocalDate dataFine = new LocalDate("2016-12-31");
@@ -75,7 +66,6 @@ public class TableauPrenotazioniTest {
 		c1.setPax(new Integer(3));
 		c1.setPrezzo(new Float(30));
 		
-		stest.addCamera(c1);
 		
 		Camera c2 = new Camera(stest);
 		c2.setNomeCamera("Camera2");
@@ -83,29 +73,16 @@ public class TableauPrenotazioniTest {
 		c2.setPax(new Integer(2));
 		c2.setPrezzo(new Float(40));
 		
-		stest.addCamera(c2);
 		
-		sdao.saveOrUpdate(stest);
-		
-		List<Camera> listaCamere = stest.getCamereInserite();
-		Camera c1test = new Camera(stest);
-		Camera c2test = new Camera(stest);
-		for (Camera camera : listaCamere) {
-			if (camera.getNomeCamera().equals("Camera1")) {
-				c1test = camera;
-			} else if(camera.getNomeCamera().equals("Camera2")) {
-				c2test = camera;
-			}
-		}
 		
 		ulocatario = initUtenteLocatario();
 		
-		Prenotazione p1 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-19"), new LocalDate("2016-01-21"), c1test);
-		Prenotazione p2 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-20"), new LocalDate("2016-01-21"), c2test);
-		Prenotazione p3 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-21"), new LocalDate("2016-01-24"), c2test);
-		Prenotazione p4 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-24"), new LocalDate("2016-01-25"), c1test);
-		Prenotazione p5 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-26"), new LocalDate("2016-01-28"), c2test);
-		Prenotazione p6 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-01-27"), new LocalDate("2016-01-29"), c1test);
+		Prenotazione p1 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-19"), new LocalDate("2016-03-21"), c1);
+		Prenotazione p2 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-20"), new LocalDate("2016-03-21"), c2);
+		Prenotazione p3 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-21"), new LocalDate("2016-03-24"), c2);
+		Prenotazione p4 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-24"), new LocalDate("2016-03-25"), c1);
+		Prenotazione p5 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-26"), new LocalDate("2016-03-28"), c2);
+		Prenotazione p6 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-27"), new LocalDate("2016-03-29"), c1);
 		
 		stest.getTableau().salvaOAggiornaPrenotazione(p1);
 		stest.getTableau().salvaOAggiornaPrenotazione(p2);
@@ -130,8 +107,8 @@ public class TableauPrenotazioniTest {
 	public void doTestDisponibilita1() {
 		// precondizioni
 		RisultatoRicerca rr;
-		LocalDate dataArrivo = new LocalDate("");
-		LocalDate dataPartenza = new LocalDate("");
+		LocalDate dataArrivo = new LocalDate("2016-03-22");
+		LocalDate dataPartenza = new LocalDate("2016-03-23");
 		Integer npersone = new Integer(3);
 		
 		// risultato atteso
@@ -144,32 +121,111 @@ public class TableauPrenotazioniTest {
 		
 	}
 
-//	public void doTestDisponibilita2() {
-//	}
-//
-//	public void doTestDisponibilita3() {
-//	}
-//
-//	public void doTestDisponibilita4() {
-//	}
-//
-//	public void doTestDisponibilita5() {
-//	}
-//
-//	public void doTestDisponibilita6() {
-//	}
-//
-//	public void doTestDisponibilita7() {
-//	}
-//	
+	@Test
+	public void doTestDisponibilita2() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-03-22");
+		LocalDate dataPartenza = new LocalDate("2016-03-23");
+		Integer npersone = new Integer(2);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(1);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+
+	@Test
+	public void doTestDisponibilita3() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-03-22");
+		LocalDate dataPartenza = new LocalDate("2016-03-23");
+		Integer npersone = new Integer(4);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(0);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+
+	@Test
+	public void doTestDisponibilita4() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-04-01");
+		LocalDate dataPartenza = new LocalDate("2016-04-04");
+		Integer npersone = new Integer(5);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(2);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+
+	@Test
+	public void doTestDisponibilita5() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-04-01");
+		LocalDate dataPartenza = new LocalDate("2016-04-04");
+		Integer npersone = new Integer(3);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(2);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+
+	@Test
+	public void doTestDisponibilita6() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-04-01");
+		LocalDate dataPartenza = new LocalDate("2016-04-04");
+		Integer npersone = new Integer(2);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(2);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+
+	@Test
+	public void doTestDisponibilita7() {
+		// precondizioni
+		RisultatoRicerca rr;
+		LocalDate dataArrivo = new LocalDate("2016-03-28");
+		LocalDate dataPartenza = new LocalDate("2016-04-02");
+		Integer npersone = new Integer(5);
+		
+		// risultato atteso
+		Integer dimRisultato = new Integer(0);
+		
+		// eseguo la ricerca disponibilità
+		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
+		
+		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+	
 
 	@AfterClass
 	public static void disposeDataSet() {
-		// rimuovo la struttura
-		sdao.delete(stest.getId());
-		// rimuovo il gestore
-		udao.delete(ugestore.getId());
-		// rimuovo l'utente
-		udao.delete(ugestore.getId());
+		
 	}
 }

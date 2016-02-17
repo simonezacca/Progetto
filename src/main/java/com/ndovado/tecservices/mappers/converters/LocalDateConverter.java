@@ -3,9 +3,9 @@ package com.ndovado.tecservices.mappers.converters;
 import org.dozer.DozerConverter;
 import org.joda.time.LocalDate;
 
-public class LocalDateConveter extends DozerConverter<LocalDate, LocalDate> {
+public class LocalDateConverter extends DozerConverter<LocalDate, LocalDate> {
 
-	public LocalDateConveter() {
+	public LocalDateConverter() {
 	        super(LocalDate.class, LocalDate.class);
 	    }
 

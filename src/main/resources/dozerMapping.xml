@@ -5,12 +5,12 @@
 <configuration>
 	<custom-converters> 
 		<converter
-			type="com.ndovado.tecservices.mappers.converters.LocalDateConveter">
+			type="com.ndovado.tecservices.mappers.converters.LocalDateConverter">
 			<class-a>org.joda.time.LocalDate</class-a>
 			<class-b>org.joda.time.LocalDate</class-b>
 		</converter>
 		<converter
-			type="com.ndovado.tecservices.mappers.converters.LocalDateTimeConveter">
+			type="com.ndovado.tecservices.mappers.converters.LocalDateTimeConverter">
 			<class-a>org.joda.time.LocalDateTime</class-a>
 			<class-b>org.joda.time.LocalDateTime</class-b>
 		</converter>

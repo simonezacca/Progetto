@@ -40,17 +40,21 @@
 											<label>Data arrivo</label>
 											<div class="ui input">
 												<pf:calendar id="fromDate"
-													value="#{ricercaSoluzioniBB.dataArrivo}" required="true" readonlyInput="true">
+													value="#{ricercaSoluzioniBB.dataArrivo}" required="true"
+													readonlyInput="true" pattern="dd/MM/yyyy">
 													<pf:ajax event="dateSelect"
 														listener="#{ricercaSoluzioniBB.settaDataPartenza}"
 														update="toDate" />
+													<f:converter converterId="LocalDateConverter"></f:converter>
 												</pf:calendar>
 											</div>
 											<br /> <br /> <label>Data partenza</label>
 											<div class="ui input">
 												<pf:calendar id="toDate"
 													value="#{ricercaSoluzioniBB.dataPartenza}" required="true" readonlyInput="true"
-													mindate="#{ricercaSoluzioniBB.dataArrivo}" />
+													 pattern="dd/MM/yyyy">
+													<f:converter converterId="LocalDateConverter"></f:converter>
+													</pf:calendar>
 											</div>
 										</div>
 										<h4 class="ui orange dividing header">Numero di Persone:</h4>

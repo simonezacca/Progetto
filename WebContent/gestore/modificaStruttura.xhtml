@@ -123,13 +123,13 @@
 													<div class="field">
 														<h:outputText value="#{camera.dataInizioAffitto}"
 															p:placeholder="Data inizio affitto">
-															<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+															<f:converter converterId="LocalDateConverter" />
 														</h:outputText>
 													</div>
 													<div class="field">
 														<h:outputText value="#{camera.dataFineAffitto}"
 															p:placeholder="Data fine affitto">
-															<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+															<f:converter converterId="LocalDateConverter" />
 														</h:outputText>
 													</div>
 												</div>
@@ -178,7 +178,7 @@
 												<label>Data inizio affitto</label>
 												<pf:calendar id="fromDate"
 													value="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
-													required="true" placeholder="Data inizio affitto" readonlyInput="true">
+													required="true" placeholder="Data inizio affitto" readonlyInput="true" converter="LocalDateConverter" pattern="dd/MM/yyyy">
 													<pf:ajax event="dateSelect" update="toDate" listener="#{StrutturaBB.settaDataCamera}"/>
 												</pf:calendar>
 											</div>
@@ -186,8 +186,8 @@
 											<label>Data fine affitto</label>
 												<pf:calendar id="toDate"
 													value="#{StrutturaBB.cameraInAggiunta.dataFineAffitto}" readonlyInput="true"
-													required="true" mindate="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
-													placeholder="Data fine affitto" />
+													required="true" pattern="dd/MM/yyyy"
+													placeholder="Data fine affitto" converter="LocalDateConverter"/>
 											</div>
 										</div>
 										<div class="three field">

@@ -75,7 +75,7 @@ public class TableauPrenotazioni {
 	 */
 
 	@Transient
-	private Map<Long,TreeSet<Prenotazione>> elencoPrenotazioni;
+	private Map<Camera,TreeSet<Prenotazione>> elencoPrenotazioni;
 
 	/**
 	 * 
@@ -112,13 +112,38 @@ public class TableauPrenotazioni {
 	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) {
 		if (test) {
 			// salvo solo nella mappa in ram
-			
+			for (Camera c : getCamereFromPrenotazione(pmodel)) {
+				inserisciPrenotazioneInTableau(c, pmodel);
+			}
 		} else {
 			// salvo solo nel DB
 			pdao.saveOrUpdate(pmodel);
 		}
 		
 		return pmodel;
+	}
+	
+	private void inserisciPrenotazioneInTableau(Camera c, Prenotazione pmodel) {
+		if (elencoPrenotazioni.containsKey(c)) {
+			TreeSet<Prenotazione> elencoP = elencoPrenotazioni.get(c);
+			elencoP.add(pmodel);
+		} else {
+			TreeSet<Prenotazione> elencoP = new TreeSet<Prenotazione>();
+			elencoP.add(pmodel);
+			elencoPrenotazioni.put(c, elencoP);
+		}
+	}
+	
+	private List<Camera> getCamereFromPrenotazione(Prenotazione pmodel) {
+		List<LineaPrenotazione> list = pmodel.getLineePrenotazione();
+		List<Camera> camere = new ArrayList<Camera>();
+		for (LineaPrenotazione lineaPrenotazione : list) {
+			if(lineaPrenotazione.getOggettoPrenotato() instanceof Camera) {
+				Camera c = (Camera) lineaPrenotazione.getOggettoPrenotato();
+				camere.add(c);
+			}
+		}
+		return camere;
 	}
 	
 	public void cancellaPrenotazione(Prenotazione pmodel) {
@@ -257,7 +282,7 @@ public class TableauPrenotazioni {
 	
 	private void initMapTableau() {
 		if (elencoPrenotazioni==null) {
-			elencoPrenotazioni = new HashMap<Long,TreeSet<Prenotazione>>();
+			elencoPrenotazioni = new HashMap<Camera,TreeSet<Prenotazione>>();
 		}
 	}
 	
@@ -271,7 +296,7 @@ public class TableauPrenotazioni {
 		initMapTableau();
 		for (Camera camera : elencoCamere) {
 			TreeSet<Prenotazione> pPerCamera = getInsiemePrenotazioniPerCamera(camera);
-			elencoPrenotazioni.put(camera.getId(), pPerCamera);
+			elencoPrenotazioni.put(camera, pPerCamera);
 		}
 	}
 	
@@ -345,6 +370,20 @@ public class TableauPrenotazioni {
 			AppLogger.debug("Lista risultati ricerca VUOTA\n");
 		}
 		
+	}
+
+	/**
+	 * @return the test
+	 */
+	public Boolean getTest() {
+		return test;
+	}
+
+	/**
+	 * @param test the test to set
+	 */
+	public void setTest(Boolean test) {
+		this.test = test;
 	}
 	
 }
