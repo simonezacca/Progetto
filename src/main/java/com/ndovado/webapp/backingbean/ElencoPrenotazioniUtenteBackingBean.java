@@ -7,8 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.core.LocatarioBean;
 import com.ndovado.webapp.beans.core.UtenteBean;

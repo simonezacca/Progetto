@@ -2,12 +2,10 @@ package com.ndovado.webapp.beans.pagamenti;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;

@@ -1,8 +1,6 @@
 package com.ndovado.webapp.beans.core;
 
 import java.io.Serializable;
-import java.util.Date;
-
 import javax.faces.bean.ManagedBean;
 
 import org.joda.time.LocalDate;

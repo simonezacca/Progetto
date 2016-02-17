@@ -8,7 +8,6 @@ import javax.faces.convert.FacesConverter;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.primefaces.component.calendar.Calendar;
 
 @FacesConverter("LocalDateConverter")
 public class LocalDateConverter implements Converter {

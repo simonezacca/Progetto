@@ -1,7 +1,5 @@
 package com.ndovado.dominio.pagamenti;
 
-import java.util.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -15,7 +13,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;

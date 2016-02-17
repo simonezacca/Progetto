@@ -1,7 +1,6 @@
 package com.ndovado.webapp.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;

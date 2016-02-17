@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 import com.ndovado.webapp.controllers.GestionePrenotazioneController;

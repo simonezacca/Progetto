@@ -19,6 +19,7 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 @WebFilter({ "/gestore/*", "/locatario/*" })
 public class AuthenticationFilter implements Filter {
 
+	@SuppressWarnings("unused")
 	private FilterConfig config;
     /**
      * Default constructor. 
@@ -51,7 +52,7 @@ public class AuthenticationFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		this.config = config;
+		this.config = fConfig;
 	}
 
 }
