@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.exceptions.servizi.CancellazioneServizioException;
 import com.ndovado.standalone.controller.ServizioComuneController;
 import com.ndovado.standalone.model.ServizioComuneTableModel;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -40,7 +41,6 @@ public class ServicesFrame extends JFrame {
 		// tabella servizi
 		private ServizioComuneController controller = new ServizioComuneController();
 		private JTable tblServizi;
-		String[] headerTable = {"ID Servizio", "Nome Servizio"};
 		private ServizioComuneTableModel sctmodel;
 	
 	// pannello inferiore
@@ -135,9 +135,8 @@ public class ServicesFrame extends JFrame {
 				if (risposta==JOptionPane.OK_OPTION) {
 					try {
 						controller.rimuoviServizioComune(sToRemove);
-						AppLogger.debug("Servizio rimosso: "+sToRemove.getNomeServizio());
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Errore: Impossibile rimuovere il servizio perchè associato ad una o più strutture","Errore",JOptionPane.ERROR_MESSAGE);
+					} catch (CancellazioneServizioException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 						AppLogger.error("Errore eliminazione servizio: "+e.getMessage());
 					}
 					aggiornaModelTabellaServizi();
