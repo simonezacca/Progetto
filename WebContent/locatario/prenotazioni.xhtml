@@ -9,10 +9,9 @@
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
 			<h:form>
-				<div class="container" style="width: 69%">
-					<div class="ui segment">
-						<div class="ui left floated header">Le Mie Prenotazioni</div>
-						<div class="ui clearing divider"></div>
+				<div class="container" style="width: 69%; margin-left: 17%;">
+					<div class="ui orange segment">
+						<h3 class="ui orange dividing header">Le Mie Prenotazioni:</h3>
 						<div class="ui divided items">
 							<ui:repeat var="prenotazioneBean"
 								value="#{elencoPrenotazioniUtenteBB.elencoPrenotazioni}">
@@ -21,27 +20,35 @@
 										<h:graphicImage library="images" name="square-image.png" />
 									</div>
 									<div class="content">
-										<a class="header"><h:outputText value="Nome struttura" />
-										</a>
+										<a class="ui orange header"><h:outputText
+												value="Nome struttura" /> </a>
 										<div class="meta">
 											<p>
-												<span class="cinema">Stato: <h:outputText
+											<i class="bookmark orange icon"></i>
+											
+												<span class="cinema"><h:outputText
 														value="#{prenotazioneBean.statoPrenotazione}" />
 												</span>
 											</p>
 											<p>
+											<i class="euro orange icon"></i>
+											
 												<span class="cinema">Importo: <h:outputText
-														value="#{prenotazioneBean.importoTotale}" /> &euro;
+														value="#{prenotazioneBean.importoTotale}">
+														<f:convertNumber type="number" minFractionDigits="2" />
+													</h:outputText> &euro;
 												</span>
 											</p>
 											<p>
-												<span class="cinema">CHECK IN: <h:outputText
+												<i class="calendar orange icon"></i>
+												<span class="cinema">Check In: <h:outputText
 														value="#{prenotazioneBean.dataArrivo}">
 														<f:converter converterId="LocalDateConverter"></f:converter>
 													</h:outputText></span>
 											</p>
 											<p>
-												<span class="cinema">CHECK OUT: <h:outputText
+												<i class="calendar orange icon"></i>
+												<span class="cinema">Check Out: <h:outputText
 														value="#{prenotazioneBean.dataPartenza}">
 														<f:converter converterId="LocalDateConverter"></f:converter>
 													</h:outputText>
@@ -49,11 +56,11 @@
 											</p>
 										</div>
 										<div class="extra">
-											<div class="ui right floated orange icon button">
-												<h:commandLink value="Visualizza"
-													action="#{elencoPrenotazioniUtenteBB.modificaPrenotazione(prenotazioneBean)}"
-													styleClass="info basic icon" />
-											</div>
+
+											<h:commandButton value="Visualizza"
+												action="#{elencoPrenotazioniUtenteBB.modificaPrenotazione(prenotazioneBean)}"
+												styleClass="ui right floated orange icon button" />
+
 										</div>
 									</div>
 								</div>

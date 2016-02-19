@@ -1,5 +1,7 @@
 package com.ndovado.webapp.backingbean;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -12,8 +14,13 @@ import com.ndovado.webapp.controllers.GestionePrenotazioneController;
 
 @ManagedBean(name="carrelloPrenotazioneBB")
 @ViewScoped
-public class CarrelloPrenotazioneBackingBean {
+public class CarrelloPrenotazioneBackingBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private GestionePrenotazioneController controller;
 	
 	@ManagedProperty(value="#{carrelloPrenotazioneBean}")

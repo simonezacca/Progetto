@@ -78,6 +78,9 @@ public class Pagamento implements IPersistente {
 	@Column(name="pagamentoVerso")
 	private String pagamentoVerso;
 	
+	@Transient
+	private Integer ccv;
+	
 
 	/**
 	 * Default constructor
@@ -308,6 +311,24 @@ public class Pagamento implements IPersistente {
 	 */
 	public void setPagamentoVerso(String pagamentoVerso) {
 		this.pagamentoVerso = pagamentoVerso;
+	}
+
+
+
+	/**
+	 * @return the ccv
+	 */
+	public Integer getCcv() {
+		return ccv;
+	}
+
+
+
+	/**
+	 * @param ccv the ccv to set
+	 */
+	public void setCcv(Integer ccv) {
+		this.ccv = ccv;
 	}
 
 }

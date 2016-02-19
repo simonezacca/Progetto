@@ -10,127 +10,157 @@
 		<ui:define name="content">
 
 			<h:form>
-				<div class="container" style="width: 66%; margin-bottom: 5%">
+				<div class="container"
+					style="width: 66%; margin-left: 17%; margin-bottom: 5%;">
 					<div id="ridimensionaimmagine">
 						<div class="ui orange segment">
 							<h3 class="ui left orange dividing header">VISUALIZZA
 								PRENOTAZIONE</h3>
 							<!-- Aggiungere Container-->
-							<div class="ui orange segment">
-								<div class="ui two column doubling stackable grid container">
-									<div class="column">
-										<div class="image">
-											<h:graphicImage library="images" name="square-image.png" />
-										</div>
+
+							<div class="ui two column doubling stackable grid container">
+								<div class="column">
+									<div class="image">
+										<h:graphicImage library="images" name="square-image.png" />
 									</div>
-									<div class="column">
-										<h3 class="ui orange header"> <h:outputText value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.nomeStruttura}" /></h3>
-										<div class="description"> <h:outputText value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.descrizioneStruttura}"/> </div>
-										<div class="ui segment">
-											<div class="ui two column doubling stackable grid container">
-												<div class="column">
-													<h3 class="ui orange header">CHECK IN/OUT</h3>
-													<div class="ui statistics">
-														<div class="statistic">
-															<div class="value">
-																<h:outputText
-																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataArrivo}">
-																	<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-																</h:outputText>
-															</div>
-															<div class="label">CheckIn</div>
+								</div>
+								<div class="column">
+									<h3 class="ui orange header">
+										<h:outputText
+											value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.nomeStruttura}" />
+									</h3>
+									<div class="description">
+										<h:outputText
+											value="#{modificaPrenotazioneBB.prenotazioneCorrente.stutturaAssociatata.descrizioneStruttura}" />
+									</div>
+									<div class="ui orange segment">
+										<div class="ui two column doubling stackable grid container">
+											<div class="column">
+												<h3 class="ui orange header">CHECK IN/OUT</h3>
+												<div class="ui statistics">
+													<div class="statistic">
+														<div class="value">
+															<h:outputText
+																value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataArrivo}"
+																converter="LocalDateConverter">
+															</h:outputText>
 														</div>
-													</div>
-													<div class="ui statistics">
-														<div class="statistic">
-															<div class="value">
-																<h:outputText
-																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataPartenza}">
-																	<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-																</h:outputText>
-															</div>
-															<div class="label">CheckOut</div>
-														</div>
+														<div class="label">Check-In</div>
 													</div>
 												</div>
-												<div class="column">
-													<div class="ui statistics">
-														<h3 class="ui orange header" align="right">Prezzo:</h3>
-														<div class="statistic" style="float: right">
-															<div class="value">
-																<h:outputText
-																	value="#{modificaPrenotazioneBB.prenotazioneCorrente.importoTotale}" />
-																&euro;
-															</div>
+												<div class="ui statistics">
+													<div class="statistic">
+														<div class="value">
+															<h:outputText
+																value="#{modificaPrenotazioneBB.prenotazioneCorrente.dataPartenza}"
+																converter="LocalDateConverter">
+															</h:outputText>
 														</div>
+														<div class="label">Check-Out</div>
 													</div>
 												</div>
 											</div>
-										</div>
-
-									</div>
-								</div>
-								<!-- fine sezione genereale -->
-
-								<!-- inizio sezione dettagli -->
-
-								<div class="ui three column doubling stackable grid container">
-									<div class="column">
-										<div class="ui orange segment">
-											Notti soggiorno:
-											<h:outputText
-												value="#{modificaPrenotazioneBB.prenotazioneCorrente.nottiSoggiorno}" />
-											<h3 class="ui orange header" align="center">Camere
-												Prenotate</h3>
-											<div class="ui bulleted list">
-												<ui:repeat var="cameraBean"
-													value="#{modificaPrenotazioneBB.prenotazioneCorrente.camereInPrenotazione}">
-													<div class="item">
-														<h:outputText value="#{cameraBean.nomeCamera}" />
-														| Prezzo
-														<h:outputText value="#{cameraBean.prezzo}" />
-														&euro;
+											<div class="column">
+												<div class="ui statistics">
+													<h3 class="ui orange header" align="right">Prezzo:</h3>
+													<div class="statistic" style="float: right">
+														<div class="value">
+															<h:outputText
+																value="#{modificaPrenotazioneBB.prenotazioneCorrente.importoTotale}">
+																<f:convertNumber type="number" minFractionDigits="2" />
+															</h:outputText>
+															&euro;
+														</div>
 													</div>
-												</ui:repeat>
+												</div>
+												<div class="ui statistics">
+													<h3 class="ui orange header" align="right">Notti:</h3>
+													<div class="statistic" style="float: right">
+														<div class="value">
+															<h:outputText
+													value="#{modificaPrenotazioneBB.prenotazioneCorrente.nottiSoggiorno}" />
+														</div>
+													</div>
+												</div>
+												
 											</div>
 										</div>
 									</div>
-									<div class="column">
-										<div class="ui orange segment">
-											<h3 class="ui orange header" align="center">Servizi
-												Aggiuntivi</h3>
-											<div class="ui bulleted list">
-												<ui:repeat var="servizioAggiuntivoBean"
-													value="#{modificaPrenotazioneBB.prenotazioneCorrente.serviziAggiuntiviInPrenotazione}">
-													<div class="item">
-														<h:outputText
-															value="#{servizioAggiuntivoBean.nomeOggettoPrenotabile}" />
-														| Prezzo
-														<h:outputText value="#{servizioAggiuntivoBean.prezzo}" />
-														&euro;
-													</div>
-												</ui:repeat>
+									<div class="ui two column doubling stackable grid container">
+										<div class="column">
+											<div class="ui orange segment">
+
+												<h3 class="ui orange header" align="center">Camere
+													Prenotate</h3>
+												<div class="ui list">
+													<ui:repeat var="cameraBean"
+														value="#{modificaPrenotazioneBB.prenotazioneCorrente.camereInPrenotazione}">
+														<i class="bed icon"></i><div class="item">
+															<h:outputText value="#{cameraBean.nomeCamera}" />
+															<br></br>
+															<h:outputText value="#{cameraBean.prezzo}">
+																<f:convertNumber type="number" minFractionDigits="2" />
+															</h:outputText>
+															&euro;
+														</div>
+													</ui:repeat>
+												</div>
 											</div>
 										</div>
+
+										<div class="column">
+											<div class="ui orange segment">
+												<h3 class="ui orange header" align="center">Servizi
+													Aggiuntivi</h3>
+												<div class="ui list">
+													<ui:repeat var="servizioAggiuntivoBean"
+														value="#{modificaPrenotazioneBB.prenotazioneCorrente.serviziAggiuntiviInPrenotazione}">
+														<i class="flag icon"></i>
+														<div class="item">
+															<h:outputText
+																value="#{servizioAggiuntivoBean.nomeOggettoPrenotabile}" />
+															<br></br>
+															<h:outputText value="#{servizioAggiuntivoBean.prezzo}">
+																<f:convertNumber type="number" minFractionDigits="2" />
+															</h:outputText>
+															&euro;
+														</div>
+													</ui:repeat>
+												</div>
+											</div>
+										</div>
+
 									</div>
 								</div>
-								<!-- fine sezione dettagli -->
-
-								<!-- inizio sezione note -->
-								<div class="ui three column doubling stackable grid container">
-								<font color="red"> E' possibile modificare solo le note.</font>
-									Note:
-									<h:inputTextarea
-										value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}" />
-								</div>
-								<br/><br/>
-								<h:commandButton value="Salva note" action="#{modificaPrenotazioneBB.aggiornaPrenotazione}" styleClass="ui orange button"/>
-								<!-- fine sezione note -->
-								
-								<h:panelGroup rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
-								<h:commandButton value="Cancella prenotazione" action="#{modificaPrenotazioneBB.cancellaPrenotazione}" styleClass="ui button red"/>
-								</h:panelGroup>
 							</div>
+							<!-- fine sezione genereale -->
+
+							<!-- inizio sezione dettagli -->
+
+							<!-- fine sezione dettagli -->
+
+							<!-- inizio sezione note -->
+							
+							
+							<div class="ui form">
+								<div class="field">
+									<label>Note prenotazione:</label>
+							   		<h:inputTextarea value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}" rows="2"/>
+							   		<div class ="ui pointing red basic label" style="margin-top: 1em !important;">E' possibile modificare solo le note</div>
+								</div>
+							</div>
+							<br /> <br />
+							<h:commandButton value="Salva note"
+								action="#{modificaPrenotazioneBB.aggiornaPrenotazione}"
+								styleClass="ui orange button" />
+							<!-- fine sezione note -->
+
+							<h:panelGroup
+								rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
+								<h:commandButton value="Cancella prenotazione"
+									action="#{modificaPrenotazioneBB.cancellaPrenotazione}"
+									styleClass="ui button red" />
+							</h:panelGroup>
 						</div>
 					</div>
 				</div>

@@ -23,12 +23,28 @@
 				</ui:insert>
 			</div>
 		</div>
+<!-- 
 		<div id="leftbar">
 			<ui:insert name="leftbar">
 				<ui:include src="/gestore/leftmenubar.xhtml"></ui:include>
 			</ui:insert>
 		</div>
-		            
+ -->
+ 
+ 		<!-- inizio sidebar gestore -->
+		<h:panelGroup rendered="#{utenteBean.logged}">
+			<div class="sidebar">
+				<div class="ui vertical labeled orange icon menu">
+					<a class="item" href="/ndovado/gestore/index.xhtml"><i class="user icon"></i>Area Gestore</a>
+					<a class="item" href="/ndovado/gestore/modificaStruttura.xhtml"><i class="plus icon"></i>Aggiungi<br/>Struttura</a> 
+					<a class="item" href="/ndovado/gestore/elencoStrutture.xhtml"><i class="home icon"></i>Strutture</a>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<!-- fine sidebar gestore -->
+		
+				            
 		<div id="content">
 			<ui:insert name="content">
 				<p>Main content</p>
@@ -37,7 +53,7 @@
 		<div id="footer-container">
 			<div id="footer">
 				<ui:insert name="footer">
-					<p>Footer</p>
+					<ui:include src="/sections/footer.xhtml"></ui:include>
 				</ui:insert>
 			</div>
 		</div>

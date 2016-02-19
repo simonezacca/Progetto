@@ -12,7 +12,8 @@
 			style="margin-bottom: 0px">
 		<div class="left menu">
 			<div>
-				<a href="" class="brand item">NdoVaDo</a>
+				<a href="/ndovado/" class="logo"><h:graphicImage library="images"
+						name="logo.png" /></a>
 			</div>
 		</div>
 		<!-- inizio button per signin e login --> <h:panelGroup
@@ -25,19 +26,25 @@
 					<button id="loginButton" class="ui inverted button">Login</button>
 				</div>
 			</div>
-		</h:panelGroup> <!-- fine button per signin e login --> <!-- inizio sezione barra loggato -->
-		<h:panelGroup rendered="#{utenteBean.logged}">
+			<!-- fine button per signin e login -->
+
+			<!-- inizio sezione barra loggato -->
+		</h:panelGroup> <h:panelGroup rendered="#{utenteBean.logged}">
 			<h:form>
-				<h:panelGrid columns="2">
-					<h:link outcome="#{utenteBean.homePageName}">
-						<h:outputFormat value="Bentornato {0} {1}">
-							<f:param value="#{utenteBean.cognome}"></f:param>
-							<f:param value="#{utenteBean.nome}"></f:param>
-						</h:outputFormat>
-					</h:link>
-					<h:commandButton action="#{loginControllerBB.doLogout}"
-						value="Logout" styleClass="ui red button" />
-				</h:panelGrid>
+				<div class="right menu">
+					<div class="item">
+						<h:link outcome="#{utenteBean.homePageName}" styleClass="ui inverted white header">
+							<h:outputFormat value="Bentornato {0} {1}">
+								<f:param value="#{utenteBean.cognome}"></f:param>
+								<f:param value="#{utenteBean.nome}"></f:param>
+							</h:outputFormat>
+						</h:link>
+					</div>
+					<div class="item">
+						<h:commandButton action="#{loginControllerBB.doLogout}"
+							value="Logout" styleClass="ui red button" />
+					</div>
+				</div>
 			</h:form>
 		</h:panelGroup> <!-- fine sezione barra loggato --> </nav>
 
@@ -47,20 +54,32 @@
 			<div class="header">Inserisci le tue credenziali di accesso</div>
 			<div class="content">
 				<h:form>
-					<div class="item">
-						<div class="ui input">
-							<h:inputText id="mailInputLogin" value="#{utenteBean.mail}"
-								p:placeholder="Email" required="true" />
+					<div class="ui grid centered two column">
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputText id="mailInputLogin" value="#{utenteBean.mail}"
+									p:placeholder="Email" required="true"
+									requiredMessage="Inserire indirizzo mail"
+									validatorMessage="Indirizzo mail non valido" />
+							</div>
 						</div>
-						<!-- </div>
-					<div class="item">  -->
-						<div class="ui input">
-							<h:inputText id="passInputLogin" value="#{utenteBean.password}"
-								p:placeholder="Password" required="true" />
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputText id="passInputLogin" value="#{utenteBean.password}"
+									p:placeholder="Password" required="true"
+									requiredMessage="Inserire la password"
+									validatorMessage="Password non valida" />
+							</div>
+						</div>
+						<div class="column centered">
+								<h:message id="mailInputLoginErrMsg" for="mailInputLogin"
+								 errorClass="ui red message" style="padding:10px !important"/>
+						</div>
+						<div class="column centered">
+							<h:message id="passInputLoginErrMsg" for="passInputLogin"
+								styleClass="ui red message" style="padding:10px !important"/>
 						</div>
 					</div>
-					<h:message id="mailInputLoginErrMsg" for="mailInputLogin"></h:message>
-					<h:message id="passInputLoginErrMsg" for="passInputLogin"></h:message>
 					<div class="ui clearing divider"></div>
 
 					<h:commandButton value="Accedi" styleClass="ui green button"
@@ -68,6 +87,7 @@
 						<f:ajax execute="@form"
 							render="mailInputLoginErrMsg passInputLoginErrMsg"></f:ajax>
 					</h:commandButton>
+					<br />
 				</h:form>
 			</div>
 		</div>
@@ -79,57 +99,73 @@
 			<div class="header">Registrati</div>
 			<div class="content">
 				<h:form>
-					<div class="item">
-						<div class="ui input">
-							<label>Nome</label>
-							<h:inputText id="inputNomeRegister" value="#{utenteBean.nome}"
-								p:placeholder="Nome" required="true">
-								<f:validateLength minimum="1" />
-							</h:inputText>
-							<h:message id="inputNomeRegisterErrMsg" for="inputNomeRegister"></h:message>
+					<div class="ui two column centered grid">
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputText id="inputNomeRegister" value="#{utenteBean.nome}"
+									p:placeholder="Nome" required="true" requiredMessage="Inserire il nome">
+									<f:validateLength minimum="1"/>
+								</h:inputText>
+							</div>
 						</div>
-						<div class="ui input">
-							<label>Cognome</label>
-							<h:inputText id="inputCognomeRegister"
-								value="#{utenteBean.cognome}" p:placeholder="Cognome"
-								required="true">
-								<f:validateLength minimum="1" />
-							</h:inputText>
-							<h:message id="inputCognomeRegisterErrMsg" for="inputCognomeRegister"></h:message>
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputText id="inputCognomeRegister"
+									value="#{utenteBean.cognome}" p:placeholder="Cognome" requiredMessage="Inserire il cognome"
+									required="true">
+									<f:validateLength minimum="1" />
+								</h:inputText>
+							</div>
 						</div>
-						<div class="ui input">
-							<label>Mail</label>
-							<h:inputText id="inputMailRegister" value="#{utenteBean.mail}"
-								p:placeholder="Mail" required="true">
-								<f:validateLength minimum="1" />
-								<!-- <f:validateRegex
+						<div class="column">
+							<h:message id="inputNomeRegisterErrMsg" for="inputNomeRegister"
+								styleClass="ui error message" style="padding:10px !important" />
+						</div>
+						<div class="column">
+							<h:message id="inputCognomeRegisterErrMsg"
+								for="inputCognomeRegister" styleClass="ui error message"
+								style="padding:10px !important" />
+						</div>
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputText id="inputMailRegister" value="#{utenteBean.mail}" requiredMessage="Inserire l'indirizzo mail" validatorMessage="Indirizzo mail non valido"
+									p:placeholder="Mail" required="true">
+									<f:validateLength minimum="1" />
+									<!-- <f:validateRegex
 									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
-							</h:inputText>
-							<h:message id="inputMailRegisterErrMsg" for="inputMailRegister"></h:message>
+								</h:inputText>
+							</div>
 						</div>
-					</div>
-					<div class="item">
-						<div class="ui input">
-							<label>Password</label>
-							<h:inputSecret id="inputPassRegister"
-								value="#{utenteBean.password}" p:placeholder="Password"
-								required="true" />
-							<h:message id="inputPassRegisterErrMsg" for="inputPassRegister"></h:message>
+						<div class="column">
+							<div class="ui input fluid">
+								<h:inputSecret id="inputPassRegister" 
+									value="#{utenteBean.password}" p:placeholder="Password" requiredMessage="Inserire la password"
+									required="true" />
+							</div>
 						</div>
-					</div>
-					<div class="ui form">
-						<div class="grouped fields">
-							<label>Tipologia Utente</label>
-							<h:selectOneRadio value="#{utenteBean.ruolo}"
-								id="radioTipologiaRegister" converter="#{userRoleConverter}">
-								<div class="ui radio checkbox">
+						<div class="column">
+							<h:message id="inputMailRegisterErrMsg" for="inputMailRegister"
+								styleClass="ui error message" style="padding:10px !important" />
+						</div>
+						<div class="column">
+							<h:message id="inputPassRegisterErrMsg" for="inputPassRegister"
+								styleClass="ui error message" style="padding:10px !important" />
+						</div>
+						<div class="column">
+							<div class="grouped fields">
+								<h:selectOneMenu value="#{utenteBean.ruolo}" requiredMessage="Selezionare il ruolo"
+									styleClass="ui selection fluid dropdown"
+									id="radioTipologiaRegister" converter="#{userRoleConverter}">
 									<f:selectItems value="#{registrazioneUtenteBB.ruoliValues}"
 										var="r" itemLabel="#{r.nameradio}" itemValue="#{r}" />
-								</div>
-							</h:selectOneRadio>
-							<h:message id="radioTipologiaRegisterErrMsg" for="radioTipologiaRegister"></h:message>
+								</h:selectOneMenu>
+								<h:message id="radioTipologiaRegisterErrMsg"
+								for="radioTipologiaRegister" styleClass="ui error message"
+								style="padding:10px !important" />
+							</div>
 						</div>
 					</div>
+					<div class="ui clearing divider"></div>
 
 
 					<h:commandButton value="Reset" type="reset"

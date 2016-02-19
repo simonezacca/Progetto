@@ -10,16 +10,21 @@
 <h:body>
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
-			<h:form>
+			<h:form style="width:69%; margin-left:17%;">
 				<div class="eleven wide column">
 					<div class="ui white inverted header">EFFETTUA IL PAGAMENTO</div>
 					<div class="ui orange segment">
-						<h4 class="ui orange dividing header">Seleziona il circuito
-							con cui desideri effettuare il pagamento:</h4>
+
+						<div class="ui success message">
+							<div class="header">Prenotazione salvata con successo</div>
+							<p>Puoi procedere con il pagamento della prenotazione</p>
+						</div>
+
 						<h5 class="ui black header">
 							Saldo Totale: <strong> <h:outputText
-									value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}" />
-								&euro;
+									value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}">
+									<f:convertNumber type="number" minFractionDigits="2" />
+								</h:outputText> &euro;
 							</strong>
 						</h5>
 
@@ -27,38 +32,87 @@
 							<div class="ui segment orange">
 								<h4 class="ui orange dividing header">Inserisci i dati per
 									effettuare il pagamento:</h4>
-								<div class="ui input">
-									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.numeroCC}"
-										p:placeholder="Numero di carta" required="true" />
+								<div class="ui three column grid">
+									<div class="column">
+										<div class="ui fluid input">
+											<h:inputText id="inputNumeroCC"
+												value="#{effettuaPagamentoBB.pagamentoCorrente.numeroCC}"
+												p:placeholder="Numero di carta" required="true"
+												requiredMessage="Inserisci il numero di carta" />
+										</div>
+									</div>
+									<div class="column">
+										<div class="ui fluid input">
+											<h:inputText id="inputMeseScadenza"
+												value="#{effettuaPagamentoBB.pagamentoCorrente.meseScadenza}"
+												p:placeholder="Mese scadenza (MM)" required="true"
+												maxlength="2"
+												requiredMessage="Inserisci il mese di scadenza della carta" />
+										</div>
+									</div>
+									<div class="column">
+										<div class="ui fluid input">
+											<h:inputText id="inputAnnoScadenza"
+												value="#{effettuaPagamentoBB.pagamentoCorrente.annoScadenza}"
+												p:placeholder="Anno scadenza (YYYY)" required="true"
+												maxlength="4"
+												requiredMessage="Inserisci l'anno di scadenza della carta" />
+										</div>
+									</div>
 								</div>
-								<div class="ui input">
-									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.meseScadenza}"
-										p:placeholder="Mese scadenza (MM)" size="2" required="true" maxlength="2"/>
-									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.annoScadenza}"
-										p:placeholder="Anno scadenza (YYYY)" size="4" required="true" maxlength="4"/>
+								<div class="ui three column grid">
+									<div class="column">
+										<h:message id="inputNomeCCErrMsg" for="inputNumeroCC"
+											styleClass="ui pointing red basic label"></h:message>
+									</div>
+									<div class="column">
+										<h:message id="inputAnnoScadenzaErrMsg" for="inputAnnoScadenza"
+											styleClass="ui pointing red basic label"></h:message>
+									</div>
+									<div class="column">
+										<h:message id="inputMeseScadenzaErrMsg" for="inputMeseScadenza"
+											styleClass="ui pointing red basic label"></h:message>
+									</div>
 								</div>
-								<div class="ui input">
-									<h:inputText value="#{effettuaPagamentoBB.pagamentoCorrente.ccv}"
-										p:placeholder="Codice di sicurezza" size="3" required="true" maxlength="3"/>
+								<div class="ui two column grid">
+									<div class="column">
+										<div class="ui fluid input">
+											<h:inputText id="inputCCV"
+												value="#{effettuaPagamentoBB.pagamentoCorrente.ccv}"
+												p:placeholder="Codice di sicurezza" size="3"
+												required="true" maxlength="3"
+												requiredMessage="Inserisci il codice di sicurezza" />
+										</div>
+									</div>
+									<div class="column">
+										<h:selectOneMenu
+											value="#{effettuaPagamentoBB.pagamentoCorrente.circuito}"
+											required="true" styleClass="ui selection fluid dropdown">
+											<f:selectItems value="#{pagamentoBean.circuitiDisponibili}"
+												var="circuito" itemLabel="#{circuito}"
+												itemValue="#{circuito}" />
+										</h:selectOneMenu>
+									</div>
 								</div>
-								<label>Circuito:</label>
-								
-								<h:selectOneMenu value="#{effettuaPagamentoBB.pagamentoCorrente.circuito}"
-									required="true" styleClass="ui selection fluid dropdown">
-									<f:selectItems value="#{pagamentoBean.circuitiDisponibili}"
-										var="circuito" itemLabel="#{circuito}"
-										itemValue="#{circuito}" 
-										/>
-								</h:selectOneMenu>
-								
-								<div id="pulsante">
-									<h:commandButton value="Paga" styleClass="ui orange button"
-										action="#{effettuaPagamentoBB.effettuaPagamento}"></h:commandButton>
+								<div class="ui two column grid">
+									<div class="column">
+										<h:message id="inputCCVErrMsg" for="inputCCV"
+											styleClass="ui pointing red basic label"></h:message>
+									</div>
+									<div class="column">
+									</div>
+								</div>
+
+									<div id="pulsante" style="margin-top: 10px;">
+										<h:commandButton value="Paga" styleClass="ui orange button"
+											action="#{effettuaPagamentoBB.effettuaPagamento}">
+										<f:ajax execute="@form" render="inputNomeCCErrMsg inputAnnoScadenzaErrMsg inputMeseScadenzaErrMsg inputCCVErrMsg"></f:ajax>	
+										</h:commandButton>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</h:form>
 		</ui:define>
 	</ui:composition>

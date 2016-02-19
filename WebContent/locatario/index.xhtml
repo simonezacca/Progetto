@@ -2,63 +2,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	>
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 </h:head>
 <h:body>
-<ui:composition template="/templates/layoutUtente.xhtml">
+	<ui:composition template="/templates/layoutUtente.xhtml">
 
-<ui:define name="content">
-<div class="container" style="width: 69%">
-      <div class="main content">
-     <div class="ui three column grid">
-    <div class="column">
-      <div class="ui fluid card">
-  	<div class="content">	
-  	<a class="header" href="../ricercaSoluzioni.xhtml">Cerca Locazioni</a>
-  	</div>  
-    <div class="image">
-      <h:graphicImage library="images" name="square-image.png" />
-    </div>
-    <div class="content">
-      
-      <div class="description">Descrizione </div>
-    </div>
-  </div>
-    </div>
-    <div class="column">
-         <div class="ui fluid card">
-    <div class="content"> 
-    <a class="header" href="prenotazioni.jsf">Elenco Prenotazioni</a>
-    </div>  
-    <div class="image">
-      <h:graphicImage library="images" name="square-image.png" />
-    </div>
-    <div class="content">
-      
-      <div class="description">Descrizione </div>
-    </div>
-  </div>
-    </div>
-    <div class="column">
-       <div class="ui fluid card">
-    <div class="content"> 
-    <a class="header">Modifica Profilo</a>
-    </div>  
-    <div class="image">
-      <h:graphicImage library="images" name="square-image.png" />
-    </div>
-    <div class="content">
-      
-      <div class="description">Descrizione </div>
-    </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-</ui:define>
-</ui:composition>
+		<ui:define name="content">
+			<div class="container" style="width: 66%; margin-left:17%;">
+				<div class="ui segment orange">
+					<h4 class="ui orange dividing header">
+							<h:outputFormat value="Ciao {0}!">
+								<f:param value="#{utenteBean.nome}"></f:param>
+							</h:outputFormat>
+					</h4>
+					<div class="ui orange divided items">
+						<div class="ui three cards">
+							<div class="ui orange card">
+								<div class="ui image">
+									<h:graphicImage library="images" name="square-image.png" />
+								</div>
+								<div class="content">
+									<a href="../ricercaSoluzioni.xhtml?faces-redirect=true" class="ui header orange">Ricerca Soluzioni</a>
+									
+										<div class="meta">
+											<span class="date">Lorem ipsum dolor sit amet,
+												consectetur adipiscing elit, sed do eiusmod tempor
+												incididunt ut labore et dolore magna aliqua.</span>
+										</div>
+								</div>
+							</div>
+							<div class="ui orange card">
+								<div class="ui image">
+									<h:graphicImage library="images" name="square-image.png" />
+								</div>
+								<div class="content">
+									<h:link outcome="prenotazioni" value="Gestisci Prenotazioni" styleClass="ui header orange"/>
+										<div class="meta">
+											<span class="date">Lorem ipsum dolor sit amet,
+												consectetur adipiscing elit, sed do eiusmod tempor
+												incididunt ut labore et dolore magna aliqua.</span>
+										</div>
+								</div>
+							</div>
+							<div class="ui orange card">
+								<div class="ui image">
+									<h:graphicImage library="images" name="square-image.png" />
+								</div>
+								<div class="content">
+									<a class="ui header orange">Modifica Profilo</a>
+									<div class="meta">
+										<span class="date">Lorem ipsum dolor sit amet,
+											consectetur adipiscing elit, sed do eiusmod tempor incididunt
+											ut labore et dolore magna aliqua.</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

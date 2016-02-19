@@ -11,15 +11,13 @@
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
 			
-				<div class="eleven wide column">
-					<div class="ui white inverted header green">Pagamento completato con successo</div>
+				<div class="eleven wide column" style="width:69%; margin-left:17%;">
 					<div class="ui orange segment">
+					<div class="ui white inverted header green">Pagamento completato con successo</div>
 					<div class="ui message green">Pagamento completato con successo</div>
-					<h:link value="Torna nell'area utente" outcome="#{utenteBean.homePageName}"></h:link>					
-					
+					<h:link styleClass="ui orange header" value="Torna nell'area utente" outcome="#{utenteBean.homePageName}"></h:link>	
 					</div>
 				</div>
-			
 		</ui:define>
 	</ui:composition>
 </h:body>

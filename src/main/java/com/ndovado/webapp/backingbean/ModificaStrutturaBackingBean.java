@@ -83,7 +83,7 @@ public class ModificaStrutturaBackingBean implements Serializable {
 	}
 
 	public boolean isStrutturaSalvabile() {
-		return !getStrutturaCorrente().getCamereInserite().isEmpty();
+		return !getStrutturaCorrente().getCamereInserite().isEmpty() && !getStrutturaCorrente().getServiziOfferti().isEmpty();
 	}
 
 	public String aggiungiCamera() {
@@ -115,7 +115,7 @@ public class ModificaStrutturaBackingBean implements Serializable {
 			completed = true;
 			addingStruttura = false;
 		}
-		return "/gestore/index?faces-redirect=true";
+		return "/gestore/successoModificaStruttura?faces-redirect=true";
 	}
 
 	/**

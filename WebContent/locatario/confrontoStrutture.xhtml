@@ -17,7 +17,7 @@
 							<div class="ui two column grid">
 								<ui:repeat var="risultatoRicercaBean"
 									value="#{confrontoStruttureBB.listaPerRicerca}">
-									<h:form>
+									<h:form style="width: 50%;">
 										<!-- inizio loop strutture -->
 										<div class="eight wide column">
 											<div class="ui white inverted header">
@@ -79,10 +79,13 @@
 														</div>
 													</div>
 													<!-- fine servizi base -->
-													<div class="ui inverted orange button">
+													<br />
+													<div class="ui fitted divider"></div>
+													<br />
+													<center>
 														<h:commandButton value="Seleziona"
 															action="#{confrontoStruttureBB.selezionaStruttura(risultatoRicercaBean)}" styleClass="ui orange button" />
-													</div>
+													</center>
 												</div>
 											</div>
 										</div>

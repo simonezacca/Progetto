@@ -7,138 +7,181 @@
 <h:head>
 </h:head>
 <h:body>
-	<ui:composition template="/templates/layoutGestore.xhtml">
+	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
-			<h:form>
-			<div class="eleven wide column">
-				<div class="ui white inverted header">DEDTTAGLI DELLA STRUTTURA</div>
-				<div class="ui orange segment">
-					<h3 class="ui orange dividing header"><h:outputText value="#{visualizzaStrutturaBB.strutturaCorrente.nomeStruttura}" /> </h3>
-					<div class="ui orange divided items">
-						<div class="item">
-							<div class="image">
-								<h:graphicImage library="images" name="square-image.png" />
-							</div>
-							<div class="content">
-								<div class="meta">
-									<span class="cinema"><h:outputText value="#{visualizzaStrutturaBB.strutturaCorrente.indirizzoLuogo}" /></span>
-								</div>
-								<div class="description">
-									<p><h:outputText  value="#{visualizzaStrutturaBB.strutturaCorrente.descrizioneStruttura}"/></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<!-- visualizzo pannello se risultati ricerca contiene camere disponibili -->
-					<h:panelGroup rendered="#{not empty visualizzaStrutturaBB.RRcorrente}">
-						<!-- inizio sezione camere -->
-						<h4 class="ui orange dividing header">Camere Disponibili</h4>
+			<h:form style="width: 66%; margin-left: 19%;">
+				<div class="eleven wide column">
+					<div class="ui white inverted header">DETTAGLI DELLA
+						STRUTTURA</div>
+					<div class="ui orange segment">
+						<h3 class="ui orange dividing header">
+							<h:outputText
+								value="#{visualizzaStrutturaBB.strutturaCorrente.nomeStruttura}" />
+						</h3>
 						<div class="ui orange divided items">
-							<div class="ui three cards">
-								<!-- inizio loop camere -->
-								<ui:repeat var="cameraBean" value="#{visualizzaStrutturaBB.RRcorrente.camereLibere.toArray()}">
-									<div class="ui orange card">
-										<div class="ui image">
-											<h:graphicImage library="images" name="square-image.png" />
-										</div>
-										<div class="content">
-											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> </a>
-											<div class="meta">
-												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
-											</div>
-											<div class="meta">
-												<span class="date">Pax: <h:outputText value="#{cameraBean.pax}"/> </span>
-											</div>
-										</div>
-										<div class="extra content">
-											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
-											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
-											<h:commandButton value="Prenota" styleClass="ui orange label"
-												rendered="#{utenteBean.logged}" 
-												action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(cameraBean)}"/>
-
-										</div>
+							<div class="item">
+								<div class="image">
+									<h:graphicImage library="images" name="square-image.png" />
+								</div>
+								<div class="content">
+									<div class="meta">
+										<span class="cinema"><h:outputText
+												value="#{visualizzaStrutturaBB.strutturaCorrente.indirizzoLuogo}" /></span>
 									</div>
-								</ui:repeat>
-								<!-- fine loop camere -->
+									<div class="description">
+										<p>
+											<h:outputText
+												value="#{visualizzaStrutturaBB.strutturaCorrente.descrizioneStruttura}" />
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
+
+						<!-- visualizzo pannello se risultati ricerca contiene camere disponibili -->
+						<h:panelGroup
+							rendered="#{not empty visualizzaStrutturaBB.RRcorrente}">
+							<!-- inizio sezione camere -->
+							<h4 class="ui orange dividing header">Camere Disponibili</h4>
+							<div class="ui orange divided items">
+								<div class="ui three cards">
+									<!-- inizio loop camere -->
+									<ui:repeat var="cameraBean"
+										value="#{visualizzaStrutturaBB.RRcorrente.camereLibere.toArray()}">
+										<div class="ui orange card">
+											<div class="ui image">
+												<h:graphicImage library="images" name="square-image.png" />
+											</div>
+											<div class="content">
+												<a class="header"> <h:outputText
+														value="#{cameraBean.nomeCamera}" />
+												</a>
+												<div class="meta">
+													<span class="date"> <h:outputText
+															value="#{cameraBean.descrizioneCamera}" />
+													</span>
+												</div>
+												<div class="meta">
+													<span class="date">Pax: <h:outputText
+															value="#{cameraBean.pax}" />
+													</span>
+												</div>
+											</div>
+											<div class="extra content">
+												<a class="ui tag large label">&euro; <h:outputText
+														value="#{cameraBean.prezzo}">
+														<f:convertNumber type="number" minFractionDigits="2" />
+													</h:outputText>
+												</a> <font color="red"><h:outputText
+														value="Per prenotare devi essere loggato"
+														rendered="#{not utenteBean.logged}" /></font>
+
+												<h:panelGroup
+													rendered="#{not carrelloPrenotazioneBean.isOggettoPrenotato(cameraBean)}">
+													<h:commandButton value="Prenota"
+														styleClass="ui orange label"
+														rendered="#{utenteBean.logged}"
+														action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(cameraBean)}" />
+												</h:panelGroup>
+											</div>
+										</div>
+									</ui:repeat>
+									<!-- fine loop camere -->
+								</div>
+							</div>
 							<!-- fine sezione camere -->
-					</h:panelGroup>
-					
-					
-					<!-- visualizzo pannello se risultati ricerca non contiene camere disponibili 
+						</h:panelGroup>
+
+
+						<!-- visualizzo pannello se risultati ricerca non contiene camere disponibili 
 						la pagina funge solo da visualizzazione della struttura
 					-->
-					<h:panelGroup rendered="#{empty visualizzaStrutturaBB.RRcorrente}">
-						<!-- inizio sezione camere -->
-						<h4 class="ui orange dividing header">Camere della struttura</h4>
-						<div class="ui orange divided items">
-							<div class="ui three cards">
-								<!-- inizio loop camere -->
-								<ui:repeat var="cameraBean" value="#{visualizzaStrutturaBB.strutturaCorrente.camereInserite}">
-									<div class="ui orange card">
-										<div class="ui image">
-											<h:graphicImage library="images" name="square-image.png" />
-										</div>
-										<div class="content">
-											<a class="header"> <h:outputText value="#{cameraBean.nomeCamera}"/> id: <h:outputText value="#{cameraBean.id}"/> </a>
-											<div class="meta">
-												<span class="date"> <h:outputText value="#{cameraBean.descrizioneCamera}"/> </span>
+						<h:panelGroup rendered="#{empty visualizzaStrutturaBB.RRcorrente}">
+							<!-- inizio sezione camere -->
+							<h4 class="ui orange dividing header">Camere della struttura</h4>
+							<div class="ui orange divided items">
+								<div class="ui three cards">
+									<!-- inizio loop camere -->
+									<ui:repeat var="cameraBean"
+										value="#{visualizzaStrutturaBB.strutturaCorrente.camereInserite}">
+										<div class="ui orange card">
+											<div class="ui image">
+												<h:graphicImage library="images" name="square-image.png" />
 											</div>
-											<div class="meta">
-												<span class="date">Pax: <h:outputText value="#{cameraBean.pax}"/> </span>
+											<div class="content">
+												<a class="header"> <h:outputText
+														value="#{cameraBean.nomeCamera}" /> id: <h:outputText
+														value="#{cameraBean.id}" />
+												</a>
+												<div class="meta">
+													<span class="date"> <h:outputText
+															value="#{cameraBean.descrizioneCamera}" />
+													</span>
+												</div>
+												<div class="meta">
+													<span class="date">Pax: <h:outputText
+															value="#{cameraBean.pax}" />
+													</span>
+												</div>
+											</div>
+											<div class="extra content">
+												<a class="ui tag large label">&euro; <h:outputText
+														value="#{cameraBean.prezzo}" />
+												</a> <font color="red"><h:outputText
+														value="Per prenotare devi essere loggato"
+														rendered="#{not utenteBean.logged}" /></font>
+
 											</div>
 										</div>
-										<div class="extra content">
-											<a class="ui tag large label">&euro; <h:outputText value="#{cameraBean.prezzo}"/> </a>
-											<font color="red"><h:outputText value="Per prenotare devi essere loggato" rendered="#{not utenteBean.logged}"/></font>
-											
-										</div>
-									</div>
-								</ui:repeat>
-								<!-- fine loop camere -->
+									</ui:repeat>
+									<!-- fine loop camere -->
+								</div>
 							</div>
-						</div>
 							<!-- fine sezione camere -->
-					</h:panelGroup>
-					<h:link outcome="locatario/carrelloPrenotazione" value="Vai al carrello" rendered="#{not empty carrelloPrenotazioneBean.prenotazioneCorrente.lineePrenotazione}"/>
-					
-					
-					
-					<div class="ui orange divided items">
+						</h:panelGroup>
+
+
 
 						<!-- inizio servizi base -->
 						<h4 class="ui orange dividing header">Servizi</h4>
 						<div class="ui orange divided items">
 							<div class="ui three">
 								<!-- inizio loop servizi base -->
-								<ui:repeat var="dettaglioServizioBean" value="#{visualizzaStrutturaBB.strutturaCorrente.serviziOfferti}">
-									<a class="ui label"><h:outputText value="#{dettaglioServizioBean.servizio.nomeServizio}"/>
-									
-									<h:panelGroup rendered="#{dettaglioServizioBean.tipologia.prezzo gt 0}">
-									<h:outputFormat value=" Prezzo: {0} &euro;">
-										<f:param value="#{dettaglioServizioBean.tipologia.prezzo}" />
-									</h:outputFormat>
-												<h:panelGroup>
-													<h:commandLink value="Aggiungi"
-														action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(dettaglioServizioBean.tipologia)}" 
-														rendered="#{not empty visualizzaStrutturaBB.RRcorrente and utenteBean.logged}"/>
-												</h:panelGroup>
-											</h:panelGroup>
-									</a>
+								<ui:repeat var="dettaglioServizioBean"
+									value="#{visualizzaStrutturaBB.strutturaCorrente.serviziOfferti}">
+									<!-- condizione servizio base -->
+									<h:panelGroup
+										rendered="#{dettaglioServizioBean.tipologia.prezzo eq 0}">
+										<a class="ui large yellow label"><h:outputText
+												value="#{dettaglioServizioBean.servizio.nomeServizio}" /> </a>
+									</h:panelGroup>
+									<!--  fine condizione servizio base  -->
+
+									<!-- condizione servizio aggiuntivo -->
+									<h:panelGroup
+										rendered="#{dettaglioServizioBean.tipologia.prezzo gt 0}">
+										<a class="ui large purple label"><h:outputText
+												value="#{dettaglioServizioBean.servizio.nomeServizio}" /> <h:outputFormat
+												value=" Prezzo: {0} &euro;">
+												<f:param value="#{dettaglioServizioBean.tipologia.prezzo}" />
+											</h:outputFormat> <h:panelGroup>
+												<h:commandLink value="+"
+													action="#{carrelloPrenotazioneBean.addOggettoPrenotabile(dettaglioServizioBean.tipologia)}"
+													rendered="#{not empty visualizzaStrutturaBB.RRcorrente and utenteBean.logged}"
+													styleClass="ui small olive button" />
+											</h:panelGroup> </a>
+									</h:panelGroup>
+									<!--  fine condizione servizio aggiuntivo  -->
 								</ui:repeat>
 								<!-- fine loop servizi base -->
 							</div>
 						</div>
 						<!-- fine servizi base -->
 
-						
+
 					</div>
 				</div>
-			</div>
-			
+
 			</h:form>
 		</ui:define>
 	</ui:composition>

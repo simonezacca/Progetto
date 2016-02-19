@@ -1,5 +1,6 @@
 package com.ndovado.dominio.pagamenti;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 import org.joda.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class GWAutorizzazionePagamenti {
 		if (isAuthorizable()) {
 			pToAuth.setAutorizzato(true);
 			pToAuth.setDataOraPagamento(new LocalDateTime());
-			pToAuth.setIdTransazione("pippo");
+			pToAuth.setIdTransazione(getIdTransazione());
 		} else {
 			pToAuth.setAutorizzato(false);
 		}
@@ -47,12 +48,16 @@ public class GWAutorizzazionePagamenti {
 	}
 	
 	private Boolean isAuthorizable() {
-		Boolean result = true;
-//		Integer num = generator.nextInt(100);
-//		if (num>=1) {
-//			result = true;
-//		}
+		Boolean result = false;
+		Integer num = generator.nextInt(100);
+		if (num>=1) {
+			result = true;
+		}
 		return result;
+	}
+	
+	private String getIdTransazione() {
+		 return new BigInteger(130, generator).toString(32);
 	}
 
 }

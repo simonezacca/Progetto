@@ -8,56 +8,52 @@
 <h:body>
 	<ui:composition template="/templates/layoutGestore.xhtml">
 		<ui:define name="content">
-			<div class="ui orange segment">
-				<h4 class="ui left orange dividing header">Locazioni inserite</h4>
-				<div class="ui orange divided items"></div>
-				<h2 class="ui right floated header">
-					<h:button styleClass="ui orange button"
-						value="Aggiungi nuova locazione" outcome="modificaStruttura" />
-				</h2>
-				<div class="ui orange clearing divider"></div>
-				<div class="ui orange divided items">
-					<ui:repeat var="struttura"
-						value="#{elencoStruttureBB.elencoStrutture}">
-						<div class="item">
-							<div class="image">
-								<h:graphicImage library="images" name="square-image.png" />
-							</div>
-							<div class="content">
-								<h:link value="#{struttura.nomeStruttura}"></h:link>
-								<div class="meta">
-									<span class="cinema"> <h:outputFormat value="{0} - {1}">
-											<f:param value="#{struttura.indirizzoLuogo}"></f:param>
-											<f:param value="#{struttura.luogoStruttura}"></f:param>
-										</h:outputFormat>
-									</span>
+			<div class="container" style="width: 66%; margin-left: 17%;">
+				<div class="ui orange segment">
+					<h4 class="ui left orange dividing header">Locazioni inserite</h4>
+					<div class="ui orange divided items"></div>
+					<h2 class="ui right floated header">
+						<h:button styleClass="ui orange button"
+							value="Aggiungi nuova locazione" outcome="modificaStruttura" />
+					</h2>
+					<div class="ui orange clearing divider"></div>
+					<div class="ui orange divided items">
+						<ui:repeat var="struttura"
+							value="#{elencoStruttureBB.elencoStrutture}">
+							<div class="item">
+								<div class="image">
+									<h:graphicImage library="images" name="square-image.png" />
 								</div>
-								<div class="description">
-									<h:outputText value="#{struttura.descrizioneStruttura}"></h:outputText>
-								</div>
-								<div class="extra">
-									<h:form>
-										<div class="ui right floated orange icon button">
-											<h:commandLink
-												action="#{elencoStruttureBB.visualizzaStruttura(struttura)}"
-												styleClass="info basic icon" value="Visualizza"/>
-										</div>
-										<div class="ui right floated orange icon button">
-											<h:commandLink
-												action="#{elencoStruttureBB.modificaStruttura(struttura)}"
-												styleClass="edit basic icon" value="Modifica"/>
-										</div>
-										<div class="ui right floated orange icon button">
-											<h:commandLink
-												action="#{elencoStruttureBB.eliminaStruttura(struttura)}"
-												styleClass="delete basic icon" value="Rimuovi" />
-										</div>
-									</h:form>
+								<div class="content">
+									<h:link value="#{struttura.nomeStruttura}"></h:link>
+									<div class="meta">
+										<span class="cinema"> <h:outputFormat value="{0} - {1}">
+												<f:param value="#{struttura.indirizzoLuogo}"></f:param>
+												<f:param value="#{struttura.luogoStruttura}"></f:param>
+											</h:outputFormat>
+										</span>
+									</div>
+									<div class="description">
+										<h:outputText value="#{struttura.descrizioneStruttura}"></h:outputText>
+									</div>
+									<div class="extra">
+										<h:form>
+												<h:commandButton
+													action="#{elencoStruttureBB.visualizzaStruttura(struttura)}"
+													styleClass="ui right floated orange delete button icon" value="Visualizza" />
+												<h:commandButton
+													action="#{elencoStruttureBB.modificaStruttura(struttura)}"
+													styleClass="ui right floated orange delete button icon" value="Modifica" />
+												<h:commandButton
+													action="#{elencoStruttureBB.eliminaStruttura(struttura)}"
+													styleClass="ui right floated orange delete button icon" value="Rimuovi" />
+										</h:form>
+									</div>
 								</div>
 							</div>
-						</div>
 
-					</ui:repeat>
+						</ui:repeat>
+					</div>
 				</div>
 			</div>
 		</ui:define>

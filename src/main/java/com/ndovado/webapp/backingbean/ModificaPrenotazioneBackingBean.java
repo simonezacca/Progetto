@@ -21,8 +21,10 @@ public class ModificaPrenotazioneBackingBean implements Serializable {
 	private PrenotazioneBean prenotazioneCorrente;
 	
 	public ModificaPrenotazioneBackingBean() {
-		prenotazioneCorrente = (PrenotazioneBean) JSFHelper.get("prenotazioneDaVisualizzare");
 		if (prenotazioneCorrente==null) {
+			prenotazioneCorrente = (PrenotazioneBean) JSFHelper.get("prenotazioneDaVisualizzare");
+		}
+		if (prenotazioneCorrente== null) {
 			JSFHelper.redirectTo("/locatario/index.xhtml");
 		}
 	}

@@ -1,5 +1,7 @@
 package com.ndovado.webapp.backingbean;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -12,8 +14,12 @@ import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="registrazioneUtenteBB")
 @RequestScoped
-public class RegistrazioneUtenteBackingBean {
+public class RegistrazioneUtenteBackingBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GestioneUtenteController controller = new GestioneUtenteController();
 	private static ARuoloBean[] ruoli;
 	

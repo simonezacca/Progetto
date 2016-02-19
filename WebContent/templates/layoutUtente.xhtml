@@ -2,48 +2,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
->
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-<h:outputStylesheet library="css" name="ndovado_style.css"/>
-<h:outputStylesheet library="css" name="semantic.min.css"/>
+	<h:outputStylesheet library="css" name="ndovado_style.css" />
+	<h:outputStylesheet library="css" name="semantic.min.css" />
 
-<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
-<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"
+		target="head" />
 
-<h:outputScript library="javascript" target="head" name="semantic.min.js" />
-<h:outputScript library="javascript" target="body" name="ndovado_js.js" /> 
-
-
+	<h:outputScript library="javascript" target="head"
+		name="semantic.min.js" />
+	<h:outputScript library="javascript" target="body" name="ndovado_js.js" />
 
 
 </h:head>
 <h:body>
-<div id="page">
-<div id="header-container">
-<div id="header">
-<ui:insert name="header">
-<ui:include src="/sections/topbar.xhtml" />               
-</ui:insert>
-</div>
-</div>
-<div id="leftbar">
-<ui:insert name="leftbar">
-<ui:include src="/locatario/leftmenubar.xhtml"></ui:include>
-</ui:insert>
-</div>            
-<div id="content">
-<ui:insert name="content">
-<p>Main content</p>
-</ui:insert>
-</div>
-<div id="footer-container">
-<div id="footer">
-<ui:insert name="footer">
-<p>Footer</p>
-</ui:insert>
-</div>
-</div>
-</div>
+	<div id="page">
+		<div id="header-container">
+			<div id="header">
+				<ui:insert name="header">
+					<ui:include src="/sections/topbar.xhtml" />               
+				</ui:insert>
+			</div>
+		</div>
+
+		<!-- inizio sidebar utente loggato -->
+		<h:panelGroup rendered="#{utenteBean.logged}">
+			<div class="sidebar">
+				<div class="ui vertical labeled orange icon menu">
+					<a class="item" href="/ndovado/index.xhtml"><i class="home icon"></i>Home</a>
+					<a class="item" href="/ndovado/locatario/index.xhtml"><i class="user icon"></i>Area Utente</a> <a
+						class="item" href="/ndovado/locatario/prenotazioni.xhtml"><i
+						class="archive icon"></i>Prenotazioni</a>
+					<h:panelGroup
+						rendered="#{not empty carrelloPrenotazioneBean.prenotazioneCorrente.lineePrenotazione}">
+						<a class="item" href="/ndovado/locatario/carrelloPrenotazione.xhtml"><i
+							class="shop icon"></i><div class="floating ui orange label"> <h:outputText value="#{carrelloPrenotazioneBean.contaLineePrenotazione()}"/> </div> &euro; <h:outputText
+								value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}" />
+						</a>
+					</h:panelGroup>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<!-- fine sidebar utente loggato -->
+		   
+		<div id="content">
+			<ui:insert name="content">
+				<p>Main content</p>
+			</ui:insert>
+		</div>
+		<div id="footer-container">
+			<div id="footer" class="footer">
+				<ui:insert name="footer">
+					<ui:include src="/sections/footer.xhtml" />
+				</ui:insert>
+			</div>
+		</div>
+	</div>
 </h:body>
 </html>

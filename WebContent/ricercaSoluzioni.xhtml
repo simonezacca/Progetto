@@ -24,15 +24,14 @@
 									<div class="ui orange segment">
 										<h4 class="ui orange dividing header">Dove vuoi passare
 											il tuo prossimo soggiorno?</h4>
-										<div class="ui fluid input">
-
+										<div class="ui raised segment">
+											<label>Comune</label>
 											<pf:autoComplete value="#{ricercaSoluzioniBB.luogoCorrente}"
 												completeMethod="#{ricercaSoluzioniBB.completaLuoghiDisponibili}"
 												var="luogoBean" itemLabel="#{luogoBean.nomeComune}"
 												itemValue="#{luogoBean}" converter="#{luogoBeanConverter}"
 												minQueryLength="3" forceSelection="true" required="true"
-												maxResults="10" />
-
+												maxResults="10" styleClass="ui input" />
 										</div>
 										<h4 class="ui orange dividing header">Seleziona le Date:</h4>
 										<div class="ui raised segment">
@@ -51,10 +50,10 @@
 											<br /> <br /> <label>Data partenza</label>
 											<div class="ui input">
 												<pf:calendar id="toDate"
-													value="#{ricercaSoluzioniBB.dataPartenza}" required="true" readonlyInput="true"
-													 pattern="dd/MM/yyyy">
+													value="#{ricercaSoluzioniBB.dataPartenza}" required="true"
+													readonlyInput="true" pattern="dd/MM/yyyy">
 													<f:converter converterId="LocalDateConverter"></f:converter>
-													</pf:calendar>
+												</pf:calendar>
 											</div>
 										</div>
 										<h4 class="ui orange dividing header">Numero di Persone:</h4>
@@ -69,11 +68,11 @@
 												</h:selectOneMenu>
 											</div>
 										</div>
-										<div class="ui inverted orange button">
-											<h:commandButton value="Ricerca le soluzioni"
-												styleClass="ui orange button"
-												action="#{ricercaSoluzioniBB.avviaRicercaSoluzioniDisponibili}" />
-										</div>
+										<h:commandLink value="Ricerca le soluzioni"
+											styleClass="ui orange button"
+											action="#{ricercaSoluzioniBB.avviaRicercaSoluzioniDisponibili}"
+											style="margin-top: 10px" />
+
 									</div>
 								</div>
 							</h:form>
@@ -81,29 +80,36 @@
 
 
 							<!-- inizio elenco soluzioni disponibili -->
-							<h:form>
+							<h:form style="width: 66%;">
 								<div class="eleven wide column">
 									<div class="ui white inverted header">SELEZIONA LA
 										LOCAZIONE CHE PREFERISCI</div>
 									<div class="ui orange segment">
-										<h4 class="ui orange dividing header">Risultati della
-											ricerca:</h4>
+
+										<!-- inizio pannello offerte -->
 										<div class="ui divided items">
 											<h:panelGroup rendered="#{ricercaSoluzioniBB.primaRicerca}">
-										Elenco immagini che scorrono
-										</h:panelGroup>
+												<ui:include src="/sections/offerte.xhtml"></ui:include>
+											</h:panelGroup>
+											<!-- fine pannello offerte -->
+
+											<!-- inizio pannelo nessun risutato -->
 											<h:panelGroup
 												rendered="#{empty ricercaSoluzioniBB.risultatiRicerca and not ricercaSoluzioniBB.primaRicerca}">
-										Nessun risultato disponibile per i criteri selezionati
-										</h:panelGroup>
-											<!-- inizio ciclo risultati ricerca -->
+												<div class="ui negative message">
+													<i class="close icon"></i>
+													<div class="header">Nessun risultato disponibile per
+														i criteri selezionati</div>
+													<p>Prova con altri criteri di ricerca</p>
+												</div>
+											</h:panelGroup>
+											<!-- fine pannelo nessun risutato -->
+
+											<!-- inizio pannello risultati ricerca -->
 											<h:panelGroup
 												rendered="#{not empty ricercaSoluzioniBB.risultatiRicerca}">
-												<!-- visualizzare solo se l'elenco corrente dei risultati ricerca è popolato
-												<h:panelGroup id="panelBtnConfronta">
-													<h:commandButton value="Confronta locazioni" disabled="true" styleClass="ui orange button" />
-												</h:panelGroup> -->
-												
+												<!-- visualizzare solo se l'elenco corrente dei risultati ricerca è popolato -->
+
 												<ui:repeat var="risultatoRicercaBean"
 													value="#{ricercaSoluzioniBB.risultatiRicerca}">
 													<div class="item">
@@ -113,15 +119,11 @@
 														<div class="content">
 															<h:link
 																value="#{risultatoRicercaBean.struttura.nomeStruttura}"
-																styleClass="header" /><br />
-																
-																<!-- inizio pannello bottone confronto -->
-																<h:panelGroup rendered="#{not ricercaSoluzioniBB.isStrutturaInConfronto(risultatoRicercaBean)}">
-																	<label>Seleziona la struttura per il confronto (max 2 strutture)</label>
-																	<h:commandButton value="Selezione per confronto" action="#{ricercaSoluzioniBB.addStrutturaPerConfronto(risultatoRicercaBean)}"></h:commandButton>
-																</h:panelGroup>
-																<!-- inizio pannello bottone confronto -->
-																
+																styleClass="header" />
+															<br />
+
+
+
 															<div class="meta">
 																<span class="cinema"> <h:outputFormat
 																		value="{0} - {1} ({2})">
@@ -140,43 +142,73 @@
 																		value="#{risultatoRicercaBean.struttura.descrizioneStruttura}" />
 																</p>
 															</div>
-															<div class="extra">
-																<div class="ui right floated orange button">
-																	<h:commandButton
-																		action="#{ricercaSoluzioniBB.visualizzaStruttura(risultatoRicercaBean.struttura)}"
-																		value="Visualizza" styleClass="ui orange button" />
+
+															<!-- inizio sezione camere accordion -->
+															<div class="ui accordion field">
+																<div class="title">
+																	<i class="icon dropdown orange"></i><span class="ui orange header" style="font-size:15px;">Visualizza Camere</span>
 																</div>
-																<div class="ui label">Bisogna decidere</div>
-																<div class="ui label">
-																	<i class="globe icon"></i> che farci in caso
+																<div class="content field">
+																	<div class="transition visible">
+																		<div class="ui orange divided items">
+																			<div class="ui three cards">
+																				<!-- inizio loop camere -->
+																				<ui:repeat var="cameraBean"
+																					value="#{risultatoRicercaBean.camereLibere.toArray()}">
+
+																					<div class="ui orange card">
+																						<div class="ui image">
+																							<h:graphicImage library="images"
+																								name="square-image.png" />
+																						</div>
+																						<div class="content">
+																							<a class="header"><h:outputText
+																									value="#{cameraBean.nomeCamera}" /></a>
+																							<div class="meta">
+																								<span class="date"><h:outputText
+																										value="#{cameraBean.descrizioneCamera}" /></span>
+																							</div>
+
+																						</div>
+																						<div class="extra content">
+																							<a class="ui tag medium label"> &euro; <h:outputText
+																									value="#{cameraBean.prezzo}" ><f:convertNumber type="number" minFractionDigits="2" /></h:outputText></a> <a
+																								class="ui orange label">Pax: <h:outputText
+																									value="#{cameraBean.pax}" /></a>
+																						</div>
+																					</div>
+																				</ui:repeat>
+																			</div>
+																		</div>
+																	</div>
 																</div>
 															</div>
-															<!-- camere -->
-															<div>
-																<ui:repeat var="cameraBean"
-																	value="#{risultatoRicercaBean.camereLibere.toArray()}">
-																	<label>Nome camera </label>
-																	<h:outputText value="#{cameraBean.nomeCamera}" /> - <h:outputText value="#{cameraBean.id}"/>
-																	<br />
-																	<label>Descrizione camera </label>
-																	<h:outputText value="#{cameraBean.descrizioneCamera}" />
-																	<br />
-																	<label>Pax </label>
-																	<h:outputText value="#{cameraBean.pax}" />
-																	<br />
-																	<label>Prezzo</label>
-																	<h:outputText value="#{cameraBean.prezzo}" />
-																	<br />
-																	<hr />
-																	<h:panelGroup rendered="#{not utenteBean.logged}">
-																		<font color="red">Per prenotare devi essere
-																			loggato</font>
-																	</h:panelGroup>
-																	<h:panelGroup rendered="#{utenteBean.logged}">
-																		<font color="green">Prenota</font>
-																	</h:panelGroup>
-																	<hr />
-																</ui:repeat>
+															<!-- fine sezione camere accordion -->
+															<div class="ui fitted divider" style="margin-top:10px"></div>
+															<div class="extra">
+															
+																<!-- inizio bottone visualizza solamente -->
+																<h:commandLink rendered="#{not utenteBean.logged}"
+																	action="#{ricercaSoluzioniBB.visualizzaStruttura(risultatoRicercaBean.struttura)}"
+																	value="Visualizza"
+																	styleClass="ui orange button right floated" />
+																<!-- inizio bottone visualizza -->
+																
+																<!-- inizio bottone visualizza solamente -->
+																<h:commandLink rendered="#{utenteBean.logged}"
+																	action="#{ricercaSoluzioniBB.visualizzaStrutturaDaRisultatoRicerca(risultatoRicercaBean)}"
+																	value="Visualizza"
+																	styleClass="ui orange button right floated" />
+																<!-- inizio bottone visualizza -->
+																
+																<!-- inizio pannello bottone confronto -->
+																<h:panelGroup
+																	rendered="#{not ricercaSoluzioniBB.isStrutturaInConfronto(risultatoRicercaBean)}">
+																	<h:commandButton value="Selezione per confronto"
+																		action="#{ricercaSoluzioniBB.addStrutturaPerConfronto(risultatoRicercaBean)}"
+																		styleClass="ui green left floated button" />
+																</h:panelGroup>
+																<!-- inizio pannello bottone confronto -->
 															</div>
 														</div>
 													</div>

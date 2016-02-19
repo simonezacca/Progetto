@@ -86,6 +86,10 @@ public class CarrelloPrenotazioneBean implements Serializable{
 	public PrenotazioneBean getPrenotazioneCorrente() {
 		return prenotazioneCorrente;
 	}
+	
+	public Integer contaLineePrenotazione() {
+		return prenotazioneCorrente.getLineePrenotazione().size();
+	}
 
 	/**
 	 * @param prenotazioneCorrente the prenotazioneCorrente to set

@@ -8,24 +8,33 @@
 <h:body>
 	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
-		<h:form>
+		<h:form style="width:66%; margin-left:17%;">
 			<div class="eleven wide column">
-						<div class="ui white inverted header">VISUALIZZA IL TUO CARRELLO</div>
+						<div class="ui white inverted header">IL TUO CARRELLO</div>
 							<div class="ui orange segment">
-							<h4 class="ui orange dividing header">IL TUO CARRELLO:</h4>
+							<h4 class="ui orange dividing header">Riepilogo prenotazione:</h4>
+								<!-- riepilogo prenotazione generale -->
 								<div class="field">
+								<h4 class="ui black header">Struttura: <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.stutturaAssociatata.nomeStruttura}" styleClass="ui orange"/></h4>
+								dal: <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.dataArrivo}" styleClass="ui black header" converter="LocalDateConverter"/> al <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.dataPartenza}" styleClass="ui black header" converter="LocalDateConverter"/> - notti: <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.nottiSoggiorno}" styleClass="ui black header"/> <br/>
+								</div>
+							<h4 class="ui orange dividing header">Dettaglio prenotazione:</h4>	
+								<!-- inizio dettaglio prentoazione -->
+								<div class="field">	
 								
 									<!-- inizio loop oggetti prenotabili -->
 									<ui:repeat var="lineaPreanotazioneBean" value="#{carrelloPrenotazioneBean.prenotazioneCorrente.lineePrenotazione}">
 									<div class="ui three column grid">
-										<div class="eleven wide column">
+										<div class="ten wide column">
 											<span style="display:inline-block; vertical-align:middle">
 											<h4 class="ui black header"> <h:outputText value="#{lineaPreanotazioneBean.oggettoPrenotato.nomeOggettoPrenotabile}" /> </h4>
 											</span>
 										</div>
-										<div class="three wide column">
+										<div class="four wide column">
 											<span style="display:inline-block; vertical-align:middle">
-												<h4 class="ui black header"> Prezzo: <h:outputText value="#{lineaPreanotazioneBean.oggettoPrenotato.prezzo}" /> &euro;</h4>
+												Prezzo per notte: <h4 class="ui black header" style="display:inline;"> <h:outputText value="#{lineaPreanotazioneBean.oggettoPrenotato.prezzo}">
+												 <f:convertNumber type="number" minFractionDigits="2" />
+												</h:outputText> &euro;</h4>
 											</span>
 										</div>
 										<div class="two wide column">
@@ -40,9 +49,14 @@
 													        
 							    </div>
 							    <h4 class="ui orange dividing header" style="text-align: right;">Totale:</h4>
-								<h5 class="ui black header" style="text-align: right;"> <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}"/> &euro;</h5>						    
-							   	<label>Note prenotazione:</label>
-							   	<h:inputTextarea value="#{carrelloPrenotazioneBean.prenotazioneCorrente.notePrenotazione}"/>
+										<h5 class="ui black header" style="text-align: right;"> <h:outputText value="#{carrelloPrenotazioneBean.prenotazioneCorrente.importoTotale}"> <f:convertNumber type="number" minFractionDigits="2" /></h:outputText> &euro;</h5>
+								<div class="ui form">
+								<div class="field">
+									<label>Note prenotazione:</label>
+							   		<h:inputTextarea value="#{carrelloPrenotazioneBean.prenotazioneCorrente.notePrenotazione}" rows="2"/>
+								</div>
+								</div>
+								
 							    <div class="pulsanti">
 							    	<h:commandButton value="Azzera" action="#{carrelloPrenotazioneBean.svuotaCarrello}" styleClass="negative ui button"/>
 							    	<h:commandButton value="Conferma" action="#{carrelloPrenotazioneBB.confermaPrenotazione}"  styleClass="positive ui button" />

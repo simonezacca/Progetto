@@ -2,10 +2,13 @@ package com.ndovado.webapp.backingbean;
 
 import java.io.Serializable;
 
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.core.StrutturaBean;
+import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
 import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 
 @ManagedBean(name="visualizzaStrutturaBB")
@@ -19,6 +22,9 @@ public class VisualizzaStrutturaBackingBean implements Serializable {
 	private RisultatoRicercaBean RRcorrente;
 	
 	private StrutturaBean strutturaCorrente;
+	
+	@ManagedProperty(value="#{carrelloPrenotazioneBean}")
+	private CarrelloPrenotazioneBean carrello;
 	
 	
 	public VisualizzaStrutturaBackingBean() {
@@ -63,4 +69,25 @@ public class VisualizzaStrutturaBackingBean implements Serializable {
 		this.strutturaCorrente = strutturaCorrente;
 	}
 
+	@PreDestroy
+	public void azzeraCarrello() {
+		// azzero il carrello
+		this.carrello.svuotaCarrello();
+	}
+
+
+	/**
+	 * @return the carrello
+	 */
+	public CarrelloPrenotazioneBean getCarrello() {
+		return carrello;
+	}
+
+
+	/**
+	 * @param carrello the carrello to set
+	 */
+	public void setCarrello(CarrelloPrenotazioneBean carrello) {
+		this.carrello = carrello;
+	}
 }
