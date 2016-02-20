@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import com.ndovado.exceptions.prenotazioni.SalvataggioPrenotazioneException;
+import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
 import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
@@ -39,6 +40,7 @@ public class CarrelloPrenotazioneBackingBean implements Serializable{
 		try {
 			pbean = controller.doSalvaPrenotazione(sbean, pbean);
 		} catch (SalvataggioPrenotazioneException e) {
+			AppLogger.error("SalvataggioPrenotazioneException: impossibile salvare la prenotazione: "+pbean);
 			return "errore/erroreRegistrazionePrenotazione?faces-redirect=true";
 		}
 		// aggiorno con la prenotazione persistita su db

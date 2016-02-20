@@ -151,12 +151,10 @@
 		<a>pagamentoAssociato</a>
 		<b>pagamentoAssociato</b>
 	</field>
-	<field>
+	<field-exclude>
 		<a>statoPrenotazione</a>
 		<b>statoPrenotazione</b>
-		<a-hint>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</a-hint>
-		<b-hint>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</b-hint>
-	</field>
+	</field-exclude>
 	<field>
 		<a get-method="isCancellabile" set-method="setCancellabile">cancellabile</a>
 		<b get-method="getCancellabile" is-accessible="true">cancellabile</b>

@@ -119,6 +119,7 @@ public class ModificaStrutturaBackingBean implements Serializable {
 				
 				return "successo/successoSalvataggioStruttura?faces-redirect=true";
 			} catch (SalvataggioStrutturaException e) {
+				AppLogger.error("SalvataggioStrutturaException, impossibile salvare la locazione:"+strutturaCorrente);
 				return "errore/erroreSalvataggioStruttura?faces-redirect=true";
 			}
 		}

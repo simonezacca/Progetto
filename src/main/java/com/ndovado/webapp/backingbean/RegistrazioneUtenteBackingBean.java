@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
+import com.ndovado.exceptions.utente.MailEsistenteException;
 import com.ndovado.webapp.beans.core.ARuoloBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.LocatarioBean;
@@ -55,16 +56,17 @@ public class RegistrazioneUtenteBackingBean implements Serializable{
 	}
 	
 	public String doRegistrazione() {
-		// TODO spostare controllo mail qui inveve che in GestioneControllerUtente
-		UtenteBean newUB = controller.doRegistrazione(utenteCorrente);
 		String outcome;
-		if (newUB!=null) {
+		try {
+			UtenteBean newUB = controller.doRegistrazione(utenteCorrente);
 			utenteCorrente.cloneFrom(newUB);
 			//AppLogger.debug("Nuovo bean utente da doRegistrazione "+utenteCorrente);
 			outcome = utenteCorrente.getHomePageName();
-		} else
-			outcome = null;
-		return outcome; 
+			return outcome;
+		} catch (MailEsistenteException e) {
+			outcome = "erroreMailEsistente?faces-redirect=true";
+			return outcome;
+		}
 	}
 
 }

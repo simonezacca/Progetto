@@ -25,8 +25,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.Period;
-
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
@@ -504,11 +502,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		Integer giorniPerCancellazione = stutturaAssociatata.getGiorniPerCancellazione();
 		LocalDate oggi = new LocalDate();
 		
-		Period diff = new Period(oggi, this.dataArrivo);
-//		Integer numGiorni = diff.toStandardDays().getDays();
-		
 		Integer numGiorni = Days.daysBetween(oggi, this.dataArrivo).getDays();
-		
 		this.cancellabile = numGiorni>=giorniPerCancellazione;
 		
 		return  this.cancellabile;

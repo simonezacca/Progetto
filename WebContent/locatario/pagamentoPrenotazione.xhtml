@@ -37,7 +37,7 @@
 										<div class="ui fluid input">
 											<h:inputText id="inputNumeroCC"
 												value="#{effettuaPagamentoBB.pagamentoCorrente.numeroCC}"
-												p:placeholder="Numero di carta" required="true"
+												p:placeholder="Numero di carta" required="true" maxlength="16"
 												requiredMessage="Inserisci il numero di carta" />
 										</div>
 									</div>
@@ -46,8 +46,10 @@
 											<h:inputText id="inputMeseScadenza"
 												value="#{effettuaPagamentoBB.pagamentoCorrente.meseScadenza}"
 												p:placeholder="Mese scadenza (MM)" required="true"
-												maxlength="2"
-												requiredMessage="Inserisci il mese di scadenza della carta" />
+												maxlength="2" 
+												requiredMessage="Inserisci il mese di scadenza della carta" >
+												<f:convertNumber integerOnly="true" />
+												</h:inputText>
 										</div>
 									</div>
 									<div class="column">
@@ -56,7 +58,9 @@
 												value="#{effettuaPagamentoBB.pagamentoCorrente.annoScadenza}"
 												p:placeholder="Anno scadenza (YYYY)" required="true"
 												maxlength="4"
-												requiredMessage="Inserisci l'anno di scadenza della carta" />
+												requiredMessage="Inserisci l'anno di scadenza della carta" >
+												<f:convertNumber integerOnly="true" />
+												</h:inputText>
 										</div>
 									</div>
 								</div>

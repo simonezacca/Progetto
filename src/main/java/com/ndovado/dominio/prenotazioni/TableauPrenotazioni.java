@@ -1,6 +1,5 @@
 package com.ndovado.dominio.prenotazioni;
 
-import java.text.ParseException;
 import java.util.*;
 
 import com.ndovado.dominio.core.Camera;
@@ -9,7 +8,6 @@ import com.ndovado.dominio.core.Struttura;
 import com.ndovado.exceptions.prenotazioni.OverbookingException;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
-import com.ndovado.tecservices.persistence.base.StrutturaDAO;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -82,6 +80,7 @@ public class TableauPrenotazioni {
 	}
 	
 	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) throws OverbookingException {
+		// controllo overbooking
 		checkOverBooking(pmodel);
 		if (test) {
 			// salvo solo nella mappa in ram
@@ -89,8 +88,6 @@ public class TableauPrenotazioni {
 				inserisciPrenotazioneInTableau(c, pmodel);
 			}
 		} else {
-			// controllo overbooking
-			//checkOverBooking(pmodel);
 			// salvo solo nel DB
 			pdao.saveOrUpdate(pmodel);
 		}
@@ -99,7 +96,7 @@ public class TableauPrenotazioni {
 	}
 	
 	private void checkOverBooking(Prenotazione pmodel) throws OverbookingException {
-		synchronized (TableauPrenotazioni.class) {
+		synchronized (this) {
 			List<Camera> camereDaInserire = getCamereFromPrenotazione(pmodel);
 			for (Camera camera : camereDaInserire) {
 				if (!isCameraDisponibile(camera, pmodel.getDataArrivo(), pmodel.getDataPartenza())) {
@@ -189,7 +186,6 @@ public class TableauPrenotazioni {
 	 * @return
 	 */
 	protected Set<Prenotazione> getElencoPrenotazioniPerCamera(Camera c) {
-		//Set<Prenotazione> s = elencoPrenotazioni.get(c.getId());
 		Set<Prenotazione> s = getInsiemePrenotazioniPerCamera(c);
 		return s;
 	}
@@ -231,13 +227,11 @@ public class TableauPrenotazioni {
 		if (elencoPrenotazioni == null) {
 			if (other.elencoPrenotazioni != null)
 				return false;
-		} //else if (!elencoPrenotazioni.equals(other.elencoPrenotazioni))
-		//	return false;
+		}
 		else if (struttura == null) {
 			if (other.struttura != null)
 				return false;
-		} //else if (!struttura.equals(other.struttura))
-		//	return false;
+		}
 		return true;
 	}
 	

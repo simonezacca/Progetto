@@ -6,6 +6,9 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+
+import com.ndovado.exceptions.utente.CredenzialiErrateException;
+import com.ndovado.exceptions.utente.UtenteNonTrovatoException;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneUtenteController;
@@ -24,15 +27,22 @@ public class LoginUtenteBackingBean implements Serializable{
 	private UtenteBean utenteCorrente;
 	
 	public String doLogin(){
-		UtenteBean newUB = controller.doLogin(utenteCorrente);
 		String outcome;
-		if (newUB!=null) {
+		try {
+			UtenteBean newUB = controller.doLogin(utenteCorrente);
 			utenteCorrente.cloneFrom(newUB);
 			AppLogger.debug("Nuovo bean utente da doLogin "+utenteCorrente);
 			outcome = utenteCorrente.getHomePageName();
-		} else
-			outcome = null;
-		return outcome; 
+			return outcome;
+		} catch (UtenteNonTrovatoException e1) {
+			AppLogger.error("UtenteNonTrovatoException "+utenteCorrente);
+			outcome = "erroreLogin?faces-redirect=true";
+			return outcome;
+		} catch (CredenzialiErrateException e2) {
+			AppLogger.error("CredenzialiErrateException "+utenteCorrente);
+			outcome = "erroreLogin?faces-redirect=true";
+			return outcome;
+		} 
 	}
 
 	/**
