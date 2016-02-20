@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
+import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
 import com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean;
 import com.ndovado.webapp.controllers.GestionePagamentoController;
 
@@ -24,7 +25,9 @@ public class EffettuaPagamentoBackingBean implements Serializable {
 	
 	private PagamentoBean pagamentoCorrente;
 	
-	@ManagedProperty(value="#{carrelloPrenotazioneBean.prenotazioneCorrente}")
+	@ManagedProperty(value="#{carrelloPrenotazioneBean}")
+	private	CarrelloPrenotazioneBean carrello;
+
 	private	PrenotazioneBean prenotazioneCorrente;
 	
 	private String coordinatePagamento;
@@ -37,6 +40,7 @@ public class EffettuaPagamentoBackingBean implements Serializable {
 	
 	@PostConstruct
 	public void initPagamento() {
+		prenotazioneCorrente = carrello.getPrenotazioneCorrente();
 		pagamentoCorrente = prenotazioneCorrente.getPagamentoAssociato();
 	}
 
@@ -46,26 +50,14 @@ public class EffettuaPagamentoBackingBean implements Serializable {
 		if (pagamentoCorrente.isAutorizzato()) {
 			// pagamento ACCETTATO
 			// redirect alla pagina di successo
-			return "successoPagamento?faces-redirect=true";
+			carrello.svuotaCarrello();
+			return "successo/successoPagamento.xhtml?faces-redirect=true";
 		}
+		carrello.svuotaCarrello();
 		// pagamento RESPINTO
 		// redirect alla pagina di errore
-		return "errorePagamento?faces-redirect=true";
+		return "errore/errorePagamento?faces-redirect=true";
 		
-	}
-
-	/**
-	 * @return the pagamentoCorrente
-	 */
-	public PagamentoBean getPagamentoCorrente() {
-		return pagamentoCorrente;
-	}
-
-	/**
-	 * @param pagamentoCorrente the pagamentoCorrente to set
-	 */
-	public void setPagamentoCorrente(PagamentoBean pagamentoCorrente) {
-		this.pagamentoCorrente = pagamentoCorrente;
 	}
 
 	/**
@@ -94,6 +86,34 @@ public class EffettuaPagamentoBackingBean implements Serializable {
 	 */
 	public void setCoordinatePagamento(String coordinatePagamento) {
 		this.coordinatePagamento = coordinatePagamento;
+	}
+
+	/**
+	 * @return the carrello
+	 */
+	public CarrelloPrenotazioneBean getCarrello() {
+		return carrello;
+	}
+
+	/**
+	 * @param carrello the carrello to set
+	 */
+	public void setCarrello(CarrelloPrenotazioneBean carrello) {
+		this.carrello = carrello;
+	}
+
+	/**
+	 * @return the pagamentoCorrente
+	 */
+	public PagamentoBean getPagamentoCorrente() {
+		return pagamentoCorrente;
+	}
+
+	/**
+	 * @param pagamentoCorrente the pagamentoCorrente to set
+	 */
+	public void setPagamentoCorrente(PagamentoBean pagamentoCorrente) {
+		this.pagamentoCorrente = pagamentoCorrente;
 	}
 
 }

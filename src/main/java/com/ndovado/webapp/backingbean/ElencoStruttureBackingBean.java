@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.ndovado.exceptions.struttura.CancellazioneStrutturaException;
+import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.GestoreBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
@@ -50,16 +52,21 @@ public class ElencoStruttureBackingBean implements Serializable {
 	}
 	
 	public String modificaStruttura(StrutturaBean sb) {
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("strutturaDaModificare", sb);
+		JSFHelper.put("strutturaDaModificare", sb);
+		//FacesContext.getCurrentInstance().getExternalContext().getFlash().put("strutturaDaModificare", sb);
 		
 		return "modificaStruttura?faces-redirect=true";
 		
 	}
 	
 	public String eliminaStruttura(StrutturaBean sb) {
-		controller.doRimuoviStruttura(sb);
-		elencoStrutture = controller.getElencoStruttureByBean(utenteCorrente);
-		return null;
+		try {
+			controller.doRimuoviStruttura(sb);
+			elencoStrutture = controller.getElencoStruttureByBean(utenteCorrente);
+		} catch (CancellazioneStrutturaException e) {
+			return "errore/erroreCancellazioneStruttura?faces-redirect=true";
+		}
+		return "successo/successoCancellazioneStruttura?faces-redirect=true";
 		
 	}
 

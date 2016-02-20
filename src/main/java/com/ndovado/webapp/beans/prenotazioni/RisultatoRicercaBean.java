@@ -1,5 +1,6 @@
 package com.ndovado.webapp.beans.prenotazioni;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,8 +10,12 @@ import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 
 @ManagedBean(name="risultatoRicercaBean")
-public class RisultatoRicercaBean {
+public class RisultatoRicercaBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Set<CameraBean> camereLibere;
 	private StrutturaBean struttura;
 	

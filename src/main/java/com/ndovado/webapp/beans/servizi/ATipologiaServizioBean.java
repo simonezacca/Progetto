@@ -1,7 +1,13 @@
 package com.ndovado.webapp.beans.servizi;
 
-public abstract class ATipologiaServizioBean {
+import java.io.Serializable;
+
+public abstract class ATipologiaServizioBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	protected static final long serialVersionUID = 1L;
 	protected Long id = null;
 	protected Float prezzo = new Float(0);
 	

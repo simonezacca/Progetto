@@ -6,6 +6,8 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
+import com.ndovado.exceptions.struttura.SelezioneStrutturaException;
 import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
@@ -28,14 +30,23 @@ public class VisualizzaStrutturaBackingBean implements Serializable {
 	
 	
 	public VisualizzaStrutturaBackingBean() {
+		try {
+			initStrutturaCorrente();
+		} catch (SelezioneStrutturaException e) {
+			JSFHelper.redirectTo("/locatario/index.xhtml");
+		}
 		
+	}
+	
+	private void initStrutturaCorrente() throws SelezioneStrutturaException {
 		RRcorrente = (RisultatoRicercaBean) JSFHelper.get("RRcorrente");
 		if (RRcorrente!=null) {
 			strutturaCorrente = RRcorrente.getStruttura();
 		} else if (strutturaCorrente==null){
 			strutturaCorrente = (StrutturaBean) JSFHelper.get("strutturaCorrente");
-		} else {
-			JSFHelper.redirectTo("/index");
+		}
+		if (strutturaCorrente==null) {
+			throw new SelezioneStrutturaException();
 		}
 	}
 	

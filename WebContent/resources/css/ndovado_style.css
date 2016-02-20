@@ -266,6 +266,16 @@ body {
     margin-top: -1em !important;
 }
 
-.NerrorValidation {
-	padding:10px !important
+#page {
+	min-height:100%;
+	position:relative;
+}
+#page #footer {
+	width:100%;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+#content {
+	padding-bottom: 100px;
 }

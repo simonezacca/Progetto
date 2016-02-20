@@ -15,6 +15,7 @@ import javax.swing.JTable;
 
 import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.exceptions.servizi.CancellazioneServizioException;
+import com.ndovado.exceptions.servizi.SalvataggioServiziException;
 import com.ndovado.standalone.controller.ServizioComuneController;
 import com.ndovado.standalone.model.ServizioComuneTableModel;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -105,8 +106,14 @@ public class ServicesFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				ServizioComune newServizio =  aggiungiServizioDialog();
 				if (newServizio.getNomeServizio().length()>0) {
-					controller.salvaServizioComune(newServizio);
-					aggiornaModelTabellaServizi();
+					try {
+						controller.salvaServizioComune(newServizio);
+						AppLogger.debug("Servizio aggiunto: "+newServizio.getNomeServizio());
+						aggiornaModelTabellaServizi();
+					} catch (SalvataggioServiziException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+						AppLogger.error("Errore aggiunta servizio: "+e1.getMessage());
+					}
 				}				
 			}
 		});
@@ -118,9 +125,14 @@ public class ServicesFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ServizioComune sToEdit = getCurrentSelectedServizio();
 				sToEdit = modificaServizioDialog(sToEdit);
-				controller.salvaServizioComune(sToEdit);
-				aggiornaModelTabellaServizi();
-				AppLogger.debug("Servizio modificato: "+sToEdit.getNomeServizio());
+				try {
+					controller.salvaServizioComune(sToEdit);
+					aggiornaModelTabellaServizi();
+					AppLogger.debug("Servizio modificato: "+sToEdit.getNomeServizio());
+				} catch (SalvataggioServiziException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+					AppLogger.error("Errore aggiunta servizio: "+e.getMessage());
+				}
 				
 			}
 		});
@@ -135,11 +147,11 @@ public class ServicesFrame extends JFrame {
 				if (risposta==JOptionPane.OK_OPTION) {
 					try {
 						controller.rimuoviServizioComune(sToRemove);
+						aggiornaModelTabellaServizi();
 					} catch (CancellazioneServizioException e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 						AppLogger.error("Errore eliminazione servizio: "+e.getMessage());
 					}
-					aggiornaModelTabellaServizi();
 				}
 			}
 		});

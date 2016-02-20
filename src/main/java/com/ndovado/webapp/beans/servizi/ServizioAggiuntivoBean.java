@@ -7,6 +7,11 @@ import com.ndovado.webapp.beans.prenotazioni.IPrenotabileBean;
 @ManagedBean(name="servizioAggiuntivoBean")
 public class ServizioAggiuntivoBean extends ATipologiaServizioBean implements IPrenotabileBean {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ServizioAggiuntivoBean() {
 		
 	}

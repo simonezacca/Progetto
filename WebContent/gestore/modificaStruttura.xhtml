@@ -22,20 +22,8 @@
 					</h:panelGroup>
 					<h3 class="ui left orange dividing header">Gestione Struttura</h3>
 					<div class="ui orange divided items"></div>
-
-					<!-- inizio pannello messaggi errore -->
-					<h:panelGroup rendered="false">
-						<div class="ui error message">
-							<i class="close icon"></i>
-							<div class="header">Sono presenti degli errori:</div>
-							<h:messages styleClass="list">
-							</h:messages>
-						</div>
-					</h:panelGroup>
-					<!-- fine pannello messaggi errore -->
-
 					<h:panelGroup rendered="#{StrutturaBB.addingStruttura}">
-						<h:form styleClass="ui form" id="formGeneraleStruttura">
+						<h:form styleClass="ui form">
 							<h4 class="ui orange dividing header">Dati Generali</h4>
 							<div class="two fields">
 								<div class="field">
@@ -120,148 +108,151 @@
 							</div>
 							<!-- fine foto gallery -->
 
-							<h:panelGroup
-								rendered="#{not empty StrutturaBB.strutturaCorrente.camereInserite}">
-								<div class="ui clearing divider"></div>
-								<h4 class="ui orange dividing header">Camere Inserite</h4>
-								<ui:repeat var="camera"
-									value="#{StrutturaBB.strutturaCorrente.camereInserite}">
-									<div class="ui orange segment">
-										<div class="three fields">
-											<div class="three field">
-												<div class="field">
-													<h:outputText value="#{camera.nomeCamera}"
-														p:placeholder="Nome della camera"
-														styleClass="ui orange header" />
-												</div>
-												<div class="field">
-													<i class="user orange icon"></i>Pax:
-													<h:outputText value="#{camera.pax}" />
-												</div>
-												<div class="field">
-													<h:commandButton value="Modifica" styleClass="ui button"
-														action="#{StrutturaBB.modificaCamera(camera)}" />
-													<h:commandButton value="Elimina" styleClass="ui button red"
-														action="#{StrutturaBB.eliminaCamera(camera)}" />
-												</div>
-											</div>
-											<div class="three field">
-												<div class="field">
-													<i class="calendar orange icon"></i>
-													<h:outputText value="#{camera.dataInizioAffitto}"
-														p:placeholder="Data inizio affitto">
-														<f:converter converterId="LocalDateConverter" />
-													</h:outputText>
-												</div>
-												<div class="field">
-													<i class="calendar orange icon"></i>
-													<h:outputText value="#{camera.dataFineAffitto}"
-														p:placeholder="Data fine affitto">
-														<f:converter converterId="LocalDateConverter" />
-													</h:outputText>
-												</div>
-												<div class="field">
-													<i class="euro orange icon"></i>Prezzo per notte:
-													<h:outputText value="#{camera.prezzo}" />
-												</div>
-											</div>
-											<div class="one field">
-												<div class="field">
-													<h:outputText value="#{camera.descrizioneCamera}" />
-												</div>
-											</div>
-										</div>
-									</div>
-								</ui:repeat>
-							</h:panelGroup>
-
 							<!-- inizio sezione aggiunta camera -->
 							<h4 class="ui orange dividing header">Aggiungi Camera</h4>
 							<div class="field">
-								<h:form>
-									<div class="ui orange segment">
-										<div class="three fields">
-											<div class="three field">
-												<div class="field">
-													<label>Nome della camera</label>
-													<h:inputText id="inputNomeCameraAggiunte"
-														value="#{StrutturaBB.cameraInAggiunta.nomeCamera}"
-														p:placeholder="Nome della camera" required="true">
-														<f:validateLength minimum="1" />
-													</h:inputText>
-													<h:message id="inputNomeCameraAggiunteErrMsg"
-														for="inputNomeCameraAggiunte"></h:message>
-												</div>
-												<div class="field">
-													<label>Numero pax di persone</label>
-													<h:inputText id="inputNumeroPax"
-														value="#{StrutturaBB.cameraInAggiunta.pax}"
-														p:placeholder="Numero pax" required="true"></h:inputText>
-													<h:message id="inputNumeroPaxErrMsg" for="inputNumeroPax"></h:message>
-												</div>
-												<div class="field">
-													<h:commandButton value="Aggiungi camera"
-														action="#{StrutturaBB.aggiungiCamera}"
-														styleClass="ui orange button" style="margin-top:25px;">
-													</h:commandButton>
-												</div>
-
-
+								<!-- <h:form styleClass="ui form"> -->
+								<div class="ui orange segment">
+									<div class="three fields">
+										<div class="three field">
+											<div class="field">
+												<label>Nome della camera</label>
+												<h:inputText id="inputNomeCameraAggiunte"
+													value="#{StrutturaBB.cameraInAggiunta.nomeCamera}"
+													p:placeholder="Nome della camera" required="true">
+													<f:validateLength minimum="1" />
+												</h:inputText>
+												<h:message id="inputNomeCameraAggiunteErrMsg"
+													for="inputNomeCameraAggiunte"></h:message>
 											</div>
-											<div class="three field">
-												<div class="field">
-													<label>Data inizio affitto</label>
-													<pf:calendar id="fromDate"
-														value="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
-														required="true" placeholder="Data inizio affitto"
-														readonlyInput="true" converter="LocalDateConverter"
-														pattern="dd/MM/yyyy">
-														<pf:ajax event="dateSelect" update="toDate"
-															listener="#{StrutturaBB.settaDataCamera}" />
-													</pf:calendar>
-												</div>
-												<div class="field">
-													<label>Data fine affitto</label>
-													<pf:calendar id="toDate"
-														value="#{StrutturaBB.cameraInAggiunta.dataFineAffitto}"
-														readonlyInput="true" required="true" pattern="dd/MM/yyyy"
-														placeholder="Data fine affitto"
-														converter="LocalDateConverter" />
-												</div>
-												<div class="field">
-													<label>Prezzo camera per notte</label>
-													<div class="ui labeled input">
-														<div class="ui label">&euro;</div>
-														<h:inputText id="inputPrezzoPerNotte"
-															value="#{StrutturaBB.cameraInAggiunta.prezzo}"
-															required="true">
-															<f:convertNumber type="number" minFractionDigits="2" />
-														</h:inputText>
-														<h:message id="inputPrezzoPerNotteErrMsg"
-															for="inputPrezzoPerNotte"></h:message>
-													</div>
-												</div>
+											<div class="field">
+												<label>Numero pax di persone</label>
+												<h:inputText id="inputNumeroPax"
+													value="#{StrutturaBB.cameraInAggiunta.pax}"
+													p:placeholder="Numero pax" required="true"></h:inputText>
+												<h:message id="inputNumeroPaxErrMsg" for="inputNumeroPax"></h:message>
 											</div>
-											<div class="one field">
-
-												<div class="field">
-													<label>Descrizione camera</label>
-													<h:inputTextarea id="inputDescrizioneCameraAggiunta"
-														value="#{StrutturaBB.cameraInAggiunta.descrizioneCamera}"
-														required="true" />
-													<h:message id="inputDescrizioneCameraAggiuntaErrMsg"
-														for="inputDescrizioneCameraAggiunta"></h:message>
-												</div>
-
+											<div class="field">
+												<h:commandButton value="Aggiungi camera"
+													action="#{StrutturaBB.aggiungiCamera}"
+													styleClass="ui orange button" style="margin-top:25px;">
+												</h:commandButton>
 											</div>
 										</div>
-
+										<div class="three field">
+											<div class="field">
+												<label>Data inizio affitto</label>
+												<pf:calendar id="fromDate"
+													value="#{StrutturaBB.cameraInAggiunta.dataInizioAffitto}"
+													required="true" placeholder="Data inizio affitto"
+													readonlyInput="true" converter="LocalDateConverter"
+													pattern="dd/MM/yyyy">
+													<pf:ajax event="dateSelect" update="toDate"
+														listener="#{StrutturaBB.settaDataCamera}" />
+												</pf:calendar>
+											</div>
+											<div class="field">
+												<label>Data fine affitto</label>
+												<pf:calendar id="toDate"
+													value="#{StrutturaBB.cameraInAggiunta.dataFineAffitto}"
+													readonlyInput="true" required="true" pattern="dd/MM/yyyy"
+													placeholder="Data fine affitto"
+													converter="LocalDateConverter" />
+											</div>
+											<div class="field">
+												<label>Prezzo camera per notte</label>
+												<div class="ui labeled input">
+													<div class="ui label">&euro;</div>
+													<h:inputText id="inputPrezzoPerNotte"
+														value="#{StrutturaBB.cameraInAggiunta.prezzo}"
+														required="true">
+														<f:convertNumber type="number" minFractionDigits="2" />
+													</h:inputText>
+													<h:message id="inputPrezzoPerNotteErrMsg"
+														for="inputPrezzoPerNotte"></h:message>
+												</div>
+											</div>
+										</div>
+										<div class="one field">
+											<div class="field">
+												<label>Descrizione camera</label>
+												<h:inputTextarea id="inputDescrizioneCameraAggiunta"
+													value="#{StrutturaBB.cameraInAggiunta.descrizioneCamera}"
+													required="true"
+													requiredMessage="Campo descrizione richiesto" />
+												<h:message id="inputDescrizioneCameraAggiuntaErrMsg"
+													for="inputDescrizioneCameraAggiunta"></h:message>
+											</div>
+										</div>
 									</div>
-								</h:form>
+								</div>
+								<!--  </h:form>-->
 							</div>
 
 						</h:form>
 						<!-- fine sezione aggiunta camera -->
+
+						<!-- inizio loop camere -->
+						<h:panelGroup
+							rendered="#{not empty StrutturaBB.strutturaCorrente.camereInserite}">
+							<div class="ui clearing divider"></div>
+							<h4 class="ui orange dividing header">Camere Inserite</h4>
+							<ui:repeat var="camera"
+								value="#{StrutturaBB.strutturaCorrente.camereInserite}">
+								<div class="ui orange segment">
+									<div class="three fields">
+										<div class="three field">
+											<div class="field">
+												<h:outputText value="#{camera.nomeCamera}"
+													p:placeholder="Nome della camera"
+													styleClass="ui orange header" />
+											</div>
+											<div class="field">
+												<i class="user orange icon"></i>Pax:
+												<h:outputText value="#{camera.pax}" />
+											</div>
+											<div class="field">
+												<h:form>
+													<h:commandButton value="Modifica" styleClass="ui button"
+														action="#{StrutturaBB.modificaCamera(camera)}"
+														immediate="true" />
+													<h:commandButton value="Elimina" styleClass="ui button red"
+														action="#{StrutturaBB.eliminaCamera(camera)}"
+														immediate="true" />
+												</h:form>
+											</div>
+										</div>
+										<div class="three field">
+											<div class="field">
+												<i class="calendar orange icon"></i>
+												<h:outputText value="#{camera.dataInizioAffitto}"
+													p:placeholder="Data inizio affitto">
+													<f:converter converterId="LocalDateConverter" />
+												</h:outputText>
+											</div>
+											<div class="field">
+												<i class="calendar orange icon"></i>
+												<h:outputText value="#{camera.dataFineAffitto}"
+													p:placeholder="Data fine affitto">
+													<f:converter converterId="LocalDateConverter" />
+												</h:outputText>
+											</div>
+											<div class="field">
+												<i class="euro orange icon"></i>Prezzo per notte:
+												<h:outputText value="#{camera.prezzo}" />
+											</div>
+										</div>
+										<div class="one field">
+											<div class="field">
+												<h:outputText value="#{camera.descrizioneCamera}" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</ui:repeat>
+						</h:panelGroup>
+						<!-- fine loop camere -->
+
 
 						<!-- inizio sezione aggiunta servizio -->
 						<h4 class="ui orange dividing header">Personalizzazione
@@ -355,7 +346,7 @@
 										<h:commandButton value="Aggiungi"
 											action="#{StrutturaBB.aggiungiDettaglioServizioPlus}"
 											styleClass="ui positive right button"
-											style="margin-bottom: 10px;														"></h:commandButton>
+											style="margin-bottom: 10px;"></h:commandButton>
 									</div>
 								</h:form>
 							</div>

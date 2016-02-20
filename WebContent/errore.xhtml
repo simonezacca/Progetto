@@ -8,14 +8,14 @@
 <h:head>
 </h:head>
 <h:body>
-	<ui:composition template="/templates/layoutGestore.xhtml">
+	<ui:composition template="/templates/layoutUtente.xhtml">
 		<ui:define name="content">
 			
 				<div class="eleven wide column" style="width:69%; margin-left:17%;">
 					<div class="ui orange segment">
-					<div class="ui white inverted header green">Struttura salvata correttamente!</div>
-					<div class="ui message green">Tutte le modifiche sono state completate con successo.</div>
-					<h:link styleClass="ui orange header" value="Torna nell'area gestore" outcome="#{utenteBean.homePageName}"></h:link>	
+					<div class="ui white inverted header red"> <h:outputText value="#{msgBB.eb.titolo}"/> </div>
+					<div class="ui message red"> <h:outputText value="#{msgBB.eb.dettaglio}"/> </div>
+					<h:link styleClass="ui orange header" value="Torna nell'area utente" outcome="#{utenteBean.homePageName}"></h:link>	
 					</div>
 				</div>
 		</ui:define>

@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
@@ -504,7 +505,9 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 		LocalDate oggi = new LocalDate();
 		
 		Period diff = new Period(oggi, this.dataArrivo);
-		Integer numGiorni = diff.toStandardDays().getDays();
+//		Integer numGiorni = diff.toStandardDays().getDays();
+		
+		Integer numGiorni = Days.daysBetween(oggi, this.dataArrivo).getDays();
 		
 		this.cancellabile = numGiorni>=giorniPerCancellazione;
 		

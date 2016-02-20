@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 
 import org.joda.time.LocalDate;
 
+import com.ndovado.exceptions.struttura.SalvataggioStrutturaException;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.CameraBean;
 import com.ndovado.webapp.beans.core.GestoreBean;
@@ -109,13 +110,19 @@ public class ModificaStrutturaBackingBean implements Serializable {
 		if (strutturaCorrente != null) {
 			// chiamo il controllore del caso d'uso per salvare la nuova
 			// struttura
-			controller.doSalvaStruttura(strutturaCorrente);
-			// imposto il flag completed a true per visualizzare il riepilogo
-			// delle informazioni
-			completed = true;
-			addingStruttura = false;
+			try {
+				controller.doSalvaStruttura(strutturaCorrente);
+				// imposto il flag completed a true per visualizzare il riepilogo
+				// delle informazioni
+				completed = true;
+				addingStruttura = false;
+				
+				return "successo/successoSalvataggioStruttura?faces-redirect=true";
+			} catch (SalvataggioStrutturaException e) {
+				return "errore/erroreSalvataggioStruttura?faces-redirect=true";
+			}
 		}
-		return "/gestore/successoModificaStruttura?faces-redirect=true";
+		return null;
 	}
 
 	/**

@@ -2,9 +2,9 @@ package com.ndovado.standalone.controller;
 
 import java.util.List;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.exceptions.servizi.CancellazioneServizioException;
+import com.ndovado.exceptions.servizi.SalvataggioServiziException;
 import com.ndovado.tecservices.persistence.base.ServizioComuneDAO;
 
 public class ServizioComuneController {
@@ -16,14 +16,22 @@ public class ServizioComuneController {
 		return scdao.getAll();
 	}
 	
-	public ServizioComune salvaServizioComune(ServizioComune sc) {
-		scdao.saveOrUpdate(sc);
-		return sc;
+	public ServizioComune salvaServizioComune(ServizioComune sc) throws SalvataggioServiziException {
+		try {
+			scdao.saveOrUpdate(sc);
+			return sc;
+		} catch (Exception e) {
+			throw new SalvataggioServiziException("Impossibile salvare il servizio.");
+		}
 	}
 	
-	public ServizioComune aggiornaServizioComune(ServizioComune sc) {
-		scdao.saveOrUpdate(sc);
-		return sc;
+	public ServizioComune aggiornaServizioComune(ServizioComune sc) throws SalvataggioServiziException {
+		try {
+			scdao.saveOrUpdate(sc);
+			return sc;
+		} catch (Exception e) {
+			throw new SalvataggioServiziException("Impossibile aggiornare il servizio.");
+		}
 	}
 	
 	public void rimuoviServizioComune(ServizioComune sc) throws CancellazioneServizioException {

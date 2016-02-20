@@ -1,82 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>NdoVaDo</display-name>
-  <description>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>NdoVaDo</display-name>
+	<description>
 		Sistema gestione prenotazioni per BB e case vacanze. 
 	</description>
-  <session-config>
-    <session-timeout>30</session-timeout>
-  </session-config>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.xhtml</welcome-file>
-    <welcome-file>index.jsf</welcome-file>
-  </welcome-file-list>
-  <servlet>
-    <servlet-name>InitAppLoggerServlet</servlet-name>
-    <servlet-class>com.ndovado.webapp.servlet.init.InitAppLoggerServlet</servlet-class>
-    <init-param>
-      <param-name>start</param-name>
-      <param-value>false</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
-  </servlet>
-  <servlet>
-    <servlet-name>InitServizioPersistenzaBaseServlet</servlet-name>
-    <servlet-class>com.ndovado.webapp.servlet.init.InitServizioPersistenzaBaseServlet</servlet-class>
-    <init-param>
-      <param-name>start</param-name>
-      <param-value>false</param-value>
-    </init-param>
-    <load-on-startup>3</load-on-startup>
-  </servlet>
-  <context-param>
-    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-    <param-value>.xhtml</param-value>
-  </context-param>
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/faces/*</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.faces</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </servlet-mapping>
-  
-  <error-page>
-    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-    <location>/ndovado/index.xhtml</location>
-</error-page>
-<!-- 
-<error-page>
-		<error-code>500</error-code>
-		<location>/faces/error.xhtml</location>
-	</error-page>
--->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>index.jsf</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<servlet-name>InitAppLoggerServlet</servlet-name>
+		<servlet-class>com.ndovado.webapp.servlet.init.InitAppLoggerServlet</servlet-class>
+		<init-param>
+			<param-name>start</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>InitServizioPersistenzaBaseServlet</servlet-name>
+		<servlet-class>com.ndovado.webapp.servlet.init.InitServizioPersistenzaBaseServlet</servlet-class>
+		<init-param>
+			<param-name>start</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
 	<error-page>
-		<exception-type>com.ndovado.exceptions.prenotazioni.SalvataggioPrenotazioneException</exception-type>
-		<location>/ndovado/locatario/error/erroreRegistrazionePrenotazione.xhtml</location>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/ndovado/index.xhtml</location>
 	</error-page>
-	<error-page>
-		<exception-type>com.ndovado.exceptions.prenotazioni.CancellazionePrenotazioneException</exception-type>
-		<location>/ndovado/locatario/error/erroreCancellaPrenotazione.xhtml</location>
-	</error-page>
-	
 </web-app>

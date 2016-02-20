@@ -78,11 +78,11 @@
 													<div class="statistic" style="float: right">
 														<div class="value">
 															<h:outputText
-													value="#{modificaPrenotazioneBB.prenotazioneCorrente.nottiSoggiorno}" />
+																value="#{modificaPrenotazioneBB.prenotazioneCorrente.nottiSoggiorno}" />
 														</div>
 													</div>
 												</div>
-												
+
 											</div>
 										</div>
 									</div>
@@ -95,7 +95,8 @@
 												<div class="ui list">
 													<ui:repeat var="cameraBean"
 														value="#{modificaPrenotazioneBB.prenotazioneCorrente.camereInPrenotazione}">
-														<i class="bed icon"></i><div class="item">
+														<i class="bed icon"></i>
+														<div class="item">
 															<h:outputText value="#{cameraBean.nomeCamera}" />
 															<br></br>
 															<h:outputText value="#{cameraBean.prezzo}">
@@ -140,27 +141,36 @@
 							<!-- fine sezione dettagli -->
 
 							<!-- inizio sezione note -->
-							
-							
+
+
 							<div class="ui form">
 								<div class="field">
 									<label>Note prenotazione:</label>
-							   		<h:inputTextarea value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}" rows="2"/>
-							   		<div class ="ui pointing red basic label" style="margin-top: 1em !important;">E' possibile modificare solo le note</div>
+									<h:inputTextarea
+										value="#{modificaPrenotazioneBB.prenotazioneCorrente.notePrenotazione}"
+										rows="2" />
+									<div class="ui pointing red basic label"
+										style="margin-top: 1em !important;">E' possibile
+										modificare solo le note</div>
 								</div>
 							</div>
 							<br /> <br />
-							<h:commandButton value="Salva note"
-								action="#{modificaPrenotazioneBB.aggiornaPrenotazione}"
-								styleClass="ui orange button" />
-							<!-- fine sezione note -->
+							<div class="ui two column centered grid">
+								<div class="column">
+									<h:commandButton value="Salva note"
+										action="#{modificaPrenotazioneBB.aggiornaPrenotazione}"
+										styleClass="ui orange button" />
+								</div>
+								<div class="column">
+									<h:panelGroup
+										rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
+										<h:commandButton value="Cancella prenotazione"
+											action="#{modificaPrenotazioneBB.cancellaPrenotazione}"
+											styleClass="ui button red floated right" />
+									</h:panelGroup>
+								</div>
+							</div>
 
-							<h:panelGroup
-								rendered="#{modificaPrenotazioneBB.prenotazioneCorrente.cancellabile}">
-								<h:commandButton value="Cancella prenotazione"
-									action="#{modificaPrenotazioneBB.cancellaPrenotazione}"
-									styleClass="ui button red" />
-							</h:panelGroup>
 						</div>
 					</div>
 				</div>

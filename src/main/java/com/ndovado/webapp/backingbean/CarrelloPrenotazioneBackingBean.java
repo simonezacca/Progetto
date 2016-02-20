@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import com.ndovado.exceptions.prenotazioni.SalvataggioPrenotazioneException;
 import com.ndovado.webapp.beans.core.StrutturaBean;
 import com.ndovado.webapp.beans.pagamenti.PagamentoBean;
 import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
@@ -35,7 +36,11 @@ public class CarrelloPrenotazioneBackingBean implements Serializable{
 		StrutturaBean sbean = carrello.getStrutturaCorrente();
 		PrenotazioneBean pbean = carrello.getPrenotazioneCorrente();
 		
-		pbean = controller.doSalvaPrenotazione(sbean, pbean);
+		try {
+			pbean = controller.doSalvaPrenotazione(sbean, pbean);
+		} catch (SalvataggioPrenotazioneException e) {
+			return "errore/erroreRegistrazionePrenotazione?faces-redirect=true";
+		}
 		// aggiorno con la prenotazione persistita su db
 		
 		// ottengo le coordinate per il pagamento al gestore

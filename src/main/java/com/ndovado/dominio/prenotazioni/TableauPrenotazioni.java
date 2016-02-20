@@ -6,6 +6,7 @@ import java.util.*;
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
+import com.ndovado.exceptions.prenotazioni.OverbookingException;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
 import com.ndovado.tecservices.persistence.base.StrutturaDAO;
@@ -34,35 +35,6 @@ public class TableauPrenotazioni {
 		AppLogger.debug("Istanzio nuovo: "+this.getClass().getName());
 	}
 
-	/**
-	 * Default constructor
-	 */
-	
-	public static void main (String [] args) {
-		
-		StrutturaDAO sdao = new StrutturaDAO();
-		Struttura s = sdao.get(new Long(1));
-		TableauPrenotazioni tp = new  TableauPrenotazioni(s);
-		
-		AppLogger.debug(tp.elencoPrenotazioni.toString());
-		
-		try {
-			tp.doTest(tp, 1, "22/01/2016", "23/01/2016", 3);
-			tp.doTest(tp, 2, "22/01/2016", "23/01/2016", 2);
-			tp.doTest(tp, 3, "22/01/2016", "23/01/2016", 4);
-			tp.doTest(tp, 4, "01/02/2016", "04/02/2016", 5);
-			tp.doTest(tp, 5, "01/02/2016", "04/02/2016", 3);
-			tp.doTest(tp, 6, "01/02/2016", "04/02/2016", 2);
-			tp.doTest(tp, 7, "29/01/2016", "30/01/2016", 5);
-			tp.doTest(tp, 8, "25/01/2016", "26/01/2016", 2);
-		} catch (ParseException e) {
-			
-			e.printStackTrace();
-		}
-		
-	   }
-	
-	
 	public TableauPrenotazioni(Struttura s) {
 		// collego la struttura s al tablea prenotazioni appena istanziato
 		this.struttura = s;
@@ -109,19 +81,34 @@ public class TableauPrenotazioni {
 		return p;
 	}
 	
-	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) {
+	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) throws OverbookingException {
+		checkOverBooking(pmodel);
 		if (test) {
 			// salvo solo nella mappa in ram
 			for (Camera c : getCamereFromPrenotazione(pmodel)) {
 				inserisciPrenotazioneInTableau(c, pmodel);
 			}
 		} else {
+			// controllo overbooking
+			//checkOverBooking(pmodel);
 			// salvo solo nel DB
 			pdao.saveOrUpdate(pmodel);
 		}
 		
 		return pmodel;
 	}
+	
+	private void checkOverBooking(Prenotazione pmodel) throws OverbookingException {
+		synchronized (TableauPrenotazioni.class) {
+			List<Camera> camereDaInserire = getCamereFromPrenotazione(pmodel);
+			for (Camera camera : camereDaInserire) {
+				if (!isCameraDisponibile(camera, pmodel.getDataArrivo(), pmodel.getDataPartenza())) {
+					throw new OverbookingException();
+				}
+			}
+		}
+	}
+
 	
 	private void inserisciPrenotazioneInTableau(Camera c, Prenotazione pmodel) {
 		if (elencoPrenotazioni.containsKey(c)) {
@@ -150,32 +137,6 @@ public class TableauPrenotazioni {
 		pdao.delete(pmodel.getId());
 	}
 
-//	/**
-//	 * @param DataArrivo 
-//	 * @param DataPartenza 
-//	 * @return
-//	 */
-//	public List<RisultatoRicerca> getSoluzioniDisponibili(Date DataArrivo, Date DataPartenza,Integer npersone) {
-//		// numero massimo di persone che possono alloggiare nella struttura
-//		Integer totPax = 0;
-//		List<RisultatoRicerca> risultati = new ArrayList<RisultatoRicerca>();
-//		for (Camera c : struttura.getCamereInserite()) {
-//			if (isCameraDisponibile(c, DataArrivo, DataPartenza)) {
-//				RisultatoRicerca rr = new RisultatoRicerca(struttura);
-//				rr.addCameraDisponibile(c);
-//				risultati.add(rr);
-//				// incremento il numero dei possibili alloggiati
-//				totPax += c.getPax();
-//			}
-//		}
-//		if(totPax<npersone) {
-//			// se la disponibilità delle camere non è sufficiente per il numero delle persone richieste
-//			// faccio tornare una lista vuota
-//			risultati.clear();
-//		}
-//		return risultati;
-//	}
-	
 	/**
 	 * @param DataArrivo 
 	 * @param DataPartenza 
@@ -348,28 +309,6 @@ public class TableauPrenotazioni {
 	@Override
 	public String toString() {
 		return "TableauPrenotazioni [struttura=" + struttura + ", elencoPrenotazioni=" + elencoPrenotazioni + "]";
-	}
-	
-	private void doTest(TableauPrenotazioni tp,Integer ntest, String daString, String aString, Integer npersone) throws ParseException {
-		
-		LocalDate dataCI = new LocalDate(daString);
-		LocalDate dataCO = new LocalDate(aString);
-
-
-		AppLogger.debug("TEST NUMERO "+ntest);
-		RisultatoRicerca rr = tp.getSoluzioniDisponibili(dataCI, dataCO, npersone);
-		if (rr.esistonoRisultati()) {
-			AppLogger.debug("Lista risultati ricerca non vuoto, dimensione:"+rr.getCamereLibere().size());
-				AppLogger.debug("Elenco camere libere:");
-				Set<Camera> sc = rr.getCamereLibere();
-				for (Camera camera : sc) {
-					AppLogger.debug("Camera id="+camera.getId()+", nome="+camera.getNomeCamera());
-				}
-			AppLogger.debug("\n");
-		} else {
-			AppLogger.debug("Lista risultati ricerca VUOTA\n");
-		}
-		
 	}
 
 	/**

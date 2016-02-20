@@ -3,15 +3,21 @@ package com.ndovado.dominio.prenotazioni;
 import org.joda.time.LocalDate;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.ndovado.dominio.core.Camera;
 import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.core.Utente;
+import com.ndovado.exceptions.prenotazioni.OverbookingException;
+
 //import static
 import static org.junit.Assert.*;
+
+import org.jadira.usertype.spi.utils.lang.AssertionException;
 
 public class TableauPrenotazioniTest {
 
@@ -19,7 +25,11 @@ public class TableauPrenotazioniTest {
 	private static Struttura stest;
 	private static Utente ulocatario;
 	private static Utente ugestore;
+	
+	private static Camera cTest;
 
+	@Rule
+    public ExpectedException thrown = ExpectedException.none();
 	
 	private static Utente initUtenteLocatario() {
 		ulocatario = new Utente("testUser", "testUser");
@@ -73,6 +83,8 @@ public class TableauPrenotazioniTest {
 		c2.setPax(new Integer(2));
 		c2.setPrezzo(new Float(40));
 		
+		cTest = c1;
+		
 		
 		
 		ulocatario = initUtenteLocatario();
@@ -84,12 +96,18 @@ public class TableauPrenotazioniTest {
 		Prenotazione p5 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-26"), new LocalDate("2016-03-28"), c2);
 		Prenotazione p6 = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-27"), new LocalDate("2016-03-29"), c1);
 		
-		stest.getTableau().salvaOAggiornaPrenotazione(p1);
-		stest.getTableau().salvaOAggiornaPrenotazione(p2);
-		stest.getTableau().salvaOAggiornaPrenotazione(p3);
-		stest.getTableau().salvaOAggiornaPrenotazione(p4);
-		stest.getTableau().salvaOAggiornaPrenotazione(p5);
-		stest.getTableau().salvaOAggiornaPrenotazione(p6);
+		try {
+			stest.getTableau().salvaOAggiornaPrenotazione(p1);
+			stest.getTableau().salvaOAggiornaPrenotazione(p2);
+			stest.getTableau().salvaOAggiornaPrenotazione(p3);
+			stest.getTableau().salvaOAggiornaPrenotazione(p4);
+			stest.getTableau().salvaOAggiornaPrenotazione(p5);
+			stest.getTableau().salvaOAggiornaPrenotazione(p6);
+		} catch (OverbookingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		return stest;
 	}
@@ -221,6 +239,15 @@ public class TableauPrenotazioniTest {
 		rr = stest.getTableau().getSoluzioniDisponibili(dataArrivo, dataPartenza, npersone);
 		
 		assertTrue(rr.getCamereLibere().size()==dimRisultato);
+	}
+	
+	@Test(expected=OverbookingException.class)
+	public void doTestDisponibilitaOverBooking() throws OverbookingException {
+		
+		Prenotazione pTest = creaPrenotazione((Locatario) ulocatario.getRuolo(), new LocalDate("2016-03-19"), new LocalDate("2016-03-21"), cTest);
+		
+		stest.getTableau().salvaOAggiornaPrenotazione(pTest);
+
 	}
 	
 

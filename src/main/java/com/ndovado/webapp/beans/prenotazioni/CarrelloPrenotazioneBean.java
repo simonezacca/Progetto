@@ -45,6 +45,11 @@ public class CarrelloPrenotazioneBean implements Serializable{
 		// lego la prenotazione bean al locatario bean
 		prenotazioneCorrente.setLocatario(lb);
 		
+		updateDate();
+		
+	}
+	
+	private void updateDate() {
 		LocalDate dataArrivo = ricercaSoluzioniBB.getDataArrivo();
 		LocalDate dataPartenza = ricercaSoluzioniBB.getDataPartenza();
 			
@@ -106,6 +111,7 @@ public class CarrelloPrenotazioneBean implements Serializable{
 			AppLogger.debug("Aggiungo oggetto prenotabile: "+op.getNomeOggettoPrenotabile());
 			prenotazioneCorrente.addOggettoPrenotabile(op);
 			prenotazioneCorrente.setStutturaAssociatata(strutturaCorrente);
+			updateDate();
 		}
 	}
 	

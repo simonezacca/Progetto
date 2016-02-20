@@ -8,6 +8,9 @@ import org.hibernate.Session;
 import com.ndovado.dominio.core.CatalogoStrutture;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
+import com.ndovado.exceptions.prenotazioni.CancellazionePrenotazioneException;
+import com.ndovado.exceptions.prenotazioni.OverbookingException;
+import com.ndovado.exceptions.prenotazioni.SalvataggioPrenotazioneException;
 import com.ndovado.tecservices.mappers.PrenotazioneMapper;
 import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
 import com.ndovado.webapp.beans.core.LocatarioBean;
@@ -48,27 +51,39 @@ public class GestionePrenotazioneController {
 		
 	}
 	
-	public PrenotazioneBean doSalvaPrenotazione(StrutturaBean sbean, PrenotazioneBean pbean) {
-		
+	public PrenotazioneBean doSalvaPrenotazione(StrutturaBean sbean, PrenotazioneBean pbean) throws SalvataggioPrenotazioneException {
 		Struttura smodel = csmodel.selezionaStruttura(sbean.getId());
 		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
-		pmodel = smodel.getTableau().salvaOAggiornaPrenotazione(pmodel);
-		pbean = pmapper.getBeanFromModel(pmodel);
-		return pbean;
+		try {
+			pmodel = smodel.getTableau().salvaOAggiornaPrenotazione(pmodel);
+			pbean = pmapper.getBeanFromModel(pmodel);
+			return pbean;
+		} catch (Exception e) {
+			throw new SalvataggioPrenotazioneException();
+		}
 	}
 	
-	public void doCancellaPrenotazione(PrenotazioneBean pbean) {
-		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
-		Struttura smodel = pmodel.getStutturaAssociatata();
+	public void doCancellaPrenotazione(PrenotazioneBean pbean) throws CancellazionePrenotazioneException {
+		try {
+			Prenotazione pmodel = pmapper.getModelFromBean(pbean);
+			Struttura smodel = pmodel.getStutturaAssociatata();
+			smodel.getTableau().cancellaPrenotazione(pmodel);
+		} catch (Exception e) {
+			throw new CancellazionePrenotazioneException();
+		}
 		
-		smodel.getTableau().cancellaPrenotazione(pmodel);
 	}
 	
-	public PrenotazioneBean doAggiornaPrenotazione(PrenotazioneBean pbean) {
-		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
-		pdao.saveOrUpdate(pmodel);
-		pbean = pmapper.getBeanFromModel(pmodel);
-		return pbean;
+	public PrenotazioneBean doAggiornaPrenotazione(PrenotazioneBean pbean) throws SalvataggioPrenotazioneException {
+		try {
+			Prenotazione pmodel = pmapper.getModelFromBean(pbean);
+			pdao.saveOrUpdate(pmodel);
+			pbean = pmapper.getBeanFromModel(pmodel);
+			return pbean;
+		} catch (Exception e) {
+			throw new SalvataggioPrenotazioneException();
+		}
+		
 	}
 
 }

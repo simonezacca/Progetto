@@ -8,6 +8,8 @@ import com.ndovado.dominio.core.Gestore;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.servizi.CatalogoServizi;
 import com.ndovado.dominio.servizi.ServizioComune;
+import com.ndovado.exceptions.struttura.CancellazioneStrutturaException;
+import com.ndovado.exceptions.struttura.SalvataggioStrutturaException;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.mappers.ServizioComuneMapper;
 import com.ndovado.tecservices.mappers.StrutturaMapper;
@@ -67,20 +69,29 @@ public class GestioneStrutturaController {
 		return strutture;
 	}
 	
-	public StrutturaBean doSalvaStruttura(StrutturaBean sb) {
-		// converto il bean struttura in model struttura
-		Struttura smodel = smapper.getModelFromBean(sb);
-		// persisto su DB il modello della struttura
-		csmodel.salvaOAggiornaStruttura(smodel);
-		// ripopolo il bean struttura con le informazioni del model gestito
-		sb = smapper.getBeanFromModel(smodel);
-		// faccio tornare indietro il nuovo bean popolato
-		return sb;
+	public StrutturaBean doSalvaStruttura(StrutturaBean sb) throws SalvataggioStrutturaException {
+		try {
+			// converto il bean struttura in model struttura
+			Struttura smodel = smapper.getModelFromBean(sb);
+			// persisto su DB il modello della struttura
+			csmodel.salvaOAggiornaStruttura(smodel);
+			// ripopolo il bean struttura con le informazioni del model gestito
+			sb = smapper.getBeanFromModel(smodel);
+			// faccio tornare indietro il nuovo bean popolato
+			return sb;
+		} catch (Exception e) {
+			throw new SalvataggioStrutturaException("Impossibile salvare la struttura");
+		}
+		
 	}
 	
-	public void doRimuoviStruttura(StrutturaBean sb) {
-		Struttura smodel = smapper.getModelFromBean(sb);
-		csmodel.rimuoviStruttura(smodel);
+	public void doRimuoviStruttura(StrutturaBean sb) throws CancellazioneStrutturaException {
+		try {
+			Struttura smodel = smapper.getModelFromBean(sb);
+			csmodel.rimuoviStruttura(smodel);
+		} catch (Exception e) {
+			throw new CancellazioneStrutturaException();
+		}
 	}
 	
 	public List<ServizioComuneBean> getElencoServizioComuneBeans() {
