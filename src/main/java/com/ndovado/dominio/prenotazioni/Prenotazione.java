@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Target;
 import org.hibernate.annotations.Type;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -30,6 +31,7 @@ import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
+import com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
@@ -92,8 +94,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	/**
 	 * 
 	 */
-	@OneToOne(mappedBy="prenotazione",cascade=CascadeType.ALL,fetch=FetchType.EAGER, orphanRemoval=true)
-	@PrimaryKeyJoinColumn
+	@OneToOne(mappedBy="prenotazione",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private AStatoPrenotazione statoPrenotazione;
 
 	/**
@@ -101,7 +102,6 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 */
 	@OneToMany(mappedBy="prenotazioneCorrente",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
-	//@OrderColumn
 	@OrderBy("id ASC")
 	private List<LineaPrenotazione> lineePrenotazione;
 
@@ -246,6 +246,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	public void setStatoPrenotazione(AStatoPrenotazione aStato) {
 //		if (aStato!=null) {
 			this.statoPrenotazione = aStato;
+			//aStato.setPrenotazione(this);
 //		}
 	}
 

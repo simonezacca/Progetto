@@ -31,13 +31,13 @@
 												var="luogoBean" itemLabel="#{luogoBean.nomeComune}"
 												itemValue="#{luogoBean}" converter="#{luogoBeanConverter}"
 												minQueryLength="3" forceSelection="true" required="true"
-												maxResults="10" styleClass="ui input" />
+												maxResults="10" styleClass="ui input" style="right: -40px;"/>
 										</div>
 										<h4 class="ui orange dividing header">Seleziona le Date:</h4>
 										<div class="ui raised segment">
 
 											<label>Data arrivo</label>
-											<div class="ui input">
+											<div class="ui input" style="right: -18px;">
 												<pf:calendar id="fromDate"
 													value="#{ricercaSoluzioniBB.dataArrivo}" required="true"
 													readonlyInput="true" pattern="dd/MM/yyyy">

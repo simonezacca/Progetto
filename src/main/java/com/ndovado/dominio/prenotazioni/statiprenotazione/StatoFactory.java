@@ -34,5 +34,7 @@ public class StatoFactory {
 	public static AStatoPrenotazione creaStatoConfermata() {
 		return new StatoConfermata();
 	}
+	
+	public static void main(String[] args) {}
 
 }

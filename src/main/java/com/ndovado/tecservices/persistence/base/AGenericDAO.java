@@ -10,13 +10,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public abstract class GenericDAO<T> {
+public abstract class AGenericDAO<T> {
 	
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 
 	private Class<T> entityClass;
 
-	 public GenericDAO(Class<T> entityClass) {
+	 public AGenericDAO(Class<T> entityClass) {
 		   this.entityClass = entityClass;
 	 }
 

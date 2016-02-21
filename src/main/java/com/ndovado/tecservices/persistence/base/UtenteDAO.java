@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.ndovado.dominio.core.Utente;
 
-public class UtenteDAO extends GenericDAO<Utente> {
+public class UtenteDAO extends AGenericDAO<Utente> {
 
 	public UtenteDAO() {
 		super(Utente.class);

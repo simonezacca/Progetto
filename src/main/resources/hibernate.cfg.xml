@@ -20,6 +20,7 @@
   <mapping class="com.ndovado.dominio.core.Utente"/>
   <mapping class="com.ndovado.dominio.prenotazioni.LineaPrenotazione"/>
   <mapping class="com.ndovado.dominio.prenotazioni.Prenotazione"/>
+  <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione"/>
   <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata"/>
   <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata"/>
   <mapping class="com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente"/>

@@ -23,8 +23,8 @@
 	<field>
 		<a>ruolo</a>
 		<b>ruolo</b>
-		<!-- <a-hint>com.ndovado.dominio.core.Locatario,com.ndovado.dominio.core.Gestore</a-hint>
-		<b-hint>com.ndovado.webapp.beans.core.LocatarioBean,com.ndovado.webapp.beans.core.GestoreBean</b-hint> -->
+		<a-hint>com.ndovado.dominio.core.Locatario,com.ndovado.dominio.core.Gestore</a-hint>
+		<b-hint>com.ndovado.webapp.beans.core.LocatarioBean,com.ndovado.webapp.beans.core.GestoreBean</b-hint>
 	</field>
 </mapping>
 	<mapping>
@@ -104,19 +104,19 @@
 		<a-hint>com.ndovado.dominio.servizi.ServizioBase,com.ndovado.dominio.servizi.ServizioAggiuntivo</a-hint>
 		<b-hint>com.ndovado.webapp.beans.servizi.ServizioBaseBean,com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean</b-hint>
 	</field></mapping>
-	<mapping>
+	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione</class-a>
 		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean</class-b>
 	</mapping>
-	<mapping>
+	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente</class-a>
 		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean</class-b>
 	</mapping>
-	<mapping>
+	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata</class-a>
 		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean</class-b>
 	</mapping>
-	<mapping>
+	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</class-a>
 		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</class-b>
 	</mapping>
@@ -136,7 +136,7 @@
 	</field>
 	
 </mapping>
-	<mapping>
+	<mapping stop-on-errors="true">
 	<class-a>com.ndovado.dominio.prenotazioni.Prenotazione</class-a>
 	<class-b>com.ndovado.webapp.beans.prenotazioni.PrenotazioneBean</class-b>
 	<field>
@@ -151,10 +151,12 @@
 		<a>pagamentoAssociato</a>
 		<b>pagamentoAssociato</b>
 	</field>
-	<field-exclude>
+	<field>
 		<a>statoPrenotazione</a>
 		<b>statoPrenotazione</b>
-	</field-exclude>
+		<a-hint>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</a-hint>
+		<b-hint>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</b-hint>
+	</field>
 	<field>
 		<a get-method="isCancellabile" set-method="setCancellabile">cancellabile</a>
 		<b get-method="getCancellabile" is-accessible="true">cancellabile</b>

@@ -7,7 +7,7 @@ import org.hibernate.Session;
 
 import com.ndovado.dominio.core.Luogo;
 
-public class LuogoDAO extends GenericDAO<Luogo>{
+public class LuogoDAO extends AGenericDAO<Luogo>{
 	
 	public LuogoDAO() {
 		super(Luogo.class);

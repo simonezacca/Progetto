@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import org.joda.time.LocalDate;
 
@@ -13,7 +12,6 @@ import com.ndovado.tecservices.jsf.JSFHelper;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.webapp.beans.core.LuogoBean;
 import com.ndovado.webapp.beans.core.StrutturaBean;
-import com.ndovado.webapp.beans.prenotazioni.CarrelloPrenotazioneBean;
 import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 import com.ndovado.webapp.controllers.GestioneLuogoController;
 import com.ndovado.webapp.controllers.GestioneRicercaSoluzioneController;

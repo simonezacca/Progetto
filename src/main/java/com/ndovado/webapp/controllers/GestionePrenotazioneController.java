@@ -9,7 +9,6 @@ import com.ndovado.dominio.core.CatalogoStrutture;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.prenotazioni.Prenotazione;
 import com.ndovado.exceptions.prenotazioni.CancellazionePrenotazioneException;
-import com.ndovado.exceptions.prenotazioni.OverbookingException;
 import com.ndovado.exceptions.prenotazioni.SalvataggioPrenotazioneException;
 import com.ndovado.tecservices.mappers.PrenotazioneMapper;
 import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
