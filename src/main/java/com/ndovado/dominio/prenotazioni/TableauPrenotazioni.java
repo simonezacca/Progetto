@@ -79,7 +79,7 @@ public class TableauPrenotazioni {
 		return p;
 	}
 	
-	public Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) throws OverbookingException {
+	public synchronized Prenotazione salvaOAggiornaPrenotazione(Prenotazione pmodel) throws OverbookingException {
 		// controllo overbooking
 		checkOverBooking(pmodel);
 		if (test) {
@@ -118,7 +118,7 @@ public class TableauPrenotazioni {
 		}
 	}
 	
-	private List<Camera> getCamereFromPrenotazione(Prenotazione pmodel) {
+	private synchronized List<Camera> getCamereFromPrenotazione(Prenotazione pmodel) {
 		List<LineaPrenotazione> list = pmodel.getLineePrenotazione();
 		List<Camera> camere = new ArrayList<Camera>();
 		for (LineaPrenotazione lineaPrenotazione : list) {
@@ -130,7 +130,7 @@ public class TableauPrenotazioni {
 		return camere;
 	}
 	
-	public void cancellaPrenotazione(Prenotazione pmodel) {
+	public synchronized void cancellaPrenotazione(Prenotazione pmodel) {
 		pdao.delete(pmodel.getId());
 	}
 
@@ -185,7 +185,7 @@ public class TableauPrenotazioni {
 	 * @param c 
 	 * @return
 	 */
-	protected Set<Prenotazione> getElencoPrenotazioniPerCamera(Camera c) {
+	protected synchronized Set<Prenotazione> getElencoPrenotazioniPerCamera(Camera c) {
 		Set<Prenotazione> s = getInsiemePrenotazioniPerCamera(c);
 		return s;
 	}
@@ -197,7 +197,7 @@ public class TableauPrenotazioni {
 	 * @param c 
 	 * @return
 	 */
-	protected Set<Prenotazione> getElencoPrenotazioniFuturePerCamera(Camera c) {
+	protected synchronized Set<Prenotazione> getElencoPrenotazioniFuturePerCamera(Camera c) {
 		TreeSet<Prenotazione> s = (TreeSet<Prenotazione>) getElencoPrenotazioniPerCamera(c);
 		LocalDate oggi = new LocalDate();
 		for (Prenotazione p : s)
@@ -256,7 +256,7 @@ public class TableauPrenotazioni {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCamera(Camera c) {
+	private synchronized TreeSet<Prenotazione> getInsiemePrenotazioniPerCamera(Camera c) {
 		// caso test junit senza persistenza su DB
 		if (test) {
 			return getInsiemePrenotazioniPerCameraDaMap(c);
@@ -293,7 +293,7 @@ public class TableauPrenotazioni {
 		return insiemePrenotazioni;
 	}
 	
-	private TreeSet<Prenotazione> getInsiemePrenotazioniPerCameraDaMap(Camera c) {
+	private synchronized TreeSet<Prenotazione> getInsiemePrenotazioniPerCameraDaMap(Camera c) {
 		if (elencoPrenotazioni.containsKey(c)) {
 			return elencoPrenotazioni.get(c);
 		}

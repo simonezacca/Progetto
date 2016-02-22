@@ -68,7 +68,6 @@ public class GestoreBean extends ARuoloBean {
 	}
 	
 	public GestoreBean() {
-		// TODO Auto-generated constructor stub
 	}
 	/**
 	 * @return the coordinatePagamento

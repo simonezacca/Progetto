@@ -36,7 +36,7 @@ public class GWAutorizzazionePagamenti {
 		return istance;
 	}
 
-	public Pagamento creaRichiestaAuthPagamento(Pagamento pToAuth) {
+	public synchronized Pagamento creaRichiestaAuthPagamento(Pagamento pToAuth) {
 		if (isAuthorizable()) {
 			pToAuth.setAutorizzato(true);
 			pToAuth.setDataOraPagamento(new LocalDateTime());
@@ -47,7 +47,7 @@ public class GWAutorizzazionePagamenti {
 		return pToAuth;
 	}
 	
-	private Boolean isAuthorizable() {
+	private synchronized Boolean isAuthorizable() {
 		Boolean result = false;
 		Integer num = generator.nextInt(100);
 		if (num>=1) {
@@ -56,7 +56,7 @@ public class GWAutorizzazionePagamenti {
 		return result;
 	}
 	
-	private String getIdTransazione() {
+	private synchronized String getIdTransazione() {
 		 return new BigInteger(130, generator).toString(32);
 	}
 

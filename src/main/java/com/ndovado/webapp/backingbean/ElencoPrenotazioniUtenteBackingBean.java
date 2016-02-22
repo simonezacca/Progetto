@@ -15,7 +15,7 @@ import com.ndovado.webapp.controllers.GestionePrenotazioneController;
 
 @ManagedBean(name="elencoPrenotazioniUtenteBB")
 @ViewScoped
-public class ElencoPrenotazioniUtenteBackingBean implements Serializable{
+public class ElencoPrenotazioniUtenteBackingBean implements Serializable{ // NO_UCD (unused code)
 	
 	
 	/**

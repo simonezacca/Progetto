@@ -11,7 +11,7 @@ import com.ndovado.tecservices.mappers.ServizioComuneMapper;
 import com.ndovado.webapp.beans.servizi.ServizioComuneBean;
 
 @ManagedBean(name="servizioComuneBeanConverter")
-public class ServizioComuneBeanConverter implements Converter {
+public class ServizioComuneBeanConverter implements Converter { // NO_UCD (unused code)
 	
 	private ServizioComuneMapper scmapper = ServizioComuneMapper.getInstance();
 	private CatalogoServizi csmodel = CatalogoServizi.getInstance();

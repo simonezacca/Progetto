@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class LogFrame extends JFrame {
+class LogFrame extends JFrame {
 
 	/**
 	 * 
@@ -33,15 +33,15 @@ public class LogFrame extends JFrame {
 	
 	
 	// pannello superiore
-	JPanel psup = new JPanel();
-		//elementi pannello superiore
-		// bottone carica file log
-		JButton btnLoadLogFile = new JButton("Visualizza log");
-		// combo drop down con il nome dei file
-		JComboBox comboLogPaths = new JComboBox(logPaths);
+	private JPanel psup = new JPanel();
+	//elementi pannello superiore
+	// bottone carica file log
+	private JButton btnLoadLogFile = new JButton("Visualizza log");
+	// combo drop down con il nome dei file
+	private JComboBox comboLogPaths = new JComboBox(logPaths);
 
 	// pannello centrale
-	JPanel pcen = new JPanel(new BorderLayout());
+	private JPanel pcen = new JPanel(new BorderLayout());
 		// scrollable text area
 		private JTextArea jtLog;
 		private JScrollPane scrollLog;

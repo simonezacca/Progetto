@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * Classe astatratta per modellare il ruolo dell'utente nel sistema
  * 
  */
 
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipologia")
 
-public abstract class ARuolo{
+public abstract class ARuolo{ // NO_UCD (use default)
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

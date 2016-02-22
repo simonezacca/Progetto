@@ -51,7 +51,7 @@ public class GestionePrenotazioneController {
 	}
 	
 	public PrenotazioneBean doSalvaPrenotazione(StrutturaBean sbean, PrenotazioneBean pbean) throws SalvataggioPrenotazioneException {
-		Struttura smodel = csmodel.selezionaStruttura(sbean.getId());
+		Struttura smodel = csmodel.selezionaStrutturaById(sbean.getId());
 		Prenotazione pmodel = pmapper.getModelFromBean(pbean);
 		try {
 			pmodel = smodel.getTableau().salvaOAggiornaPrenotazione(pmodel);

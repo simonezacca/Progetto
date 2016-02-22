@@ -13,6 +13,11 @@ import com.ndovado.tecservices.loggers.AppLogger;
 @Proxy(lazy=false,proxyClass=StatoEliminata.class)
 public class StatoEliminata extends AStatoPrenotazione {
 
+	@Override
+	public String toString() {
+		return "StatoEliminata []";
+	}
+
 	/**
 	 * Default constructor
 	 */

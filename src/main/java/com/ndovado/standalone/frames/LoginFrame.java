@@ -22,19 +22,19 @@ public class LoginFrame extends JFrame {
 	private static final long serialVersionUID = 1L; 
 	
 	private AdminController controller = new AdminController();
-	Amministratore adminLocale = controller.getAdminCorrente();
+	private Amministratore adminLocale = controller.getAdminCorrente();
 	
 	
 	private final static String titolo = "Login";
 	private final JPanel panel = new JPanel();
 	
 	// componenti grafici
-	JLabel userLabel;
-	JTextField userText;
-	JLabel passwordLabel;
-	JPasswordField passwordText;
-	JButton btnRegister;
-	JButton btnLogin;
+	private JLabel userLabel;
+	private JTextField userText;
+	private JLabel passwordLabel;
+	private JPasswordField passwordText;
+	private JButton btnRegister;
+	private JButton btnLogin;
 	
 	
 	
@@ -134,7 +134,7 @@ public class LoginFrame extends JFrame {
 		});
 	}
 	
-	public void close(){
+	private void close(){
 		
 		this.setVisible(false);
 	}

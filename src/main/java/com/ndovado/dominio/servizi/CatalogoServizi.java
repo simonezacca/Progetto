@@ -21,7 +21,7 @@ public class CatalogoServizi {
 	/**
 	 * Default constructor
 	 */
-	public CatalogoServizi() {
+	private CatalogoServizi() {
 		initList();
 	}
 	
@@ -75,7 +75,7 @@ public class CatalogoServizi {
 	 * @return
 	 */
 	
-	public ServizioComune aggiungiServizio(String aNomeServizio) {
+	public synchronized ServizioComune aggiungiServizio(String aNomeServizio) {
 		// istanzio un nuovo servizio comune
 		ServizioComune sc = new ServizioComune(aNomeServizio);
 		// persisto il servizio comune su DB
@@ -83,7 +83,7 @@ public class CatalogoServizi {
 		return sc;
 	}
 	
-	public void rimuoviServizio(ServizioComune s) {
+	public synchronized void rimuoviServizio(ServizioComune s) {
 		if(s!=null) {
 			// rimuovo il servizio dal DB
 			scdao.delete(s.getId());

@@ -13,7 +13,9 @@ public class StatoPendenteBean extends AStatoPrenotazioneBean {
 	}
 	
 	public StatoPendenteBean() {
-		// TODO Auto-generated constructor stub
 	}
 
+	public static StatoPendenteBean creaBean() {
+		return new StatoPendenteBean();
+	}
 }

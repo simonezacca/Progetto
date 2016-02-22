@@ -10,7 +10,7 @@ public class SelezionePrenotazioneException extends Exception {
 	public SelezionePrenotazioneException() {	
 	}
 	
-	public SelezionePrenotazioneException(String msg) {
+	public SelezionePrenotazioneException(String msg) { // NO_UCD (unused code)
 		super(msg);
 	}
 

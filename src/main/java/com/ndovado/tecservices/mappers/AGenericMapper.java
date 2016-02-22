@@ -6,7 +6,7 @@ import java.util.List;
 import org.dozer.DozerBeanMapper;
 import com.ndovado.tecservices.loggers.AppLogger;
 
-public abstract class AGenericMapper<B,M> {
+abstract class AGenericMapper<B,M> {
 
 		protected static DozerBeanMapper mapper;
 		

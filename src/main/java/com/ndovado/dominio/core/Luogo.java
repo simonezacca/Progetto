@@ -17,7 +17,9 @@ import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
 
 /**
- * Implementare i metodi equals() and hasCode()
+ * Classe di entita luogo, modello il concetto di luogo fisico
+ * @author antonio
+ *
  */
 @Entity
 @Table(name = "comune")

@@ -3,7 +3,7 @@ package com.ndovado.tecservices.mappers;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
 import com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean;
 
-public class ServizioAggiuntivoMapper extends AGenericMapper<ServizioAggiuntivoBean, ServizioAggiuntivo> {
+public class ServizioAggiuntivoMapper extends AGenericMapper<ServizioAggiuntivoBean, ServizioAggiuntivo> { // NO_UCD (unused code)
 
 	private static volatile ServizioAggiuntivoMapper instance;
 	

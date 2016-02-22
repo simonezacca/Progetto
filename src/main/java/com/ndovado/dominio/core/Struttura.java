@@ -123,16 +123,11 @@ public class Struttura implements IPersistente {
 	/**
 	 * @return una nuova camera, la nuova camera è automaticamente collegata alla struttura corrente
 	 */
-	public Camera creaNuovaCamera() {
+	public Camera creaNuovaCamera() { // NO_UCD (unused code)
 		return new Camera(this);
 	}
 
-	/**
-	 * 
-	 */
-	public void visualizzaDettagli() {
-		// TODO implement here
-	}
+
 
 	/**
 	 * Ritorna un'istanza di tipo camera
@@ -165,8 +160,7 @@ public class Struttura implements IPersistente {
 	 * @return
 	 */
 	public String getInformazioniPagamento() {
-		// TODO implement here
-		return "";
+		return this.gestore.getCoordinatePagamento();
 	}
 
 	/**
@@ -216,15 +210,8 @@ public class Struttura implements IPersistente {
 	/**
 	 * 
 	 */
-	public void addFAQ() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void setCondizioniSoggiorno() {
-		// TODO implement here
+	public void addFAQ(FAQStruttura aFAQ) {
+		this.elencoFAQ.add(aFAQ);
 	}
 
 	/**

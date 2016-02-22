@@ -44,7 +44,6 @@ public class GestioneUtenteController {
 	
 	public UtenteBean doRegistrazione(UtenteBean ub) throws MailEsistenteException {
 		// se l'indizzo mail non esiste in memoria
-		// TODO verificare tramite chiamata AJAX la verifica della mail cosi
 		//	da evitare questo controllo
 		AppLogger.debug("Verifico esistenza mail per: "+ub.getMail());
 		if (!cumodel.isMailEsistente(ub.getMail())) {

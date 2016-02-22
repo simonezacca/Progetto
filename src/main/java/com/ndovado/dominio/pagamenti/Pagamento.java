@@ -26,6 +26,16 @@ import com.ndovado.tecservices.persistence.base.IPersistente;
 @Table(name = "pagamento")
 public class Pagamento implements IPersistente {
 
+	@Override
+	public String toString() {
+		return "Pagamento [id=" + id + ", dataOraPagamento=" + dataOraPagamento + ", idTransazione=" + idTransazione
+				+ ", numeroCC=" + numeroCC + ", meseScadenza=" + meseScadenza + ", annoScadenza=" + annoScadenza
+				+ ", circuito=" + circuito + ", autorizzato=" + autorizzato + ", pagamentoVerso=" + pagamentoVerso
+				+ ", ccv=" + ccv + "]";
+	}
+
+
+
 	/**
 	 * 
 	 */
@@ -105,13 +115,6 @@ public class Pagamento implements IPersistente {
 	 */
 	public LocalDateTime getDataOraPagamento() {
 		return this.dataOraPagamento;
-	}
-
-	/**
-	 * @param aDataOraPagamento
-	 */
-	public void setDataPagamento(LocalDateTime aDataPagamento) {
-		this.dataOraPagamento = aDataPagamento;
 	}
 
 	/**

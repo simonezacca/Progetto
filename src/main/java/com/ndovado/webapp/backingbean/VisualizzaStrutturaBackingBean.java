@@ -15,7 +15,7 @@ import com.ndovado.webapp.beans.prenotazioni.RisultatoRicercaBean;
 
 @ManagedBean(name="visualizzaStrutturaBB")
 @ViewScoped
-public class VisualizzaStrutturaBackingBean implements Serializable {
+public class VisualizzaStrutturaBackingBean implements Serializable { // NO_UCD (unused code)
 
 	/**
 	 * 

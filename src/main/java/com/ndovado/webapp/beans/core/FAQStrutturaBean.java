@@ -19,7 +19,6 @@ public class FAQStrutturaBean implements Serializable {
 	private StrutturaBean strutturaAssociata;
 	
 	public FAQStrutturaBean() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public FAQStrutturaBean(StrutturaBean sbean) {

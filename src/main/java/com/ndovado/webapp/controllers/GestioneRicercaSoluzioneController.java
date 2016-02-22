@@ -31,7 +31,9 @@ public class GestioneRicercaSoluzioneController {
 		List<RisultatoRicerca> rrmodels = csmodel.cercaSoluzioni(lmodel, dataArrivo, dataPartenza, nPersone);
 		AppLogger.debug("rrmodels.size = "+rrmodels.size());
 		for (RisultatoRicerca risultatoRicerca : rrmodels) {
+			// conversione da model a bean
 			RisultatoRicercaBean rrbean = rrmapper.getBeanFromModel(risultatoRicerca);
+			// aggiungo il rrbean convertito alla lista da portare al livello view
 			rrbeans.add(rrbean);
 		}
 		return rrbeans;

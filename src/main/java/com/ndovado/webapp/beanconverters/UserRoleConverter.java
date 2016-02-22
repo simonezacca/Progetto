@@ -10,7 +10,7 @@ import com.ndovado.webapp.beans.core.GestoreBean;
 
 @ManagedBean(name="userRoleConverter")
 //@FacesConverter("com.ndovado.webapp.beanconverters.userroleconveter")
-public class UserRoleConverter implements Converter{
+public class UserRoleConverter implements Converter{ // NO_UCD (unused code)
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {

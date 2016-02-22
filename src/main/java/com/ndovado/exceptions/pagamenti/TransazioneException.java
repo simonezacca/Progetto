@@ -1,6 +1,6 @@
 package com.ndovado.exceptions.pagamenti;
 
-public class TransazioneException extends Exception {
+public class TransazioneException extends Exception { // NO_UCD (unused code)
 
 	/**
 	 * 

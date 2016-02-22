@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class MainFrame extends JFrame {
+class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class MainFrame extends JFrame {
 
 	}
 
-	public class GestioneServiziListener implements ActionListener {
+	private class GestioneServiziListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public class ConsultaLogListener implements ActionListener {
+	private class ConsultaLogListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -70,7 +70,7 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	public void close(){
+	private void close(){
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override

@@ -11,7 +11,7 @@ import com.ndovado.tecservices.mappers.LuogoMapper;
 import com.ndovado.webapp.beans.core.LuogoBean;
 
 @ManagedBean(name="luogoBeanConverter")
-public class LuogoBeanConverter implements Converter{
+public class LuogoBeanConverter implements Converter{ // NO_UCD (unused code)
 
 	private CatalogoLuogo clmodel = CatalogoLuogo.getInstance();
 	private LuogoMapper lmapper = LuogoMapper.getInstance();

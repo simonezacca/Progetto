@@ -11,7 +11,7 @@ public class CancellazionePrenotazioneException extends Exception {
 		
 	}
 	
-	public CancellazionePrenotazioneException(String msg) {
+	public CancellazionePrenotazioneException(String msg) { // NO_UCD (unused code)
 		super(msg);
 	}
 

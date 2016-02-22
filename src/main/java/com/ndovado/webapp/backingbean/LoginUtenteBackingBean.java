@@ -14,7 +14,7 @@ import com.ndovado.webapp.beans.core.UtenteBean;
 import com.ndovado.webapp.controllers.GestioneUtenteController;
 
 @ManagedBean(name="loginControllerBB")
-public class LoginUtenteBackingBean implements Serializable{
+public class LoginUtenteBackingBean implements Serializable{ // NO_UCD (unused code)
 
 	/**
 	 * 

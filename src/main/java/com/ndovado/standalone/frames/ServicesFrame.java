@@ -15,7 +15,7 @@ import javax.swing.JTable;
 
 import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.exceptions.servizi.CancellazioneServizioException;
-import com.ndovado.exceptions.servizi.SalvataggioServiziException;
+import com.ndovado.exceptions.servizi.SalvataggioServizioException;
 import com.ndovado.standalone.controller.ServizioComuneController;
 import com.ndovado.standalone.model.ServizioComuneTableModel;
 import com.ndovado.tecservices.loggers.AppLogger;
@@ -24,32 +24,31 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ServicesFrame extends JFrame {
+class ServicesFrame extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static String titolo = "Pannello Gestione Servizi";
-//	private JPanel panel = new JPanel();
 	
 	
 	// pannello superiore
-	JPanel psup = new JPanel();
-	JLabel lblSup = new JLabel("Gestisci i servizi della piattaforma");
+	private JPanel psup = new JPanel();
+	private JLabel lblSup = new JLabel("Gestisci i servizi della piattaforma");
 
 	// pannello centrale
-	JPanel pcen = new JPanel(new BorderLayout());
+	private JPanel pcen = new JPanel(new BorderLayout());
 		// tabella servizi
 		private ServizioComuneController controller = new ServizioComuneController();
 		private JTable tblServizi;
 		private ServizioComuneTableModel sctmodel;
 	
 	// pannello inferiore
-	JPanel pinf = new JPanel();
-	JButton btnAddServizio = new JButton("Aggiungi");
-	JButton btnEditServizio = new JButton("Modifica");
-	JButton btnRemServizio = new JButton("Cancella");
-	JButton btnUpdServizio = new JButton("Aggiorna elenco");
+	private JPanel pinf = new JPanel();
+	private JButton btnAddServizio = new JButton("Aggiungi");
+	private JButton btnEditServizio = new JButton("Modifica");
+	private JButton btnRemServizio = new JButton("Cancella");
+	private JButton btnUpdServizio = new JButton("Aggiorna elenco");
 
 	
 	private static final long serialVersionUID = 1L;
@@ -110,7 +109,7 @@ public class ServicesFrame extends JFrame {
 						controller.salvaServizioComune(newServizio);
 						AppLogger.debug("Servizio aggiunto: "+newServizio.getNomeServizio());
 						aggiornaModelTabellaServizi();
-					} catch (SalvataggioServiziException e1) {
+					} catch (SalvataggioServizioException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 						AppLogger.error("Errore aggiunta servizio: "+e1.getMessage());
 					}
@@ -129,7 +128,7 @@ public class ServicesFrame extends JFrame {
 					controller.salvaServizioComune(sToEdit);
 					aggiornaModelTabellaServizi();
 					AppLogger.debug("Servizio modificato: "+sToEdit.getNomeServizio());
-				} catch (SalvataggioServiziException e) {
+				} catch (SalvataggioServizioException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
 					AppLogger.error("Errore aggiunta servizio: "+e.getMessage());
 				}
@@ -205,7 +204,6 @@ public class ServicesFrame extends JFrame {
 
 	public ServicesFrame() {
 		super(titolo);
-//		JFrame servicesFrame = new JFrame(titolo);
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

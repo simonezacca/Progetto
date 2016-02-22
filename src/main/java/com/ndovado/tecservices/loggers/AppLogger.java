@@ -31,7 +31,7 @@ public class AppLogger {
 	/**
 	 * @param message
 	 */
-	public static void info(String message) {
+	public static void info(String message) { // NO_UCD (unused code)
 		logger.info(message);
 	}
 
@@ -55,7 +55,7 @@ public class AppLogger {
 	/**
 	 * @param message
 	 */
-	public static void warn(String message) {
+	public static void warn(String message) { // NO_UCD (unused code)
 		logger.warn(message);
 	}
 

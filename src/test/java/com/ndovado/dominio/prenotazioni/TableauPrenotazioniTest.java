@@ -17,8 +17,6 @@ import com.ndovado.exceptions.prenotazioni.OverbookingException;
 //import static
 import static org.junit.Assert.*;
 
-import org.jadira.usertype.spi.utils.lang.AssertionException;
-
 public class TableauPrenotazioniTest {
 
 	
@@ -104,7 +102,6 @@ public class TableauPrenotazioniTest {
 			stest.getTableau().salvaOAggiornaPrenotazione(p5);
 			stest.getTableau().salvaOAggiornaPrenotazione(p6);
 		} catch (OverbookingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

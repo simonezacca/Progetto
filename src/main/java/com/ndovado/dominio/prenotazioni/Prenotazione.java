@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Target;
 import org.hibernate.annotations.Type;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -31,14 +30,11 @@ import com.ndovado.dominio.core.Locatario;
 import com.ndovado.dominio.core.Struttura;
 import com.ndovado.dominio.pagamenti.Pagamento;
 import com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione;
-import com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata;
 import com.ndovado.dominio.servizi.ServizioAggiuntivo;
 import com.ndovado.tecservices.loggers.AppLogger;
 import com.ndovado.tecservices.persistence.base.IPersistente;
+import com.ndovado.tecservices.persistence.base.PrenotazioneDAO;
 
-/**
- * Implementare i metodi equals() and hasCode()
- */
 @Entity
 @Table(name = "prenotazione")
 public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
@@ -95,6 +91,8 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * 
 	 */
 	@OneToOne(mappedBy="prenotazione",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+//	@Transient
 	private AStatoPrenotazione statoPrenotazione;
 
 	/**
@@ -246,7 +244,7 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	public void setStatoPrenotazione(AStatoPrenotazione aStato) {
 //		if (aStato!=null) {
 			this.statoPrenotazione = aStato;
-			//aStato.setPrenotazione(this);
+			aStato.setPrenotazione(this);
 //		}
 	}
 
@@ -296,7 +294,6 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	 * @return
 	 */
 	protected Comparator<Prenotazione> comparatoreDataArrivo() {
-		// TODO implement here
 		return null;
 	}
 
@@ -467,8 +464,10 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	public String toString() {
 		return "Prenotazione [id=" + id + ", dataOraPrenotazione=" + dataOraPrenotazione + ", importoTotale="
 				+ importoTotale + ", codicePrenotazione=" + codicePrenotazione + ", dataArrivo=" + dataArrivo
-				+ ", dataPartenza=" + dataPartenza
-				+ ", notePrenotazione=" + notePrenotazione + "]";
+				+ ", dataPartenza=" + dataPartenza + ", statoPrenotazione=" + statoPrenotazione
+				+ ", pagamentoAssociato=" + pagamentoAssociato + ", locatario=" + locatario + ", notePrenotazione="
+				+ notePrenotazione + ", nottiSoggiorno=" + nottiSoggiorno + ", stutturaAssociatata="
+				+ stutturaAssociatata + "]";
 	}
 
 	/**
@@ -511,6 +510,18 @@ public class Prenotazione implements Comparable<Prenotazione>, IPersistente {
 	
 	public void setCancellabile(Boolean cancellabile) {
 		this.cancellabile = cancellabile;
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		PrenotazioneDAO pdao = new PrenotazioneDAO();
+		List<Prenotazione> lista = pdao.getAll();
+		
+		for (Prenotazione prenotazione : lista) {
+			System.out.println(prenotazione);
+		}
+		
 	}
 
 	

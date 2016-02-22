@@ -1,16 +1,13 @@
 package com.ndovado.dominio.prenotazioni.statiprenotazione;
 
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.ndovado.dominio.prenotazioni.Prenotazione;
@@ -22,7 +19,7 @@ import com.ndovado.dominio.prenotazioni.Prenotazione;
 @Table(name="stato_prenotazione")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="stato")
-
+//@Embeddable
 public abstract class AStatoPrenotazione {
 	
 	@Id
@@ -30,7 +27,6 @@ public abstract class AStatoPrenotazione {
 	protected Long id;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
 	protected Prenotazione prenotazione;
 	/**
 	 * Default constructor
@@ -71,6 +67,20 @@ public abstract class AStatoPrenotazione {
 	 */
 	public void setPrenotazione(Prenotazione prenotazione) {
 		this.prenotazione = prenotazione;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

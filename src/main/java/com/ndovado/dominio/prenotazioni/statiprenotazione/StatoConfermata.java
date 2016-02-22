@@ -44,4 +44,9 @@ public class StatoConfermata extends AStatoPrenotazione {
 	public void eliminaPrenotazione() {
 	}
 
+	@Override
+	public String toString() {
+		return "StatoConfermata []";
+	}
+
 }

@@ -51,7 +51,7 @@ public class CatalogoStrutture {
 	 * @param idStruttura 
 	 * @return
 	 */
-	public Struttura selezionaStruttura(Long idStruttura) {
+	public Struttura selezionaStrutturaById(Long idStruttura) {
 		return sdao.get(idStruttura);
 	}
 

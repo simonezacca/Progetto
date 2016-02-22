@@ -32,10 +32,12 @@ public class FAQStruttura implements IPersistente {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public FAQStruttura() {
+	
+	}
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.id;
 	}
 
 	/**

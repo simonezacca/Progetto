@@ -11,7 +11,7 @@ public class OverbookingException extends Exception {
 	
 	}
 	
-	public OverbookingException(String msg) {
+	public OverbookingException(String msg) { // NO_UCD (unused code)
 		super(msg);
 	}
 

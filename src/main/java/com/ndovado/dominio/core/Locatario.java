@@ -24,7 +24,6 @@ public class Locatario extends ARuolo implements IPersistente {
 		@SuppressWarnings("unused")
 		final int prime = 31;
 		int result = 1;
-//		result = prime * result + ((prenotazioni == null) ? 0 : prenotazioni.hashCode());
 		return result;
 	}
 
@@ -38,11 +37,6 @@ public class Locatario extends ARuolo implements IPersistente {
 			return false;
 		@SuppressWarnings("unused")
 		Locatario other = (Locatario) obj;
-//		if (prenotazioni == null) {
-//			if (other.prenotazioni != null)
-//				return false;
-//		} else if (!prenotazioni.equals(other.prenotazioni))
-//			return false;
 		return true;
 	}
 

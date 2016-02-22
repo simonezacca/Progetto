@@ -14,7 +14,6 @@ import com.ndovado.tecservices.persistence.base.IPersistente;
  * 
  */
 @Entity
-//@Embeddable
 public class Gestore extends ARuolo implements IPersistente {
 
 	/**

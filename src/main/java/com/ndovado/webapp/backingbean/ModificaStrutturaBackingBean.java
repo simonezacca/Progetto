@@ -28,7 +28,7 @@ import com.ndovado.webapp.controllers.GestioneStrutturaController;
 
 @ManagedBean(name = "StrutturaBB")
 @ViewScoped
-public class ModificaStrutturaBackingBean implements Serializable {
+public class ModificaStrutturaBackingBean implements Serializable { // NO_UCD (unused code)
 
 	private static final long serialVersionUID = 1L;
 

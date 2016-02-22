@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 @FacesConverter("LocalDateConverter")
-public class LocalDateConverter implements Converter {
+public class LocalDateConverter implements Converter { // NO_UCD (unused code)
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {

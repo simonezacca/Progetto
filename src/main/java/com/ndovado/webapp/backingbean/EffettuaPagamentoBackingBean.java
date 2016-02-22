@@ -14,7 +14,7 @@ import com.ndovado.webapp.controllers.GestionePagamentoController;
 
 @ManagedBean(name="effettuaPagamentoBB")
 @ViewScoped
-public class EffettuaPagamentoBackingBean implements Serializable {
+public class EffettuaPagamentoBackingBean implements Serializable { // NO_UCD (unused code)
 	
 	/**
 	 * 

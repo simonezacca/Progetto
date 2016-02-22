@@ -17,7 +17,7 @@ import com.ndovado.webapp.controllers.GestioneStrutturaController;
 
 @ManagedBean(name="elencoStruttureBB")
 @ViewScoped
-public class ElencoStruttureBackingBean implements Serializable {
+public class ElencoStruttureBackingBean implements Serializable { // NO_UCD (unused code)
 
 	/**
 	 * 

@@ -13,6 +13,9 @@ public abstract class AStatoPrenotazioneBean implements Serializable{
 	protected Long id;
 	
 	protected Prenotazione prenotazione;
+	
+	public AStatoPrenotazioneBean() {
+	}
 
 	/**
 	 * @return the id

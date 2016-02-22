@@ -17,7 +17,7 @@ import com.ndovado.webapp.beans.core.UtenteBean;
  * Servlet Filter implementation class AuthenticationFilter
  */
 @WebFilter({ "/gestore/*", "/locatario/*" })
-public class AuthenticationFilter implements Filter {
+public class AuthenticationFilter implements Filter { // NO_UCD (unused code)
 
 	@SuppressWarnings("unused")
 	private FilterConfig config;

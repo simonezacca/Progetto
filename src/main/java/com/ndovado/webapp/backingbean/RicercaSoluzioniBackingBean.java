@@ -208,16 +208,16 @@ public class RicercaSoluzioniBackingBean implements Serializable {
 	public String addStrutturaPerConfronto(RisultatoRicercaBean rrbean) {
 		// aggiungo il rrbean alla lista per il confronto
 		this.listaPerConfronto.add(rrbean);
+		// se la lista confronto contiene due risultati ricerca
 		if (this.listaPerConfronto.size()==2) {
 			// aggiungo la lista al falsh context
 			List<RisultatoRicercaBean> nuovaLista = new ArrayList<RisultatoRicercaBean>();
 			nuovaLista.addAll(listaPerConfronto);
 			JSFHelper.put("listaPerConfronto", nuovaLista);
-			// azzero la lista nel backing bean
+			// azzero la lista nel backing bean così si sbloccano i pulsanti in caso di nuova ricerca
 			this.listaPerConfronto.clear();
 			// redirect a pagina confronto
 			return "/locatario/confrontoStrutture.xhtml?faces-redirect=true";
-			//JSFHelper.redirectTo("confrontoStrutture.xhtml");
 		}
 		return null;
 	}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ndovado.dominio.servizi.ServizioComune;
 import com.ndovado.exceptions.servizi.CancellazioneServizioException;
-import com.ndovado.exceptions.servizi.SalvataggioServiziException;
+import com.ndovado.exceptions.servizi.SalvataggioServizioException;
 import com.ndovado.tecservices.persistence.base.ServizioComuneDAO;
 
 public class ServizioComuneController {
@@ -16,21 +16,21 @@ public class ServizioComuneController {
 		return scdao.getAll();
 	}
 	
-	public ServizioComune salvaServizioComune(ServizioComune sc) throws SalvataggioServiziException {
+	public ServizioComune salvaServizioComune(ServizioComune sc) throws SalvataggioServizioException {
 		try {
 			scdao.saveOrUpdate(sc);
 			return sc;
 		} catch (Exception e) {
-			throw new SalvataggioServiziException("Impossibile salvare il servizio.");
+			throw new SalvataggioServizioException("Impossibile salvare il servizio.");
 		}
 	}
 	
-	public ServizioComune aggiornaServizioComune(ServizioComune sc) throws SalvataggioServiziException {
+	public ServizioComune aggiornaServizioComune(ServizioComune sc) throws SalvataggioServizioException {
 		try {
 			scdao.saveOrUpdate(sc);
 			return sc;
 		} catch (Exception e) {
-			throw new SalvataggioServiziException("Impossibile aggiornare il servizio.");
+			throw new SalvataggioServizioException("Impossibile aggiornare il servizio.");
 		}
 	}
 	

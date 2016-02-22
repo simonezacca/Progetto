@@ -14,6 +14,11 @@
 			<class-a>org.joda.time.LocalDateTime</class-a>
 			<class-b>org.joda.time.LocalDateTime</class-b>
 		</converter>
+		<converter
+			type="com.ndovado.tecservices.mappers.converters.StatoPrenotazioneConverter">
+			<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione</class-a>
+			<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean</class-b>
+		</converter>
 	</custom-converters>
 </configuration>
  
@@ -104,21 +109,21 @@
 		<a-hint>com.ndovado.dominio.servizi.ServizioBase,com.ndovado.dominio.servizi.ServizioAggiuntivo</a-hint>
 		<b-hint>com.ndovado.webapp.beans.servizi.ServizioBaseBean,com.ndovado.webapp.beans.servizi.ServizioAggiuntivoBean</b-hint>
 	</field></mapping>
-	<mapping stop-on-errors="true">
+	<mapping>
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.AStatoPrenotazione</class-a>
 		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.AStatoPrenotazioneBean</class-b>
 	</mapping>
 	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean</class-b>
+		<class-b create-method="creaBean">com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean</class-b>
 	</mapping>
 	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean</class-b>
+		<class-b create-method="creaBean">com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean</class-b>
 	</mapping>
 	<mapping stop-on-errors="true">
 		<class-a>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</class-a>
-		<class-b>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</class-b>
+		<class-b create-method="creaBean">com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</class-b>
 	</mapping>
 	<mapping stop-on-errors="true">
 	<class-a>com.ndovado.dominio.prenotazioni.LineaPrenotazione</class-a>
@@ -153,7 +158,7 @@
 	</field>
 	<field>
 		<a>statoPrenotazione</a>
-		<b>statoPrenotazione</b>
+		<b is-accessible="true">statoPrenotazione</b>
 		<a-hint>com.ndovado.dominio.prenotazioni.statiprenotazione.StatoPendente,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoEliminata,com.ndovado.dominio.prenotazioni.statiprenotazione.StatoConfermata</a-hint>
 		<b-hint>com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoPendenteBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoEliminataBean,com.ndovado.webapp.beans.prenotazioni.statiprenotazione.StatoConfermataBean</b-hint>
 	</field>
